@@ -27,12 +27,12 @@ tmp/
 local.properties
 
 # STS (Spring Tool Suite)
-#.springBeans
+.springBeans
 
 ### first not include this ignore ###
-#.settings/
-#.classpath
-#.project
+.settings/
+.classpath
+.project
 
 ### Project file ###
-#CommonProperties.*
+CommonProperties.*
