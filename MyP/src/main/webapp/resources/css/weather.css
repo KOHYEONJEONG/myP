@@ -1,0 +1,153 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.result_area .side_bar {
+    width: 350px;
+    height: 100%;
+    padding: 40px 0;
+    box-sizing: border-box;
+}
+
+
+.where{
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.temp_box{
+    display: flex;
+    margin: 0 auto;
+}
+.temp{
+    /*현재날씨*/
+    font-size: 15px;
+    font-weight: 700;
+    height: 50px;  
+    line-height: 100%;     
+}
+
+.time{
+    /*현재날짜&시간*/
+    font-size: 12px;
+    color: #595959;
+}
+
+.side_middle{
+    padding: 20px;
+}
+
+.probabilityBox,.humidityBox {
+    display: flex;
+    font-size: 12px;
+    color: #595959;
+    margin-bottom: 5px;
+}
+
+.probabilityBox>div{
+    /*강수 자식들*/
+    padding: 0 5px;
+    text-align: center;
+}
+.probability2, .humidity2, .fineDust2{
+    font-weight: bold;
+}
+
+.humidityBox>div{
+    padding: 0 5px;
+    text-align: center;
+    
+}
+
+.fineDustBox{
+    display: flex;
+    font-size: 12px;
+    color: #595959;
+}
+
+.fineDustBox div{
+    padding: 0 5px;
+    text-align: center;
+}
+
+.stitle{
+    padding: 30px 20px 10px;
+    font-size: 18px;
+}
+.side_bottom{
+    /*bottom Box*/
+    height: 130px;
+    width: 350px;
+    margin-bottom: 20px;
+    display: flex;
+    font-size: 12px;
+}
+
+.side_bottom>div{
+    margin-right: 5px;
+}
+
+.titBox{
+    /*bottom 콘텐츠들*/
+    width: 50px;
+    text-align: center;
+}
+
+.weather{
+    width: 100%;
+    display: inline-block;
+    border-right: 1px solid #f2f3f3;
+}
+
+.blue{
+    color: #3172e7;
+}
+.red{
+    color: #cd3534;
+}
+
+.day_data{
+    /*상단 박스*/
+    border: solid 1px #cfd4d6;
+    display: flex;
+    border-radius: 5px;
+    height: 52px;
+    margin-top: 5px;
+    box-shadow: 0 1px 6px 0 rgb(0 0 0 / 8%);
+    margin-top: 15px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.day_data .icon_box{
+    display: flex;
+    height: 50px;
+    margin: 0 auto;
+}
+
+.iconMean,.temp_min, .temp_max, .solidus{
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    
+}
+
+
+.day_data .time_box{
+    /*오늘 n월 n칠*/
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 0;
+    margin: 0 auto;
+}
+
+.middle_box{
+    margin-top: 20px;
+
+}
+
+.middle_box > div{
+    margin: 7px 0;
+}

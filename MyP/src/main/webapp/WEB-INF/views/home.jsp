@@ -20,5 +20,6 @@ $(document).ready(function() {
 </head>
 <body>
 <div class="cmn_title">Sample Spring Blank</div>
+
 </body>
 </html>

@@ -1,0 +1,220 @@
+#review_popup {
+    width: 650px;
+    height: 440px;
+    position: absolute;
+    background-color: #e6e6e6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    padding: 40px 40px 20px 40px;
+    box-sizing: border-box;
+    display: none;
+    z-index: 100;
+    border: 1px solid #000;
+
+    .close_i {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .close_i img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }
+    .txt_title {
+        font-weight: 700;
+        /*굵게*/
+        padding-bottom: 10px;
+    }
+    .title {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 5px 110px 5px 10px;
+        box-sizing: border-box; /*padding과 border를 합친 크기를 width를 두겠다.*/
+        font-size: 14px;
+    }
+    
+    .star_wrap {
+        height: 50px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        div{
+            width: calc(570px / 5);
+            box-sizing: border-box;
+        }
+    }
+    textarea{
+        width: 100%;
+        height: 120px;
+        resize: none; /* textarea 크기 늘리는거 막음*/
+        font-size: 14px;
+        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+    .sendBtn_wrap{
+        text-align: center;
+    }
+    #sendBtn{
+        width: 70px;
+        height: 40px;
+        margin-top: 15px;
+        font-weight: 700;
+        color : white;
+        border: 1px solid #00af80;
+        background: #00af80;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+}
+
+
+
+#warning_popup {
+    width: 650px;
+    height: 410px;
+    position: absolute;
+    background-color: #e6e6e6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);            
+    z-index: 10;
+    padding: 40px 20px 20px 20px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    display: none;
+
+    .close_i {
+        position: absolute;
+        top: 10px;
+        right: 10px;   
+    } 
+    .close_i img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }   
+    .popup_top {
+        display: flex;
+    }
+    .popup_middle {
+        padding: 10px 0 15px 0;
+        display: flex;
+    }
+    .popup_content{
+       padding: 15px 0 15px 20px;
+
+        >div{
+            padding: 7px;
+        }
+    }
+    .title, .writer{
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+    }
+    .input {
+        width: 500px;
+    }
+    .title,.writer,.choice_label{
+        font-weight: 700;
+    }
+    .txt_title {
+        width: 500px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 5px 110px 5px 5px;
+        box-sizing: border-box; /*padding과 border를 합친 크기를 width를 두겠다.*/
+        height: 40px;
+    }
+    .txt_writer{
+        width: 500px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 5px 110px 5px 5px;
+        box-sizing: border-box; /*padding과 border를 합친 크기를 width를 두겠다.*/
+        height: 40px;
+    }
+    
+    #warningBtn{
+        width: 70px;
+    height: 40px;
+    margin-top: 15px;
+    font-weight: 700;
+    color : white;
+    border: 1px solid #00af80;
+    background: #00af80;
+    box-sizing: border-box;
+    cursor: pointer;
+    }
+}
+
+#refuse_popup {
+    width: 650px;
+    height: 180px;
+    position: absolute;
+    background-color: #e6e6e6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);            
+    z-index: 10;
+    padding: 50px 20px 20px 20px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    display: none;
+
+    .close_i {
+        position: absolute;
+        top: 10px;
+        right: 10px;   
+    } 
+    .close_i img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }   
+    .popup_top {
+        display: flex;
+    }
+    .title{
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        font-weight: bold;
+    }
+    .input {
+        width: 500px;
+    }
+    .txt_title {
+        width: 500px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 5px 110px 5px 5px;
+        box-sizing: border-box; /*padding과 border를 합친 크기를 width를 두겠다.*/
+        height: 40px;
+    }
+    
+    #warningBtn{
+        width: 70px;
+        height: 40px;
+        margin-top: 15px;
+        font-weight: 700;
+        color : white;
+        border: 1px solid #00af80;
+        background: #00af80;
+        box-sizing: border-box;
+        cursor: pointer;
+        }
+    }
