@@ -19,4 +19,17 @@ public class LoginController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/login")
+	public ModelAndView login(ModelAndView mav) {
+		mav.setViewName("login/login");
+		return mav;
+	}
+	
+	//join
+	@RequestMapping(value="/join")
+	public ModelAndView join(ModelAndView mav) {
+		mav.setViewName("join/join");
+		return mav;
+	}
+	
 }
