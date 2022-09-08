@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(챗봇관리)</title>
-    <link rel="stylesheet" href="css/chatbot.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatbot.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
     
     <style type="text/css">
         /* 메인에서 챗봇 사용시 css예정*/

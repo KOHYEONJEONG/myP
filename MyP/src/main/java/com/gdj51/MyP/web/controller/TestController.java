@@ -8,8 +8,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class TestController {
 
 	@RequestMapping(value="/chatbot")
-	public ModelAndView header(ModelAndView mav) {
+	public ModelAndView chatbot(ModelAndView mav) {
 		mav.setViewName("chatbot/chatbotManagerment");
+		return mav;
+	}
+	
+	@RequestMapping(value="/join")
+	public ModelAndView join(ModelAndView mav) {
+		mav.setViewName("join/join");
 		return mav;
 	}
 }
