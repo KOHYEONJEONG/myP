@@ -31,4 +31,5 @@ public class LoginController {
 		mav.setViewName("join/join");
 		return mav;
 	}
+	
 }
