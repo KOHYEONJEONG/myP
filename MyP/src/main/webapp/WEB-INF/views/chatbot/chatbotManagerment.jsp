@@ -7,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(챗봇관리)</title>
+    <link rel="stylesheet" href="css/chatbot.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/font.css">
+    
     <style type="text/css">
         /* 메인에서 챗봇 사용시 css예정*/
         /* .chatbot{
@@ -26,146 +28,6 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
         } */
-        .chatbot {
-            width: 480px;
-            height: 600px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            /* padding: 0 20px; */
-            border-radius: 5px;
-            /* border: 2px solid #000; */
-            box-shadow: 0px 0px 10px 0 rgb(0 0 0 / 29%);
-            box-sizing: border-box;
-        }
-        .chatbot .header{
-            height: 50px;
-            background: #505669;
-            line-height: 50px;
-            color: #fff;
-            text-align: center;
-        }
-
-        .chatbot .contents{
-            padding: 0 30px;
-            height: 550px;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-        .response{
-            padding-top: 30px;
-            display: flex;
-        }
-        .icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50px;
-            background-color: #eeeeee;
-            text-align: center;
-            box-sizing: border-box;
-            line-height: 50px;
-        } 
-        .img{
-            background: url(./icons/person3.png) no-repeat;
-            background-size: 90%;
-            background-position: 50%;
-            z-index: 10;
-            width: 40px;
-            height: 40px;
-        }
-
-      
-        .text_wrap{
-            width: 320px;
-            margin-left: 10px;
-        }
-        .text {  
-            width: 100%;
-            font-size: 14px;
-            background-color: #eeeeee;
-            border: solid 1px #dadada;
-            border-radius: 5px;
-            padding: 10px;
-            box-sizing: border-box;
-            line-height: 1.3;
-        }
-
-        .response .b{
-            height: 100px;
-            margin-top: 10px;
-        }
-        .b input{
-            float: left;
-            width: 160px;
-            height: 45px;
-            background-color: #eeeeee;
-            border: solid 1px #dadada;
-            cursor: pointer;
-        }
-        .b input:nth-child(even){
-            border-left: 0px;
-        }
-        .bold{
-            font-weight: bold;
-            color: #588ccc;
-        }
-        .time{
-            font-size: 12px;
-        }
-
-
-        .answer{
-            display: flex;
-            flex-direction: row-reverse;
-            margin-top: 30px;
-
-        }
-        .answer .b{
-            width: 100%;
-            height: 50px;
-        }
-        
-        
-        .answer .img{
-            background: url(./img/dog.jpg) no-repeat;
-            background-size: 100%;
-            background-position: 50%;
-            z-index: 10;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        .answer .text_wrap{
-            width: 160px;
-            margin-right: 10px;
-        }
-
-        .answer .time{
-            text-align: right;
-        }
-
-        .footer{
-            height: 60px;
-            text-align: center;
-            box-sizing: border-box;
-            padding: 10px 0;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        .footer input{
-            width: 120px;
-            height: 40px;
-            background: #fff;
-            border: solid 1px #588ccc;
-            color: #588ccc;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-       
-      
-       
     </style>   
 </head>
 <body>
