@@ -86,7 +86,7 @@ $(document).ready(function () {
              })
         } else {
             $(".login_i").click(function () {
-            location.href = "./login.html";
+            	location.href = "login";
             })
         }
 
