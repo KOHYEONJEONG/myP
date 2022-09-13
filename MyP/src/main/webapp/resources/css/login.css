@@ -151,3 +151,69 @@ input::placeholder {
    font-size: 16px;
    padding-right: 60px;
 }
+
+/*idFind.jsp*/
+.input_box2 {
+	height: 60px;
+	width: 36%;
+	border: solid 1px #dadada;
+	background: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px 0;
+	box-sizing: border-box;
+}
+.a {
+	width: 7%;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+}
+
+.input_box3 {
+	height: 60px;
+	border: solid 1px #dadada;
+	background: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px 0;
+	box-sizing: border-box;
+	width: 350px;
+}
+input, select {
+	height: 100%;
+	width: 100%;
+	border: 0;
+	background: #fff;
+	font-size: 15px;
+	outline: 0;
+}
+.df {
+	display: flex;
+}
+
+.join_btn {
+	width: 100px;
+	height: 60px;
+	background: #FD9A29;
+	border: solid 1px #dadada;
+	border-radius: 10px;
+	color: #fff;
+	font-size: 14px;
+	margin: 5px 0;
+	cursor: pointer;
+}
+
+#joinBtn {
+	margin-top: 15px;
+	height: 60px;
+	border: solid 1px #00af80;
+	text-align: center;
+	background: #00af80;
+	color: white;
+	font-size: 18px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 450px;
+}
