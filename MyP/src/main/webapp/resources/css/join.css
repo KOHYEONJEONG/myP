@@ -112,7 +112,7 @@ input::placeholder {
     cursor: pointer;
 }
 
-#joinBtn{
+.sign_up{
     margin-top: 15px;
    height: 60px;
     border: solid 1px #00af80;

@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj51.MyP.web.dao.IACDao;
 import com.gdj51.MyP.web.service.IJoinService;
@@ -25,12 +26,14 @@ public class JoinController {
 	public IACDao dao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(JoinController.class);
-
-	@RequestMapping(value="/mailCheck" )
-	public String mailCheck(String email) {
+	
+	@RequestMapping(value="/mailCheck",
+    method=RequestMethod.GET)
+	@ResponseBody
+	public String mailCheck(@RequestParam HashMap<String, String> params) {
 		System.out.println("이메일 인증 요청이 들어옴.");
-		System.out.println("이메일 :"+email);
-		return mailService.joinEmail(email);
+		System.out.println("이메일 :"+params);
+		return mailService.joinEmail(params.get("email"));
 	}
 	
 	@RequestMapping(value="/checkIdAjax", method=RequestMethod.POST)
@@ -50,4 +53,5 @@ public class JoinController {
 		}
 		
 	}
+
 }
