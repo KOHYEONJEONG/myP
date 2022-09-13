@@ -126,10 +126,10 @@ $(document).ready(function () {
             width: w,
           
         })
-        $(this).find('.sub_menu').css({
+      /*  $(this).find('.sub_menu').css({
             // * 10 추가함
             width: w * 10, 
-        });
+        });*/
 
     }, function () {
         $('.sub_menu').hide()
