@@ -14,39 +14,69 @@
        <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 
 <script>
-var code = ""; //이메일전송 인증번호 저장위한 코드
-window.onload = function(){   
-   $('#mail_btn').click(function() {//가입하기 버튼
+window.onload = function(){
+   
+	$("#id_input").on("propertychange change keyup paste input", function() {
+		var id = $('#id_input').val();
+		var data = {id : id};
+		
+		$.ajax({
+			type:"post",
+			url:"checkIdAjax",
+			data : data,
+			success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+				// console.log("성공 여부" + result);
+				if(res != 'fail'){
+					$('.id_input_re_1').show();
+					$('.id_input_re_2').hide();			
+				} else {
+					$('.id_input_re_2').show();
+					$('.id_input_re_1').hide();					
+				}		
+			},
+			error : function(request, status, error) {// 실패했을 때 함수 실행
+				console.log(request.responseText);    //실패 상세 내역
+			}
+		});//ajax
+	});
+	
+   $('#mail-Check-Btn').click(function() {//가입하기 버튼
+	   const email = $('#email').val() + $('#email2').val(); //이메일 주소값 얻어오기
+	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
+	   const checkInput = $('.inj') //인증번호 입력하는 곳
 	   
-   var email = $("#email").val() + $('#email2').val(); //입력한 이메일
-   var checkBox = $("#inj");
+	   $.jax({
+		   type : 'get',
+		   url : '<c:url value = "/mailCheck?email="/>'+email, //Get 방식이라 url뒤에 email을 묻힐수있다.
+	   	   success : function(data) {
+	   		   console.log("data : " + data);
+	   		   checkInput.attr('disabled', false);
+	   		   code = data;
+	   		   alert('인증번호가 전송되었습니다.');
+	   	   }
+	   }); //end ajax
+   }); //end send email
    
-   
-   $.ajax({
-		type:"GET",   
-   		url:"mailCheck?email=" + email,
-   		success : function(data) {
-   			//console.log("data :" + data);
-   			checkBox.attr("disabled", false);
-   			code = data;
-   		}
+   //인증번호 비교
+   //blur -> focus가 벗어나는 경우 발생
+   $('.inj').blur(function (){
+	   const inputCode = $(this).val();
+	   const $resultMsg = $('#mail-check-warn');
+	   
+	   if(inputCode === code) {
+		   $resultMsg.html('인증번호가 일치합니다.');
+		   $resultMsg.css('color', 'green');
+		   $('#mail-Check-Btn').attr('disabled', true);
+		   $('#email').attr('readonly', true);
+		   $('#email2').attr('readonly', true);
+		   $('#email2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+		   $('#email2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+	   } else {
+		   $resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요.');
+		   $resultMsg.css('color', 'red');
+	   }
    });
-});     
-   
-$("#inj").blur(function() {
-	
-	var inputCode = $("#inj").val(); //입력코드
-	var checkResult = $("#mail-check-warn"); //비교 결과
-	
-	if(inputCode == code) {
-		checkResult.html("인증번호가 일치합니다.");
-		checkResult.attr("class", "correct");
-	} else {
-		checkResult.html("인증번호를 다시 확인해주세요.");
-		checkResult.attr("class", "incorrect");
-	}
-});
-}
+}       
 </script>
 </head>
 <body>
@@ -58,8 +88,6 @@ $("#inj").blur(function() {
     <form class="was-validated" name="form" id="form">
         <div class="title">회원가입</div>  
         <div class="input_box">
-            <input type="text" name="uname"  
-                   placeholder="아이디" id="uname" required><br><br>
             
             <input type="text" name="uname" for="uname" 
                    placeholder="아이디" id="id_input" required><br><br>
@@ -69,7 +97,7 @@ $("#inj").blur(function() {
          <span class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span>
         
         <div class="input_box">
-            <input type="password" name="pwd" 
+            <input type="password" name="pwd" for="pwd"
                    placeholder="비밀번호" id="pwd" required><br><br>
         </div>
         <div class="input_box">
@@ -80,32 +108,32 @@ $("#inj").blur(function() {
         </div>
         <div class="df">
             <div class="input_box2">
-                <input  type="text" name="email" id="email" placeholder="이메일"> 
+                <input  type="text" name="email" placeholder="이메일"> 
             </div>
             <div class="a">@</div> 
             <div class="input_box2">
                 <select class="form-control" name="email2" id="email2">
                     <option>직접입력</option>
-                    <option>@naver.com</option>
-                    <option>@gmail.com</option>
-                    <option>@hanmail.net</option>
-                    <option>@daum.net</option>
+                    <option>naver.com</option>
+                    <option>gmail.com</option>
+                    <option>hanmail.net</option>
+                    <option>daum.net</option>
                 </select>
             </div>
-            <button class="join_btn" type="button" id="mail_btn">인증번호<br/>전송</button><br><br>  
+            <button class="join_btn" type="button" id="mail-Check-Btn">인증번호<br/>전송</button><br><br>  
         </div>
         
         <div class="df">
             <div class="input_box3">
-                <input type="number" id="inj"  placeholder="인증번호" maxlength="6">
+                <input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
             </div>
-            <button class="join_btn" type="button" id="check_btn">확인</button><br><br>
+            <button class="join_btn" type="button">확인</button><br><br>
         </div>
        	
        	<span id="mail-check-warn"></span>
         	
         <div>
-            <button class="sign_up" type="submit" id="sign_up">가입하기</button>
+            <button class="sign_up" type="submit" id="joinBtn">가입하기</button>
         </div>
     </form>
 </div>
