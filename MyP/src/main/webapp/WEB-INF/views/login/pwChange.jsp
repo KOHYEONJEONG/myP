@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>      
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 변경 페이지(password_change)</title>   
-    <link rel="stylesheet" href="css/font.css">
+    <title>MyP</title>
+    <link rel="stylesheet" href="resources/css/main.css">
+   	<link rel="stylesheet" href="resources/css/font.css">
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
 <style>
    .wrap {
    width: 490px;
@@ -23,12 +27,12 @@
 }
 .logo {
     width: 250px;
-    height: 100%;
-    background: url(./icons/logo8.png) no-repeat;
+    height: 100px;
+    background: url(resources/icons/logo8.png) no-repeat;
     background-size: 140%;
     background-position: 50%;
     position: absolute;
-    top: -100px;
+    top: -80px;
     left: 50%;
     transform: translate(-50%,-50%);
 }
@@ -164,20 +168,16 @@ window.onload = function(){
 </head>
 <body>
     <div class="wrap">
-        <h1 class="logo">
-            <a href="/test2/index.html">
-            </a>
-          </h1>
+        <h1 class="logo"></h1>
     <form class="was-validated" name="form" id="form">
         <div class="title">비밀번호 변경</div>
         <div class="input_box">
             <input type="password" name="password" for="password"  
                    placeholder="새 비밀번호" id="uname" required><br><br>
         </div> 
-       
-            <div class="input_box">
-                <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
-            </div>  
+        <div class="input_box">
+            <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
+        </div>  
         <div>
             <button class="sign_up" type="submit" id="joinBtn">변경</button>
         </div>

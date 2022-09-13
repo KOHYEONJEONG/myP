@@ -2,11 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 @font-face {
   font-family: "TmoneyRoundWindExtraBold";
-  src: url("../font/TmoneyRoundWindExtraBold.woff") format("woff");
+  src: url("resources/font/TmoneyRoundWindExtraBold.woff") format("woff");
   font-weight: 400;
 }
 @font-face {
   font-family: "TmoneyRoundWindRegular";
-  src: url("../font/TmoneyRoundWind-Regular.woff") format("woff");
+  src: url("resources/font/TmoneyRoundWind-Regular.woff") format("woff");
   font-weight: 400;
 }
