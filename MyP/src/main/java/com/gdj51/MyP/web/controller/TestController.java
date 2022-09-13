@@ -7,12 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TestController {
 
-	@RequestMapping(value = "/chatbot")
-	public ModelAndView chatbot(ModelAndView mav) {
-		mav.setViewName("chatbot/chatbotManagerment");
-		return mav;
-	}
-
 	// 화면 보기 위한 테스트
 	@RequestMapping(value = "/pwUpdate")
 	public ModelAndView pwUpdate(ModelAndView mav) {

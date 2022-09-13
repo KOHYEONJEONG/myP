@@ -180,7 +180,7 @@ $(document).ready(function () {
     //tooltip 생성
     $(".tooltip_event").tooltip();
 
-    $('#contents').summernote({
+    /*$('#contents').summernote({
         placeholder: '게시글을 작성하시오',
         width:900,
         height: 700,
@@ -194,7 +194,7 @@ $(document).ready(function () {
             ['insert', ['link', 'picture', 'video']],
             ['view', ['fullscreen', 'codeview', 'help']]
           ]
-    });
+    });*/
 
 
 });

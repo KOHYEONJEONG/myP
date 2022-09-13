@@ -139,7 +139,7 @@ header .header_wrap {
   top: 48%;
   left: 20px;
   transform: translateY(-50%);
-  position: absolute;
+  position: absolute; 
 }
 .logo a {
   width: 230px;
