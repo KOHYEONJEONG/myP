@@ -20,6 +20,7 @@ $(document).ready(function () {
 </script>
 </head>
 <body>
+<header>
     <div class="header_wrap">
       <div class="top_area">
         <div class="notices">
@@ -41,14 +42,14 @@ $(document).ready(function () {
                       </ul>
                       </li>
                       <li><a href="">참여/알림</a>
-                          <ul class="sub_menu l40">
+                          <ul class="sub_menu l30">
                               <li><a href="/menu2-1.html">공지사항</a></li>
                               <li><a href="/menu2-2.html">FAQ</a></li>
                               <li><a href="/menu2-3.html">QNA</a></li>
                           </ul>
                       </li>
                       <li><a href="">랭킹</a>
-                        <ul class="sub_menu l120">
+                        <ul class="sub_menu l100">
                           <li><a href="/menu3-1.html">시스템 좋은 주차장</a></li>
                           <li><a href="/menu3-2.html">요금 합리적인 주차장</a></li>
                       </ul>
@@ -68,6 +69,7 @@ $(document).ready(function () {
             <div class="login_i"></div>
           </div>
       </div>
-    </div> 
+    </div>
+    </header>
 </body>
 </html>

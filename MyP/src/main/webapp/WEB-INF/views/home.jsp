@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- taglib : 커스텀 태그를 사용하겠다. -->
-<!-- prefix : 사용할 태그 명칭 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <!DOCTYPE html>
@@ -21,14 +19,13 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="${pageContext.request.contextPath}/resources/js/weather.js"></script><!--추가-->
-
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
 </head>
 <body>
-  <header>
-	<c:import url="/header"></c:import>
-  </header>
+<c:import url="/header"></c:import>
   <main class="main1">
     <div class="left_area">
       <div class="icon_bar">
@@ -638,10 +635,8 @@
       <div id="map"></div>
     </div>
   </main>
-  
-  <footer>
-        <c:import url="/footer"></c:import>
-  </footer>
+<c:import url="/footer"></c:import>
+
  
  
 <!-- 챗봇-->
@@ -806,7 +801,9 @@
       </div>
   </form>
 </div>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
+ 
+  
+  
   <script>
     var container = document.getElementById('map');
     var options = {
@@ -816,6 +813,7 @@
 
     var map = new kakao.maps.Map(container, options);
   </script>
+  
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 
