@@ -10,56 +10,9 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
-    <style type="text/css">
-/*         body{
-            overflow-x: auto;
-        }
-        header{
-            height: 163px;
-            position: sticky;
-        }
-        .top_area{
-            height: 40px;
-            background: #fff;
-        }
-        .bottom_area{
-            height: 123px;
-            width: 1400px !important;
-            margin: 0 auto;
-            /* background: #04725B; */
-        } */
-        .header_wrap{
-            /* 원래 */
-            background: #f6f6f6 !important; 
-            /* background: #00604b !important; */
-            /* background: #516373 !important; */
-            /* background: #fc8e8e !important; */
-            /* background: #6fb2fe !important; */
-            /* background: #006044 !important; */
-            /* background: #006948 !important; */
-            /* background: #4a88d4 !important; */
-        }
-        .header_bg{
-            color: #fcf1e3;
-        }
-        
-/* .menu_container .main_menu > li > a{
-            color: #fff !important;
-        } */
-    .menu_container .main_menu > li > a{line-height: 123px;}
-        .header_wrap{
-            /* width: 1400px !important; */
-            background: #fcf5f6;
-            /* background: #f6f6f6; */
-        }
-        .main_wrap{
-            width: 1400px !important;
-        }
-        .menu_area{
-            right: 40px;
-        }
-
-
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
+ <style type="text/css">
         body,
         html {
             margin: 0;
@@ -81,12 +34,11 @@
         }
         .bg {
             width: 650px;
-            height: 500px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* z-index: 10; */
+            z-index: 10;
             padding: 0 20px;
         }
 
@@ -96,13 +48,14 @@
         }
         img {
             /*이미지 크기와 margin*/
-            margin-top: 10px;
-            width: 100px;
-            height: 100px;
+            margin-top: 15px;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
         }
         .pic_top {
             /*사진박스*/
-            border: 1px solid black;
+            border: 1px solid #969595;
             margin: 10px 10px 10px 0;
             width: 180px;
             height: 150px;
@@ -117,7 +70,7 @@
             width: 650px;
             border: solid 2px #9e9e9e;
             box-sizing: border-box;
-            margin: 3px 0;
+            margin: 8px 0 3px 0;
         }
 
         .mypage_bottom{
@@ -136,12 +89,11 @@
 
 
         .my_btn{
-            /*공통 버튼 스타일*/
             margin-top: 5px;
             height: 100px;
-            background-color: #f6f6f6;
+            background-color: #f5f6f7;
             font-weight: 700;
-            border: 1px solid #595959;
+            border: 1px solid #969595;
             border-radius: 5px;
             width: 100%;
             font-size: 14px;
@@ -157,9 +109,9 @@
             margin-left: 5px;
             margin-top: 5px;
             padding: 20px 10px 10px;
-            background-color: #f6f6f6;
+            background-color: #f5f6f7;
             font-weight: 700;
-            border: 1px solid #595959;
+            border: 1px solid #969595;
             border-radius: 5px;
             height: 205px;
             width: 150px;
@@ -175,12 +127,7 @@
             box-sizing: border-box;
         }
         .my_info > div{
-            height: 50px;
-            
-        }
-        img{
-            margin-bottom: 10px;
-
+            height: 50px;            
         }
         .input{
             padding: 0 10px;
@@ -192,18 +139,18 @@
             display: flex;
         }
         .info_first >div{
-            border: 1px solid #000;
-        }
-        .info_first > div > input{
-            border: 0;/*input영역에 테두리를 없애서 깔끔하다.*/
-            outline: 0;
-        }
-        .info_first > div:nth-child(odd){
-            width: 50px;
+            border: 1px solid #969595;
             line-height: 50px;
             text-align: center;
             font-size: 14px;
+        }
+        .info_first > div:nth-child(odd){
             border-right: 0;
+            width: 60px;
+            font-weight: bold;
+        }
+        .info_first > div:nth-child(even), .info_second > div:nth-child(even){
+            width: 170px;
         }
         .info_first > div:nth-child(2){
             border-right: 0px;
@@ -212,76 +159,27 @@
             border-right: 0px;/*겹치는 선을 없애기 위해서*/
         }
 
-        /* .info_second >div{
-            border: 1px solid #000;
+        .info_second >div{
+            border: 1px solid #969595;
             border-top: 0;
-        }
-        .info_second > div > input{
-            border: 0;
-            outline: 0;
-        }
-        .info_second > div:nth-child(odd){
-            width: 50px;
             line-height: 50px;
             text-align: center;
             font-size: 14px;
+        }
+        .info_second > div:nth-child(odd){
             border-right: 0;
+            width: 60px;
         }
         .mypage_bottom  div, input {
             cursor: pointer;
         }
-        .main_wrap{
-            background: url(./img/bg2.jpeg) no-repeat;
-            height: 100%;
-            width: 100%;
-            padding-top: 50px;
-        }
-        .side_bar{
-            margin-left: 100px;
-            width: 250px;
-            height: calc(100% - 50px);
-        }
-        .side_bar .title{
-            margin-top: 0;
-        }
-        .logo{
-            width: 230px;
-        height: 100%;
-        background: url(./icons/logo8.png) no-repeat;
-        background-size: 140%;
-        background-position: 50%;
-        top: 48%;
-        left: 20px;
-        transform: translateY(-50%);
-        position: absolute;
-        }
-        .logo a{
-            width: 250px;
-            height: 100%;
-            display: block;
-        }
-        .bg{
-            width: 650px;
-    height: 500px;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    padding: 0 20px;
-        }
-        .right_area{
-            width: 1050px;
-            height: calc(100% - 50px);
-        }  */
         
-        
-    </style>   
-     <script src="./jquery/jquery-1.12.4.js"></script>
-     <script src="./js/main.js"></script>
+    </style>  
 </head>
+
+    
 <body>
-    <c:import url="/header1"></c:import>
+<c:import url="/header1"></c:import>    
           <main class="main1">
             <div class="main_wrap">
               <div class="side_bar">
@@ -296,7 +194,7 @@
                     <hr class="line" />
                     <div class="top">
                         <div class="pic_top">
-                            <div><img src="./icons/person3.png" alt="이미지"></div>
+                            <div><img src="resources/icons/person3.png" alt="이미지"></div>
                             <div class="input">
                                 <input type="file" />
                             </div>
@@ -305,15 +203,15 @@
                             <div class="my_info">
                                 <div class="info_first">
                                     <div>아이디</div>
-                                    <div><input type="text" /></div>
+                                    <div></div>
                                     <div>닉네임</div>
-                                    <div><input type="text" /></div>
+                                    <div></div>
                                 </div>
                                 <div class="info_second">
                                     <div>경고수</div>
-                                    <div><input type="text" /></div>
+                                    <div></div>
                                     <div>이메일</div>
-                                    <div><input type="text" /></div>
+                                    <div></div>
                                 </div>
                             </div>
                         </div>
@@ -328,17 +226,17 @@
                         <!--bottom2-->
                         <div class="bottom2">
                             <div class="my_btn1 myReview">
-                                <img class="myReviewImg" src="./icons/reviewmypage.png">
+                                <img class="myReviewImg" src="resources/icons/reviewmypage.png">
                                 <div class="txt">주차장리뷰</div>
                             </div>
                             <div class="my_btn1 myQna">
-                                    <img class="qnaImg" src="./icons/qna.png">
+                                    <img class="qnaImg" src="resources/icons/qna.png">
                                 <div class="txt">
                                     게시글
                                 </div>
                             </div>
                             <div class="my_btn1 myResignMembership">
-                                <img class="resignMembershipImg" src="./icons/logout.png">
+                                <img class="resignMembershipImg" src="resources/icons/logout.png">
                                 <div class="txt">회원탈퇴</div>
                             </div>
                         </div>
@@ -347,9 +245,10 @@
             </div>
         </div>
       </main>
-<c:import url="/footer"></c:import>
+<c:import url="/footer"></c:import>      
+</body>
+
     
-  <script src="./jquery/jquery-1.12.4.js"></script>
-  <script src="./js/main.js"></script>
+
 </body>
 </html>

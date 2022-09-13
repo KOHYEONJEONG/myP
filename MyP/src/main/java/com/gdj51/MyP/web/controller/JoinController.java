@@ -42,7 +42,7 @@ public class JoinController {
 		
 		logger.info("checkIdAjax() 진입");
 		
-		int result = dao.idCheck("join.idCheck",params);
+		int result = dao.memberCheck("join.idCheck",params);
 		
 		logger.info("결과값 : " + result);
 		
