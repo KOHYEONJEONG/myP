@@ -123,3 +123,17 @@ input::placeholder {
    cursor: pointer;
     width: 450px;
 }
+
+/* 중복아이디 존재하지 않는경우 */
+.id_input_re_1{
+	height: 20px;
+	color : green;
+	display : none;
+}
+
+/* 중복아이디 존재하는 경우 */
+.id_input_re_2{
+	height: 20px;
+	color : red;
+	display : none;
+}

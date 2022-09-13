@@ -2,6 +2,9 @@ package com.gdj51.MyP.web.controller;
 
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,25 +12,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdj51.MyP.web.dao.IACDao;
 import com.gdj51.MyP.web.service.IJoinService;
 
 @Controller
 public class JoinController {
 	
 	@Autowired
-	IJoinService mailService;
+	public IJoinService mailService;
 	
-	@RequestMapping(value="/mailCheck")
+	@Autowired
+	public IACDao dao;
+	
+	private static final Logger logger = LoggerFactory.getLogger(JoinController.class);
+
+	@RequestMapping(value="/mailCheck" )
 	public String mailCheck(String email) {
 		System.out.println("이메일 인증 요청이 들어옴.");
 		System.out.println("이메일 :"+email);
 		return mailService.joinEmail(email);
 	}
 	
-	@RequestMapping(value="/checkIdAjax", method=RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@RequestMapping(value="/checkIdAjax", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkIdAjax(@RequestParam HashMap<String, String> params)throws Throwable{
 		
-		return "";
+		logger.info("checkIdAjax() 진입");
+		
+		int result = dao.idCheck("join.idCheck",params);
+		
+		logger.info("결과값 : " + result);
+		
+		if(result != 0 ) {
+			return "fail";//중복 아이디가 존재
+		}else {
+			return "success";
+		}
+		
 	}
 }

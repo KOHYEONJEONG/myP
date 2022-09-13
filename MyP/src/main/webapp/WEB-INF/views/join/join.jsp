@@ -16,6 +16,30 @@
 <script>
 window.onload = function(){
    
+	$("#id_input").on("propertychange change keyup paste input", function() {
+		var id = $('#id_input').val();
+		var data = {id : id};
+		
+		$.ajax({
+			type:"post",
+			url:"checkIdAjax",
+			data : data,
+			success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+				// console.log("성공 여부" + result);
+				if(res != 'fail'){
+					$('.id_input_re_1').show();
+					$('.id_input_re_2').hide();			
+				} else {
+					$('.id_input_re_2').show();
+					$('.id_input_re_1').hide();					
+				}		
+			},
+			error : function(request, status, error) {// 실패했을 때 함수 실행
+				console.log(request.responseText);    //실패 상세 내역
+			}
+		});//ajax
+	});
+	
    $('#mail-Check-Btn').click(function() {//가입하기 버튼
 	   const email = $('#email').val() + $('#email2').val(); //이메일 주소값 얻어오기
 	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
@@ -64,9 +88,14 @@ window.onload = function(){
     <form class="was-validated" name="form" id="form">
         <div class="title">회원가입</div>  
         <div class="input_box">
-            <input type="text" name="uname" for="uname"  
-                   placeholder="아이디" id="uname" required><br><br>
+            
+            <input type="text" name="uname" for="uname" 
+                   placeholder="아이디" id="id_input" required><br><br>
         </div>
+        
+         <span class="id_input_re_1">멋진 아이디네요!</span>
+         <span class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span>
+        
         <div class="input_box">
             <input type="password" name="pwd" for="pwd"
                    placeholder="비밀번호" id="pwd" required><br><br>

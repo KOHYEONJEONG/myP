@@ -83,4 +83,9 @@ public class ACDao implements IACDao {
 		return sqlSession.delete(sql,params);
 	}
 
+	@Override
+	public int idCheck(String sql, HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectOne(sql,params);
+	}
+
 }
