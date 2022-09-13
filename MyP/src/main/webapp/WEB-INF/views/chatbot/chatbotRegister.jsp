@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- 추가, 툴팁관련 -->
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script type="text/javascript" src="resources/script/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {

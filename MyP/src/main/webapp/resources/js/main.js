@@ -178,7 +178,7 @@ $(document).ready(function () {
     
      // 툴팁
     //tooltip 생성
-    $(".tooltip_event").tooltip();
+   /* $(".tooltip_event").tooltip();*/
 
     /*$('#contents').summernote({
         placeholder: '게시글을 작성하시오',
