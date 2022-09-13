@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,17 +8,6 @@
 <title>MyP</title>
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script src="resources/js/main.js"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-	$("#logoutBtn").on("click", function () {
-		location.href = "logout";
-	});
-	$("#loginBtn").on("click", function(){
-		location.href = "login";
-	});
-
-})
-</script>
 </head>
 <body>
 <header>
@@ -57,16 +46,22 @@ $(document).ready(function () {
                       </li>
                   </ul>
               </nav>
-              <c:choose>
+            <c:choose>
               <c:when test="${empty sMemNm}">
-            <div class="login_comment" id="loginBtn"></div>
+            <div class="login_comment"></div>
+             <div class="login_i" id="loginBtn"></div>
             </c:when>
             <c:otherwise>
-             <div class="login_comment on" id="logoutBtn">${sMemNm}님 환영합니다</div>
-              <input type="button" value="로그아웃" id="logoutBtn" />
+             <div class="login_comment on">${sMemNm}님 환영합니다</div>
+              <div class="login_i1">
+                  <div class="img1"></div>
+                </div>
+                <div class="login_box">
+                  <div class="mypage" id="myPage">마이페이지</div>
+                  <div class="logout" id="logoutBtn">로그아웃</div>
+                </div>
             </c:otherwise>
               </c:choose>
-            <div class="login_i"></div>
           </div>
       </div>
     </div>
