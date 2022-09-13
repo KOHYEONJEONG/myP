@@ -60,7 +60,14 @@ $("#inj").blur(function() {
         <div class="input_box">
             <input type="text" name="uname"  
                    placeholder="아이디" id="uname" required><br><br>
+            
+            <input type="text" name="uname" for="uname" 
+                   placeholder="아이디" id="id_input" required><br><br>
         </div>
+        
+         <span class="id_input_re_1">멋진 아이디네요!</span>
+         <span class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span>
+        
         <div class="input_box">
             <input type="password" name="pwd" 
                    placeholder="비밀번호" id="pwd" required><br><br>

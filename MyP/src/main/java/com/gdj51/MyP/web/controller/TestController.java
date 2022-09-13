@@ -48,4 +48,15 @@ public class TestController {
 		return mav;
 	}
 
+	@RequestMapping(value="/mypage")
+	public ModelAndView mypage(ModelAndView mav) {
+		mav.setViewName("mypage/mypage");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/parkinfo")
+	public ModelAndView parkinfo(ModelAndView mav) {
+		mav.setViewName("parkInfo/pubserviceParkingList");
+		return mav;
+	}
 }

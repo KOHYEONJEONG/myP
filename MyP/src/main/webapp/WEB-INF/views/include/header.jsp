@@ -1,10 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MyP</title>
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	$("#logoutBtn").on("click", function () {
+		location.href = "logout";
+	});
+	$("#loginBtn").on("click", function(){
+		location.href = "login";
+	});
+
+})
+</script>
 </head>
 <body>
 <header>
@@ -43,7 +57,15 @@
                       </li>
                   </ul>
               </nav>
-            <div class="login_comment">홍길동님 환영합니다</div>
+              <c:choose>
+              <c:when test="${empty sMemNm}">
+            <div class="login_comment" id="loginBtn"></div>
+            </c:when>
+            <c:otherwise>
+             <div class="login_comment on" id="logoutBtn">${sMemNm}님 환영합니다</div>
+              <input type="button" value="로그아웃" id="logoutBtn" />
+            </c:otherwise>
+              </c:choose>
             <div class="login_i"></div>
           </div>
       </div>

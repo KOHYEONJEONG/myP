@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>나만의 P</title>
+  <title>MyP</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/popup.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
@@ -19,7 +19,8 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="${pageContext.request.contextPath}/resources/js/weather.js"></script><!--추가-->
-
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
 </head>
@@ -800,16 +801,19 @@
       </div>
   </form>
 </div>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
+ 
+  
+  
   <script>
     var container = document.getElementById('map');
     var options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       level: 3
     };
 
-    var map = new kakao.maps.Map(container, options);
+    var map = new window.kakao.maps.Map(container, options);
   </script>
+  
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 

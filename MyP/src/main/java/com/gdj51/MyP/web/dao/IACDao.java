@@ -35,4 +35,7 @@ public interface IACDao {
 	//삭제
 	public int delete(String sql) throws Throwable;
 	public int delete(String sql,HashMap<String,String> params) throws Throwable;
+	
+	//아이디 체크
+	public int idCheck(String sql,HashMap<String,String> params) throws Throwable;
 }

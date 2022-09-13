@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MyP</title>
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
 </head>
 <body>
  <header>
