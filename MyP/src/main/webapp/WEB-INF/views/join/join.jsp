@@ -15,33 +15,15 @@
 
 <script>
 window.onload = function(){
-   document.getElementById("send");
-   send.addEventListener("click",function(){
-      var frm = document.form;
-            
-      if(frm.uname.value.trim().length<=6)
-      {
-         alert("아이디를 6글자이상 입력해주세요");
-         return false(); 
-      }
-          
-      if(frm.pwd.value.trim().length<=8)
-      {
-         alert("비밀번호를 8글자이상 입력해주세요");
-         return false(); 
-      }
-      
-      frm.submit();
-   })
    
-   $('#inj').click(function() {
+   $('#mail-Check-Btn').click(function() {//가입하기 버튼
 	   const email = $('#email').val() + $('#email2').val(); //이메일 주소값 얻어오기
 	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
 	   
 	   $.jax({
 		   type : 'get',
-		   url : '<c:url value = "/user/mailCheck?email="/>'+email, //Get 방식이라 url뒤에 email을 묻힐수있다.
+		   url : '<c:url value = "/mailCheck?email="/>'+email, //Get 방식이라 url뒤에 email을 묻힐수있다.
 	   	   success : function(data) {
 	   		   console.log("data : " + data);
 	   		   checkInput.attr('disabled', false);
@@ -111,13 +93,16 @@ window.onload = function(){
             </div>
             <button class="join_btn" type="button" id="mail-Check-Btn">인증번호<br/>전송</button><br><br>  
         </div>
+        
         <div class="df">
             <div class="input_box3">
-                <input type="number" name="inj" placeholder="인증번호" maxlength="6">
+                <input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
             </div>
             <button class="join_btn" type="button">확인</button><br><br>
         </div>
-        	<span id="mail-check-warn"></span>
+       	
+       	<span id="mail-check-warn"></span>
+        	
         <div>
             <button class="sign_up" type="submit" id="joinBtn">가입하기</button>
         </div>
