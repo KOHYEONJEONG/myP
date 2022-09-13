@@ -1,16 +1,26 @@
 package com.gdj51.MyP.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
 public class LoginController {
 	
 	@Autowired
 	public IACDao iACDao;
-
-	@RequestMapping(value = "/header")
 
 	@RequestMapping(value = "/header")
 	public ModelAndView header(ModelAndView mav) {
@@ -33,7 +43,6 @@ public class LoginController {
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView mav) {
 		mav.setViewName("login/login");
-		}
 		
 		return mav;
 	}
@@ -66,9 +75,6 @@ public class LoginController {
 		return mapper.writeValueAsString(model);
 	}
 	
-	//join
-	@RequestMapping(value="/join")
-
 	// join
 	@RequestMapping(value = "/join")
 	public ModelAndView join(ModelAndView mav) {
