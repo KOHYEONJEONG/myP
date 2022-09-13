@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- taglib : 커스텀 태그를 사용하겠다. -->
-<!-- prefix : 사용할 태그 명칭 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <!DOCTYPE html>
@@ -27,9 +25,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
 </head>
 <body>
-  <header>
-	<c:import url="/header"></c:import>
-  </header>
+<c:import url="/header"></c:import>
   <main class="main1">
     <div class="left_area">
       <div class="icon_bar">
@@ -639,10 +635,8 @@
       <div id="map"></div>
     </div>
   </main>
-  
-  <footer>
-        <c:import url="/footer"></c:import>
-  </footer>
+<c:import url="/footer"></c:import>
+
  
  
 <!-- 챗봇-->
