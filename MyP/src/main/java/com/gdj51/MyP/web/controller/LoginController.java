@@ -43,8 +43,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView mav) {
-		mav.setViewName("login/login");
-		
+		mav.setViewName("login/login");		
 		return mav;
 	}
 	
@@ -62,7 +61,7 @@ public class LoginController {
 		params.put("pw",Utils.encryptAES128(params.get("pw")));
 		//System.out.println("테스트 비밀번호 암호화 : "+params.get("pw")); //1234 암호화
 		
-		HashMap<String, String>data = iACDao.getMapData("myp.checkMem",params);
+		HashMap<String, String>data = iACDao.getMapData("login.checkMem",params);
 		
 		if(data != null) {
 			session.setAttribute("sMemNo", data.get("MEM_NUM"));
