@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdj51.MyP.util.Utils;
 import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
@@ -58,6 +59,8 @@ public class LoginController {
 		
 		Map<String, Object> model = new HashMap<String,Object>();
 		
+		params.put("pw",Utils.encryptAES128(params.get("pw")));
+		//System.out.println("테스트 비밀번호 암호화 : "+params.get("pw")); //1234 암호화
 		
 		HashMap<String, String>data = iACDao.getMapData("myp.checkMem",params);
 		
