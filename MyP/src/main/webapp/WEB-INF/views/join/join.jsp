@@ -41,17 +41,18 @@ window.onload = function(){
 	});
 	
    $('#mail-Check-Btn').click(function() {//가입하기 버튼
-	   const email = $('#email').val() + $('#email2').val(); //이메일 주소값 얻어오기
+	   const email = $('#email').val()+ '@' + $('#email2').val(); //이메일 주소값 얻어오기
 	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
-	   
-	   $.jax({
+	   var data = {email : email};
+	   $.ajax({
 		   type : 'get',
-		   url : '<c:url value = "/mailCheck?email="/>'+email, //Get 방식이라 url뒤에 email을 묻힐수있다.
-	   	   success : function(data) {
-	   		   console.log("data : " + data);
+		   url : 'mailCheck', //Get 방식이라 url뒤에 email을 묻힐수있다.
+		   data : data,	   
+	   	   success : function(result) {
+	   		   console.log("result : " + result);
 	   		   checkInput.attr('disabled', false);
-	   		   code = data;
+	   		   code = result;
 	   		   alert('인증번호가 전송되었습니다.');
 	   	   }
 	   }); //end ajax
@@ -108,7 +109,7 @@ window.onload = function(){
         </div>
         <div class="df">
             <div class="input_box2">
-                <input  type="text" name="email" placeholder="이메일"> 
+                <input  type="text" name="email" id="email" placeholder="이메일"> 
             </div>
             <div class="a">@</div> 
             <div class="input_box2">

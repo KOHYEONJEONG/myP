@@ -22,23 +22,18 @@ public class JoinController {
 	@Autowired
 	public IJoinService mailService;
 	
-	
 	@Autowired
 	public IACDao dao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(JoinController.class);
 	
-	
 	@RequestMapping(value="/mailCheck",
-    method=RequestMethod.GET,
-    produces = "text/json;charset=UTF-8")
+    method=RequestMethod.GET)
 	@ResponseBody
-
-	public String mailCheck(String email) {
+	public String mailCheck(@RequestParam HashMap<String, String> params) {
 		System.out.println("이메일 인증 요청이 들어옴.");
-		System.out.println("이메일 :"+email);
-		return mailService.joinEmail(email);
-		
+		System.out.println("이메일 :"+params);
+		return mailService.joinEmail(params.get("email"));
 	}
 	
 	@RequestMapping(value="/checkIdAjax", method=RequestMethod.POST)
