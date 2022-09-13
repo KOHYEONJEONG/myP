@@ -1,10 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#").on("click", function() {
+		
+	});
+}); // document function
+</script>
 </head>
 <body>
     <div class="header_wrap">
@@ -29,7 +37,7 @@
                       </li>
                       <li><a href="">참여/알림</a>
                           <ul class="sub_menu l40">
-                              <li><a href="/menu2-1.html">공지사항</a></li>
+                              <li><a href="/menu2-1.html">공지사항</a>
                               <li><a href="/menu2-2.html">FAQ</a></li>
                               <li><a href="/menu2-3.html">QNA</a></li>
                           </ul>
