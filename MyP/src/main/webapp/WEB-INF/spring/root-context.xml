@@ -6,72 +6,81 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-	
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:property-placeholder location="/WEB-INF/spring/jdbc.properties"/>
-	
+	<context:property-placeholder
+		location="/WEB-INF/spring/jdbc.properties" />
+
 	<!-- dataSource : 접속설정객체 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClassName}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-    </bean>
-    
-    <!-- log설정 : dataSource에 로그 지정(선택사항) -->
-    <bean id="dataSourceLog" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-        <constructor-arg ref="dataSource" />
-        <property name="logFormatter">
-            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-                <property name="loggingType" value="MULTI_LINE" />
-                <property name="sqlPrefix" value="SQL : "/>
-            </bean>
-        </property>
-    </bean>
-    
-    <!-- sessionFactory : DB접속 객체 -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    	<!-- Mybatis설정 -->
-    	<property name="configLocation" value="classpath:mybatis-config.xml" />
-    	<!-- DB접속 설정 -->
-        <!-- <property name="dataSource" ref="dataSource" /> -->
-        <property name="dataSource" ref="dataSourceLog" />
-        <!-- mapper : 쿼리가 보관된 파일 -->
-        <property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
-    </bean>
-    
-    <!-- sqlSession : SessionFactory 사용 객체 -->
-    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg ref="sqlSessionFactory" />
-    </bean>
-    
-    <!-- Transaction -->
-    <bean id="transactionManager"
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<!-- log설정 : dataSource에 로그 지정(선택사항) -->
+	<bean id="dataSourceLog"
+		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSource" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="SQL : " />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- sessionFactory : DB접속 객체 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- Mybatis설정 -->
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+		<!-- DB접속 설정 -->
+		<!-- <property name="dataSource" ref="dataSource" /> -->
+		<property name="dataSource" ref="dataSourceLog" />
+		<!-- mapper : 쿼리가 보관된 파일 -->
+		<property name="mapperLocations"
+			value="classpath*:mapper/**/*.xml" />
+	</bean>
+
+	<!-- sqlSession : SessionFactory 사용 객체 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- Transaction -->
+	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<constructor-arg ref="dataSource" />
 	</bean>
 
 	<tx:annotation-driven />
-	   <context:property-placeholder location="/WEB-INF/spring/email.properties" />
 
-   <!-- 이메일 인증 관련 빈 등록 -->
-   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-      <property name="host" value="smtp.gmail.com" /><!-- host : 이메일 보낼 url을 입력 -->
-      <property name="port" value="587" />           <!-- port : 포트 번호 입력 -->
-      <property name="username" value="${email.account}" /> <!-- userName : 이메일을 보낼 아이디 입력 -->
-      <property name="password" value="${email.password}" /> <!-- Password : 이메일 비번 -->
-      <property name="javaMailProperties">
-         <props>
-                <prop key="mail.transport.protocol">smtp</prop>
-                <prop key="mail.smtp.auth">true</prop>
-                <!-- gmail의 경우 보안문제 업데이트로 인해 SSLSocketFactory를 추가해야 smtp 사용 가능. -->
-                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.debug">true</prop>
-                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
-				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
-            </props>
-      </property>
-   </bean>
-	
+	<!-- navermail설정 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" /> <!-- 메이서버 호스트 -->
+		<property name="port" value="587" /> <!-- 메이서버 포트번호 -->
+		<property name="username" value="hongaeyong99@naver.com" /> <!-- 자신의 이메일 아이디 -->
+		<property name="password" value="yuhan1212@" /> <!-- 자신의 비밀번호 -->
+		<!-- 보안연결 SSL과 관련된 설정 -->
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtps.checkserveridentity">true</prop>
+				<prop key="mail.smtps.ssl.trust">*</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
 </beans>

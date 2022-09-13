@@ -307,37 +307,37 @@ main {
   height: 60px;
   cursor: pointer;
 }
-.icon_bar .icons .first {
+.icon_bar .icons.first {
   background: url(../icons/search.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons .second {
+.icon_bar .icons.second {
   background: url(../icons/calc.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons .third {
+.icon_bar .icons.third {
   background: url(../icons/distance.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons .fourth {
+.icon_bar .icons.fourth {
   background: url(../icons/bookmark.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons .fifth {
+.icon_bar .icons.fifth {
   background: url(../icons/review.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons .sixth {
+.icon_bar .icons.sixth {
   background: url(../icons/accident.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons .end {
+.icon_bar .icons.end {
   position: absolute;
   bottom: 0;
   background: url(../icons/arrow.png) no-repeat;
@@ -1599,16 +1599,22 @@ footer li {
   left: 0;
   text-align: center;
   background: inherit;
-  width: 300px;
+  width: 310px;
 }
 .menu_container .sub_menu.l20 {
   left: 20px;
+}
+.menu_container .sub_menu.l30 {
+  left: -30px;
 }
 .menu_container .sub_menu.l35 {
   left: -35px;
 }
 .menu_container .sub_menu.l90 {
   left: -90px;
+}
+.menu_container .sub_menu.l100 {
+  left: -100px;
 }
 .menu_container .sub_menu.l120 {
   left: -120px;

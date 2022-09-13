@@ -16,10 +16,10 @@ public class JoinController {
 	
 	
 	@RequestMapping(value="/mailCheck",
-    method=RequestMethod.POST,
+    method=RequestMethod.GET,
     produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String mailCheck(String email) {
+	public String mailCheck(String email) throws Exception{
 		System.out.println("이메일 인증 요청이 들어옴.");
 		System.out.println("이메일 :"+email);
 		return mailService.joinEmail(email);
