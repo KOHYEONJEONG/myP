@@ -21,7 +21,8 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="${pageContext.request.contextPath}/resources/js/weather.js"></script><!--추가-->
-
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
 </head>
@@ -806,7 +807,9 @@
       </div>
   </form>
 </div>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
+ 
+  
+  
   <script>
     var container = document.getElementById('map');
     var options = {
@@ -816,6 +819,7 @@
 
     var map = new kakao.maps.Map(container, options);
   </script>
+  
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 
