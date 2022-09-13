@@ -52,7 +52,7 @@
 	</bean>
 
 	<tx:annotation-driven />
-	   <context:property-placeholder location="classpath:/db-config/email.properties" />
+	   <context:property-placeholder location="/WEB-INF/spring/email.properties" />
 
    <!-- 이메일 인증 관련 빈 등록 -->
    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
