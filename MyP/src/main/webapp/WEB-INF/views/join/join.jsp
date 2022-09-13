@@ -14,26 +14,7 @@
        <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 
 <script>
-window.onload = function(){
-   document.getElementById("send");
-   send.addEventListener("click",function(){
-      var frm = document.form;
-            
-      if(frm.uname.value.trim().length<=6)
-      {
-         alert("아이디를 6글자이상 입력해주세요");
-         return false(); 
-      }
-          
-      if(frm.pwd.value.trim().length<=8)
-      {
-         alert("비밀번호를 8글자이상 입력해주세요");
-         return false(); 
-      }
-      
-      frm.submit();
-   })
-   
+window.onload = function(){   
    $('#inj').click(function() {
 	   const email = $('#email').val() + $('#email2').val(); //이메일 주소값 얻어오기
 	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
@@ -41,7 +22,7 @@ window.onload = function(){
 	   
 	   $.jax({
 		   type : 'get',
-		   url : '<c:url value = "/user/mailCheck?email="/>'+email, //Get 방식이라 url뒤에 email을 묻힐수있다.
+		   url : '<c:url value = "/mailCheck?email="/>'+email, //Get 방식이라 url뒤에 email을 묻힐수있다.
 	   	   success : function(data) {
 	   		   console.log("data : " + data);
 	   		   checkInput.attr('disabled', false);
@@ -109,13 +90,13 @@ window.onload = function(){
                     <option>daum.net</option>
                 </select>
             </div>
-            <button class="join_btn" type="button" id="mail-Check-Btn">인증번호<br/>전송</button><br><br>  
+            <button class="mail_btn" type="button" id="mail_btn">인증번호<br/>전송</button><br><br>  
         </div>
         <div class="df">
             <div class="input_box3">
                 <input type="number" name="inj" placeholder="인증번호" maxlength="6">
             </div>
-            <button class="join_btn" type="button">확인</button><br><br>
+            <button class="check_btn" type="button">확인</button><br><br>
         </div>
         	<span id="mail-check-warn"></span>
         <div>
