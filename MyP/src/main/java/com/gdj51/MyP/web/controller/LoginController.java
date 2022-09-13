@@ -22,7 +22,6 @@ public class LoginController {
 	@Autowired
 	public IACDao iACDao;
 
-
 	@RequestMapping(value = "/header")
 	public ModelAndView header(ModelAndView mav) {
 		mav.setViewName("include/header");
