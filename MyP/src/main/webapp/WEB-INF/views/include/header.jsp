@@ -6,15 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="resources/script/jquery/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	$("#").on("click", function() {
-		
+$(document).ready(function () {
+	$("#logoutBtn").on("click", function () {
+		location.href = "logout";
 	});
-}); // document function
+	$("#loginBtn").on("click", function(){
+		location.href = "login";
+	});
+
+})
 </script>
 </head>
 <body>
+<header>
     <div class="header_wrap">
       <div class="top_area">
         <div class="notices">
@@ -36,24 +42,34 @@ $(document).ready(function() {
                       </ul>
                       </li>
                       <li><a href="">참여/알림</a>
-                          <ul class="sub_menu l40">
-                              <li><a href="/menu2-1.html">공지사항</a>
+                          <ul class="sub_menu l30">
+                              <li><a href="/menu2-1.html">공지사항</a></li>
                               <li><a href="/menu2-2.html">FAQ</a></li>
                               <li><a href="/menu2-3.html">QNA</a></li>
                           </ul>
                       </li>
                       <li><a href="">랭킹</a>
-                        <ul class="sub_menu l120">
+                        <ul class="sub_menu l100">
                           <li><a href="/menu3-1.html">시스템 좋은 주차장</a></li>
                           <li><a href="/menu3-2.html">요금 합리적인 주차장</a></li>
                       </ul>
                       </li>
                   </ul>
               </nav>
-            <div class="login_comment">홍길동님 환영합니다</div>
+              <c:choose>
+              <c:when test="${empty sMemNm}">
+            <div class="login_comment"></div>
+            	<input type="button" value="로그인" id="loginBtn" />
+            </c:when>
+            <c:otherwise>
+             <div class="login_comment_on">${sMemNm}님 환영합니다</div>
+              <input type="button" value="로그아웃" id="logoutBtn" />
+            </c:otherwise>
+              </c:choose>
             <div class="login_i"></div>
           </div>
       </div>
-    </div> 
+    </div>
+    </header>
 </body>
 </html>

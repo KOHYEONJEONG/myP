@@ -193,12 +193,76 @@ header .header_wrap {
   display: block;
 }
 
+/* 로그인 안 되어있을때 */
 .login_i {
   width: 50px;
   display: block;
   background: url(../icons/people_w.png) no-repeat;
   background-size: 70%;
   background-position: 50%;
+  cursor: pointer;
+}
+
+/* 로그인 되어있을때, 아이콘 안에 이미지를 프로필사진느낌으로*/
+.login_i1 {
+  width: 50px;
+  height: 50px;
+  display: block;
+  background-size: 100%;
+  border-radius: 50%;
+  background-position: 50%;
+  cursor: pointer;
+  margin-top: 22.5px;
+  margin-left: 5px;
+  background: #fff;
+}
+
+.login_i1 .img {
+  background: url(../icons/person3.png) no-repeat;
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
+  background-position: 50%;
+  border-radius: 50%;
+}
+
+/* 로그인 되어있을때, 아이콘 안에 이미지를 프로필사진느낌으로*/
+.login_i1 .img1 {
+  background: url(../img/dog.jpg) no-repeat;
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
+  background-position: 50%;
+  border-radius: 50%;
+}
+
+.login_box {
+  border: 1px solid #ccc;
+  width: 120px;
+  height: 80px;
+  position: absolute;
+  right: 0;
+  bottom: -55px;
+  background: #fff;
+  text-align: center;
+  padding: 7px 10px;
+  box-sizing: border-box;
+  color: #2A3340;
+  font-size: 14px;
+  display: none;
+}
+
+.login_box.on {
+  display: block;
+  z-index: 101;
+}
+
+.login_box div {
+  margin: 12px 0;
+}
+
+.login_box div:hover {
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -231,53 +295,59 @@ main {
 }
 
 .icon_bar .icons {
+  width: 49px;
+  height: 60px;
+  cursor: pointer;
+}
+.icon_bar .icons.on {
+  background: #e8e8e8;
+}
+.icon_bar .icons div {
   width: 50px;
   height: 60px;
   cursor: pointer;
 }
-
 .icon_bar .icons.first {
   background: url(../icons/search.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-
 .icon_bar .icons.second {
   background: url(../icons/calc.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-
 .icon_bar .icons.third {
   background: url(../icons/distance.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-
 .icon_bar .icons.fourth {
   background: url(../icons/bookmark.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-
 .icon_bar .icons.fifth {
   background: url(../icons/review.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-
 .icon_bar .icons.sixth {
   background: url(../icons/accident.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-
 .icon_bar .icons.end {
   position: absolute;
   bottom: 0;
-  background: url(../icons/right_arrow.png) no-repeat;
+  background: url(../icons/arrow.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
+  transition: all ease 0.1s;
+}
+.icon_bar .icons .end.on {
+  transform: rotate(180deg);
+  transition: all ease 0.1s;
 }
 
 .left_section.hide {
@@ -349,9 +419,9 @@ main {
 .left_section .select_box {
   width: 100%;
   height: 40px;
+  line-height: 38px;
   background: #fff;
   text-align: center;
-  line-height: 34px;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
   box-sizing: border-box;
@@ -650,25 +720,13 @@ main {
   height: 100%;
 }
 
-.right_area { /*0830추가*/
+.right_area {
   width: 1050px;
   height: calc(100% - 50px);
   position: relative;
 }
 
-.noticeTitle{ /*0830추가, 나의 게시글*/
-    width: 150px;
-    height: 40px;
-    line-height: 40px;
-}
-
-.contents_top {
-  display: flex;
-  justify-content: space-between;
-}
-
-
-.main_wrap {
+.main_wrap, .main_wrap1 {
   background: url(../img/bg2.jpeg) no-repeat;
   padding-top: 50px;
   width: 1400px;
@@ -676,16 +734,15 @@ main {
   display: flex;
   margin: 0 auto;
 }
-.main_wrap .side_bar {
+.main_wrap .side_bar, .main_wrap1 .side_bar {
   width: 250px;
   height: calc(100% - 50px);
-  border: 1px solid #ccc;
   border-top: 0px;
   border-bottom: 0px;
   box-sizing: border-box;
   margin-left: 100px;
 }
-.main_wrap .side_bar .title {
+.main_wrap .side_bar .title, .main_wrap1 .side_bar .title {
   padding: 30px 0;
   background: var(--sub-color);
   width: 100%;
@@ -700,27 +757,30 @@ main {
   align-items: center;
   color: #fff;
 }
-.main_wrap .side_bar .inner {
+.main_wrap .side_bar .inner, .main_wrap1 .side_bar .inner {
   vertical-align: top;
   text-align: center;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  height: calc(100% - 180px);
 }
-.main_wrap .side_bar .inner .on {
+.main_wrap .side_bar .inner .on, .main_wrap1 .side_bar .inner .on {
   background: #fff url(../icons/arrow.png) no-repeat right center;
   background-position: 95%;
   cursor: pointer;
-  color: #e47900;
+  color: #ee8003;
   font-weight: bold;
 }
-.main_wrap .side_bar .inner div {
+.main_wrap .side_bar .inner div, .main_wrap1 .side_bar .inner div {
   padding: 25px 20px;
   border-top: 1px solid #ccc;
   box-sizing: border-box;
   font-size: 16px;
 }
-.main_wrap .side_bar .inner div:last-child {
+.main_wrap .side_bar .inner div:last-child, .main_wrap1 .side_bar .inner div:last-child {
   border-bottom: 1px solid #ccc;
 }
-.main_wrap .side_bar .inner > div:active, .main_wrap .side_bar .inner > div:hover {
+.main_wrap .side_bar .inner > div:active, .main_wrap .side_bar .inner > div:hover, .main_wrap1 .side_bar .inner > div:active, .main_wrap1 .side_bar .inner > div:hover {
   background: #fff url(../icons/arrow.png) no-repeat right center;
   background-position: 95%;
   cursor: pointer;
@@ -728,7 +788,7 @@ main {
 }
 
 .right_area .rigth_contents {
-  width: 900px;
+  width: 800px;
   margin: 10px auto 0;
 }
 .right_area .content_wrap {
@@ -750,20 +810,20 @@ main {
 }
 .right_area .content_wrap .box {
   width: 800px;
-  height: 250px;
-  background-color: #eeeeee;
-  border: solid 1px #595959;
+  height: 200px;
+  background-color: #f5f5f5;
+  border: solid 1px #fbfbfb;
   box-sizing: border-box;
-  padding: 50px 100px;
+  padding: 40px 100px;
 }
 .right_area .content_wrap .box1 {
   width: 800px;
   /* box랑 높이만 다름  */
   height: 200px;
-  background-color: #eeeeee;
-  border: solid 1px #595959;
+  background-color: #f5f5f5;
+  border: solid 1px #fbfbfb;
   box-sizing: border-box;
-  padding: 50px 100px;
+  padding: 40px 100px;
 }
 .right_area .content_wrap .row {
   height: 30px;
@@ -773,32 +833,33 @@ main {
   width: 600px;
   height: 50px;
   display: flex;
-  border: 1px solid #000;
   margin: auto;
-  line-height: 50px;
   box-sizing: border-box;
+  margin-bottom: 8px;
 }
 .right_area .content_wrap .box_title {
   font-size: 16px;
   width: 120px;
-  border-right: 1px solid #000;
   text-align: center;
   box-sizing: border-box;
+  line-height: 50px;
+  color: #464646;
 }
 .right_area .content_wrap .input, .right_area .content_wrap .select {
-  width: 478px;
+  width: 470px;
   background: #fff;
   box-sizing: border-box;
-  padding-left: 5px;
+  border: 1px solid #b2b2b2;
 }
 .right_area .content_wrap .input input, .right_area .content_wrap .select select {
   border: 0px;
   padding: 5px;
-  height: 40px;
+  height: 100%;
   outline-color: #000;
 }
 .right_area .content_wrap .row1 .input input[type=password], .right_area .content_wrap .select select {
-  width: 470px;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
 }
 .right_area .content_wrap .btn_wrap {
@@ -829,7 +890,7 @@ main {
 }
 .table_wrap .search_box {
   position: relative;
-  width: 840px;
+  width: 800px;
   height: 100%;
   background-color: #fff;
   border: 0px;
@@ -839,7 +900,6 @@ main {
   box-sizing: border-box;
   margin-bottom: 20px;
 }
-
 .table_wrap .search_box .select {
   width: 90px;
   height: 35px;
@@ -871,6 +931,74 @@ main {
   box-sizing: border-box;
 }
 .table_wrap .search_box .search_btn {
+  width: 70px;
+  height: 35px;
+  border: 1px solid #e6e6e6;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(229, 229, 229) 100%);
+  font-size: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  line-height: 33px;
+  cursor: pointer;
+}
+.table_wrap .search_box1 {
+  position: relative;
+  width: 800px;
+  height: 100%;
+  background-color: #fff;
+  border: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.table_wrap .search_box1 .cate {
+  width: 110px;
+  height: 35px;
+  cursor: pointer;
+  margin-right: 5px;
+  border: 1px solid #d7d7d7;
+  box-sizing: border-box;
+  outline-color: #000;
+}
+.table_wrap .search_box1 .select_box {
+  display: flex;
+}
+.table_wrap .search_box1 .select {
+  width: 90px;
+  height: 35px;
+  background-color: #f6f6f6;
+  cursor: pointer;
+  margin-right: 5px;
+  border: 1px solid #d7d7d7;
+  box-sizing: border-box;
+}
+.table_wrap .search_box1 .select select {
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  outline-color: #000;
+}
+.table_wrap .search_box1 .search_form {
+  width: 200px;
+  height: 35px;
+  border: 1px solid #d7d7d7;
+  margin-right: 5px;
+  box-sizing: border-box;
+}
+.table_wrap .search_box1 .search_form input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline-color: #000;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.table_wrap .search_box1 .search_btn {
   width: 70px;
   height: 35px;
   border: 1px solid #e6e6e6;
@@ -938,12 +1066,12 @@ main {
 }
 .table_wrap .btn_wrap .write_btn {
   font-size: 14px;
-  border: 1px solid #00af80;
+  border: 1px solid #FD9A29;
   width: 70px;
   height: 35px;
   line-height: 33px;
   text-align: center;
-  background: #00af80;
+  background: #FD9A29;
   cursor: pointer;
   box-sizing: border-box;
   color: #fff;
@@ -1141,6 +1269,38 @@ main {
 .accordion .accordion_wrap > div.on {
   display: block;
 }
+.accordion .accordion_wrap .setting {
+  background: url(../icons/settings.png);
+  background-size: 100%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  bottom: 20px;
+  right: 70px;
+  cursor: pointer;
+}
+.accordion .accordion_wrap .recycle_bin {
+  background: url(../icons/recycle_bin.png);
+  background-size: 100%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  bottom: 20px;
+  right: 35px;
+  cursor: pointer;
+}
+.accordion .accordion_wrap input {
+  width: 740px;
+  background: inherit;
+  border: 0;
+}
+.accordion .accordion_wrap textarea {
+  width: 730px;
+  height: 60px;
+  overflow: auto;
+  outline-color: #000;
+  padding: 5px;
+}
 .accordion .accordion_wrap .ui-state-active, .accordion .accordion_wrap .ui-widget-content .ui-state-active, .accordion .accordion_wrap .ui-widget-header .ui-state-active, .accordion .accordion_wrap a.ui-button:active, .accordion .accordion_wrap .ui-button:active, .accordion .accordion_wrap .ui-button.ui-state-active:hover {
   border: 1px solid #1155cc;
   background: #1155cc;
@@ -1160,7 +1320,8 @@ main {
   font-size: 14px;
 }
 .accordion .accordion_wrap .ui-accordion-content {
-  height: 90px;
+  height: 130px;
+  position: relative;
 }
 
 .register_wrap {
@@ -1235,6 +1396,123 @@ main {
 }
 .register_wrap .summer {
   margin-top: 8px;
+}
+
+.detail_wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 800px;
+}
+.detail_wrap .title {
+  width: 60%;
+  margin: 20px 0px;
+  font-size: 25px;
+}
+.detail_wrap .notice {
+  margin: 5px 0px;
+  width: 800px;
+  height: 35px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 35px;
+}
+.detail_wrap .notice_right {
+  padding-right: 20px;
+  display: flex;
+}
+.detail_wrap .notice_right > div:nth-child(1) {
+  margin-right: 20px;
+}
+.detail_wrap .notice_left {
+  color: #000;
+  width: 500px;
+  padding-left: 20px;
+}
+.detail_wrap .content {
+  height: 400px;
+  padding: 20px;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+.detail_wrap .answer {
+  display: flex;
+  margin: 8px 0;
+}
+.detail_wrap .answer .txt {
+  padding: 10px 0 0 20px;
+  width: 40px;
+}
+.detail_wrap .answer_txt {
+  width: 710px;
+  height: 100px;
+  background-color: #ffffff;
+  border: solid 1px #595959;
+  border-radius: 10px;
+  outline-color: #000;
+  padding: 10px;
+}
+.detail_wrap .setting {
+  background: url(../icons/settings.png);
+  background-size: 100%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  bottom: 70px;
+  right: 70px;
+  cursor: pointer;
+}
+.detail_wrap .recycle_bin {
+  background: url(../icons/recycle_bin.png);
+  background-size: 100%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  bottom: 70px;
+  right: 35px;
+  cursor: pointer;
+}
+.detail_wrap .btn_wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  width: 800px;
+}
+.detail_wrap .btn {
+  width: 70px;
+  height: 35px;
+  font-size: 14px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.detail_wrap .btn.list {
+  margin-right: 10px;
+  background-color: #f6f6f6;
+  border: 1px solid #ccc;
+  /* background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); */
+}
+.detail_wrap .btn.regi, .detail_wrap .btn.del {
+  border: solid 1px #00af80;
+  background-color: #00af80;
+  color: #fff;
+}
+.detail_wrap .btn.update {
+  border: solid 1px #FD9A29;
+  background-color: #FD9A29;
+  color: #fff;
+  margin-right: 10px;
+}
+.detail_wrap .select_box {
+  width: 200px;
+  height: 35px;
+  border: solid 1px #eeeeee;
+  outline: 0;
+  padding-left: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin: 8px 0;
 }
 
 footer {
@@ -1321,12 +1599,22 @@ footer li {
   left: 0;
   text-align: center;
   background: inherit;
+  width: 310px;
 }
 .menu_container .sub_menu.l20 {
   left: 20px;
 }
-.menu_container .sub_menu.l40 {
-  left: -40px;
+.menu_container .sub_menu.l30 {
+  left: -30px;
+}
+.menu_container .sub_menu.l35 {
+  left: -35px;
+}
+.menu_container .sub_menu.l90 {
+  left: -90px;
+}
+.menu_container .sub_menu.l100 {
+  left: -100px;
 }
 .menu_container .sub_menu.l120 {
   left: -120px;
