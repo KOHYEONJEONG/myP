@@ -149,11 +149,11 @@ $(document).ready(function () {
         console.log(hasOn);
         if (hasOn) {
             $(".chatbot").removeClass("on");
-            $(".chatrobot").attr("src", "./icons/chatrobot.svg");
+            $(".chatrobot").attr("src", "resources/icons/chatrobot.svg");
 
         } else {
             $(".chatbot").addClass("on");
-            $(".chatrobot").attr("src", "./icons/chat_close.svg");
+            $(".chatrobot").attr("src", "resources/icons/chat_close.svg");
         }
     });
 

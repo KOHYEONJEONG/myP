@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나만의 P</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
-    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.12.4.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+    <title>MyP</title>
+    <link rel="stylesheet" href="resources/css/main.css">
+   	<link rel="stylesheet" href="resources/css/font.css">
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
 </head>
 <body>
 <c:import url="/header1"></c:import>
@@ -23,7 +23,7 @@
                     <div class="on">마이페이지</div>
                 </div> 
              </div>
-             <div class="right_area">            
+             <div class="right_area">
                 <div class="content_wrap">
                     <div class="title">회원 탈퇴</div>
                     <hr class="line">
