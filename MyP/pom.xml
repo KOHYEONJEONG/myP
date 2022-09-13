@@ -50,11 +50,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail (22.09.13 KHJ 이메일 인증번호)-->
-      <dependency>
+     <!--  <dependency>
           <groupId>javax.mail</groupId>
           <artifactId>mail</artifactId>
           <version>1.4.7</version>
-      </dependency>
+      </dependency> -->
       
       <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support (22.09.13 KHJ 이메일 인증번호) -->
       <dependency>
