@@ -84,8 +84,9 @@ public class ACDao implements IACDao {
 	}
 
 	@Override
-	public int idCheck(String sql, HashMap<String, String> params) throws Throwable {
+	public int memberCheck(String sql, HashMap<String, String> params) throws Throwable {
 		return sqlSession.selectOne(sql,params);
 	}
+
 
 }
