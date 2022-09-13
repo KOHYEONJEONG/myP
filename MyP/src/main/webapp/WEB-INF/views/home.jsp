@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>나만의 P</title>
+  <title>MyP</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/popup.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
