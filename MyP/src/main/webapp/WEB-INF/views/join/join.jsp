@@ -60,7 +60,7 @@ window.onload = function(){
    
    //인증번호 비교
    //blur -> focus가 벗어나는 경우 발생
-   $('.inj').blur(function (){
+   $('#inj').blur(function (){
 	   const inputCode = $(this).val();
 	   const $resultMsg = $('#mail-check-warn');
 	   
@@ -77,6 +77,11 @@ window.onload = function(){
 		   $resultMsg.css('color', 'red');
 	   }
    });
+   
+   $("#joinBtn").click(function() {
+	   $("#join").attr("action", "/join/join");
+	   $("#join").submit();
+   });
 }       
 </script>
 </head>
@@ -86,11 +91,11 @@ window.onload = function(){
             <a href="/test2/index.html">
             </a>
           </h1>
-    <form class="was-validated" name="form" id="form">
+    <form action="" class="was-validated" name="form" id="form">
         <div class="title">회원가입</div>  
         <div class="input_box">
             
-            <input type="text" name="uname" for="uname" 
+            <input type="text" name="id" 
                    placeholder="아이디" id="id_input" required><br><br>
         </div>
         
@@ -98,7 +103,7 @@ window.onload = function(){
          <span class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span>
         
         <div class="input_box">
-            <input type="password" name="pwd" for="pwd"
+            <input type="password" name="pwd" 
                    placeholder="비밀번호" id="pwd" required><br><br>
         </div>
         <div class="input_box">

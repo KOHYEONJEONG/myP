@@ -5,4 +5,9 @@
 		SELECT COUNT(*) FROM MEMBER WHERE ID = #{id}	
 	</select>
 
+	<insert id="joinInsert" parameterType="hashmap">
+	INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, REG_DT)
+	VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, SYSDATE)
+	</insert>
+	
 </mapper>
