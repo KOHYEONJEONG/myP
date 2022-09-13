@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="resources/script/jquery/jquery-1.12.4.min.js"></script>
+<title>MyP</title>
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 	$("#logoutBtn").on("click", function () {
@@ -58,11 +59,10 @@ $(document).ready(function () {
               </nav>
               <c:choose>
               <c:when test="${empty sMemNm}">
-            <div class="login_comment"></div>
-            	<input type="button" value="로그인" id="loginBtn" />
+            <div class="login_comment" id="loginBtn"></div>
             </c:when>
             <c:otherwise>
-             <div class="login_comment_on">${sMemNm}님 환영합니다</div>
+             <div class="login_comment on" id="logoutBtn">${sMemNm}님 환영합니다</div>
               <input type="button" value="로그아웃" id="logoutBtn" />
             </c:otherwise>
               </c:choose>
