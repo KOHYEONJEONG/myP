@@ -19,8 +19,8 @@
           </div>
           <div class="bottom_area">
               <h1 class="logo">
-                <a href="/"></a>
-              </h1>
+                <a href="/"></a>              
+			  </h1>
               <div class="menu_area">
                   <nav class="menu_container">
                       <span class="header_bg"></span>
