@@ -2,7 +2,7 @@ $(document).ready(function () {
 	
 		// 헤더
 		// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
-        if($(".login_comment").hasClass("on")){
+       if($(".login_comment").hasClass("on")){
             $(".login_i1").off().click(function () {
                 var hasOn1 = $(".login_box").hasClass("on")
                 console.log(hasOn1);
