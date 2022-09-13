@@ -49,23 +49,11 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/javax.mail/mail (22.09.13 KHJ 이메일 인증번호)-->
-     <!--  <dependency>
-          <groupId>javax.mail</groupId>
-          <artifactId>mail</artifactId>
-          <version>1.4.7</version>
-      </dependency> -->
-      
-      <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support (22.09.13 KHJ 이메일 인증번호) -->
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-context-support</artifactId>
-          <version>${org.springframework-version}</version>
-      </dependency>
+		<!-- 인증번호(22.09.13 KHJ 이메일 인증번호) -->
 		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>mail</artifactId>
-		    <version>1.4.7</version>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support (22.09.13 KHJ 이메일 인증번호) -->
@@ -239,11 +227,7 @@
 		    <version>9.4.0.jre11</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.6.2</version>
-		</dependency>
+		
 		
 		<!-- Oracle Cloud Security -->
 		<dependency>

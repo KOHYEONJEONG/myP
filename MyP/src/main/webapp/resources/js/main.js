@@ -1,4 +1,36 @@
 $(document).ready(function () {
+	
+		// 헤더
+		// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
+        if($(".login_comment").hasClass("on")){
+            $(".login_i1").off().click(function () {
+                var hasOn1 = $(".login_box").hasClass("on")
+                console.log(hasOn1);
+                if (hasOn1) {
+                    $(".login_box").removeClass("on");
+                } else {
+                    $(".login_box").addClass("on");
+                }
+            })
+        } else {
+            $(".login_i").click(function () {
+            location.href = "login";
+            })
+        }
+        
+        $("#logoutBtn").on("click", function () {
+			location.href = "logout";
+		});
+		
+		$("#myPage").on("click", function () {
+			location.href = "myPage";
+		});
+		
+		
+		
+		
+		
+		
         // 메인 페이지 아이콘 클릭시 왼쪽영역 변경
         $(".icons.first").click(function () {
             $('.search_warp').addClass('on');
@@ -76,19 +108,6 @@ $(document).ready(function () {
         })
 
 
-        if($('.login_comment').hasClass('on')){
-            $(".login_i").click(function () {
-                if($('.login_select_box').hasClass('on')){
-                    $('.login_select_box').removeClass('on')
-                } else {
-                    $('.login_select_box').addClass('on');
-                }
-             })
-        } else {
-            $(".login_i").click(function () {
-            	location.href = "login";
-            })
-        }
 
         $(".refuseBtn").click(function () {
             document.getElementById("refuse_popup").style.display = "block";
@@ -155,6 +174,26 @@ $(document).ready(function () {
             $(".chatbot").addClass("on");
             $(".chatrobot").attr("src", "resources/icons/chat_close.svg");
         }
+    });
+    
+     // 툴팁
+    //tooltip 생성
+    $(".tooltip_event").tooltip();
+
+    $('#contents').summernote({
+        placeholder: '게시글을 작성하시오',
+        width:900,
+        height: 700,
+        maxHeight: 400,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+          ]
     });
 
 
