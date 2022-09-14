@@ -147,6 +147,10 @@ header .header_wrap {
   display: block;
 }
 
+.logo:hover, .sub_menu > li {
+	cursor : pointer;
+}
+
 .menu_area {
   right: 40px;
   position: absolute;

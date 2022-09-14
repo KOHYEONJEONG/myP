@@ -25,15 +25,15 @@
                       <span class="header_bg"></span>
                       <ul class="main_menu">
                           <li><span class="curr_bar"></span><a href="">주차장안내</a>
-                            <ul class="sub_menu l20" id="parkinfo">
-                              <li><a>공영주차장 조회</a></li>
-                          </ul>
+                            <ul class="sub_menu l20">
+                              <li id="parkinfo"><a>공영주차장 조회</a></li>
+                          	</ul>
                           </li>
                           <li><a href="">참여/알림</a>
                               <ul class="sub_menu l40">
-                                  <li><a href="/menu2-1.html">공지사항</a></li>
-                                  <li><a href="/menu2-2.html">FAQ</a></li>
-                                  <li><a href="/menu2-3.html">QNA</a></li>
+                                  <li id="notice"><a>공지사항</a></li>
+                                  <li id="faq"><a>FAQ</a></li>
+                                  <li id="qna"><a>QNA</a></li>
                               </ul>
                           </li>
                           <li><a href="">랭킹</a>
