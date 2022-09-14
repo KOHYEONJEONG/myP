@@ -75,10 +75,11 @@ public class AOPComponent {
 		
 		ModelAndView mav = new ModelAndView();
 		
+		//조건 순서 중요
 		if(session.getAttribute("sMemAuto") == null || !String.valueOf(session.getAttribute("sMemAuto")).equals("1")) {
 			System.out.println("관리자가 아닌 사람이 관리자 url에 접근했다!!!");
 			//response.sendRedirect(cPath+"/home");//contextpath를 작성해서 '절대 경로'로 이동
-			mav.setViewName("redirect:/home");
+			mav.setViewName("redirect:home");
 		} else {
 			mav = (ModelAndView) joinPoint.proceed();
 		}

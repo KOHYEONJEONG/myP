@@ -52,17 +52,5 @@
 	<!-- AOP -->
 	<!-- <aop:aspectj-autoproxy />
 	<beans:bean id="commonAop" class="com.gdj51.MyP.common.component.CommonAOP" /> -->
-	 
-    <!-- 인터셉터 적용 ... 대신에 그냥 AOP 사용할거다. 
-    <interceptors>
-        <interceptor>
-            <mapping path="/login"></mapping>
-            <beans:bean id="loginIntreceptor" class="com.gdj51.MyP.web.interceptor.LoginInterceptor"></beans:bean>
-        </interceptor>
-        <interceptor>
-            <mapping path="/admin/**"></mapping>
-            <beans:bean id="AdminIntreceptor" class="com.gdj51.MyP.web.interceptor.ManagerInterceptor"></beans:bean>
-        </interceptor>
-    </interceptors>
-	 -->
+
 </beans:beans>
