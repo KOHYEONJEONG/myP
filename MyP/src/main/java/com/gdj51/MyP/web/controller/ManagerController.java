@@ -39,7 +39,7 @@ public class ManagerController {
 
 	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryManagementAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+	public String categoryManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
 			throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -74,14 +74,14 @@ public class ManagerController {
 
 	@RequestMapping(value = "/categoryManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryManagementList(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String categoryManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		// 페이지 받아오게 되어있음
 		int cnt = dao.getIntData("cate.getCateCnt", params);
 
-		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 5, 5);
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
@@ -109,21 +109,21 @@ public class ManagerController {
 	}
 
 	// 관리자 페이지 데이터관리 목록화면
-	@RequestMapping(value = "/admin/dataManagement")
+	@RequestMapping(value = "/dataManagement")
 	public ModelAndView dataManagement(ModelAndView mav) {
 		mav.setViewName("manager/dataManagement");
 		return mav;
 	}
 
 	// 관리자 페이지 회원관리 목록화면
-	@RequestMapping(value = "/admin/memManagement")
+	@RequestMapping(value = "/memManagement")
 	public ModelAndView memManagement(ModelAndView mav) {
 		mav.setViewName("manager/memManagement");
 		return mav;
 	}
 
 	// 관리자 페이지 신고관리 목록화면
-	@RequestMapping(value = "/admin/reportReviewManagement")
+	@RequestMapping(value = "/reportReviewManagement")
 	public ModelAndView reportReviewManagement(ModelAndView mav) {
 		mav.setViewName("manager/reportReviewManagement");
 		return mav;
