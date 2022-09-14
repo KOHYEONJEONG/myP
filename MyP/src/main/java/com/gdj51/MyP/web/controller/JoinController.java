@@ -1,5 +1,6 @@
 package com.gdj51.MyP.web.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +61,8 @@ public class JoinController {
 		
 	}
 	
+	
+	
 	@RequestMapping(value="/join")
 	public ModelAndView jInsert(
 			ModelAndView mav) {//회원가입
@@ -67,6 +70,7 @@ public class JoinController {
 	
 		return mav;
 	}
+	
 	
 	@RequestMapping(value="/JAction/{gbn}",
 			method = RequestMethod.GET,
