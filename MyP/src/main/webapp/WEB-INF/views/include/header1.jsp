@@ -38,8 +38,8 @@
                           </li>
                           <li><a href="">랭킹</a>
                             <ul class="sub_menu l120">
-                              <li><a href="/menu3-1.html">시스템 좋은 주차장</a></li>
-                              <li><a href="/menu3-2.html">요금 합리적인 주차장</a></li>
+                              <li id="system"><a>시스템 좋은 주차장</a></li>
+                              <li id="fee"><a>요금 합리적인 주차장</a></li>
                           </ul>
                           </li>
                       </ul>

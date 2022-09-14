@@ -182,8 +182,13 @@ $(document).ready(function () {
 		location.href = "qna";
 	})
     
+    $("#system").click(function() {
+		location.href = "rankingSystemGoodParking";
+	})
     
-    
+    $("#fee").click(function() {
+		location.href = "rankingFeeReasonableBoard";
+	})
    
 
 
