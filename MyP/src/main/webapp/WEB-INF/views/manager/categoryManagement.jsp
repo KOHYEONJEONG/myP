@@ -55,7 +55,7 @@
 		$("#searchText").val($("#oldText").val());
 		
 		reloadList();
-	})	
+	})
 		
 	// 검색 클릭시
 	/* $("#searchBtn").on("click", function () {
@@ -230,8 +230,8 @@ function drawList(list) {
 		html +="<td>" + data.DIV_NM + "</td>";
 		html +="<td>" + data.CATE_NM + "</td>";
 		html +="<td>";
-			html +="<div class=\"delete_btn\">수정</div><br/>";
 			html +="<div class=\"delete_btn\">삭제</div>";
+			html +="<div class=\"delete_btn\">수정</div><br/>";
 		html +="</td>";
 		html +="</tr>";
 	}
@@ -314,12 +314,18 @@ function drawPaging(pd) {
 				<div class="search_btn" id="searchBtn">검색</div>
 			</div>
                 <table>
+                <colgroup>
+					<col width="100"> <!-- 분류번호 -->
+					<col width="500"> <!-- 분류명 -->
+					<col width="500"> <!-- 하위분류명 -->
+					<col width="500"> <!-- 수정/삭제 -->
+				</colgroup>
                   <thead>
                     <tr>
                       <th>분류번호</th>
                       <th>분류명</th>
                       <th>하위분류명</th>
-                      <th>삭제/수정</th>
+                      <th>수정/삭제</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
