@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,8 @@ import com.gdj51.MyP.web.dao.IACDao;
 @Controller
 public class ManagerController {
 
+	private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
+
 	@Autowired
 	public IACDao dao;
 
@@ -33,9 +37,9 @@ public class ManagerController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/categoryAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+	public String categoryManagementAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
 			throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -68,21 +72,21 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
-	@RequestMapping(value = "/ACOBList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@RequestMapping(value = "/categoryManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String AOBList(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String categoryManagementList(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		// 페이지 받아오게 되어있음
-		int cnt = dao.getIntData("cob.getObCnt", params);
+		int cnt = dao.getIntData("cate.getCateCnt", params);
 
 		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
 
-		List<HashMap<String, String>> list = dao.getList("cob.getObList", params);
+		List<HashMap<String, String>> list = dao.getList("cob.getCateList", params);
 
 		model.put("list", list);
 		model.put("pd", pd);

@@ -22,10 +22,10 @@ public class ManagerInterceptor  implements HandlerInterceptor{
 
 		HttpSession session = request.getSession();
 		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("manager",(String)session.getAttribute("member"));
+		params.put("sMemAuto",(String)session.getAttribute("sMemAuto"));
 		
 		try {
-			if(params == null || dao.memberCheck("", params) == 0) {//관리자 계정이 아닌경우
+			if(params == null || dao.memberCheck("manager.managerCk", params) == 0) {//관리자 계정이 아닌경우
 				
 			}
 		} catch (Throwable e) {
