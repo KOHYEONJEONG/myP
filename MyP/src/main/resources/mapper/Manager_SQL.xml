@@ -7,9 +7,5 @@
 		UPDATE MEMBER SET AUTORITY_NUM = 1
 		WHERE ID = #{id}
 	</update>
-	
-	<!-- 관리자 권한 조회-->
-	<select id="managerCk" parameterType="hashmap" resultType="Integer">
-	</select>
 
 </mapper>

@@ -20,6 +20,7 @@ import com.gdj51.MyP.common.service.IPagingService;
 import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
+@RequestMapping(value = "/admin")
 public class ManagerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
