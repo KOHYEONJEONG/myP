@@ -13,9 +13,9 @@
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
     <style type="text/css">
-      .insert{
+      .insert_btn{
         float: right;
-        width: 100px;
+        width: 70px;
         height: 35px;
 	  border: 1px solid #e6e6e6;
 	  background: rgb(255, 255, 255);
@@ -27,7 +27,7 @@
 	  font-size: 14px;
 	  line-height: 33px;
 	  cursor: pointer;
-	  margin-right: 500px;
+	  margin-right: 360px;
       }
     </style>
 	<script type="text/javascript">
@@ -36,7 +36,7 @@
 	reloadList();
 	
 	
-	$("#insertBtn").on("click", function () {
+/* 	$("#insertBtn").on("click", function () {
 	 		if($.trim($("#cateNm").val()) == ""){
 				makeAlert("알림","카테고리를 입력하세요." , function () {
 					$("#cateNm").focus();
@@ -45,10 +45,10 @@
 	 				action("insert");
 			}
 	
-		})
+		}) */
 		
 	// 페이징 클릭시
-	$(".paging_area").on("click", "span", function () {
+	/* $(".page_nation").on("click", "span", function () {
 		$("#page").val($(this).attr("page"));
 		//기존 값 유지
 		$("#searchGbn").val($("#oldGbn").val());
@@ -66,9 +66,9 @@
 		
 		reloadList();
 	})
-	
+	 */
 	// 목록의 삭제버튼 클릭시
-	$("tbody").on("click", ".delete_btn", function () {
+	/* $("tbody").on("click", ".delete_btn", function () {
 		var no = $(this).parent().parent().attr("no");
 		
 		  makePopup({
@@ -86,10 +86,10 @@
 		            name : "취소"
 		    }]
 		})
-	})
+	}) */
 	
 	// 목록 수정버튼 클릭시
-	$("tbody").on("click", ".update_btn", function () {
+	/* $("tbody").on("click", ".update_btn", function () {
 		var no = $(this).parent().parent().attr("no");
 		$("#no").val(no);
 
@@ -111,9 +111,9 @@
 		// 작성영역에 포커스
 		$("#cateNm").focus();
 	})
-	
+	 */
 	// 수정 영역의 취소버튼
-	$("thead #cancelBtn").on("click", function () {
+	/* $("thead #cancelBtn").on("click", function () {
 		// 입력내용 초기화
 		$("#no").val("");
 		$("#cateNm").val("");
@@ -121,16 +121,16 @@
 		$(".insert").show();
 		$(".update").hide();
 	})
-	
+	 */
 	// 수정 영역의 수정버튼
-	$("thead #updateBtn").on("click", function () {
+	/* $("thead #updateBtn").on("click", function () {
 		action("update");
 		console.log("1");
-	})
+	}) */
 	
 })
 
-
+/* 
 var msg ={
 	"insert" : "등록",
 	"update" : "수정",
@@ -151,7 +151,7 @@ function action(flag) {
 	var params = $("#actionForm").serialize();
 	
 	$.ajax({
-		url : "categoryAction/" + flag,
+		url : "categoryManagementAction/" + flag,
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
@@ -203,11 +203,11 @@ function action(flag) {
 		}
 	}); //Ajax End
 } // action Function End
-
+ */
 function reloadList() {
 	var params = $("#searchForm").serialize();
 	$.ajax({
-		url : "categoryList",
+		url : "categoryManagementList",
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
@@ -245,30 +245,31 @@ function drawPaging(pd) {
 	var html = "";
 	
 	html +=
-	html += "<span class=\"parrow pprev\" page=\"1\">처음</span>";
+	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
 	// 이전
 	if($("#page").val() == "1"){
-		html += "<span class=\"arrow prev\" page=\"1\">이전</span>";
+		html += "<a class=\"arrow prev\" page=\"1\"></a>";
 	} else{
 		// 문자열을 숫자로 바꾸기위해 *1
-		html += "<span class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\">이전</span>";
+		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
 	}
 	
 	for(var i = pd.startP; i <= pd.endP; i++){
 		if($("#page").val() * 1 == i){ // 현재 페이지
-			html += "<span class=\"active\" page=\"" + i + "\">" + i + "</span>";
+			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
 		} else { // 다른 페이지
-			html += "<span page=\"" + i + "\">" + i + "</span>";
+			html += "<a page=\"" + i + "\">" + i + "</a>";
 		}
+		
 	}
 	
 	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
-		html += "<span class=\"arrow next\" page=\"" +pd.maxP+ "\">다음</span>";
+		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
 	} else {
-		html += "<span class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\">다음</span>";
+		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
 	}
 	
-	html += "<span class=\"arrow nnext\" page=\"" +pd.maxP+ "\">마지막</span>";
+	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
 	
 	$(".page_nation").html(html);
                                                                      
@@ -291,24 +292,27 @@ function drawPaging(pd) {
             </div> 
          </div>
         <div class="right_area">
+         <form action="#" id="searchForm">
+			<!-- 검색어 유지용 -->
+			<input type="hidden" id="oldGbn" value="0" />
+			<input type="hidden" id="oldText" />
+			<input type="hidden" name="page" id="page" value="1" />
+		</form>	
             <div class="table_wrap">
                 <div class="search_box">
-                  <div class="insert">추가</div>
+                  <div class="insert_btn">추가</div>
                   <div class="select">
-                      <select name="select_b" id="select_b">
-                        <option value="all">전체</option>
-                        <option value="title">분류명</option>
-                        <option value="content">하위분류명</option>
-                    </select>
-                   <!--조건선택-->
-                  </div>
-                  <div class="search_form">
-                    <input type="text" />
-                  </div>
-                  <div class="search_btn" >
-                    검색
-                  </div>
+					<select name="select_b" id="select_b">
+						 <option value="0">전체</option>
+						<option value="1">분류명</option>
+						<option value="2">하위분류명</option>
+					</select>
+					</div>
+					<div class="search_form">
+                  	<input type="text" name="searchText" id="searchText"/>
                 </div>
+				<div class="search_btn" id="searchBtn">검색</div>
+			</div>
                 <table>
                   <thead>
                     <tr>
@@ -324,9 +328,7 @@ function drawPaging(pd) {
                 </table>
                   <!--페이징-->
                   <div class="page_wrap">
-                      <div class="page_nation">
-                        
-                      </div>
+                      <div class="page_nation"></div>
                    </div>
               </div>
         </div>
