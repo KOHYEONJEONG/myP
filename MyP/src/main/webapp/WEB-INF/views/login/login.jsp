@@ -7,6 +7,7 @@
 <title>MyP</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common/popup.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
        <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
@@ -49,7 +50,11 @@ $(document).ready(function() {
 					if(res.msg == "success"){
 						location.href = "home"
 					}else{
-						makeAlert("알림", "아이디나 비밀번호가 틀립니다.")
+						makeAlert("알림", "아이디나 비밀번호가 틀립니다.",function(){
+							$("#id").val("");
+							$("#pw").val("");
+							$("#id").focus();
+						});
 					}
 					
 				},

@@ -87,7 +87,7 @@ public class ManagerController {
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
 
-		List<HashMap<String, String>> list = dao.getList("cob.getCateList", params);
+		List<HashMap<String, String>> list = dao.getList("cate.getCateList", params);
 
 		model.put("list", list);
 		model.put("pd", pd);
@@ -110,21 +110,21 @@ public class ManagerController {
 	}
 
 	// 관리자 페이지 데이터관리 목록화면
-	@RequestMapping(value = "/dataManagement")
+	@RequestMapping(value = "/admin/dataManagement")
 	public ModelAndView dataManagement(ModelAndView mav) {
 		mav.setViewName("manager/dataManagement");
 		return mav;
 	}
 
 	// 관리자 페이지 회원관리 목록화면
-	@RequestMapping(value = "/memManagement")
+	@RequestMapping(value = "/admin/memManagement")
 	public ModelAndView memManagement(ModelAndView mav) {
 		mav.setViewName("manager/memManagement");
 		return mav;
 	}
 
 	// 관리자 페이지 신고관리 목록화면
-	@RequestMapping(value = "/reportReviewManagement")
+	@RequestMapping(value = "/admin/reportReviewManagement")
 	public ModelAndView reportReviewManagement(ModelAndView mav) {
 		mav.setViewName("manager/reportReviewManagement");
 		return mav;
