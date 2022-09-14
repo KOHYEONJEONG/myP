@@ -10,14 +10,15 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/join.css">
+	href="${pageContext.request.contextPath}/resources/css/join.css?after">
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
 <!--추가-->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-<script 
-	src="${pageContext.request.contextPath}/resources/script/common/popup.js"></script>
+
+
 <script>
 window.onload = function(){
    
@@ -71,7 +72,7 @@ window.onload = function(){
 	   		   console.log("result : " + result);
 	   		   checkInput.attr('disabled', false);
 	   		   code = result;
-	   		   alert('인증번호가 전송되었습니다.');
+	   		   //alert('인증번호가 전송되었습니다.');
 	   	   }
 	   }); //end ajax
    }); //end send email
@@ -115,31 +116,33 @@ window.onload = function(){
    
    
    $("#joinBtn").on("click", function() {
-	   if($.trim($("id_input").val()) == "") {
-		   makeAlert("알림", "아이디를 입력하세요.", function() {
+	  
+	   if($.trim($("#id_input").val()) == "") {
+		   alert("아이디를 입력하세요.", function() {
 			   $("#id_input").focus();
 		   });
 	   } else if($.trim($("#pwd").val()) == "") {
-		   makeAlert("알림", "비밀번호를 입력하세요.", function() {
+		   alert("비밀번호를 입력하세요.", function() {
 			   $("#pwd").focus();
 		   });
 	   } else if($.trim($("#pw").val()) == "") {
-		   makeAlert("알림", "비밀번호 확인을 입력하세요.", function() {
+		   alert("비밀번호 확인을 입력하세요.", function() {
 			   $("#pw").focus();
 		   });
 	   } else if($.trim($("#nickname").val()) == "") {
-		   makeAlert("알림", "닉네임을 입력하세요.", function() {
+		   alert("닉네임을 입력하세요.", function() {
 			   $("#nickname").focus();
 		   });
-	   } else if($.trim($("#email").val()) == "") {
-		   makeAlert("알림", "이메일을 입력하세요.", function() {
-			   $("#email").focus();
+	   } else if($.trim($("#email1").val()) == "") {
+		   alert("이메일을 입력하세요.", function() {
+			   $("#email1").focus();
 		   });
 	   } else if($.trim($("#inj").val()) == "") {
-		   makeAlert("알림", "인증번호를 입력하세요.", function() {
+		   alert("인증번호를 입력하세요.", function() {
 			   $("#inj").focus();
 		   });
 	   } else {
+	   
 	   
 		var params = $("#joinform").serialize();
 		
@@ -150,6 +153,7 @@ window.onload = function(){
 		dataType : "json",
 		data: params,
 		success : function(res) {
+			alert("성공");
 			switch (res.msg) {
 			case "success" :
 				location.href="login";
@@ -165,10 +169,12 @@ window.onload = function(){
 		error : function(request, status, error) {
 			console.log(request.responseText);
 		}
-	});
-	   }
-});
-}       
+		});
+	} //ajax end
+	}); //join btn end
+}
+ 
+
 /*입력 이메일 형식 유효성 검사*/
  function mailFormCheck(email) {
 	 var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -183,32 +189,29 @@ window.onload = function(){
 		<h1 class="logo">
 			<a href="/test2/index.html"> </a>
 		</h1>
-		<form action="#" class="was-validated" name="form" id="joinform"
-			method="get">
+		<form action="#" class="was-validated" name="form" id="joinform" method="get">
 			<div class="title">회원가입</div>
 			<div class="id_input">
 
-				<input type="text" name="id" placeholder="아이디" id="id_input"
-					required><br>
+				<input type="text" name="id" placeholder="아이디" id="id_input" required><br>
 				<br>
 			</div>
 
-			<span class="id_input_re_1">멋진 아이디네요!</span> <span
-				class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span>
+			<span class="id_input_re_1">멋진 아이디네요!</span> 
+			<span class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span>
 
 			<div class="pwd_input">
-				<input type="password" name="pwd" placeholder="비밀번호" id="pwd"
-					required><br>
+				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required><br>
 				<br>
 			</div>
 			<div class="pw_input">
 				<input type="password" name="pw" id="pw" placeholder="비밀번호 재확인"><br>
 				<br> <span class="final_pw_ck"></span>
 			</div>
-			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span> <span
-				class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
+			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
 			<div class="nm_input">
-				<input type="text" name="nickname" placeholder="닉네임"><br>
+				<input type="text" name="nickname" id="nickname" placeholder="닉네임"><br>
 				<br>
 			</div>
 			<div class="df">
@@ -228,7 +231,7 @@ window.onload = function(){
 					</select>
 				</div>
 				<button class="join_btn" type="button" id="mail-Check-Btn">
-					인증번호<br />전송
+					인증번호<br/>전송
 				</button>
 				<br>
 				<br>
@@ -236,8 +239,7 @@ window.onload = function(){
 			<span class="mail_input_box_warn"></span>
 			<div class="df">
 				<div class="input_box3">
-					<input type="number" name="inj" id="inj" placeholder="인증번호"
-						maxlength="6">
+					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
 				</div>
 				<button class="join_btn" type="button">확인</button>
 				<br>
