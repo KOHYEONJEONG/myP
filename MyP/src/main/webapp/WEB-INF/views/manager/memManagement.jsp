@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyP</title>
 <link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/manager.css">
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script src="resources/js/main.js"></script>
@@ -17,6 +18,13 @@
 $(document).ready(function() {
 	
    reloadList();
+	
+	//검색구분 유지
+	if("${param.searchGbn}" != ""){
+		$("#searchGbn").val("${param.searchGbn}");
+	}else{
+		$("#oldGbn").val("0");//없으면 0으로 고정
+	}
 	   
 	// 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
@@ -121,6 +129,9 @@ function drawList(list) {
 </head>
 <body>
 	<c:import url="/header1"></c:import>
+	<input type="hidden" id="oldGbn" value="${param.searchGbn}"> <!-- 기존 검색 유지용 보관 (검색구분)-->
+	<input type="hidden" id="oldTxt" value="${param.searchTxt}"> <!-- 기존 검색 유지용 보관 (검색어)-->
+	
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
@@ -134,29 +145,31 @@ function drawList(list) {
 				</div>
 			</div>
 			<div class="right_area">
-				 <form action="#" id="searchForm">
-					<!-- 검색어 유지용 -->
-					<input type="hidden" id="oldGbn" value="0" />
-					<input type="hidden" id="oldText" />
-					<input type="hidden" name="page" id="page" value="1" />
-				</form>	
 				
 				<div class="table_wrap">
 					<div class="search_box">
-						<div class="select">
-							<select name="select_b" id="select_b">
-								<option value="0">전체</option>
-								<option value="1">아이디</option>
-								<option value="2">작성자</option>
-								<option value="3">이메일</option>
-								<option value="4">권한</option>
-							</select>
-							<!--조건선택-->
-						</div>
-						<div class="search_form">
-							<input type="text" name="searchText" id="searchText"/>
-						</div>
-						<div class="search_btn" id="searchBtn">검색</div>
+						 <form action="#" id="searchForm">
+							<!-- 검색어 유지용 -->
+							<input type="hidden" id="oldGbn" value="0" />
+							<input type="hidden" id="oldText" />
+							<input type="hidden" name="page" id="page" value="1" />
+							
+							<div class="select">
+								<select name="searchGbn" id="searchGbn">
+									<option value="0">전체</option>
+									<option value="1">아이디</option>
+									<option value="2">작성자</option>
+									<option value="3">이메일</option>
+									<option value="4">권한</option>
+								</select>
+								<!--조건선택-->
+							</div>
+							
+							<div class="search_form">
+								<input type="text" name="searchText" id="searchText"/>
+							</div>
+							<div class="search_btn" id="searchBtn">검색</div>
+						</form>	
 					</div>
 					<table>
 						<colgroup>

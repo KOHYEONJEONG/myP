@@ -18,7 +18,7 @@
 						AND EMAIL LIKE '%' || #{searchText} || '%'
 					</when>
 					<when test="searchGbn eq 4">
-						AND AT.autority_num = #{searchText}
+						AND AT.AUTORITY_NM = #{searchText}
 					</when>
 		        </choose>
 		       </if>
@@ -42,7 +42,7 @@
 					AND EMAIL LIKE '%' || #{searchText} || '%'
 				</when>
 				<when test="searchGbn eq 4">
-					AND AT.autority_num = #{searchText}
+					AND AT.AUTORITY_NM = #{searchText}
 				</when>
 	        </choose>
 	       </if>

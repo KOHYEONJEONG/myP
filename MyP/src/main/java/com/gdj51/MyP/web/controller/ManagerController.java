@@ -32,15 +32,8 @@ public class ManagerController {
 
 	// 관리자 페이지 카테고리 목록화면
 	@RequestMapping(value = "/categoryManagement")
-	public ModelAndView categoryManagement(@RequestParam HashMap<String, String> params, ModelAndView mav) {
-		
-		int page = 1;
-		if (params.get("page") != null && params.get("page") != "") {
-			page = Integer.parseInt(params.get("page"));
-		}
-		mav.addObject("page", page);
+	public ModelAndView categoryManagement(ModelAndView mav) {
 		mav.setViewName("manager/categoryManagement");
-		
 		return mav;
 	}
 
@@ -124,7 +117,16 @@ public class ManagerController {
 
 	// 관리자 페이지 회원관리 목록화면
 	@RequestMapping(value = "/memManagement")
-	public ModelAndView memManagement(ModelAndView mav) {
+	public ModelAndView memManagement(@RequestParam HashMap<String, String> params,ModelAndView mav) {
+		
+		int page = 1;//첫페이지로 나타내려고
+		
+		if(params.get("page")!= null && params.get("page") != "") {
+			page = Integer.parseInt(params.get("page"));
+		}
+		//페이지 번호
+		mav.addObject("page", page);
+		
 		mav.setViewName("manager/memManagement");
 		return mav;
 	}
