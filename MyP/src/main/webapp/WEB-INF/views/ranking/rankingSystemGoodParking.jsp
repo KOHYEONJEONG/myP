@@ -30,7 +30,7 @@
 		}) */
 		
 	// 페이징 클릭시
-	/* $(".page_nation").on("click", "span", function () {
+	 $(".page_nation").on("click", "span", function () {
 		$("#page").val($(this).attr("page"));
 		//기존 값 유지
 		$("#searchGbn").val($("#oldGbn").val());
@@ -38,7 +38,7 @@
 		
 		reloadList();
 	})	
-		
+	/*	
 	// 검색 클릭시
 	$("#searchBtn").on("click", function () {
 		$("#page").val("1");
@@ -257,6 +257,19 @@ function drawPaging(pd) {
                                                                      
 }
 
+
+$(function() {
+    $('.starstar').raty({
+//                score: 3,
+        path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images",
+        half : true,
+        hints :  [['bad 1/2', 'bad'], ['poor 1/2', 'poor'], ['regular 1/2', 'regular'], ['good 1/2', 'good'], ['gorgeous 1/2', 'gorgeous']]
+        ,width : 200
+        ,click: function(score, evt) {//선택한 별점수가
+        }
+    });
+});
+
 </script>    
 </head>
 <body>
@@ -395,7 +408,7 @@ function drawPaging(pd) {
               </table>
                 <div class="page_wrap">
                     <div class="page_nation">
-                       <a class="arrow pprev" href="#"></a>
+                       <!-- <a class="arrow pprev" href="#"></a>
                        <a class="arrow prev" href="#"></a>
                        <a href="#" class="active">1</a>
                        <a href="#">2</a>
@@ -408,7 +421,7 @@ function drawPaging(pd) {
                        <a href="#">9</a>
                        <a href="#">10</a>
                        <a class="arrow next" href="#"></a>
-                       <a class="arrow nnext" href="#"></a>
+                       <a class="arrow nnext" href="#"></a> -->
                     </div>
                  </div>
             </div> 
