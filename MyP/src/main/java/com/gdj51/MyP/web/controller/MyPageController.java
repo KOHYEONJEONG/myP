@@ -13,22 +13,4 @@ public class MyPageController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/dataManagement")
-	public ModelAndView dataManagement(ModelAndView mav) {
-		mav.setViewName("manager/dataManagement");
-		return mav;
-	}
-
-	@RequestMapping(value = "/memManagement")
-	public ModelAndView memManagement(ModelAndView mav) {
-		mav.setViewName("manager/memManagement");
-		return mav;
-	}
-
-	@RequestMapping(value = "/reportReviewManagement")
-	public ModelAndView reportReviewManagement(ModelAndView mav) {
-		mav.setViewName("manager/reportReviewManagement");
-		return mav;
-	}
-
 }
