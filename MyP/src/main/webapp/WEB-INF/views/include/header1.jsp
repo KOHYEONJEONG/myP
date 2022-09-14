@@ -27,7 +27,7 @@
                           <li><span class="curr_bar"></span><a href="">주차장안내</a>
                             <ul class="sub_menu l20">
                               <li id="parkinfo"><a>공영주차장 조회</a></li>
-                          </ul>
+                          	</ul>
                           </li>
                           <li><a href="">참여/알림</a>
                               <ul class="sub_menu l40">
