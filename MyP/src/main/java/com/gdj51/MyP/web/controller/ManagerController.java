@@ -39,7 +39,7 @@ public class ManagerController {
 
 	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryManagementAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+	public String categoryManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
 			throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -74,7 +74,7 @@ public class ManagerController {
 
 	@RequestMapping(value = "/categoryManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryManagementList(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String categoryManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
