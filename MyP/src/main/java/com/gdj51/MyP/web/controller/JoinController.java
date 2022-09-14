@@ -43,6 +43,7 @@ public class JoinController {
 		
 		logger.info("checkIdAjax() 진입");
 		
+		//아이디 중복체크
 		int result = dao.memberCheck("join.idCheck",params);
 		
 		logger.info("결과값 : " + result);

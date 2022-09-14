@@ -1,11 +1,15 @@
 package com.gdj51.MyP.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ManagerController {
+
+	private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	// 관리자 페이지 카테고리 목록화면
 	@RequestMapping(value = "/category")
