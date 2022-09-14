@@ -58,7 +58,7 @@ public class AOPComponent {
 	// 주의사항 : 범위를 잘 잡아야한다.
 	// &&와 ||을 섞어 쓰는 거 비추
 	// 차리리 pointcut을 여러개 만들어서 사용해라~
-	// Ajax의 경우 String을 반환하기 때문에 ModelAndView로 구현이 안됨으로 따로 처리해야함.
+	// Ajax의 경우 String을 반환하기 때문에 ModelAndView로 구현이 안됨으로 따로 처리해야함.(*Ajax(..) 아니면 메소드 뒤에 구별문구를 두어서 !execution 해주면 된다.)
 	// 자바클래스와 메소드만 포인트컷 안에 작석할 수 있다. 어노테이션을 넣을 수 없다.
 	@Pointcut("execution(* com.gdj51.MyP..controller.ManagerController.*(..))"
 			+ "&& !execution(* com.gdj51.MyP..controller.ManagerController.*Ajax(..))") // ATConroller안에 있는 모든 메소드
