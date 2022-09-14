@@ -30,7 +30,7 @@
                     <div class="ranking_box">
                       <div class="icon gold"></div>
                       <div class="photo">
-                          <img src="./img/1.png" alt="" width="100%">
+                          <img src="resources/img/1.png" alt="" width="100%">
                       </div>
                       <div class="info">
                         <span class="parking_name">논현 공영주차장</span>
@@ -40,7 +40,7 @@
                     <div class="ranking_box">
                         <div class="icon sliver"></div>
                         <div class="photo">
-                            <img src="./img/1.png" alt="" width="100%">
+                            <img src="resources/img/1.png" alt="" width="100%">
                         </div>
                         <div class="info">
                           <span class="parking_name">논현 공영주차장</span>
@@ -50,7 +50,7 @@
                     <div class="ranking_box">
                         <div class="icon bronze"></div>
                         <div class="photo">
-                            <img src="./img/1.png" alt="" width="100%">
+                            <img src="resources/img/1.png" alt="" width="100%">
                         </div>
                         <div class="info">
                           <span class="parking_name">논현 공영주차장</span>
