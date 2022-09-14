@@ -3,7 +3,7 @@
 <mapper namespace="login">
 	
 	<select id="checkMem" parameterType="hashmap" resultType="hashmap">
-		SELECT MEM_NUM, NM
+		SELECT MEM_NUM, NM, AUTORITY_NUM
 		FROM MEMBER
 		WHERE ID = #{id}
 		AND PW = #{pw}

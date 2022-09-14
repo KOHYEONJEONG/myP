@@ -15,7 +15,6 @@ import com.gdj51.MyP.web.dao.IACDao;
 public class ManagerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
-	
 
 	@Autowired
 	public IACDao dao;

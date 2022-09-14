@@ -54,17 +54,18 @@
 							</div>
 							
 							<div class="login_box">
-							
-								<c:if test="${sMemAuto eq 1}">
-									<%-- 관리자 권한 --%>
-									<div class="managerPage" id="managerPage">관리자 페이지</div>
-									<div class="logout" id="logoutBtn">로그아웃</div>
-								</c:if>
-															
-								<div class="mypage" id="myPage">마이페이지</div>
-								<div class="logout" id="logoutBtn">로그아웃</div>
+								<c:choose>
+									<c:when test="${sMemAuto eq 1}">
+										<%-- 관리자 권한 --%>
+										<div class="managerPage" id="managerPage">관리자 페이지</div>
+										<div class="logout" id="logoutBtn">로그아웃</div>
+									</c:when>
+									<c:otherwise>
+										<div class="mypage" id="myPage">마이페이지</div>
+										<div class="logout" id="logoutBtn">로그아웃</div>
+									</c:otherwise>
+								</c:choose>
 							</div>
-							
 						</c:otherwise>
 					</c:choose>
 				</div>

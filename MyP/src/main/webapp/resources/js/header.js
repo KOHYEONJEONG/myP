@@ -89,7 +89,7 @@ $(document).ready(function () {
 	
 	//관리자 페이지
 	$("#managerPage").click(function(){
-		location.href = "category"; //수정해야함.
+		location.href = "memManagement"; //수정해야함.
 	});
 });
     
