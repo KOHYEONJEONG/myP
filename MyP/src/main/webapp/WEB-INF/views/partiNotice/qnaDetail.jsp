@@ -123,17 +123,17 @@
                     <div class="notice">
                         <div class="notice_left">
                             <span class="i"></span>
-                            <span>이용관련 문의드려요</span>
+                            <span>${data.TITLE}</span>
                         </div>
                         <div class="notice_right">
-                            <div>작성일 : 2022-06-27</div>
-                            <div>조회수:50</div>
+                            <div>작성일 : ${data.DT}</div>
+                            <div>조회수:${data.HIT}</div>
                         </div>
                     </div>
                     <hr>
                     <div class="content">
-                        공영 주차장 문의드려요~
-                        용산 공영주차장 설날에 무료인가요?
+                        ${data.CON}
+                         ${data.ADT}
                     </div>
                  <hr>
                  <div class="answer">
