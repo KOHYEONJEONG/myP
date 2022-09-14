@@ -66,6 +66,7 @@ public class LoginController {
 		if(data != null) {
 			session.setAttribute("sMemNo", data.get("MEM_NUM"));
 			session.setAttribute("sMemNm", data.get("NM"));
+			session.setAttribute("sMemAuto", data.get("AUTORITY_NUM"));//권한
 			
 			model.put("msg","success");
 			
