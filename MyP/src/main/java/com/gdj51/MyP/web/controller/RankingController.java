@@ -15,15 +15,22 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdj51.MyP.web.dao.IACDao;
 import com.gdj51.MyP.web.service.IJoinService;
+import com.gdj51.MyP.common.service.IPagingService;
 
 @Controller
 public class RankingController {
 	
 	@Autowired
-	public IJoinService mailService;
+	public IACDao dao;
 	
 	@Autowired
-	public IACDao dao;
+	public IPagingService ips;
+	
+	@RequestMapping(value = "/rankingSystemGoodParking")
+	public ModelAndView rankingSystemGoodParking(ModelAndView mav) {
+		mav.setViewName("ranking/rankingSystemGoodParking");
+		return mav;
+	}
 
 	@RequestMapping(value = "/rankingFeeReasonableBoard")
 	public ModelAndView rankingFeeReasonableBoard(ModelAndView mav) {
@@ -31,19 +38,29 @@ public class RankingController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/rankingSystemGoodParking",
+	@RequestMapping(value = "/rankingSystemGoodParkingList",
 			method = RequestMethod.POST, 
 			produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String rankingFeeReasonableBoard(
+	public String rankingSystemGoodParkingList(
 			@RequestParam HashMap<String, String> params) throws Throwable {
+		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		
-		List<HashMap<String, String>> list = dao.getList("rank.getCaList", params);
+		int cnt = dao.getIntData("rank.getRankCnt", params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
+				cnt, 10, 5);
+
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+		
+		List<HashMap<String, String>> list = dao.getList("rank.getSysRankList", params);
 		
 		model.put("list", list);
+		model.put("pd", pd);
 		
 		return mapper.writeValueAsString(model);
 	}
