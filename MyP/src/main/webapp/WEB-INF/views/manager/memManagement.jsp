@@ -24,6 +24,7 @@
                 <div>챗봇관리</div>
                 <div>데이터관리</div>
                 <div>신고리뷰관리</div>
+                <div>카테고리관리</div>
             </div> 
          </div>
         <div class="right_area">
@@ -31,10 +32,11 @@
                 <div class="search_box">
                   <div class="select">
                       <select name="select_b" id="select_b">
-                        <option value="all">전체</option>
-                        <option value="id">아이디</option>
-                        <option value="nickname">작성자</option>
-                        <option value="email">이메일</option>
+                        <option value="0">전체</option>
+                        <option value="1">아이디</option>
+                        <option value="2">작성자</option>
+                        <option value="3">이메일</option>
+                        <option value="4">권한</option>
                     </select>
                    <!--조건선택-->
                   </div>
@@ -52,112 +54,31 @@
                       <th>아이디</th>
                       <th>닉네임</th>
                       <th>이메일</th>
-                      <th>신고</th>
                       <th>경고</th>
+                      <th>권한</th>
                     </tr>
                   </thead>
+                 
                   <tbody>
+                    <!-- 
                     <tr>
                       <td>10</td>
                       <td>coco</td>
                       <td>코코넛사탕</td>
                       <td>coco@email.com</td>
-                      <td>12</td>
                       <td>3</td>
+                      <td>관리자</td>
                     </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td> </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                     -->
+                 
                   </tbody>
                 </table>
+                
                   <!--페이징-->
                   <div class="page_wrap">
-                      <div class="page_nation">
-                         <a class="arrow pprev" href="#"></a>
-                         <a class="arrow prev" href="#"></a>
-                         <a href="#" class="active">1</a>
-                         <a href="#">2</a>
-                         <a href="#">3</a>
-                         <a href="#">4</a>
-                         <a href="#">5</a>
-                         <a href="#">6</a>
-                         <a href="#">7</a>
-                         <a href="#">8</a>
-                         <a href="#">9</a>
-                         <a href="#">10</a>
-                         <a class="arrow next" href="#"></a>
-                         <a class="arrow nnext" href="#"></a>
-                      </div>
-                   </div>
+                      <div class="page_nation"></div>
+                  </div>
+                   
               </div>
         </div>
     </div>
