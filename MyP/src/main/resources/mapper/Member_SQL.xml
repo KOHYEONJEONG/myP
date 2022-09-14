@@ -23,7 +23,7 @@
 		        </choose>
 		       </if>
 	      ) M
-	WHERE M.RNK BETWEEN #{start} AND #{end};
+	WHERE M.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="getMemberCnt" parameterType="hashmap" resultType="Integer">

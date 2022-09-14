@@ -32,8 +32,15 @@ public class ManagerController {
 
 	// 관리자 페이지 카테고리 목록화면
 	@RequestMapping(value = "/categoryManagement")
-	public ModelAndView categoryManagement(ModelAndView mav) {
+	public ModelAndView categoryManagement(@RequestParam HashMap<String, String> params, ModelAndView mav) {
+		
+		int page = 1;
+		if (params.get("page") != null && params.get("page") != "") {
+			page = Integer.parseInt(params.get("page"));
+		}
+		mav.addObject("page", page);
 		mav.setViewName("manager/categoryManagement");
+		
 		return mav;
 	}
 
@@ -121,6 +128,32 @@ public class ManagerController {
 		mav.setViewName("manager/memManagement");
 		return mav;
 	}
+	
+	//Ajax를 붙여야지 AOP에서 관리 안함.
+	@RequestMapping(value = "/memManagementListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String memManagementListAjax(@RequestParam HashMap<String,String> params) throws Throwable{
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		System.out.println("params : "+params.toString());
+		
+		// 페이지 받아오게 되어있음
+		int cnt = dao.getIntData("member.getMemberCnt", params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 5, 5);
+
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+
+		List<HashMap<String, String>> list = dao.getList("member.getMemberList", params);
+
+		model.put("list", list);
+		model.put("pd", pd);
+		
+		return mapper.writeValueAsString(model);
+	}
+	
 
 	// 관리자 페이지 신고관리 목록화면
 	@RequestMapping(value = "/reportReviewManagement")
