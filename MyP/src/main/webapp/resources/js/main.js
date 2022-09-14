@@ -149,6 +149,8 @@ $(document).ready(function () {
             // * 10 추가함
             width: w * 4
         });
+        
+ 
 */
     }, function () {
         $('.sub_menu').hide()
@@ -157,6 +159,31 @@ $(document).ready(function () {
         });
         $('.curr_bar').removeClass('on')
     })
+    
+	//header1
+    //클릭시 페이지 이동
+    $("#logo").click(function() {
+		location.href = "home";
+	})
+    
+    $("#parkinfo").click(function() {
+		location.href = "parkinfo";
+	})
+	
+	$("#notice").click(function() {
+		location.href = "notice";
+	})
+	
+	$("#faq").click(function() {
+		location.href = "faq";
+	})
+	
+	$("#qna").click(function() {
+		location.href = "qna";
+	})
+    
+    
+    
    
 
 

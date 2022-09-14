@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,23 +19,21 @@
             </div>
           </div>
           <div class="bottom_area">
-              <h1 class="logo">
-                <a href="/"></a>              
-			  </h1>
+              <h1 class="logo" id="logo"></h1>
               <div class="menu_area">
                   <nav class="menu_container">
                       <span class="header_bg"></span>
                       <ul class="main_menu">
                           <li><span class="curr_bar"></span><a href="">주차장안내</a>
                             <ul class="sub_menu l20">
-                              <li><a href="/menu1-1.html">공영주차장 조회</a></li>
+                              <li id="parkinfo"><a>공영주차장 조회</a></li>
                           </ul>
                           </li>
                           <li><a href="">참여/알림</a>
                               <ul class="sub_menu l40">
-                                  <li><a href="/menu2-1.html">공지사항</a></li>
-                                  <li><a href="/menu2-2.html">FAQ</a></li>
-                                  <li><a href="/menu2-3.html">QNA</a></li>
+                                  <li id="notice"><a>공지사항</a></li>
+                                  <li id="faq"><a>FAQ</a></li>
+                                  <li id="qna"><a>QNA</a></li>
                               </ul>
                           </li>
                           <li><a href="">랭킹</a>
@@ -45,14 +44,22 @@
                           </li>
                       </ul>
                   </nav>
-                <div class="login_comment on">홍길동님 환영합니다</div>
-                <div class="login_i1">
+            <c:choose>
+              <c:when test="${empty sMemNm}">
+            <div class="login_comment"></div>
+             <div class="login_i" id="loginBtn"></div>
+            </c:when>
+            <c:otherwise>
+             <div class="login_comment on">${sMemNm}님 환영합니다</div>
+              <div class="login_i1">
                   <div class="img1"></div>
                 </div>
                 <div class="login_box">
-                  <div class="mypage"><a href="/my_page.html">마이페이지</a></div>
-                  <div class="logout">로그아웃</div>
+                  <div class="mypage" id="myPage">마이페이지</div>
+                  <div class="logout" id="logoutBtn">로그아웃</div>
                 </div>
+            </c:otherwise>
+              </c:choose>
               </div>
           </div>
         </div> 
