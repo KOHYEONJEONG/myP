@@ -37,6 +37,7 @@ public interface IACDao {
 	public int delete(String sql,HashMap<String,String> params) throws Throwable;
 	
 	
-	//관리자, 아이디 체크
+	//관리자, 아이디 중복 체크
+	//<!-- "adminCk"가 0인 경우는 일반계정, 1인 경우는 관리자 계정으로 구분하기 위해서 -->
 	public int memberCheck(String string, HashMap<String, String> params) throws Throwable;
 }

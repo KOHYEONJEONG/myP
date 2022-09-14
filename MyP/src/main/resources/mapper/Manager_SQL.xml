@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manager">
+
+	<!-- 관리자 권한 수정(설정, 근데 나중에 권한을 회수하는 것도 생각해야한다.)-->
+	<update id="managerAuto" parameterType="hashmap">
+		UPDATE MEMBER SET AUTORITY_NUM = 1
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 관리자 권한 조회-->
+	<select id="managerCk" parameterType="hashmap" resultType="Integer">
+	</select>
+
+</mapper>

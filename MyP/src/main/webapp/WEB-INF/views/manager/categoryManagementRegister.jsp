@@ -6,13 +6,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>qna 글쓰기 페이지</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/font.css">
-    <script src="./jquery/jquery-1.12.4.js"></script>
-     <script src="./js/main.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <title>MyP</title>
+    <link rel="stylesheet" href="resources/css/main.css">
+    <link rel="stylesheet" href="resources/css/font.css">
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
+      <script type="text/javascript" src="resources/script/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		// 에디터 연결
+		// CKEDITOR.replace(아이디, 옵션)
+		CKEDITOR.replace("discript", {
+			resize_enabled: false, // resize_enabled : 크기조절기능 활용여부
+			language : "ko", // 사용언어
+			enterMode: "2", // 엔터키처리방법. 2번이면 <br/>
+			width : "100%", // 숫자일경우 px, 문자열일경우 css크기
+			height : 400
+		});
+		
+	});
+	</script>
 </head>
 <body>
   <header>
@@ -83,15 +96,11 @@
                     <hr />
                     <input type="text" class="input_box" placeholder="분류명을 입력하세요">
                     <hr />
-                    <div class="summer" style="margin-bottom: 5px;">
+                    <div class="discript" style="margin-bottom: 5px;">
                         <!--textarea에 id값을 contents로 바꿔줌-->
-                         <textarea class="form-control" rows="5" id="contents" name="contents"></textarea>
+                         <textarea class="form-control" rows="5" id="discript" name="discript"></textarea>
                     </div>
-                    <hr >
-                    <div class="checkbox_box">
-                        <span>비공개</span>
-                        <input type="checkbox" />
-                    </div>
+
                     <hr >
                     <div class="btn_wrap">
                         <input type="button" value="목록" class="btn list">

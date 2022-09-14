@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>MyP</title>
 <script src="resources/jquery/jquery-1.12.4.js"></script>
-<script src="resources/js/main.js"></script>
+<script src="resources/js/header.js"></script>
 </head>
 <body>
+<!-- 메인페이지 제외하고 다 사용. 너비가 header.jsp보다 좁음. -->
  <header>
         <div class="header_wrap">
           <div class="top_area">
@@ -54,10 +55,19 @@
               <div class="login_i1">
                   <div class="img1"></div>
                 </div>
-                <div class="login_box">
-                  <div class="mypage" id="myPage">마이페이지</div>
-                  <div class="logout" id="logoutBtn">로그아웃</div>
-                </div>
+            	<div class="login_box">
+				<c:choose>
+					<c:when test="${sMemAuto eq 1}">
+						<%-- 관리자 권한 --%>
+						<div class="managerPage" id="managerPage">관리자 페이지</div>
+						<div class="logout" id="logoutBtn">로그아웃</div>
+					</c:when>
+					<c:otherwise>
+						<div class="mypage" id="myPage">마이페이지</div>
+						<div class="logout" id="logoutBtn">로그아웃</div>
+					</c:otherwise>
+				</c:choose>
+			</div>
             </c:otherwise>
               </c:choose>
               </div>

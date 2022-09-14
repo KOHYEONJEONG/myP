@@ -7,9 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ChatbotController {
 
-	@RequestMapping(value = "/chatbot")
-	public ModelAndView chatbot(ModelAndView mav) {
-		mav.setViewName("chatbot/chatbot");
+	@RequestMapping(value = "/chatbotManagement")
+	public ModelAndView chatbotManagement(ModelAndView mav) {
+		mav.setViewName("chatbot/chatbotManagement");
 		return mav;
 	}
 

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="join">
+
+	
 	<select id="idCheck" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*) FROM MEMBER WHERE ID = #{id}	
 	</select>
@@ -8,6 +10,11 @@
 	<insert id="joinInsert" parameterType="hashmap">
 	INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, REG_DT)
 	VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, SYSDATE)
+	</insert>
+	
+	<insert id="autInsert" parameterType="hashmap">
+	INSERT INTO AUTHENTICATION_NUM(SEND_NUM, EMAIL, AUTH_NUM, REG_DT)
+	VALUES(#{inj}, #{email}, #{inj}, SYSDATE)
 	</insert>
 	
 </mapper>
