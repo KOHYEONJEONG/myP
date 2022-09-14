@@ -1,7 +1,5 @@
 package com.gdj51.MyP.web.interceptor;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,21 +14,27 @@ public class ManagerInterceptor  implements HandlerInterceptor{
 	@Autowired
 	public IACDao dao;
 	
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
 		HttpSession session = request.getSession();
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("sMemAuto",(String)session.getAttribute("sMemAuto"));
+		String cPath=request.getContextPath();
+		String auto ="";
 		
-		try {
-			if(params == null || dao.memberCheck("manager.managerCk", params) == 0) {//관리자 계정이 아닌경우
-				
-			}
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(session.getAttribute("sMemAuto")!=null) {
+			auto = session.getAttribute("sMemAuto").toString();
+		}else {
+			auto = null;
+		}
+		
+		System.out.println("(*)auto : "+auto );
+		
+		if(!auto.equals("1") || auto == null || auto.length() == 0) {
+			System.out.println("관리자가 아닌 사람이 관리자 url에 접근했다!!!");
+			response.sendRedirect(cPath+"/home");//contextpath를 작성해서 '절대 경로'로 이동
+			return false;
 		}
 		
 		return true;
