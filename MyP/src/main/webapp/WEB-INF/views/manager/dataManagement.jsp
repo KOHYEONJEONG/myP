@@ -12,6 +12,38 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
+    
+<script type="text/javascript">
+$(document).ready(function() {
+	//검색 구분 설정
+	if("${param.searchGbn}" != "") {
+		$("#searchGbn").val("${param.searchGbn}");
+	} else {
+		$("#oldGbn").val("0");
+	}
+	
+	//카테고리 설정
+	if("${param.cateNo}" != "") {
+		$("#cateNo").val("${param.cateNo}")
+	}
+	
+	//카테고리 변경 시
+	$("#cateNo").on("change", function() {
+		$("#page").val("1");
+		$("#searchGbn").val("0");
+		$("#searchTxt").val("");
+		$("#oldGbn").val("0");
+		$("#oldTxt").val("");
+		
+		reloadList();
+	})
+	
+	reloadList();
+	
+	//검색 버튼
+	$("searchBtn").on("click", 려ㅜㅊ샤ㅐㅜ())
+})
+</script>
 </head>
 <body>
  <c:import url="/header1"></c:import>
