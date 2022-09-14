@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cate">
 	<insert id="insertCate" parameterType="hashmap">
-		INSERT INTO CATE(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
+		INSERT INTO CATEGORY(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
 	</insert>
 	<update id="updateCate" parameterType="hashmap">
 	 	UPDATE CATEGORY SET CATE_NM = #{cateNm}

@@ -33,22 +33,22 @@
 	<script type="text/javascript">
  	 $(document).ready(function () {
 
-	reloadList();
+		reloadList();
 	
 	
-/* 	$("#insertBtn").on("click", function () {
-	 		if($.trim($("#cateNm").val()) == ""){
+	/* $("#insertBtn").on("click", function () {
+	 		if($.trim($("#cateNum").val()) == ""){
 				makeAlert("알림","카테고리를 입력하세요." , function () {
-					$("#cateNm").focus();
+					$("#cateNum").focus();
 				});
 	 		}	else {
 	 				action("insert");
 			}
 	
-		}) */
+		})  */
 		
 	// 페이징 클릭시
-	/* $(".page_nation").on("click", "span", function () {
+	 $(".page_nation").on("click", "a", function () {
 		$("#page").val($(this).attr("page"));
 		//기존 값 유지
 		$("#searchGbn").val($("#oldGbn").val());
@@ -58,15 +58,15 @@
 	})	
 		
 	// 검색 클릭시
-	$("#searchBtn").on("click", function () {
+	/* $("#searchBtn").on("click", function () {
 		$("#page").val("1");
 		//기존 값 새값으로 변경
 		$("#oldGbn").val($("#searchGbn").val());
 		$("#oldText").val($("#searchText").val());
 		
 		reloadList();
-	})
-	 */
+	}) */
+	 
 	// 목록의 삭제버튼 클릭시
 	/* $("tbody").on("click", ".delete_btn", function () {
 		var no = $(this).parent().parent().attr("no");
@@ -322,9 +322,7 @@ function drawPaging(pd) {
                       <th>삭제/수정</th>
                     </tr>
                   </thead>
-                  <tbody>
-                  
-                  </tbody>
+                  <tbody></tbody>
                 </table>
                   <!--페이징-->
                   <div class="page_wrap">

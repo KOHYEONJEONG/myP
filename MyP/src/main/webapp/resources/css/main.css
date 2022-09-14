@@ -1039,7 +1039,7 @@ main {
   border-collapse: collapse;
   overflow: hidden;
   margin: 0 auto;
-  height: 500px;
+  /* height: 500px; */
 }
 .table_wrap table thead {
   font-weight: bold;
@@ -1126,6 +1126,7 @@ main {
   font-size: 13px;
   color: #000;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .page_nation .arrow {
