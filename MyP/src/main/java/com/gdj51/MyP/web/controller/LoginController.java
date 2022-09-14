@@ -78,13 +78,7 @@ public class LoginController {
 		
 		return mapper.writeValueAsString(model);
 	}
-	
-	// join
-	@RequestMapping(value = "/join")
-	public ModelAndView join(ModelAndView mav) {
-		mav.setViewName("join/join");
-		return mav;
-	}
+
 	@RequestMapping(value= "/logout")
 	public ModelAndView logout(
 			HttpSession session,

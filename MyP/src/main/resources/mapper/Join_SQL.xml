@@ -12,4 +12,9 @@
 	VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, SYSDATE)
 	</insert>
 	
+	<insert id="autInsert" parameterType="hashmap">
+	INSERT INTO AUTHENTICATION_NUM(SEND_NUM, EMAIL, AUTH_NUM, REG_DT)
+	VALUES(#{inj}, #{email}, #{inj}, SYSDATE)
+	</insert>
+	
 </mapper>

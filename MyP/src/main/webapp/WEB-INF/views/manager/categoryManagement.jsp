@@ -225,12 +225,13 @@ function drawList(list) {
 	var html = "";
 	
 	for(var data of list){
-		html +="<tr no=\"" + data.CATE_NO  + "\">";
-		html +="<td>" + data.CATE_NO + "</td>";
+		html +="<tr no=\"" + data.CATE_NUM  + "\">";
+		html +="<td>" + data.CATE_NUM + "</td>";
+		html +="<td>" + data.DIV_NM + "</td>";
 		html +="<td>" + data.CATE_NM + "</td>";
 		html +="<td>";
-			html +="<div class=\"cmn_btn_ml mtb update_btn\">수정</div><br/>";
-			html +="<div class=\"cmn_btn_ml mtb delete_btn\">삭제</div>";
+			html +="<div class=\"delete_btn\">수정</div><br/>";
+			html +="<div class=\"delete_btn\">삭제</div>";
 		html +="</td>";
 		html +="</tr>";
 	}
@@ -292,7 +293,7 @@ function drawPaging(pd) {
         <div class="right_area">
             <div class="table_wrap">
                 <div class="search_box">
-                    <div class="insert">추가</div>
+                  <div class="insert">추가</div>
                   <div class="select">
                       <select name="select_b" id="select_b">
                         <option value="all">전체</option>
@@ -318,69 +319,7 @@ function drawPaging(pd) {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Qna</td>
-                      <td>환경설정</td>
-                      <td> 
-                      <div class="delete_btn">삭제</div>
-                      <div class="delete_btn">수정</div>                    
-                    </td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                  
                   </tbody>
                 </table>
                   <!--페이징-->
