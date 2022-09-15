@@ -1,1 +1,120 @@
 @charset "UTF-8";
+
+#res{
+	display: inline-block;
+	width: 100%;
+	height: 35px;
+	line-height: 100%;
+    margin-bottom: 20px;
+}
+
+.table_wrap .search_box1 .autority_btn{
+  width: 70px;
+  height: 35px;
+  border: 1px solid #FD9A29;
+  background: #FD9A29;
+  color :#fff;
+  font-size: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  line-height: 33px;
+  cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.table_wrap .search_box1{
+	margin-bottom: 0px;
+}
+.autority_popup{
+	display: none;
+}
+
+.autority_popup {
+  width: 350px;
+  height: 380px;
+  position: absolute;
+  background-color: #C4E2F2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding: 40px 20px 0 20px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  display: none;
+  border-radius: 15px;
+  font-family: "TmoneyRoundWindRegular";  
+}
+.popup{
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+    height: 250px;
+    border: 1px solid #00af80;
+    margin: 10px auto;
+}
+
+.autority_popup .txt_title{
+	font-weight: 600;
+	font-size: 15px;
+	padding: 7px;
+}
+
+.autority_popup textarea{
+	width: 170px;
+	height: 210px;
+	resize: none;
+	overflow: auto;
+}
+
+.autority_popup .close_i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.autority_popup .close_i img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.autority_popup .popup_left{
+	height: 250px;
+}
+
+.autority_popup .popup_right{
+	margin-right: 0px;
+	height: 250px;
+	width: 100%;
+}
+
+.autority_popup .popup_right .autoritySelectBox {
+  position: relative;
+  width: 150px;
+  height: 35px;
+  border-radius: 4px;
+  border: 2px solid lightcoral;
+}
+
+.autority_popup .autoritySelectBox option {
+  background: lightcoral;
+  color: #fff;
+  padding: 3px 0;
+  font-size: 16px;
+}
+
+
+.autority_popup .empower_btn{
+     width: 70px;
+    height: 35px;
+    border: 1px solid #FD9A29;
+    background: #FD9A29;
+    color: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 35px;
+}
