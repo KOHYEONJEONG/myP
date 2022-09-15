@@ -12,13 +12,12 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <link rel="stylesheet" href="resources/rety/jquery.raty.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
+    <script src="resources/js/header.js"></script>
     <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
 <script type="text/javascript">
  	 $(document).ready(function () {
 
 	reloadList();
-	
 		
 	// 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
@@ -50,6 +49,34 @@ function reloadList() {
 }
 
 function drawList(list) {
+	
+	var html1 = "";
+	
+	
+	for(var data of list){
+		if(data.RNK < 4){                                                    
+            html1 +="	<div class=\"ranking_box\">";
+            if(data.RNK == 1) {
+            	html1 +="  		<div class=\"icon gold\"></div>";
+            } else if(data.RNK == 2) {
+            	html1 +="  		<div class=\"icon sliver\"></div>";
+            } else {
+            	html1 +="  		<div class=\"icon bronze\"></div>";
+            }
+            html1 +="  		<div class=\"photo\">";
+            html1 +="      		<img src=\"resources/img/weP.jpg\" alt=\"\" width=\"100%\">";
+            html1 +="  		</div>";
+            html1 +="  		<div class=\"info\">";
+            html1 +="    		<span class=\"parking_name\">" + data.CAR_PARK_NM + "</span>";          
+            html1 +="    		<div class=\"star" + data.RNK + "\"></div>";
+            html1 +="  		</div>";
+          	html1 +="	</div>";
+		}                                                      
+	}   
+	
+	$(".ranking_area").html(html1);
+	                                                                                      
+	
 	var html = "";
 	
 	for(var data of list){
@@ -66,11 +93,12 @@ function drawList(list) {
 	
 	$("tbody").html(html);
 	
-	var html = "";
 	
 	for(var data of list) {		
 		
-		$('.star' + data.RNK).raty({ readOnly: true, score: data.SYSTEM });	 		
+		$('.star' + data.RNK).raty({ readOnly: true, score: data.SYSTEM, 
+			path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"	
+		});	 		
 	}	
 }
 
@@ -110,17 +138,6 @@ function drawPaging(pd) {
 }
 
 
-/* $(function() {
-    $('.starstar').raty({ readOnly : true, score : SYSTEM,
-        path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images",
-        half : true,
-        hints :  [['bad 1/2', 'bad'], ['poor 1/2', 'poor'], ['regular 1/2', 'regular'], ['good 1/2', 'good'], ['gorgeous 1/2', 'gorgeous']]
-        ,width : 200
-        ,click: function(score, evt) {//선택한 별점수가
-        }
-    });
-});  */
-
 </script>    
 </head>
 <body>
@@ -131,7 +148,7 @@ function drawPaging(pd) {
             <div class="title">랭킹</div>
             <div class="inner">
                 <div class="on">시스템 좋은 주차장</div>
-                <div>요금 합리적인 주차장</div>
+                <div id="fee2">요금 합리적인 주차장</div>
             </div> 
         </div>
         <div class="right_area">
@@ -174,7 +191,7 @@ function drawPaging(pd) {
                         </div>
                     </div>
                 </div>
-              <table>
+           <table>
                 <thead>
                   <tr>
                     <th>순위</th>
@@ -184,80 +201,9 @@ function drawPaging(pd) {
                     <th width="150px">별점</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>논현 공영주차장</td>
-                    <td>강남구</td>
-                    <td>개포동</td>
-                    <td>⭐⭐⭐⭐⭐</td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-                <div class="page_wrap">
+                <tbody></tbody> 
+              </table> 
+                <!-- <div class="page_wrap">
                     <div class="page_nation">
                        <a class="arrow pprev" href="#"></a>
                        <a class="arrow prev" href="#"></a>
@@ -273,8 +219,8 @@ function drawPaging(pd) {
                        <a href="#">10</a>
                        <a class="arrow next" href="#"></a>
                        <a class="arrow nnext" href="#"></a>
-                    </div>
-                 </div>
+                    </div> 
+                 </div>  -->
             </div> 
         </div>
         </div>

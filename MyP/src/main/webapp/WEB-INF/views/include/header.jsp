@@ -19,27 +19,25 @@
 				</div>
 			</div>
 			<div class="bottom_area1">
-				<h1 class="logo">
-					<a href="/"></a>
-				</h1>
+				<h1 class="logo" id="logo"></h1>
 				<div class="menu_area">
 					<nav class="menu_container">
 						<span class="header_bg"></span>
 						<ul class="main_menu">
 							<li><span class="curr_bar"></span><a href="">주차장안내</a>
 								<ul class="sub_menu l20">
-									<li><a href="/menu1-1.html">공영주차장 조회</a></li>
+									<li id="parkinfo"><a>공영주차장 조회</a></li>
 								</ul></li>
 							<li><a href="">참여/알림</a>
 								<ul class="sub_menu l30">
-									<li><a href="/menu2-1.html">공지사항</a></li>
-									<li><a href="/menu2-2.html">FAQ</a></li>
-									<li><a href="/menu2-3.html">QNA</a></li>
+									<li id="notice"><a>공지사항</a></li>
+									<li id="faq"><a>FAQ</a></li>
+									<li id="qna"><a>QNA</a></li>
 								</ul></li>
 							<li><a href="">랭킹</a>
 								<ul class="sub_menu l100">
-									<li><a href="/menu3-1.html">시스템 좋은 주차장</a></li>
-									<li><a href="/menu3-2.html">요금 합리적인 주차장</a></li>
+									<li id="system"><a>시스템 좋은 주차장</a></li>
+									<li id="fee"><a>요금 합리적인 주차장</a></li>
 								</ul></li>
 						</ul>
 					</nav>
