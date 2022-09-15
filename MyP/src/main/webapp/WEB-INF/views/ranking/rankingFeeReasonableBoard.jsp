@@ -10,8 +10,10 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
+    <link rel="stylesheet" href="resources/rety/jquery.raty.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/header.js"></script>
+    <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
 </head>
 <body>
   <c:import url="/header1"></c:import>
@@ -20,7 +22,7 @@
           <div class="side_bar">
             <div class="title">랭킹</div>
             <div class="inner">
-                <div>시스템 좋은 주차장</div>
+                <div id="system2">시스템 좋은 주차장</div>
                 <div class="on">요금 합리적인 주차장</div>
             </div> 
         </div>
