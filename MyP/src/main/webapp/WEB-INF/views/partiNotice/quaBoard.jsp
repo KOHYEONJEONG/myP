@@ -10,7 +10,142 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
-    <script src="./jquery/jquery-1.12.4.js"></script>
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
+ <script type="text/javascript"
+      src="resources/script/common/popup.js"></script>   
+<script type="text/javascript">
+$(document).ready(function() { 
+	 // 검색 구분 설정
+	   if("${param.searchGbn}" != "") {
+	      $("#searchGbn").val("${param.searchGbn}");
+	   } else {
+	      $("#oldGbn").val("0");
+	   }
+	
+	   // 목록 조회
+	   reloadList();	
+	
+	   // 검색 버튼
+	   $("#search_btn").on("click", function() {
+	      $("#page").val("1");
+	      
+	      // 신규 상태 적용
+	      $("#oldGbn").val($("#searchGbn").val());
+	      $("#oldTxt").val($("#searchTxt").val());
+	      
+	      reloadList();
+	   });
+	   
+	   // 페이징 버튼
+	   $(".paging_area").on("click", "span", function() {
+	      // 기존 검색상태 유지      
+	      $("#searchGbn").val($("#oldGbn").val());
+	      $("#searchTxt").val($("#oldTxt").val());
+	      
+	      
+	      $("#page").val($(this).attr("page"));
+	      
+	      reloadList();
+	   });
+	   
+	   // 글쓰기 버튼
+	   $("#writeBtn").on("click", function() {
+	      // 기존 검색상태 유지      
+	      $("#searchGbn").val($("#oldGbn").val());
+	      $("#searchTxt").val($("#oldTxt").val());
+	      
+	      $("#actionForm").attr("action", "AmemInsert");
+	      $("#actionForm").submit();      
+	   });
+	   
+	   $("tbody").on("click", "tr", function() {
+		      $("#no").val($(this).attr("no"));
+		      
+		      // 기존 검색상태 유지
+		      $("#searchGbn").val($("#oldGbn").val());
+		      $("#searchTxt").val($("#oldTxt").val());
+		      
+		      $("#actionForm").attr("action", "QnaDetail");
+		      $("#actionForm").submit();
+		   });
+		}); // document ready end
+
+
+		
+function reloadList() {
+	var params = $("#actionForm").serialize();
+	$.ajax({
+		url : "QnaAjax",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) { 
+			drawList(res.list);
+			drawPaging(res.pd);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); //Ajax End
+}
+
+function drawList(list) {
+	var html = "";
+	
+	for(var data of list){
+		html +="<tr no=\"" + data.QNA_NUM  + "\">";
+		html +="<td>" + data.QNA_NUM + "</td>";
+		html +="<td>" + data.TITLE + "</td>";
+		if(data.ADT == "null"){
+			html +="<td>" + "답변대기" + "</td>";
+		}else{
+			html +="<td>" + "답변완료" + "</td>";
+		}
+		html +="<td>" + data.NM + "</td>";
+		html +="<td>" + data.DT + "</td>";
+		html +="<td>" + data.HIT + "</td>";
+	
+		html +="</tr>";
+	}
+	
+	$("tbody").html(html);
+}
+
+function drawPaging(pd) {
+	var html = "";
+	
+	html +=
+	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+	// 이전
+	if($("#page").val() == "1"){
+		html += "<a class=\"arrow prev\" page=\"1\"></a>";
+	} else{
+		// 문자열을 숫자로 바꾸기위해 *1
+		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
+	}
+	
+	for(var i = pd.startP; i <= pd.endP; i++){
+		if($("#page").val() * 1 == i){ // 현재 페이지
+			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+		} else { // 다른 페이지
+			html += "<a page=\"" + i + "\">" + i + "</a>";
+		}
+		
+	}
+	
+	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+	} else {
+		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+	}
+	
+	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+	
+	$(".page_nation").html(html);
+                                                                     
+}
+</script>
 </head>
 <body>
   <c:import url="/header1"></c:import>
@@ -24,24 +159,29 @@
                 <div class="on">QnA</div>
             </div> 
         </div>
-        <div class="right_area">            
+        <input type="hidden" id="oldGbn" value="${param.searchGbn}" />
+		<input type="hidden" id="oldTxt" value="${param.searchTxt}" />
+        <div class="right_area">     
+       <form action="#" id="actionForm" method="post">
+      <input type="hidden" name="no" id="no" />   
+      <input type="hidden" name="page" id="page" value="${page}" />       
             <div class="table_wrap">
               <div class="search_box">
                 <div class="select">
                     <select name="select_b" id="select_b">
                       <option value="all">전체</option>
                       <option value="title">제목</option>
-                      <option value="content">내용</option>
                       <option value="nickname">작성자</option>
                   </select>
                  <!--조건선택-->
                 </div>
                 <div class="search_form">
-                  <input type="text" />
+                  <input type="text" name="searchTxt" id="searchTxt" />
                 </div>          
                 <div class="search_btn" >
                   검색
                 </div>           
+                </form>
               </div>
     
               <table>
@@ -164,7 +304,7 @@
                     </div>
                  </div>
                  <div class="btn_wrap">
-                  <div class="write_btn">
+                  <div class="write_btn" id="writeBtn">
                       글쓰기
                    </div>
               </div>
