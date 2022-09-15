@@ -11,7 +11,7 @@
 
 	<!-- 주차장 데이터 리스트 -->
 	<select id="cardataList" resultType="hashmap" parameterType="hashmap">
-	SELECT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM, C.ADDRESS, C.CAR_PARK_TP_NM
+	SELECT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM, C.CAR_PARK_TP_NM, C.ADDRESS
 	FROM(SELECT CAR_PARK_MAG_NUM,CAR_PARK_NM,ADDRESS,
 	ROW_NUMBER() OVER(ORDER BY CAR_PARK_MAG_NUM DESC) AS RNK,
 	CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
@@ -19,15 +19,15 @@
 	WHERE 1 = 1
 	<if test="searchTxt != null and searchTxt != ''">
             <choose>
-               <when test="searchGbn eq 1">
+               <when test="searchGbn == 1">
                   and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
                </when>
                
-               <when test="searchGbn == content">
-                  and CAR_PARK_TP_NM LIKE '%' || #{searchTxt} || '%'
+               <when test="searchGbn == 2">
+                  and CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END LIKE '%' || #{searchTxt} || '%'
                </when>
                
-               <when test="searchGbn == address">
+               <when test="searchGbn == 3">
                   and ADDRESS LIKE '%' || #{searchTxt} || '%'
                </when>
             </choose>
@@ -35,4 +35,26 @@
 	) C
 	WHERE C.RNK BETWEEN #{start} AND #{end}
 	</select>
+	
+	<select id="cardatacnt" parameterType="hashmap" resultType="Integer">
+	SELECT COUNT(*) AS CNT
+	FROM CAR_PARK
+	WHERE 1=1
+	<if test="searchTxt != null and searchTxt != ''">
+            <choose>
+               <when test="searchGbn == 1">
+                  and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
+               </when>
+               
+               <when test="searchGbn == 2">
+                  and CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END LIKE '%' || #{searchTxt} || '%'
+               </when>
+               
+               <when test="searchGbn == 3">
+                  and ADDRESS LIKE '%' || #{searchTxt} || '%'
+               </when>
+            </choose>
+         </if>
+	</select>
+	
 </mapper>

@@ -108,41 +108,9 @@ public class ManagerController {
 		return mav;
 	}
 
-	// 관리자 페이지 데이터관리 목록화면
-	@RequestMapping(value = "/dataManagement")
-	public ModelAndView dataManagement(ModelAndView mav) {
-		mav.setViewName("manager/dataManagement");
-		return mav;
-	}
 	
-	//관리자 페이지 데이터관리 리스트화면
-	@RequestMapping(value="/DataMList")
-	public ModelAndView DataMList(
-			@RequestParam HashMap<String, String> params,
-			ModelAndView mav) {
-		
-		
-		mav.setViewName("manager/dataManagement");
-		
-		return mav;
-	}
 	
-	//관리자 페이지 데이터관리 주차장 ajax
-	@RequestMapping(value="/DataMListAjax",
-			method = RequestMethod.POST,
-			produces = "text/json;charset=UTF-8")
-	@ResponseBody
-	public String DataMListAjax(@RequestParam HashMap<String, String> params) throws Throwable{
-		ObjectMapper mapper = new ObjectMapper();
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		
-		List<HashMap<String, String>> list = dao.getList("manager.cardataList", params);
-		
-		model.put("list", list);
-		
-		return mapper.writeValueAsString(model);
-	}
+	
 
 	// 관리자 페이지 회원관리 목록화면
 	@RequestMapping(value = "/memManagement")
