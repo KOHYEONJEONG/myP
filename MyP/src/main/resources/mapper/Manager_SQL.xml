@@ -19,15 +19,15 @@
 	WHERE 1 = 1
 	<if test="searchTxt != null and searchTxt != ''">
             <choose>
-               <when test="select_b == title">
+               <when test="searchGbn eq 1">
                   and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
                </when>
                
-               <when test="select_b == content">
+               <when test="searchGbn == content">
                   and CAR_PARK_TP_NM LIKE '%' || #{searchTxt} || '%'
                </when>
                
-               <when test="select_b == address">
+               <when test="searchGbn == address">
                   and ADDRESS LIKE '%' || #{searchTxt} || '%'
                </when>
             </choose>
