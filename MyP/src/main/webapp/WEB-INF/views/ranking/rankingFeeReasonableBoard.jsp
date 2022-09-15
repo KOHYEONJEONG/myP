@@ -10,8 +10,8 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
-    <script src="./jquery/jquery-1.12.4.js"></script>
-    <script src="./js/main.js"></script>
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/header.js"></script>
 </head>
 <body>
   <c:import url="/header1"></c:import>

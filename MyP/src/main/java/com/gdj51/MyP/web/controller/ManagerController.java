@@ -185,6 +185,11 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 	
+	@RequestMapping(value="/autorityPopup")
+	public ModelAndView autorityPopup(@RequestParam HashMap<String,String> params,ModelAndView mav) throws Throwable{
+		mav.setViewName("manager/autorityPopup");
+		return mav;
+	}
 
 	// 관리자 페이지 신고관리 목록화면
 	@RequestMapping(value = "/reportReviewManagement")

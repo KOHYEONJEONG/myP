@@ -24,9 +24,5 @@ public class PartiNoticeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/qna")
-	public ModelAndView qna(ModelAndView mav) {
-		mav.setViewName("partiNotice/quaBoard");
-		return mav;
-	}
+	
 }
