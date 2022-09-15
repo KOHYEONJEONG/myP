@@ -89,10 +89,19 @@ $(document).ready(function () {
 	$("#system").click(function() {
 		location.href = "rankingSystemGoodParking";
 	})
-    
-    $("#fee").click(function() {
+	
+	$("#system2").click(function() {
+		location.href = "rankingSystemGoodParking";
+	})
+	
+	$("#fee").click(function() {
 		location.href = "rankingFeeReasonableBoard";
 	})
+	
+	$("#fee2").click(function() {
+		location.href = "rankingFeeReasonableBoard";
+	})
+   
 	
 	
 	//관리자 페이지
