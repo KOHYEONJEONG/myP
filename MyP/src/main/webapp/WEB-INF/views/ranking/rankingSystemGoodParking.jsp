@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <link rel="stylesheet" href="resources/rety/jquery.raty.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
+    <script src="resources/js/header.js"></script>
     <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
 <script type="text/javascript">
  	 $(document).ready(function () {
