@@ -64,7 +64,7 @@ $(document).ready(function () {
         $('.curr_bar').removeClass('on')
     })
     
-	//header1
+	//header, header1 공통사항
     //클릭시 페이지 이동
     $("#logo").click(function() {
 		location.href = "home";
@@ -85,6 +85,23 @@ $(document).ready(function () {
 	$("#qna").click(function() {
 		location.href = "qna";
 	})
+	
+	$("#system").click(function() {
+		location.href = "rankingSystemGoodParking";
+	})
+	
+	$("#system2").click(function() {
+		location.href = "rankingSystemGoodParking";
+	})
+	
+	$("#fee").click(function() {
+		location.href = "rankingFeeReasonableBoard";
+	})
+	
+	$("#fee2").click(function() {
+		location.href = "rankingFeeReasonableBoard";
+	})
+   
 	
 	
 	//관리자 페이지
