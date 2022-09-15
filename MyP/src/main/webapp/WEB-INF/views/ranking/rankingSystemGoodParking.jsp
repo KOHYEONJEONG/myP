@@ -18,12 +18,6 @@
  	 $(document).ready(function () {
 
 	reloadList();
-	
-    $("#fee").click(function() {
-		location.href = "rankingFeeReasonableBoard";
-
-	})
-	
 		
 	// 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
@@ -70,7 +64,7 @@ function drawList(list) {
             	html1 +="  		<div class=\"icon bronze\"></div>";
             }
             html1 +="  		<div class=\"photo\">";
-            html1 +="      		<img src=\"resources/img/1.png\" alt=\"\" width=\"100%\">";
+            html1 +="      		<img src=\"resources/img/weP.jpg\" alt=\"\" width=\"100%\">";
             html1 +="  		</div>";
             html1 +="  		<div class=\"info\">";
             html1 +="    		<span class=\"parking_name\">" + data.CAR_PARK_NM + "</span>";          

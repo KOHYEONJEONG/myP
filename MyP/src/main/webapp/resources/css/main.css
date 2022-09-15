@@ -1285,9 +1285,12 @@ main {
 .ranking_area > div:nth-child(2) {
   margin: 0 40px;
 }
+.star1, .star2, .star3 {
+    margin: 3px;
+}
 .ranking_area .ranking_box {
   width: 230px;
-  height: 200px;
+  height: 210px;
   background: #ffffff;
   border-radius: 5px;
   padding: 10px 8px 8px 10px;
