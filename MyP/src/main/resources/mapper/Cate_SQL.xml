@@ -26,8 +26,7 @@
 			</choose>
 		</if>
 	</select>
-	<select id="getCateList" parameterType="hashmap" resultType="hashmap">
-		        
+	<select id="getCateList" parameterType="hashmap" resultType="hashmap">        
     	SELECT S.CATE_NUM, S.DIV_NM, S.CATE_NM, S.RNK
 		FROM( SELECT C.CATE_NUM, CD.DIV_NM, C.CATE_NM, ROW_NUMBER() OVER(ORDER BY CATE_NUM DESC, CATE_NM DESC) AS RNK
 		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM

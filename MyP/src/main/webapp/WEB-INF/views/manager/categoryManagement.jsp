@@ -35,6 +35,23 @@
       	width: 70px;
       }
       
+      .insert_btn{
+      	    width: 70px;
+    height: 35px;
+    border: 1px solid #FD9A29;
+    background: #FD9A29;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    line-height: 33px;
+    cursor: pointer;
+    margin-top: 10px;
+    float: right;
+    
+       }
 	.table_wrap {
 	    width: 400px;
 	    top: 200px;
@@ -68,7 +85,7 @@
 	   	margin-top: 0px;  
 	}
    
-   .delete_btn, .update_btn{
+   .delete_btn, .update_btn, .cancle_btn, .finish_btn{
    	width: 70px;
     height: 35px;
     border: 1px solid #e6e6e6;
@@ -84,7 +101,7 @@
    
    } 
    
-   .update_btn{
+   .update_btn, .finish_btn{
    	margin-right: 5px;
    }
    
@@ -101,6 +118,18 @@
     font-size: 14px;
     line-height: 33px;
     cursor: pointer;
+    }
+    
+    .input {
+        height: 35px;
+    	border: 1px solid #d7d7d7;
+    	box-sizing: border-box;
+    	width: 140px;
+    }
+    
+    .cancle_btn, .finish_btn{
+    	display: none;
+    }
     
     </style>
     
@@ -109,6 +138,7 @@
  	 $(document).ready(function () {
 
 		reloadList1();
+		reloadList();
 		
 	
 	/* $("#insertBtn").on("click", function () {
@@ -166,8 +196,9 @@
 	
 	// 분류명 삭제버튼 클릭시
 	$(".div_nm_tbody").on("click", ".delete_btn", function () {
-		var no = $(this).parent().parent().attr("no");
+		var no = $(this).parent().parent().parent().attr("no");
 		
+		console.log(no);
 		  makePopup({
 		         title : "알림",
 		         contents : "삭제하시겠습니까?",
@@ -175,8 +206,8 @@
 		         buttons : [{
 		            name : "삭제",
 		            func:function() {
-		            	$("#no").val(no);
-		            	action("delete");
+		            	$("#divNum").val(no);
+		            	action1("delete");
 		            	closePopup(); // 제일 위의 팝업 닫기
 		            }
 		         }, {
@@ -187,10 +218,9 @@
 	
 	// 하위분류명 삭제버튼 클릭시
 	$(".cate_nm_tbody").on("click", ".delete_btn", function () {
-		console.log("클릭됨");
+
 		var no = $(this).parent().parent().parent().attr("no");
 		
-		console.log(no);
 		
 		  makePopup({
 		         title : "알림",
@@ -209,40 +239,79 @@
 		})
 	})
 	
-	// 목록 수정버튼 클릭시
-	/* $("tbody").on("click", ".update_btn", function () {
-		var no = $(this).parent().parent().attr("no");
-		$("#no").val(no);
+	// 분류명 수정버튼 클릭시
+	 $(".div_nm_tbody").on("click", ".update_btn", function () {
+		
+		var divNm = $(this).parent().parent().parent().children().eq(1).html();
 
-		
-		//eq(인덱스번호) : 자식들 중 인덱스 몇번째 인지 찾아서 취득
-		var con = $(this).parent().parent().children().eq(1).html();
+		console.log(divNm);
+		var html =  "<input type=\"text\" name=\"divNm\" id=\"divNm\" class=\"input\"/>";
+
+			
+		$(this).parent().parent().parent().children().eq(1).html(html);
+
 		// 수정 내용 넣기 전 <> 변화
-		con = con.replace(/&lt;/gi, "<");
-		con = con.replace(/&gt;/gi, ">");
+		//con = con.replace(/&lt;/gi, "<");
+		//con = con.replace(/&gt;/gi, ">");
+				
+		//$("#cateNm").val(con);
 		
-		
-		$("#cateNm").val(con);
-		
-		
-		// 등록버튼 감추기 + 수정, 취소버튼 나타나기
-		$(".insert").hide();
-		$(".update").show();
+		$(this).parent().children().eq(0).hide(); // 수정버튼 감추기
+		$(this).parent().children().eq(1).hide(); // 삭제버튼 감추기
+		$(this).parent().children().eq(2).show(); // 완료버튼 보이기
+		$(this).parent().children().eq(3).show(); // 취소버튼 보이기
 		
 		// 작성영역에 포커스
-		$("#cateNm").focus();
+		// $("#divNm").focus();
+		
+		// 수정 영역의 취소버튼
+		$(this).siblings().on("click", function () {
+			// 입력내용 초기화
+			// $("#no").val("");
+			var html =  divNm;
+			$(this).parent().parent().parent().children().eq(1).html(html);
+			
+			$(this).parent().children().eq(0).show(); // 수정버튼 보이기
+			$(this).parent().children().eq(1).show(); // 삭제버튼 보이기
+			$(this).parent().children().eq(2).hide(); // 완료버튼 감추기
+			$(this).parent().children().eq(3).hide(); // 취소버튼 감추기
+		})
+		
+		// 수정 영역의 완료버튼
+		 $(this).parent().children().eq(2).on("click", function () {
+			var no = $(this).parent().parent().parent().attr("no");
+			
+			console.log(no);
+			$("#divNum").val(no);
+			
+			//eq(인덱스번호) : 자식들 중 인덱스 몇번째 인지 찾아서 취득
+			var divNm = $(this).parent().parent().parent().children().eq(1).text();
+			// 수정 내용 넣기 전 <> 변화
+			//divNm = divNm.replace(/&lt;/gi, "<");
+			//divNm = divNm.replace(/&gt;/gi, ">");
+			
+			
+			$("#divNm").val(divNm);
+					
+			console.log(divNm);
+			
+			$("#divNm").val(divNm);
+			
+			
+			action1("update");
+		}) 
 	})
-	 */
+	 
 	// 수정 영역의 취소버튼
-	/* $("thead #cancelBtn").on("click", function () {
+/* 	$("thead #cancelBtn").on("click", function () {
 		// 입력내용 초기화
 		$("#no").val("");
 		$("#cateNm").val("");
 		// 등록버튼 나타나기 + 수정, 취소버튼 감추기
 		$(".insert").show();
 		$(".update").hide();
-	})
-	 */
+	}) */
+	 
 	// 수정 영역의 수정버튼
 	/* $("thead #updateBtn").on("click", function () {
 		action("update");
@@ -256,6 +325,140 @@ var msg ={
 	"update" : "수정",
 	"delete" : "삭제",
 }
+ 	 
+ 	function action(flag) {
+ 		// con의 <를을 웹문자로 변환
+ 		//$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
+ 		// con의 >를을 웹문자로 변환
+ 		//$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
+ 		
+ 		
+ 		// Javascript object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수있다. 
+ 		// Java의 Map에서 get, put역활
+ 		console.log(msg[flag]);
+ 		
+ 		var params = $("#searchForm").serialize();
+ 		
+ 		$.ajax({
+ 			url : "categoryManagementAction/" + flag,
+ 			type : "POST", 
+ 			dataType: "json", 
+ 			data: params, 
+ 			success : function(res) { 
+ 				switch(res.msg){
+ 				case "success" :
+ 					// 내용 초기화
+ 					$("#cateNm").val("");
+ 					$("#no").val("");
+
+ 					// 목록 재조회
+ 					switch(flag){
+ 					case "insert" :
+ 					case "delete" :
+ 						// 조회 데이터 초기화
+ 						$("#page").val("1");
+ 						$("#searchGbn").val("0");
+ 						$("#searchText").val("");
+ 						$("#oldGbn").val("0");
+ 						$("#oldText").val("");
+ 						break;
+ 					case "update" :
+ 						// 기존값 유지
+ 						$("#searchGbn").val($("#oldGbn").val());
+ 						$("#searchText").val($("#oldText").val());
+
+ 						// 입력내용 초기화
+ 						$("#no").val("");
+ 						$("#cateNm").val("");
+ 						// 등록버튼 나타나기 + 수정, 취소버튼 감추기
+ 						$(".insert").show();
+ 						$(".update").hide();
+ 						break; 
+ 					}
+ 					reloadList();
+ 					break;
+ 				case "fail" :
+ 					makeAlert("알림" ,  msg[flag] + "에 실패하였습니다.");
+ 					break;
+ 				case "error" :
+ 					makeAlert("알림" , msg[flag] + " 중 문제가 발생하였습니다.");
+ 					break;
+ 				}
+ 			},
+ 			error : function(request, status, error) { 
+ 				console.log(request.responseText); 
+ 			}
+ 		}); //Ajax End
+ 	} // action Function End
+ 	 
+ 	 
+ 	function action1(flag) {
+ 		// con의 <를을 웹문자로 변환
+ 		//$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
+ 		// con의 >를을 웹문자로 변환
+ 		//$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
+ 		
+ 		
+ 		// Javascript object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수있다. 
+ 		// Java의 Map에서 get, put역활
+ 		console.log(msg[flag]);
+ 		
+ 		var params = $("#searchForm1").serialize();
+ 		
+ 		$.ajax({
+ 			url : "divManagementAction/" + flag,
+ 			type : "POST", 
+ 			dataType: "json", 
+ 			data: params, 
+ 			success : function(res) { 
+ 				switch(res.msg){
+ 				case "success" :
+ 					// 내용 초기화
+ 					$("#cateNm").val("");
+ 					$("#no").val("");
+
+ 					// 목록 재조회
+ 					switch(flag){
+ 					case "insert" :
+ 					case "delete" :
+ 						// 조회 데이터 초기화
+ 						$("#page").val("1");
+ 						$("#searchGbn").val("0");
+ 						$("#searchText").val("");
+ 						$("#oldGbn").val("0");
+ 						$("#oldText").val("");
+ 						break;
+ 					case "update" :
+ 						// 기존값 유지
+ 						$("#searchGbn").val($("#oldGbn").val());
+ 						$("#searchText").val($("#oldText").val());
+
+ 						// 입력내용 초기화
+ 						$("#no").val("");
+ 						$("#cateNm").val("");
+ 						// 등록버튼 나타나기 + 수정, 취소버튼 감추기
+ 						$(".insert").show();
+ 						$(".update").hide();
+ 						break; 
+ 					}
+ 					reloadList1();
+ 					break;
+ 				case "fail" :
+ 					makeAlert("알림" ,  msg[flag] + "에 실패하였습니다.");
+ 					break;
+ 				case "error" :
+ 					makeAlert("알림" , msg[flag] + " 중 문제가 발생하였습니다.");
+ 					break;
+ 				}
+ 			},
+ 			error : function(request, status, error) { 
+ 				console.log(request.responseText); 
+ 			}
+ 		}); //Ajax End
+ 	} // action Function End
+ 	 
+ 	 
+ 	 
 
 function action(flag) {
 	// con의 <를을 웹문자로 변환
@@ -442,12 +645,14 @@ function drawList1(list) {
 		for(var data of list){
 
 			html +="<tr no=\"" + data.DIV_NUM  + "\">";
-			html +="<td>" + data.DIV_NUM + "</td>";
+			html +="<td>" + data.RNK + "</td>";
 			html +="<td>" + data.DIV_NM + "</td>";
 			html +="<td>";
 				html +="<div class=\"btn_wrap\">";
 				html +="<div class=\"update_btn\">수정</div>";
 				html +="<div class=\"delete_btn\">삭제</div>";
+				html +="<div class=\"finish_btn\">완료</div>";
+				html +="<div class=\"cancle_btn\">취소</div>";
 				html +="</div>";
 			html +="</td>";
 			html +="</tr>";
@@ -532,7 +737,7 @@ function drawPaging1(pd) {
                 <input type="hidden" id="oldGbn1" value="0" />
 				<input type="hidden" id="oldText1" />
 				<input type="hidden" name="page" id="page" value="1" />
-			
+					<input type="hidden" name="divNum" id="divNum" />
                   <div class="select">
 					<select name="searchGbn1" id="searchGbn1">
 						 <option value="0">분류명</option>
@@ -547,7 +752,7 @@ function drawPaging1(pd) {
                 <table>
                 <colgroup>
 					<col width="100"> <!-- 번호 -->
-					<col width="150"> <!-- 분류명 -->
+					<col width="170"> <!-- 분류명 -->
 					<col width="150"> <!-- 수정/삭제 -->
 				</colgroup>
                   <thead>
@@ -563,12 +768,12 @@ function drawPaging1(pd) {
                   <div class="page_wrap">
                       <div class="page_nation"></div>
                    </div>
+                    <div class="insert_btn" id="insertBtn">추가</div>
               </div>
               
               
-              
-              
-           
+                
+           <!-- 하위분류명 테이블 -->
              <div class="table_wrap second">
              <!-- 페이징 때 기존 검색 내용 유지용 -->
 			<input type="hidden" id="oldGbn" value="${param.searchGbn}"/>
@@ -612,6 +817,7 @@ function drawPaging1(pd) {
                   <div class="page_wrap">
                       <div class="page_nation"></div>
                    </div>
+                   <div class="insert_btn" >추가</div>
               </div>
         </div>
         
