@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cate">
-	<!-- <insert id="insertCate" parameterType="hashmap">
+	 <insert id="insertCate" parameterType="hashmap">
 		INSERT INTO CATEGORY(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
 	</insert>
 	<update id="updateCate" parameterType="hashmap">
 	 	UPDATE CATEGORY SET CATE_NM = #{cateNm}
-		WHERE CATE_NUM = #{no}
+		WHERE CATE_NUM = #{cateNum}
 	</update>
 	<update id="deleteCate" parameterType="hashmap">
 		UPDATE CATEGORY SET DEL = 0
-		WHERE CATE_NUM = #{no}
-	</update> -->
+		WHERE CATE_NUM = #{cateNum}
+	</update> 
 	<select id="getCateCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
@@ -28,7 +28,7 @@
 	</select>
 	<select id="getCateList" parameterType="hashmap" resultType="hashmap">
 		        
-    	SELECT S.CATE_NUM, S.DIV_NM, S.CATE_NM
+    	SELECT S.CATE_NUM, S.DIV_NM, S.CATE_NM, S.RNK
 		FROM( SELECT C.CATE_NUM, CD.DIV_NM, C.CATE_NM, ROW_NUMBER() OVER(ORDER BY CATE_NUM DESC, CATE_NM DESC) AS RNK
 		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
         AND CD.DEL = 1

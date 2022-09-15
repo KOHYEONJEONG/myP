@@ -8,10 +8,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyP</title>
-    <link rel="stylesheet" href="resources/css/main.css">
-    <link rel="stylesheet" href="resources/css/font.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
+    <link rel="stylesheet" type="text/css" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
+    <script type="text/javascript" 
+		src="resources/script/common/popup.js"></script>
     <style type="text/css">
       
       .stitle {
@@ -32,44 +35,38 @@
       	width: 70px;
       }
       
-      
-
-.table_wrap {
-    width: 400px;
-    top: 200px;
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
-      }
-      
-.table_wrap table {
-width: 400px;
-
-}
-
-
-
-.table_wrap .search_box {
-	width: 400px;
-
-}
-
-.table_wrap.first{
-	left: 30%
-}
-
-.table_wrap.second{
-	left: 75%
-}
-
-.table_wrap .search_box .search_form {
-    width: 150px;
-    
-   }
-   
-.table_wrap .btn_wrap{
-   	margin-top: 0px;  
-}
+	.table_wrap {
+	    width: 400px;
+	    top: 200px;
+	    left: 50%;
+	    transform: translateX(-50%);
+	    position: absolute;
+	}
+	      
+	.table_wrap table {
+		width: 400px;
+	}
+	.table_wrap .search_box {
+		width: 400px;
+	
+	}
+	
+	.table_wrap.first{
+		left: 30%
+	}
+	
+	.table_wrap.second{
+		left: 75%
+	}
+	
+	.table_wrap .search_box .search_form {
+	    width: 150px;
+	    
+	   }
+	   
+	.table_wrap .btn_wrap{
+	   	margin-top: 0px;  
+	}
    
    .delete_btn, .update_btn{
    	width: 70px;
@@ -112,7 +109,7 @@ width: 400px;
  	 $(document).ready(function () {
 
 		reloadList1();
-	
+		
 	
 	/* $("#insertBtn").on("click", function () {
 	 		if($.trim($("#cateNum").val()) == ""){
@@ -137,25 +134,38 @@ width: 400px;
 	
 	
 	// 분류명 클릭시 하위분류명 데이틀 reload
-	$("tbody").on("click", "tr", function () {
+	$(".div_nm_tbody").on("click", "tr", function () {
 		$("#no").val($(this).attr("no"));
 		reloadList();
+		
 	})
 	
 		
-	// 검색 클릭시
+	
+	// 분류명 검색 클릭시
 	 $("#searchBtn1").on("click", function () {
+		
+		$("#page").val("1");
+		//기존 값 새값으로 변경
+		$("#oldGbn1").val($("#searchGbn1").val());
+		$("#oldText1").val($("#searchText1").val());
+		
+		reloadList1();
+	})
+	
+	// 하위분류명 검색 클릭시
+	 $("#searchBtn").on("click", function () {
 		
 		$("#page").val("1");
 		//기존 값 새값으로 변경
 		$("#oldGbn").val($("#searchGbn").val());
 		$("#oldText").val($("#searchText").val());
 		
-		reloadList1();
+		reloadList();
 	})
-	 
-	// 목록의 삭제버튼 클릭시
-	/* $("tbody").on("click", ".delete_btn", function () {
+	
+	// 분류명 삭제버튼 클릭시
+	$(".div_nm_tbody").on("click", ".delete_btn", function () {
 		var no = $(this).parent().parent().attr("no");
 		
 		  makePopup({
@@ -173,7 +183,31 @@ width: 400px;
 		            name : "취소"
 		    }]
 		})
-	}) */
+	}) 
+	
+	// 하위분류명 삭제버튼 클릭시
+	$(".cate_nm_tbody").on("click", ".delete_btn", function () {
+		console.log("클릭됨");
+		var no = $(this).parent().parent().parent().attr("no");
+		
+		console.log(no);
+		
+		  makePopup({
+		         title : "알림",
+		         contents : "삭제하시겠습니까?",
+		         // draggable : true,
+		         buttons : [{
+		            name : "삭제",
+		            func:function() {
+		            	$("#cateNum").val(no);
+		            	action("delete");
+		            	closePopup(); // 제일 위의 팝업 닫기
+		            }
+		         }, {
+		            name : "취소"
+		    }]
+		})
+	})
 	
 	// 목록 수정버튼 클릭시
 	/* $("tbody").on("click", ".update_btn", function () {
@@ -217,7 +251,6 @@ width: 400px;
 	
 })
 
-/* 
 var msg ={
 	"insert" : "등록",
 	"update" : "수정",
@@ -226,16 +259,16 @@ var msg ={
 
 function action(flag) {
 	// con의 <를을 웹문자로 변환
-	$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
+	//$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
 	// con의 >를을 웹문자로 변환
-	$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
+	//$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
 	
 	
 	// Javascript object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수있다. 
 	// Java의 Map에서 get, put역활
 	console.log(msg[flag]);
 	
-	var params = $("#actionForm").serialize();
+	var params = $("#searchForm").serialize();
 	
 	$.ajax({
 		url : "categoryManagementAction/" + flag,
@@ -271,9 +304,7 @@ function action(flag) {
 					// 등록버튼 나타나기 + 수정, 취소버튼 감추기
 					$(".insert").show();
 					$(".update").hide();
-					break;
-					
-			
+					break; 
 				}
 				reloadList();
 				break;
@@ -290,7 +321,9 @@ function action(flag) {
 		}
 	}); //Ajax End
 } // action Function End
- */
+ 
+ 
+ 
  
 // 오른쪽 테이블, 하위분류명
 function reloadList() {
@@ -319,15 +352,16 @@ function reloadList() {
 		if(list.length != 10){
 			for(var data of list){
 				html +="<tr no=\"" + data.CATE_NUM  + "\">";
-				html +="<td>" + data.CATE_NUM + "</td>";
+				html +="<td>" + data.RNK + "</td>";
 				html +="<td>" + data.CATE_NM + "</td>";
 				html +="<td>";
 				html +="<div class=\"btn_wrap\">";
 				html +="<div class=\"update_btn\">수정</div>";
 				html +="<div class=\"delete_btn\">삭제</div>";
 				html +="</div>";
-			html +="</td>";
+				html +="</td>";
 				html +="</tr>";
+			
 			}
 			for(var i=0; i < length; i++){
 				html +="<tr>";
@@ -406,6 +440,7 @@ function drawList1(list) {
 	
 	if(list.length != 10){
 		for(var data of list){
+
 			html +="<tr no=\"" + data.DIV_NUM  + "\">";
 			html +="<td>" + data.DIV_NUM + "</td>";
 			html +="<td>" + data.DIV_NM + "</td>";
@@ -487,24 +522,26 @@ function drawPaging1(pd) {
         <div class="right_area">
             <div class="table_wrap first">
        		<!-- 페이징 때 기존 검색 내용 유지용 -->
-			<input type="hidden" id="oldGbn" value="${param.searchGbn}"/>
-			<input type="hidden" id="oldTxt" value="${param.searchTxt}"/>
+			<input type="hidden" id="oldGbn1" value="${param.searchGbn1}"/>
+			<input type="hidden" id="oldText1" value="${param.searchText1}"/>
        		
             <form action="#" id="searchForm1">
-			<!-- 검색어 유지용 -->
-			<input type="hidden" id="oldGbn" value="0" />
-			<input type="hidden" id="oldText" />
-			<input type="hidden" name="page" id="page" value="1" />
+
                 <div class="search_box">
+                <!-- 검색어 유지용 -->
+                <input type="hidden" id="oldGbn1" value="0" />
+				<input type="hidden" id="oldText1" />
+				<input type="hidden" name="page" id="page" value="1" />
+			
                   <div class="select">
-					<select name="searchGbn" id="searchGbn">
+					<select name="searchGbn1" id="searchGbn1">
 						 <option value="0">분류명</option>
 					</select>
 					</div>
 					<div class="search_form">
-					<input type="text" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
+					<input type="text" name="searchText1" id="searchText1" />
                 </div>
-				<div class="search_btn1" id="searchBtn1">검색</div>
+				<div class="search_btn" id="searchBtn1">검색</div>
 			</div>
 			</form>	
                 <table>
@@ -532,17 +569,21 @@ function drawPaging1(pd) {
               
               
            
-                 <div class="table_wrap second">
+             <div class="table_wrap second">
+             <!-- 페이징 때 기존 검색 내용 유지용 -->
+			<input type="hidden" id="oldGbn" value="${param.searchGbn}"/>
+			<input type="hidden" id="oldText" value="${param.searchText}"/>
+			
             <form action="#" id="searchForm">
-			<!-- 검색어 유지용 -->
-			<input type="hidden" id="oldGbn" value="0" />
-			<input type="hidden" id="oldText" />
-			<input type="hidden" name="page" id="page" value="1" />
-			<input type="hidden" name="no" id="no" />
-			</form>	
                 <div class="search_box">
+                <!-- 검색어 유지용 -->
+                <input type="hidden" id="oldGbn" value="0" />
+				<input type="hidden" id="oldText" />
+				<input type="hidden" name="page" id="page" value="1" />
+				<input type="hidden" name="cateNum" id="cateNum" />
+				<input type="hidden" name="no" id="no" />
                   <div class="select">
-					<select name="select_b" id="select_b">
+					<select name="searchGbn" id="searchGbn">
 						<option value="0">하위분류명</option>
 					</select>
 					</div>
@@ -551,6 +592,7 @@ function drawPaging1(pd) {
                 </div>
 				<div class="search_btn" id="searchBtn">검색</div>
 			</div>
+				</form>	
                 <table>
                 <colgroup>
 					<col width="100"> <!-- 번호 -->

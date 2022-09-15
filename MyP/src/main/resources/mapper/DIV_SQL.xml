@@ -16,23 +16,23 @@
 		SELECT COUNT(*) AS CNT
 		FROM CATEGORY_DIV
 		WHERE DEL = 1
-		 <if test="searchText != null and searchText != ''">
+		 <if test="searchText1 != null and searchText1 != ''">
 				<choose>
-				 	<when test="searchGbn eq 0">
-				 			 AND DIV_NM LIKE '%' || #{searchText}  || '%'
+				 	<when test="searchGbn1 eq 0">
+				 			 AND DIV_NM LIKE '%' || #{searchText1}  || '%'
 				 	</when>
 				</choose>
 			</if>
 	</select>
 	<select id="getDivList" parameterType="hashmap" resultType="hashmap">
 		SELECT S.DIV_NUM, S.DIV_NM
-		FROM( SELECT DIV_NUM, DIV_NM, ROW_NUMBER() OVER(ORDER BY DIV_NUM DESC, DIV_NM DESC) AS RNK
+		FROM( SELECT DIV_NUM, DIV_NM, ROW_NUMBER() OVER(ORDER BY DIV_NUM ASC, DIV_NM DESC) AS RNK
 		FROM CATEGORY_DIV
 		WHERE DEL = 1
-		 <if test="searchText != null and searchText != ''">
+		 <if test="searchText1 != null and searchText1 != ''">
 				<choose>
-				 	<when test="searchGbn eq 0">
-				 			 AND DIV_NM LIKE '%' || #{searchText}  || '%'
+				 	<when test="searchGbn1 eq 0">
+				 			 AND DIV_NM LIKE '%' || #{searchText1}  || '%'
 				 	</when>
 				</choose>
 			</if>
