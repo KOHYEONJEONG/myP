@@ -17,8 +17,8 @@
 <script type="text/javascript">
 $(document).ready(function() { 
 	 // 검색 구분 설정
-	   if("${param.searchGbn}" != "") {
-	      $("#searchGbn").val("${param.searchGbn}");
+	   if("${param.select_b}" != "") {
+	      $("#select_b").val("${param.select_b}");
 	   } else {
 	      $("#oldGbn").val("0");
 	   }
@@ -27,11 +27,12 @@ $(document).ready(function() {
 	   reloadList();	
 	
 	   // 검색 버튼
-	   $("#search_btn").on("click", function() {
+	   $("#searchbtn").on("click", function() {
 	      $("#page").val("1");
+	      console.log("클릭");
 	      
 	      // 신규 상태 적용
-	      $("#oldGbn").val($("#searchGbn").val());
+	      $("#oldGbn").val($("#select_b").val());
 	      $("#oldTxt").val($("#searchTxt").val());
 	      
 	      reloadList();
@@ -40,7 +41,7 @@ $(document).ready(function() {
 	   // 페이징 버튼
 	   $(".paging_area").on("click", "span", function() {
 	      // 기존 검색상태 유지      
-	      $("#searchGbn").val($("#oldGbn").val());
+	      $("#select_b").val($("#oldGbn").val());
 	      $("#searchTxt").val($("#oldTxt").val());
 	      
 	      
@@ -52,7 +53,7 @@ $(document).ready(function() {
 	   // 글쓰기 버튼
 	   $("#writeBtn").on("click", function() {
 	      // 기존 검색상태 유지      
-	      $("#searchGbn").val($("#oldGbn").val());
+	      $("#select_b").val($("#oldGbn").val());
 	      $("#searchTxt").val($("#oldTxt").val());
 	      
 	      $("#actionForm").attr("action", "qnaInsert");
@@ -63,7 +64,7 @@ $(document).ready(function() {
 		      $("#no").val($(this).attr("no"));
 		      
 		      // 기존 검색상태 유지
-		      $("#searchGbn").val($("#oldGbn").val());
+		      $("#select_b").val($("#oldGbn").val());
 		      $("#searchTxt").val($("#oldTxt").val());
 		      
 		      $("#actionForm").attr("action", "QnaDetail");
@@ -159,26 +160,36 @@ function drawPaging(pd) {
                 <div class="on">QnA</div>
             </div> 
         </div>
-        <input type="hidden" id="oldGbn" value="${param.searchGbn}" />
-		<input type="hidden" id="oldTxt" value="${param.searchTxt}" />
-        <div class="right_area">     
-       <form action="#" id="actionForm" method="post">
-      <input type="hidden" name="no" id="no" />   
-      <input type="hidden" name="page" id="page" value="${page}" />       
+        
+        <div class="right_area">   
+       
+		  
+       
+        
             <div class="table_wrap">
+            
+            
+             <input type="hidden" id="oldGbn" value="${param.select_b}" />
+		<input type="hidden" id="oldTxt" value="${param.searchTxt}" />
+		
+		<form action="#" id="actionForm" method="post">
               <div class="search_box">
+              <input type="hidden" id="oldGbn" value="0" />
+				<input type="hidden" id="oldTxt" />
+               <input type="hidden" name="no" id="no" />   
+      <input type="hidden" name="page" id="page" value="${page}" />    
                 <div class="select">
                     <select name="select_b" id="select_b">
-                      <option value="all">전체</option>
-                      <option value="title">제목</option>
-                      <option value="nickname">작성자</option>
+                      <option value="0">전체</option>
+                      <option value="1">제목</option>
+                      <option value="2">작성자</option>
                   </select>
                  <!--조건선택-->
                 </div>
                 <div class="search_form">
                   <input type="text" name="searchTxt" id="searchTxt" />
                 </div>          
-                <div class="search_btn" >
+                <div class="search_btn" id="searchbtn">
                   검색
                 </div>           
                 </form>

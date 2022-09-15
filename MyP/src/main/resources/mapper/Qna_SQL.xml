@@ -18,11 +18,11 @@
     	WHERE Q.DEL = 1
     <if test="searchTxt != null and searchTxt != ''">
     <choose>
-    	<when test = "select_b eq title">
+    	<when test = "select_b eq 1">
     		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
     	</when>
     	
-    	<when test = "select_b eq nickname">
+    	<when test = "select_b eq 2">
     		AND M.NM LIKE '%' || #{searchTxt} || '%'
     	</when>
     	
