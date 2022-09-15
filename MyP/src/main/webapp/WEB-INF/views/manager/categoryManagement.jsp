@@ -13,22 +13,25 @@
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
     <style type="text/css">
-      .insert_btn{
-        float: right;
-        width: 70px;
-        height: 35px;
-	  border: 1px solid #e6e6e6;
-	  background: rgb(255, 255, 255);
-	  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(229, 229, 229) 100%);
-	  font-size: 20px;
-	  text-align: center;
-	  box-sizing: border-box;
-	  text-align: center;
-	  font-size: 14px;
-	  line-height: 33px;
-	  cursor: pointer;
-	  margin-right: 360px;
+      
+      .stitle {
+      	margin: 0 10px;
+      	font-weight: bold;
       }
+      
+      .update{
+      	display: flex;
+      }
+      
+      .update .update_btn{
+      	width: 70px;
+      	margin: 0 5px 0 10px;
+      }
+      
+      .update .delete_btn{
+      	width: 70px;
+      }
+      
     </style>
 	<script type="text/javascript">
  	 $(document).ready(function () {
@@ -55,7 +58,7 @@
 		$("#searchText").val($("#oldText").val());
 		
 		reloadList();
-	})	
+	})
 		
 	// 검색 클릭시
 	/* $("#searchBtn").on("click", function () {
@@ -230,13 +233,25 @@ function drawList(list) {
 		html +="<td>" + data.DIV_NM + "</td>";
 		html +="<td>" + data.CATE_NM + "</td>";
 		html +="<td>";
-			html +="<div class=\"delete_btn\">수정</div><br/>";
+			html +="<div class=\"update_btn\">수정</div><br/>";
 			html +="<div class=\"delete_btn\">삭제</div>";
 		html +="</td>";
 		html +="</tr>";
 	}
 	
 	$("tbody").html(html);
+	
+	var html1 = "";
+	
+	
+	for(var i = 1; i <= list.length; i++){
+		html1 += "<option value=\"" + i + "\">" + list.DIV_NM + "</option>";
+		
+		console.log(list);
+	}
+		
+	
+	$("#selectDiv").html(html1);
 }
 
 
@@ -300,7 +315,6 @@ function drawPaging(pd) {
 		</form>	
             <div class="table_wrap">
                 <div class="search_box">
-                  <div class="insert_btn">추가</div>
                   <div class="select">
 					<select name="select_b" id="select_b">
 						 <option value="0">전체</option>
@@ -313,13 +327,49 @@ function drawPaging(pd) {
                 </div>
 				<div class="search_btn" id="searchBtn">검색</div>
 			</div>
+			<div class="insert_box">
+			<div class="stitle">분류명</div>
+			 	<form action="#" id="actionForm">
+					 <div class="select">
+					 <select name="select_b" id="selectDiv">
+								 
+							</select>
+					<input type="hidden" name="no" id="no">
+					</div>
+				</form> 
+				<div class="stitle">하위분류명</div>
+					<div>
+						<form action="#" id="actionForm">
+							<input type="hidden" name="no" id="no">
+							<div class="search_form">
+                  			<input type="text" name="searchText" id="searchText"/>
+                			</div>
+						</form>
+					</div>
+					<div>
+						<!-- <div class="insert">
+							<div class="insert_btn" id="insertBtn">등록</div>
+						</div>  -->
+						<div class="update">
+							<div class="update_btn" id="updateBtn">수정</div>
+							<div class="delete_btn" id="cancelBtn">취소</div>
+						</div>
+					</div>
+			
+			</div>
                 <table>
+                <colgroup>
+					<col width="100"> <!-- 분류번호 -->
+					<col width="200"> <!-- 분류명 -->
+					<col width="350"> <!-- 하위분류명 -->
+					<col width="150"> <!-- 수정/삭제 -->
+				</colgroup>
                   <thead>
                     <tr>
                       <th>분류번호</th>
                       <th>분류명</th>
                       <th>하위분류명</th>
-                      <th>삭제/수정</th>
+                      <th>수정/삭제</th>
                     </tr>
                   </thead>
                   <tbody></tbody>

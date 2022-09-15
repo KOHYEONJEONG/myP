@@ -39,7 +39,7 @@ public class ManagerController {
 
 	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryManagementAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+	public String categoryManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
 			throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -74,7 +74,7 @@ public class ManagerController {
 
 	@RequestMapping(value = "/categoryManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String categoryManagementList(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String categoryManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
@@ -117,10 +117,45 @@ public class ManagerController {
 
 	// 관리자 페이지 회원관리 목록화면
 	@RequestMapping(value = "/memManagement")
-	public ModelAndView memManagement(ModelAndView mav) {
+	public ModelAndView memManagement(@RequestParam HashMap<String, String> params,ModelAndView mav) {
+		
+		int page = 1;//첫페이지로 나타내려고
+		
+		if(params.get("page")!= null && params.get("page") != "") {
+			page = Integer.parseInt(params.get("page"));
+		}
+		//페이지 번호
+		mav.addObject("page", page);
+		
 		mav.setViewName("manager/memManagement");
 		return mav;
 	}
+	
+	//Ajax를 붙여야지 AOP에서 관리 안함.
+	@RequestMapping(value = "/memManagementListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String memManagementListAjax(@RequestParam HashMap<String,String> params) throws Throwable{
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		System.out.println("params : "+params.toString());
+		
+		// 페이지 받아오게 되어있음
+		int cnt = dao.getIntData("member.getMemberCnt", params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 5, 5);
+
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+
+		List<HashMap<String, String>> list = dao.getList("member.getMemberList", params);
+
+		model.put("list", list);
+		model.put("pd", pd);
+		
+		return mapper.writeValueAsString(model);
+	}
+	
 
 	// 관리자 페이지 신고관리 목록화면
 	@RequestMapping(value = "/reportReviewManagement")

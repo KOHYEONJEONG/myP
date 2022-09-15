@@ -7,5 +7,6 @@
 		UPDATE MEMBER SET AUTORITY_NUM = 1
 		WHERE ID = #{id}
 	</update>
+	
 
 </mapper>
