@@ -66,11 +66,12 @@ function drawList(list) {
 	
 	$("tbody").html(html);
 	
-	var html = "";
 	
 	for(var data of list) {		
 		
-		$('.star' + data.RNK).raty({ readOnly: true, score: data.SYSTEM });	 		
+		$('.star' + data.RNK).raty({ readOnly: true, score: data.SYSTEM, 
+			path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"	
+		});	 		
 	}	
 }
 
