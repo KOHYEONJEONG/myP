@@ -22,30 +22,52 @@ $(document).ready(function() {
 		$("#oldGbn").val("0");
 	}
 	
-	//카테고리 설정
-	if("${param.cateNo}" != "") {
-		$("#cateNo").val("${param.cateNo}")
-	}
-	
-	//카테고리 변경 시
-	$("#cateNo").on("change", function() {
-		$("#page").val("1");
-		$("#searchGbn").val("0");
-		$("#searchTxt").val("");
-		$("#oldGbn").val("0");
-		$("#oldTxt").val("");
-		
-		reloadList();
-	})
 	
 	reloadList();
 	
 	//검색 버튼
-	$("searchBtn").on("click", 려ㅜㅊ샤ㅐㅜ())
-})
+	$("#searchBtn").on("click", function() {
+		
+		$("#oldGbn").val($("#searchGbn").val());
+		$("#oldTxt").val($("#searchTxt").val());
+	});
+	
+	function reloadList() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "DataMListAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawList(res.list);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+	
+	function drawList(list) {
+		var html = "";
+		
+		for(var data of list) {
+			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
+		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>";
+		    html += "<th>"+data.CAR_PARK_NM+"</th>";
+		    html += "<th>"+data.ADDRESS+"</th>";
+		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
+		    html += "</tr>";
+		}
+		$("tbody").html(html);
+	}
+});
 </script>
 </head>
 <body>
+ <input type="hidden" id="oldGbn" value="${param.searchGbn}">
+ <input type="hidden" id="oldTxt" value="${param.searchTxt}">
  <c:import url="/header1"></c:import>
      <main>
         <div class="main_wrap">
@@ -58,7 +80,7 @@ $(document).ready(function() {
               <div>신고 리뷰관리</div>
           </div> 
         </div>
-        <div class="right_area">          
+        <div class="right_area">     
             <div class="table_wrap">
               <div class="search_box1">
                 <select class="cate">
@@ -67,96 +89,39 @@ $(document).ready(function() {
                   <option value="culture">문화생활</option>
                   <option value="gasstation">주유소</option>
                 </select>
+                <form action="#" id="dataForm" method="post">
+                <input type="hidden" name="no" id="no" />
                 <div class="select_box">
                 <div class="select">
-                    <select name="select_b" id="select_b">
-                      <option value="all">전체</option>
-                      <option value="title">주차장명</option>
-                      <option value="content">주차장유형</option>
-                      <option value="nickname">요금정보</option>
+                    <select name="searchGbn" id="searchGbn">
+                      <option value="0">전체</option>
+                      <option value="1">주차장명</option>
+                      <option value="2">주차장유형</option>
+                      <option value="3">주소</option>
                   </select>
                  <!--조건선택-->
                 </div>
                 <div class="search_form">
-                  <input type="text" />
+                  <input type="text" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
                 </div>
-                <div class="search_btn" >
+                <div class="search_btn" id="search_btn">
                   검색
                 </div>
               </div>
-              </div>
+              </form>
+              </div>           
+              
               <table>
                 <thead>
                   <tr>
-                    <th>주차장번호관리</th>
+                    <th>주차장관리번호</th>
                     <th>주차장명</th>
                     <th>주차장유형</th>
                     <th>주소</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>105-1-00001</td>
-                    <td>회기역 주변</td>
-                    <td>노상</td>
-                    <td>서울특별시 동대문구
-                      망우로-21
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                  
                 </tbody>
               </table>
                 <!--페이징-->
