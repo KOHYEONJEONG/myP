@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cate">
-	<insert id="insertCate" parameterType="hashmap">
+	<!-- <insert id="insertCate" parameterType="hashmap">
 		INSERT INTO CATEGORY(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
 	</insert>
 	<update id="updateCate" parameterType="hashmap">
@@ -11,47 +11,47 @@
 	<update id="deleteCate" parameterType="hashmap">
 		UPDATE CATEGORY SET DEL = 0
 		WHERE CATE_NUM = #{no}
-	</update>
+	</update> -->
 	<select id="getCateCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
-		WHERE DEL = 1
+		AND CD.DEL = 1
+        WHERE C.DEL = 1
+        AND CD.DIV_NUM = #{no}
 		<if test="searchText != null and searchText != ''">
 			<choose>
 			 	<when test="searchGbn eq 0">
-			 			AND DIV_NM = #{searchText}
-			 	</when>
-				<when test="searchGbn eq 1">
 			 			AND CATE_NM LIKE '%' || #{searchText} || '%'
 			 	</when>
 			</choose>
 		</if>
 	</select>
 	<select id="getCateList" parameterType="hashmap" resultType="hashmap">
-		SELECT S.CATE_NUM, S.DIV_NM, S.CATE_NM
+		        
+    	SELECT S.CATE_NUM, S.DIV_NM, S.CATE_NM
 		FROM( SELECT C.CATE_NUM, CD.DIV_NM, C.CATE_NM, ROW_NUMBER() OVER(ORDER BY CATE_NUM DESC, CATE_NM DESC) AS RNK
 		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
-		WHERE DEL = 1
+        AND CD.DEL = 1
+		WHERE  C.DEL = 1
+        AND CD.DIV_NUM = #{no}
 	      <if test="searchText != null and searchText != ''">
 				<choose>
 				 	<when test="searchGbn eq 0">
-				 			AND DIV_NM = #{searchText} 
-				 	</when>
-					<when test="searchGbn eq 1">
 				 			AND CATE_NM LIKE '%' || #{searchText} || '%'
 				 	</when>
+
 				</choose>
 			</if>
 	      ) S
 		WHERE S.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="getCateAllList" resultType="hashmap">
+<!-- 	<select id="getCateAllList" resultType="hashmap">
 		SELECT C.CATE_NUM, CD.DIV_NM, C.CATE_NM 
 		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
 		WHERE DEL = 1
 	</select>
-	
+	 -->
 	<!-- 이름 취득용 -->
 	<!-- <select id="getCate" parameterType="hashmap" resultType="String">
 		SELECT CATE_NM
