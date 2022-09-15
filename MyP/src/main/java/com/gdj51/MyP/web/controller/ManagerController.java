@@ -152,15 +152,56 @@ public class ManagerController {
 
 		model.put("list", list);
 		model.put("pd", pd);
+	
 		
 		return mapper.writeValueAsString(model);
 	}
 	
-	@RequestMapping(value="/autorityPopup")
-	public ModelAndView autorityPopup(@RequestParam HashMap<String,String> params,ModelAndView mav) throws Throwable{
+	// 관리자 페이지 데이터관리 목록화면
+	@RequestMapping(value = "/autorityPopup")
+	public ModelAndView autorityPopup(ModelAndView mav) {
 		mav.setViewName("manager/autorityPopup");
 		return mav;
 	}
+
+	
+	@RequestMapping(value = "/memDetailAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String memDetailAjax(@RequestParam HashMap<String,String> params) throws Throwable{
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		System.out.println("(*)memDetailAjax : "+params.toString());
+
+		HashMap<String, String> data = dao.getMapData("member.getMember", params);
+
+		model.put("data", data);
+		
+		
+		List<HashMap<String, String>> gbn = dao.getList("manager.autority", params);
+		model.put("gbn", gbn);
+		return mapper.writeValueAsString(model);
+	}
+	
+	
+	@RequestMapping(value = "/autoryUpdateAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String autoryUpdateAjax(ModelAndView mav, 	@RequestParam 	HashMap<String, String> params) throws Throwable {
+		
+		System.out.println("(*)autorityUpdate : "+params.toString());
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		int cnt = 0;
+		cnt = dao.update("manager.autorityUpdate", params);
+		
+		if(cnt > 0) {
+			model.put("msg", "success");
+		}else {
+			model.put("msg", "fail");
+		}
+		return mapper.writeValueAsString(model);
+	}
+	
 
 	// 관리자 페이지 신고관리 목록화면
 	@RequestMapping(value = "/reportReviewManagement")

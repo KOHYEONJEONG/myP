@@ -1,5 +1,32 @@
 @charset "UTF-8";
 
+.popup_left table {
+	border-collapse: collapse;
+	width: 300px;
+	border-radius: 5px;
+}
+
+.popup_left table thead {
+	border: 1px solid black;
+}
+
+.popup_left table thead tr{
+	border: 1px solid black;
+	background-color: #fff;
+}
+
+.popup_left table thead th{
+	height:30px;
+	text-align: center;
+	border: 1px solid black;
+}
+
+.popup_left table thead td{
+	height:30px;
+	text-align: center;
+	border: 1px solid black;
+}
+
 #res{
 	display: inline-block;
 	width: 100%;
@@ -27,13 +54,10 @@
 .table_wrap .search_box1{
 	margin-bottom: 0px;
 }
-.autority_popup{
-	display: none;
-}
 
 .autority_popup {
-  width: 350px;
-  height: 380px;
+  width: 500px;
+  height: 330px;
   position: absolute;
   background-color: #C4E2F2;
   top: 50%;
@@ -43,7 +67,6 @@
   padding: 40px 20px 0 20px;
   border: 1px solid #000;
   box-sizing: border-box;
-  display: none;
   border-radius: 15px;
   font-family: "TmoneyRoundWindRegular";  
 }
@@ -51,23 +74,14 @@
     display: flex;
     margin: 0 auto;
     text-align: center;
-    height: 250px;
-    border: 1px solid #00af80;
     margin: 10px auto;
 }
 
 .autority_popup .txt_title{
-	font-weight: 600;
-	font-size: 15px;
+	font-size: 18px;
 	padding: 7px;
 }
 
-.autority_popup textarea{
-	width: 170px;
-	height: 210px;
-	resize: none;
-	overflow: auto;
-}
 
 .autority_popup .close_i {
   position: absolute;
@@ -81,34 +95,37 @@
   cursor: pointer;
 }
 
-.autority_popup .popup_left{
-	height: 250px;
-}
 
 .autority_popup .popup_right{
-	margin-right: 0px;
-	height: 250px;
-	width: 100%;
+    margin-right: 0px;
+    width: 150px;
 }
 
-.autority_popup .popup_right .autoritySelectBox {
+.autority_popup .popup_left .memberSelectBox{
   position: relative;
   width: 150px;
   height: 35px;
   border-radius: 4px;
-  border: 2px solid lightcoral;
+  border: 2px solid #000000;
 }
 
-.autority_popup .autoritySelectBox option {
-  background: lightcoral;
-  color: #fff;
+.autority_popup .popup_right .autoritySelectBox {
+	margin-left:10px;
+  position: relative;
+  width: 130px;
+  height: 35px;
+  border-radius: 4px;
+  border: 2px solid #000000;
+}
+
+
+.autority_popup .popup_right .autoritySelectBox option {
   padding: 3px 0;
   font-size: 16px;
 }
 
-
 .autority_popup .empower_btn{
-     width: 70px;
+    width: 70px;
     height: 35px;
     border: 1px solid #FD9A29;
     background: #FD9A29;
@@ -117,4 +134,10 @@
     box-sizing: border-box;
     text-align: center;
     line-height: 35px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.autority_popup .btn_wrap{
+	text-align: center;
 }
