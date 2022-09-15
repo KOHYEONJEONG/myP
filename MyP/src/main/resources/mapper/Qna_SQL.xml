@@ -74,5 +74,8 @@
 	</insert>
 	
 	
-
+	<update id="commentinsert" parameterType="hashmap">
+		UPDATE QNA SET ANSWER_MEM = 0,
+            ANSWER_CON=#{con},ANSWER_DT=SYSDATE
+	</update>
 </mapper>

@@ -87,6 +87,7 @@ public class QnaController {
 		}
 		return mav;
 	}
+	
 	@RequestMapping(value= "/QnaAction/{gbn}",
 			method = RequestMethod.POST,
 			produces = "text/json;charset=UTF-8")
@@ -102,11 +103,11 @@ public class QnaController {
 		
 		try {
 			switch(gbn) {
-			case "insert" : cnt = iACDao.insert("qna.insert",params);
+			case "insert" : cnt = iACDao.update("qna.commentinsert",params);
 				break;
-			case "update" :	cnt = iACDao.update("qna.update",params);
+			case "update" :	cnt = iACDao.update("qna.commentupdate",params);
 				break;
-			case "delete" :	cnt = iACDao.update("qna.delete",params);
+			case "delete" :	cnt = iACDao.update("qna.commentdelete",params);
 				break;
 		} 
 			if(cnt>0) {
