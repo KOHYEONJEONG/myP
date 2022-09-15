@@ -160,37 +160,7 @@ $(document).ready(function () {
         $('.curr_bar').removeClass('on')
     })
     
-	//header1
-    //클릭시 페이지 이동
-    $("#logo").click(function() {
-		location.href = "home";
-	})
-    
-    $("#parkinfo").click(function() {
-		location.href = "parkinfo";
-	})
 	
-	$("#notice").click(function() {
-		location.href = "notice";
-	})
-	
-	$("#faq").click(function() {
-		location.href = "faq";
-	})
-	
-	$("#qna").click(function() {
-		location.href = "qna";
-	})
-    
-    $("#system").click(function() {
-		location.href = "rankingSystemGoodParking";
-	})
-    
-    $("#fee").click(function() {
-		location.href = "rankingFeeReasonableBoard";
-	})
-   
-
 
 
     // 챗봇

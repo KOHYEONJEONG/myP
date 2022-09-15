@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
+    <script src="resources/js/header.js"></script>
  <style type="text/css">
         body,
         html {

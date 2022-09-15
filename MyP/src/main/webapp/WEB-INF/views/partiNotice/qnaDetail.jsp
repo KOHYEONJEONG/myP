@@ -94,19 +94,74 @@
             color: #fff;
         }
 
-    
-
-
-    
     </style>
     <script src="./jquery/jquery-1.12.4.js"></script>
      <script src="./js/main.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script type="text/javascript"
+src="resources/script/jquery/jquery.slimscroll.js"></script>
+<script type="text/javascript">
+   
+   $(document).ready(function() {
+      
+      $("#insertBtn").on("click", function() { 
+          
+          if($.trim($("#con").val())==""){//1.내용이 있는지 먼저 확인하기!!
+             makeAlert("알림", "내용을 입력하세요.", function() {
+                $("#con").focus();
+             });
+          }else{
+        	action("insert");  
+          	}
+          
+  	 	});
+   });
+   var msg={
+		      "insert" : "등록",
+		      "update" : "수정",
+		      "delete" : "삭제",
+		   }
+         function action(flag){
+        	 
+        	//con  <들을 웹문자로 변환
+             $("#con").val($("#con").val().replace(/</gi, "&lt;"));
+           	//con dml <들을 웹문자로 변환
+           	      $("#con").val($("#con").val().replace(/>/gi, "&gt;"));
+           	
+           	var params = $("actionForm").serialize();
+           	   $.ajax({
+           		   url : "qnaDetail/"+flag,
+           		 type : "POST",
+                 dataType : "json", 
+                 data : params, 
+                 success : function(res) { 
+                	 switch(res.msg){
+                     case "success":
+                     //내용초기화
+                        $("#con").val("");
+                     break;
+                	 
+                     case "fail":
+                         makeAlert("알림", mag[flag] + "에 실패하였습니다.");
+                        break;
+                     case "error":
+                         makeAlert("알림", mag[flag] +" 중 문제가 발생하였습니다.");
+                     break;
+                  }
+               },
+               error : function(request, status, error) {
+                  console.log(request, responseText); 
+               }
+            });//ajax End
+      }//action(flag) function End
+      
+           	   
+</script>
 </head>
 <body>
   <c:import url="/header1"></c:import>
-      <main>
+     <main>
         <div class="main_wrap">
             <div class="side_bar">
                 <div class="title">참여/알림</div>
@@ -117,33 +172,42 @@
                 </div> 
             </div>
             <div class="right_area">      
-                <div class="contents">
+                <div class="detail_wrap">
                     <div class="title">QnA</div>
                     <hr>
                     <div class="notice">
                         <div class="notice_left">
                             <span class="i"></span>
-                            <span>이용관련 문의드려요</span>
+                            <span>${data.TITLE}</span>
                         </div>
                         <div class="notice_right">
-                            <div>작성일 : 2022-06-27</div>
-                            <div>조회수:50</div>
+                            <div>작성일 : ${data.DT}</div>
+                            <div>조회수:${data.HIT}</div>
                         </div>
                     </div>
                     <hr>
                     <div class="content">
-                        공영 주차장 문의드려요~
-                        용산 공영주차장 설날에 무료인가요?
+                          ${data.CON}
+                          ${data.ANSWER_CON}
                     </div>
                  <hr>
                  <div class="answer">
                     <div class="txt">답변</div>
-                    <textarea class="answer_txt"></textarea>
+                    <form action = "#" id="actionForm">
+                    <textarea type="text" class="answer_txt" >
+                    </textarea>
+                    </form>
+                    <!-- 관리지만 노출 -->
+                    <div class="setting"></div> <!-- 글 등록, 수정 버튼 -->
+                    <div class="recycle_bin"></div> <!-- 글 삭제 버튼 -->
                 </div>
                 <hr>
                 <div class="btn_wrap">
                     <input type="button" value="목록" class="btn list">
-                    <input type="button" value="등록" class="btn regi">
+                    <!-- 작성자만 노출 -->
+                    <!--  <input type="button" value="수정" class="btn update">-->
+                    <!--<input type="button" value="삭제" class="btn del">-->
+                      <input type="button" value="등록" class="btn regi" id="insertBtn">
                 </div>
             </div>
         </div>
