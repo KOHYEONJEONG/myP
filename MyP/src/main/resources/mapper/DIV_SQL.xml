@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="div">
+	<!-- <insert id="insertDiv" parameterType="hashmap">
+		INSERT INTO CATEGORY(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
+	</insert>
+	<update id="updateDiv" parameterType="hashmap">
+	 	UPDATE CATEGORY SET CATE_NM = #{cateNm}
+		WHERE CATE_NUM = #{no}
+	</update>
+	<update id="deleteDiv" parameterType="hashmap">
+		UPDATE CATEGORY SET DEL = 0
+		WHERE CATE_NUM = #{no}
+	</update> -->
+	<select id="getDivCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM CATEGORY_DIV
+		WHERE DEL = 1
+		 <if test="searchText1 != null and searchText1 != ''">
+				<choose>
+				 	<when test="searchGbn1 eq 0">
+				 			 AND DIV_NM LIKE '%' || #{searchText1}  || '%'
+				 	</when>
+				</choose>
+			</if>
+	</select>
+	<select id="getDivList" parameterType="hashmap" resultType="hashmap">
+		SELECT S.DIV_NUM, S.DIV_NM
+		FROM( SELECT DIV_NUM, DIV_NM, ROW_NUMBER() OVER(ORDER BY DIV_NUM ASC, DIV_NM DESC) AS RNK
+		FROM CATEGORY_DIV
+		WHERE DEL = 1
+		 <if test="searchText1 != null and searchText1 != ''">
+				<choose>
+				 	<when test="searchGbn1 eq 0">
+				 			 AND DIV_NM LIKE '%' || #{searchText1}  || '%'
+				 	</when>
+				</choose>
+			</if>
+	      ) S
+		WHERE S.RNK BETWEEN #{start} AND #{end}
+	</select>
+	
+<!-- 	
+	<select id="getDivAllList" resultType="hashmap">
+		SELECT C.CATE_NUM, CD.DIV_NM, C.CATE_NM 
+		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
+		WHERE DEL = 1
+	</select>
+	 -->
+	<!-- 이름 취득용 -->
+	<!-- <select id="getCate" parameterType="hashmap" resultType="String">
+		SELECT CATE_NM
+		FROM CATE
+		WHERE DEL = 1
+		AND CATE_NO = #{cateNo}
+	</select> -->
+	
+	
+</mapper>
