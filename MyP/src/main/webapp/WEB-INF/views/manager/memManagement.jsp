@@ -36,22 +36,18 @@
 			<div class="right_area">
 				<div class="table_wrap">
 				  
-				 	<form action="#" id="searchForm">
+				<form action="#" id="searchForm">
 				  <div class="search_box1">
-				
-					<div class="autority_btn" id="autority_btn">권한</div>
-				 	
-				 	
 				 	
 						<div class="search_box">
 								<!-- 검색어 유지용 -->
 								<input type="hidden" id="oldGbn" value="0" />
 								<input type="hidden" id="oldText" />
 								<input type="hidden" name="page" id="page" value="1" />
-								
+								<input type="hidden" id="no" name="no"/>
 								<div class="select">
-									<select name="searchGbn" id="searchGbn">
-										<option disabled selected>전체</option>
+									<select name="searchGbn" id="searchGbn" value="0">
+										<option value="0" selected="selected">전체</option>
 										<option value="1">아이디</option>
 										<option value="2">작성자</option>
 										<option value="3">이메일</option>
@@ -70,7 +66,6 @@
 					<table>
 						<colgroup>
 							<col width="100">
-							<col width="100">
 							<col width="200">
 							<col width="200"> 
 							<col width="300">
@@ -79,7 +74,6 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th><input type="checkbox" class="cb" /></th>
 								<th>no</th>
 								<th>아이디</th>
 								<th>닉네임</th>
@@ -90,10 +84,6 @@
 						</thead>
 
 						<tbody>
-							<!-- 
-              
-                     -->
-
 						</tbody>
 					</table>
 
@@ -106,9 +96,11 @@
 			</div>
 		</div>
 	</main>
+	
 	<div id="autority_popup" class="autority_popup">
  		<c:import url="/autorityPopup"></c:import>
  	</div>
+ 	
 	<c:import url="/footer"></c:import>
 </body>
 </html>

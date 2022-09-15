@@ -12,36 +12,41 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
-    
 <script type="text/javascript">
 $(document).ready(function() {
 	//검색 구분 설정
 	if("${param.searchGbn}" != "") {
 		$("#searchGbn").val("${param.searchGbn}");
 	} else {
-		$("#oldGbn").val("0");
+		$("#oldGbn").val("0"); //없으면 0으로 고정
 	}
 	
-	
+	//목록 조회
 	reloadList();
 	
 	//검색 버튼
-	$("#searchBtn").on("click", function() {
+	$("#search_btn").on("click", function() {
+		$("#page").val("1");
 		
 		$("#oldGbn").val($("#searchGbn").val());
 		$("#oldTxt").val($("#searchTxt").val());
+		
+		reloadList();
 	});
+	
+	
 	
 	function reloadList() {
 		var params = $("#dataForm").serialize();
 		
 		$.ajax({
-			url: "DataMListAjax",
+			url: "dataManagementAjax",
 			type: "POST",
 			dataType : "json",
 			data: params,
 			success: function(res) {
 				drawList(res.list);
+				drawPaging(res.pd);
 			},
 			error : function(request, status, error) {
 				console.log(request.responseText);
@@ -49,6 +54,40 @@ $(document).ready(function() {
 		});
 	}
 	
+	function drawPaging(pd) {
+	var html = "";
+	
+	html +=
+	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+	// 이전
+	if($("#page").val() == "1"){
+		html += "<a class=\"arrow prev\" page=\"1\"></a>";
+	} else{
+		// 문자열을 숫자로 바꾸기위해 *1
+		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
+	}
+	
+	for(var i = pd.startP; i <= pd.endP; i++){
+		if($("#page").val() * 1 == i){ // 현재 페이지
+			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+		} else { // 다른 페이지
+			html += "<a page=\"" + i + "\">" + i + "</a>";
+		}
+		
+	}
+	
+	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+	} else {
+		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+	}
+	
+	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+	
+	$(".page_nation").html(html);
+                                                                     
+}
+
 	function drawList(list) {
 		var html = "";
 		
@@ -56,19 +95,29 @@ $(document).ready(function() {
 			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
 		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>";
 		    html += "<th>"+data.CAR_PARK_NM+"</th>";
-		    html += "<th>"+data.ADDRESS+"</th>";
 		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
+		    html += "<th>"+data.ADDRESS+"</th>";
 		    html += "</tr>";
 		}
 		$("tbody").html(html);
 	}
+	
+	$(".page_nation").on("click", "a", function() {
+		$("#page").val($(this).attr("page"));
+		
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchText").val($("#oldText").val());
+		
+		reloadList();
+	});
 });
 </script>
 </head>
 <body>
+ <c:import url="/header1"></c:import>
  <input type="hidden" id="oldGbn" value="${param.searchGbn}">
  <input type="hidden" id="oldTxt" value="${param.searchTxt}">
- <c:import url="/header1"></c:import>
+ 
      <main>
         <div class="main_wrap">
           <div class="side_bar">
@@ -90,7 +139,7 @@ $(document).ready(function() {
                   <option value="gasstation">주유소</option>
                 </select>
                 <form action="#" id="dataForm" method="post">
-                <input type="hidden" name="no" id="no" />
+                <input type="hidden" name="page" id="page" value="1" /> 
                 <div class="select_box">
                 <div class="select">
                     <select name="searchGbn" id="searchGbn">
@@ -102,7 +151,7 @@ $(document).ready(function() {
                  <!--조건선택-->
                 </div>
                 <div class="search_form">
-                  <input type="text" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
+                  <input type="text" name="searchTxt" id="searchTxt" />
                 </div>
                 <div class="search_btn" id="search_btn">
                   검색
@@ -112,6 +161,12 @@ $(document).ready(function() {
               </div>           
               
               <table>
+              <colgroup>
+				<col width="100" />
+				<col width="150" />
+				<col width="100" />
+				<col width="250" />
+			</colgroup>
                 <thead>
                   <tr>
                     <th>주차장관리번호</th>
@@ -126,23 +181,8 @@ $(document).ready(function() {
               </table>
                 <!--페이징-->
                 <div class="page_wrap">
-                    <div class="page_nation">
-                       <a class="arrow pprev" href="#"></a>
-                       <a class="arrow prev" href="#"></a>
-                       <a href="#" class="active">1</a>
-                       <a href="#">2</a>
-                       <a href="#">3</a>
-                       <a href="#">4</a>
-                       <a href="#">5</a>
-                       <a href="#">6</a>
-                       <a href="#">7</a>
-                       <a href="#">8</a>
-                       <a href="#">9</a>
-                       <a href="#">10</a>
-                       <a class="arrow next" href="#"></a>
-                       <a class="arrow nnext" href="#"></a>
-                    </div>
-                 </div>
+                      <div class="page_nation"></div>
+                   </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
  $(document).ready(function() {
 	
    	reloadList();
-  
+  	$("#autority_popup").hide();
   	console.log("체크박스 길이 : "+$("tbody [type='checkbox']").length);
 	
 	//검색구분 유지
@@ -32,89 +32,137 @@
 		reloadList();
 	});
 	 
-	 $("tbody").on("click",".cb", function() {
-		//셀렉터 중 : checked => 체크 됨을 나타냄.
-		console.log("체크된 길이:", $("tbody .cb:checked").length); //tbody안에 체크된 것의 개수
 		
-		//console.log($("tbody .cb:checked").val());/*tbody안에 체크된 것의 값
-													/*한개만 가져옴...*/
-													
-		//30라인 단점을 보안해줌 , 추천) 
-		//객체.each(함수) : 해당 객체만큼 돌면서 함수를 실행
-		var arr = [];
-		$("tbody .cb:checked").each(function() {
-			//현제 꺼낸 값을 넣어라!!
-			arr.push($(this).val());//배열에 현재순번의 체크된 체크박스 값 넣기.
-		});
-			
+	$("#autority_popup .close_i").click(function () {
+		$("#autority_popup").hide();
+	    $('main').css({"opacity" : "1","pointer-events":"auto"});
+	    $('header').css({"opacity" : "1","pointer-events":"auto"});
+	});
+		
+	//행을 누르면 상세보기로 이동~
+	$("tbody").on("click", "tr", function() {
+	      //Ajax
+	      // 성공 시 #autority_popup에 html넣기
+	      $("#no").val($(this).attr("no"));
+	      var params = $("#searchForm").serialize();
+	      
+			$.ajax({
+				url : "memDetailAjax",
+				type : "POST", 
+				dataType: "json", 
+				data: params, 
+				success : function(res) {//가져올 변수명
+					//console.log("성공 " + res.data.MEM_NUM)//그 변수명 안에 있는 data.MEM_NUM
+					console.log(res.gbn);
+					drawAutoritySelectBox(res.gbn);
+					drawPopup(res.data);
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			}); //Ajax End
+	   });
 	   
-		console.log("현재선택된 체크박스를 배열 인덱스 : ",arr);
+	   
+	   $("#empower_btn").on("click",function() {
+
+		console.log("권한부여 클릭");
+		 // 기존 검색상태 유지
+		  $("#no2").val($.trim($(".no2").text()));
+		  
+		  console.log("no ==>"+$("#no2").val());
+	      
+	      var params = $("#autorityForm").serialize();
+	      
+			$.ajax({
+				url : "autoryUpdateAjax",
+				type : "POST", 
+				dataType: "json", 
+				data: params, 
+				success : function(res) {
+					if(res.msg == "success"){
+						console.log("권한 수정 완료");
+						
+						//팝업창 닫힘.
+						$("#autority_popup").hide();
+						
+						reloadList();//재로드
+					}else{
+						console.log("권한 수정 실패");
+					}				
+					
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			}); //Ajax End
+	      
+	      
+	      $("#searchGbn").val($("#oldGbn").val());
+	      $("#searchText").val($("#oldTxt").val());
+	  
+	    	$("#autorityForm").attr("action", "autorityForm");
+	     //$("#autorityForm").submit();
 		
-		$("#res").html(arr.toString());//덮어씌움.(누적x)
-			
-		if(arr.length == $("tbody .cb").length){
-			//상태값과 관련된 경우 attr을 사용 시 한번만 적용(한번만 해도 되는거면 상관없지만,
-			//여러번 왔다갔다(체크박스는 그렇지?)이럴경우 attr이 아닌 prop를 사용해야함.)
-			//$("thead .cb").attr("checked","checked");
-			
-			//prop(상태, boolean) : 해당 상태를 boolean에 맞추어 적용
-			$("thead .cb").prop("checked", true);
-			//3개가 되면 테스트에 체크박스가 체크됨.
-			$("#res").html(arr.toString());
-		}else{
-			$("thead .cb").prop("checked", false);
-			//3개가 안되면 테스트에 체크박스가 풀림.
-		}
-	 });//tbody .cb click end
-	 
-	 $("thead").on("click",".cb", function() {
-			//전체선택, 해제 클릭 시
-			//if($(this).prop("checked")){//클릭 대상이 현재 체크된 상태일 때
-				
-			//객체.is(셀렉터) : 객체가 셀렉터에 해당하는지를 확인
-			if($(this).is(":checked")){ //간접적으로 checked된 객체이냐
-				$("tbody .cb").prop("checked", true);//tbody에 .cd들을 체크상태로
-			}else{
-				//아닐 때
-				$("tbody .cb").prop("checked", false);//tbody에 .cd들을 체크해제 상태로
-			}
-			
-			var arr = [];
-			$("tbody .cb:checked").each(function() {
-				//현제 꺼낸 값을 넣어라!!
-				arr.push($(this).val());//배열에 현재순번의 체크된 체크박스 값 넣기.
-			});
-			
-			console.log("현재선택된 체크박스를 배열 인덱스 : ",arr);
-			
-			$("#res").html(arr.toString());//덮어씌움.(누적x)
-			
-		});
+	  });
 		
-		$("tbody").on("click","tr", function() {//tr에 자식을 주겠다. 
-			//console.log($(this).children().eq(0));//tr의 자식 중 인덱스 0번째 자식을 취득
-			//console.log($(this).children(":nth-child(2)"));//tr의 자식 중 2번재 자식을 취득
-			//tr의 자식 중 2번째 자식의 엔티티를 취득
-			console.log($(this).children(":nth-child(2)").html());//tr의 자식 중 2번재 자식의 엔티티를 가져와라
-		});
-		
-		
-		 $(".autority_btn").click(function () {
-		    $("#autority_popup").show();
-		    $('main').css({"opacity" : "0.5","pointer-events":"none"});
-		    $('header').css({"opacity" : "0.5","pointer-events":"none"});
-		});
-		
-		$("#autority_popup .close_i").click(function () {
-			$("#autority_popup").hide();
-		    $('main').css({"opacity" : "1","pointer-events":"auto"});
-		    $('header').css({"opacity" : "1","pointer-events":"auto"});
-		});
 });//$(document)
-   
-  var msg ={
-	"update" : "수정",
-}
+  
+  function drawAutoritySelectBox(gbn){
+	console.log("왜 안되지");
+	 var html = "";
+	 var i = 1;
+	 for(var data of gbn){	
+		 console.log(data);
+		 html += "<option value=\""+i+"\">"+data.AUTORITY_NM+"</option>";
+		 console.log(html);
+		 i++;
+	 }
+	 $("#autority_popup .popup_right #autoritySelectBox option").html(html);
+	 
+  }
+  
+  function drawPopup(data){ //권한 수정하려고 만든 팝업
+		var html = "";
+					
+		html += "<tr>";
+      	html += "<th>번호</th>";
+      	html += "<td class=\"no2\">"+data.MEM_NUM+"</td>";
+      	html += "</tr>";
+      
+        html += "<tr>";
+      	html += "<th>아이디</th>";
+      	html += "<td>"+data.ID+"</td>";
+        html += "</tr>";
+      
+        html += "<tr>";
+        html += "<th>닉네임</th>";
+      	html += "<td>"+data.NM+"</td>";
+        html += "</tr>";
+
+        html += "<tr>";
+      	html += "<th>경고수</th>";
+      	html += "<td>"+data.WARNING+"</td>";
+        html += "</tr>";
+      
+        html += "<tr>";
+      	html += "<th>가입일</th>";
+      	html += "<td>"+data.REG_DT+"</td>";
+        html += "</tr>";
+      
+        html += "<tr>";
+      	html += "<th>권한</th>";
+      	html += "<td>"+data.AUTORITY_NM+"</td>";
+        html += "</tr>";
+		
+		$("#autority_popup").show();
+		$("#autority_popup thead").html(html);
+	}
+	
+	function drawAutoritySelectBox(gbn){
+		var html = "";
+	}
+  
   
   function reloadList() {
 	var params = $("#searchForm").serialize();
@@ -126,6 +174,7 @@
 		success : function(res) {
 			console.log("성공")
 			drawList(res.list);
+		
 			drawPaging(res.pd);
 		},
 		error : function(request, status, error) { 
@@ -136,10 +185,8 @@
 
 function drawList(list) {
 	var html = "";
-	var i = 1;
 	for(var data of list){		
-		html +="<tr no=\"" + data.MEM_NUM+ "\">";
-		html +="<th><input type=\"checkbox\" class=\"cb\" value=\""+i+"\" /></th>";
+		html +="<tr no=\""+data.MEM_NUM+"\">";
 		html +="<td>" + data.MEM_NUM+ "</td>";
 		html +="<td>" + data.ID+ "</td>";
 		html +="<td>" + data.NM+ "</td>";
@@ -147,7 +194,6 @@ function drawList(list) {
 		html +="<td>" + data.WARNING+ "</td>";
 		html +="<td>" + data.AUTORITY_NM+ "</td>";
 		html +="</tr>";
-		i++;
 		//html +="<div class=\"delete_btn\">삭제</div>";
 		//html +="<div class=\"delete_btn\">수정</div><br/>";
 	}
