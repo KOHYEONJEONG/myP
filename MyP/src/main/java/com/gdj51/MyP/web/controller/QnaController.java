@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,7 +89,6 @@ public class QnaController {
 		}
 		return mav;
 	}
-	
 	@RequestMapping(value= "/QnaAction/{gbn}",
 			method = RequestMethod.POST,
 			produces = "text/json;charset=UTF-8")
@@ -103,11 +104,11 @@ public class QnaController {
 		
 		try {
 			switch(gbn) {
-			case "insert" : cnt = iACDao.update("qna.commentinsert",params);
+			case "insert" : cnt = iACDao.insert("qna.insert",params);
 				break;
-			case "update" :	cnt = iACDao.update("qna.commentupdate",params);
+			case "update" :	cnt = iACDao.update("qna.update",params);
 				break;
-			case "delete" :	cnt = iACDao.update("qna.commentdelete",params);
+			case "delete" :	cnt = iACDao.update("qna.delete",params);
 				break;
 		} 
 			if(cnt>0) {
@@ -123,4 +124,57 @@ public class QnaController {
 		return mapper.writeValueAsString(model);
 		}
 		
+	 //AOBAction
+    @RequestMapping(value="/qnaDetail/{gbn}",
+             method = RequestMethod.POST,
+             produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String AOBAction(HttpSession session,
+                      @PathVariable String gbn,
+                      @RequestParam HashMap<String, String> params) throws Throwable {
+       
+       ObjectMapper mapper = new ObjectMapper();
+       
+       Map<String, Object> model = new HashMap<String, Object>();
+       
+       int cnt = 0;
+       
+       try {
+          switch (gbn) {
+          case "insert":
+                cnt = iACDao.update("qna.commentinsert", params);
+             break;
+          case "update":
+                cnt = iACDao.update("ob.updateOb",params);
+             break;
+          case "delete":
+                cnt = iACDao.update("ob.deleteOb",params);
+             break;
+             
+          }
+          
+          if(cnt > 0) {
+             model.put("msg", "success");
+          }else {
+             model.put("msg", "fail");
+          }
+          
+       }catch (Exception e) {
+          e.printStackTrace();
+          model.put("msg","error");
+       }
+       
+       return mapper.writeValueAsString(model);
+    }
+
+    @RequestMapping(value = "/qnaInsert")
+	public ModelAndView qnaInsert(
+			
+			ModelAndView mav) {
+		
+			mav.setViewName("partiNotice/qnaRegister");
+		
+		
+		return mav;
+	}
 }

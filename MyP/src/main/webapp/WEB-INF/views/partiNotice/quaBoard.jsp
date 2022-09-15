@@ -55,7 +55,7 @@ $(document).ready(function() {
 	      $("#searchGbn").val($("#oldGbn").val());
 	      $("#searchTxt").val($("#oldTxt").val());
 	      
-	      $("#actionForm").attr("action", "AmemInsert");
+	      $("#actionForm").attr("action", "qnaInsert");
 	      $("#actionForm").submit();      
 	   });
 	   
@@ -105,7 +105,7 @@ function drawList(list) {
 		html +="<td>" + data.NM + "</td>";
 		html +="<td>" + data.DT + "</td>";
 		html +="<td>" + data.HIT + "</td>";
-	
+		
 		html +="</tr>";
 	}
 	
@@ -304,9 +304,17 @@ function drawPaging(pd) {
                     </div>
                  </div>
                  <div class="btn_wrap">
-                  <div class="write_btn" id="writeBtn">
-                      글쓰기
-                   </div>
+                 <c:choose>
+                    	<c:when test="${empty sMemNo}">
+                        
+                        </c:when>
+                      
+                         <c:otherwise>
+                        	<div class="write_btn" id="writeBtn">글쓰기
+                  		 </div>
+                 </c:otherwise>
+                  
+                      </c:choose>
               </div>
             </div>
           </div>

@@ -10,6 +10,7 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
+   	<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
     <style>
         .contents{
             position: absolute;
@@ -32,11 +33,12 @@
             display:flex;
             justify-content: space-between;
             line-height: 35px;
-            
+            font-size:14px;
         }
         .notice_right{
             padding-right: 20px;
             display: flex;
+       
         }
         .notice_right > div:nth-child(1){
             margin-right: 20px;
@@ -50,11 +52,14 @@
             height: 400px;
             padding: 20px;
             box-sizing: border-box;
+            font-size:14px;
         }
         .answer {
             display: flex;
             margin: 8px 0;
             height: 100px;
+             font-size:14px;
+         
         }
         .answer .txt{
             padding: 10px 0 0 20px;
@@ -69,6 +74,7 @@
             outline-color: #000;
             padding: 10px;
             box-sizing: border-box;
+            font-size:14px;
         }
         .btn_wrap{
             display: flex;
@@ -95,15 +101,24 @@
         }
 
     </style>
-    <script src="./jquery/jquery-1.12.4.js"></script>
-     <script src="./js/main.js"></script>
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script type="text/javascript"
 src="resources/script/jquery/jquery.slimscroll.js"></script>
+  <script type="text/javascript"
+		src="resources/script/common/popup.js"></script>
 <script type="text/javascript">
    
    $(document).ready(function() {
+	   
+	   $("#listBtn").on("click", function() {
+	         $("#actionForm").attr("action","qna"); 
+	         $("#actionForm").submit();
+	      });
+	   
+	   
       
       $("#insertBtn").on("click", function() { 
           
@@ -117,7 +132,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
           
   	 	});
    });
-   var msg={
+   var mag={
 		      "insert" : "등록",
 		      "update" : "수정",
 		      "delete" : "삭제",
@@ -129,7 +144,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
            	//con dml <들을 웹문자로 변환
            	      $("#con").val($("#con").val().replace(/>/gi, "&gt;"));
            	
-           	var params = $("actionForm").serialize();
+           	var params = $("#actionForm").serialize();
            	   $.ajax({
            		   url : "qnaDetail/"+flag,
            		 type : "POST",
@@ -139,7 +154,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                 	 switch(res.msg){
                      case "success":
                      //내용초기화
-                        $("#con").val("");
+                      
                      break;
                 	 
                      case "fail":
@@ -188,14 +203,15 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                     <hr>
                     <div class="content">
                           ${data.CON}
-                          ${data.ANSWER_CON}
+                       
                     </div>
+                    
                  <hr>
+                
                  <div class="answer">
-                    <div class="txt">답변</div>
-                    <form action = "#" id="actionForm">
-                    <textarea type="text" class="answer_txt" >
-                    </textarea>
+                    <div class="txt"> </div>
+                    <form action = "#" id="actionForm" method="post">
+                    <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
                     </form>
                     <!-- 관리지만 노출 -->
                     <div class="setting"></div> <!-- 글 등록, 수정 버튼 -->
@@ -203,7 +219,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                 </div>
                 <hr>
                 <div class="btn_wrap">
-                    <input type="button" value="목록" class="btn list">
+                    <input type="button" value="목록" class="btn list" id="listBtn">
                     <!-- 작성자만 노출 -->
                     <!--  <input type="button" value="수정" class="btn update">-->
                     <!--<input type="button" value="삭제" class="btn del">-->
