@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="div">
-	<!-- <insert id="insertDiv" parameterType="hashmap">
-		INSERT INTO CATEGORY(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
+ <insert id="insertDiv" parameterType="hashmap">
+		INSERT INTO CATEGORY_DIV(CATE_NO, CATE_NM) VALUES (CATE_SEQ.NEXTVAL, #{cateNm})
 	</insert>
 	<update id="updateDiv" parameterType="hashmap">
-	 	UPDATE CATEGORY SET CATE_NM = #{cateNm}
-		WHERE CATE_NUM = #{no}
+	 	UPDATE CATEGORY_DIV SET DIV_NM = #{divNm}
+		WHERE DIV_NUM = #{divNum}
 	</update>
 	<update id="deleteDiv" parameterType="hashmap">
-		UPDATE CATEGORY SET DEL = 0
-		WHERE CATE_NUM = #{no}
-	</update> -->
+		UPDATE CATEGORY_DIV SET DEL = 0
+		WHERE DIV_NUM = #{divNum}
+	</update>
 	<select id="getDivCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM CATEGORY_DIV
@@ -25,8 +25,8 @@
 			</if>
 	</select>
 	<select id="getDivList" parameterType="hashmap" resultType="hashmap">
-		SELECT S.DIV_NUM, S.DIV_NM
-		FROM( SELECT DIV_NUM, DIV_NM, ROW_NUMBER() OVER(ORDER BY DIV_NUM ASC, DIV_NM DESC) AS RNK
+		SELECT S.DIV_NUM, S.DIV_NM, S.RNK
+		FROM( SELECT DIV_NUM, DIV_NM, ROW_NUMBER() OVER(ORDER BY DIV_NUM DESC, DIV_NM DESC) AS RNK
 		FROM CATEGORY_DIV
 		WHERE DEL = 1
 		 <if test="searchText1 != null and searchText1 != ''">
