@@ -1,30 +1,42 @@
 $(document).ready(function () {
 	
 	// 헤더
-	// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
-   if($(".login_comment").hasClass("on")){
-        $(".login_i1").off().click(function () {
-            var hasOn1 = $(".login_box").hasClass("on")
-            console.log(hasOn1);
-            if (hasOn1) {
-                $(".login_box").removeClass("on");
-            } else {
-                $(".login_box").addClass("on");
-            }
-        })
-    } else {
-        $(".login_i").click(function () {
-        location.href = "login";
-        })
-    }
-    
-    $("#logoutBtn").on("click", function () {
-		location.href = "logout";
-	});
-	
-	$("#myPage").on("click", function () {
-		location.href = "myPage";
-	});
+		// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
+       if($(".login_comment").hasClass("on")){
+			var sessionData = $("#sMemAuto").val();
+
+			console.log("sessionData==>"+sessionData);
+            $(".login_i1").off().click(function () {
+               
+                var hasOn1 = $("#login_box").hasClass("on");
+                console.log("hasOn1--> "+hasOn1);
+                if (hasOn1) {
+					$("#login_box").removeClass("on");
+					
+                } else {
+					console.log("관리자");
+					$("#login_box").addClass("on");
+					
+					if(sessionData == "관리자"){
+						$("#login_box").removeClass();
+						$("#login_box").addClass('login_box2 on');
+					}
+                }
+                
+            });//$(".login_i1").off()
+        } else {
+            $(".login_i").click(function () {
+            location.href = "login";
+            })
+        }
+        
+        $("#logoutBtn").on("click", function () {
+			location.href = "logout";
+		});
+		
+		$("#myPage").on("click", function () {
+			location.href = "myPage";
+		});
 		
 		
     // header

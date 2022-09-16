@@ -43,6 +43,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView mav) {
+		System.out.println("로그인 창 들어감.");
 		mav.setViewName("login/login");		
 		return mav;
 	}

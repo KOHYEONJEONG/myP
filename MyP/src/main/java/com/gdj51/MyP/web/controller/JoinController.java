@@ -134,6 +134,8 @@ public class JoinController {
 			} else {
 				model.put("msg", "fail");
 			}
+			
+			System.out.println("msg-=>"+model.get("msg"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
