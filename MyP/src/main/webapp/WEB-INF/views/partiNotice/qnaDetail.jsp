@@ -21,11 +21,15 @@
             width: 800px;
         }
         .right_area .title{
-            width: 60%;
+            width: 790px;
             margin: 10px 0px;
             padding-left: 10px;
             font-size: 30px;
+            display:flex;
+            justify-content: space-between;
         }
+       
+        
         .right_area .notice{
             margin: 5px 0px;
             width: 800px; 
@@ -99,6 +103,7 @@
             background-color:#00af80;
             color: #fff;
         }
+       
 
     </style>
     <script src="resources/jquery/jquery-1.12.4.js"></script>
@@ -131,19 +136,19 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
           	}
           
   	 	});
-   });
+      
+     
+   
+   
    var mag={
 		      "insert" : "등록",
-		      "update" : "수정",
-		      "delete" : "삭제",
+		  
 		   }
          function action(flag){
-        	 
         	//con  <들을 웹문자로 변환
              $("#con").val($("#con").val().replace(/</gi, "&lt;"));
            	//con dml <들을 웹문자로 변환
            	      $("#con").val($("#con").val().replace(/>/gi, "&gt;"));
-           	
            	var params = $("#actionForm").serialize();
            	   $.ajax({
            		   url : "qnaDetail/"+flag,
@@ -153,7 +158,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                  success : function(res) { 
                 	 switch(res.msg){
                      case "success":
-                     //내용초기화
+                    	 makeAlert("알림", "답변이 등록되었습니다.");
                       
                      break;
                 	 
@@ -166,15 +171,73 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                   }
                },
                error : function(request, status, error) {
-                  console.log(request, responseText); 
+                  console.log(request); 
                }
             });//ajax End
-      }//action(flag) function End
-      
+   } //action(flag) function End
+   
+   $("#deleteBtn").on("click", function () {
+       makePopup({
+          title : "알림",
+          contents : "삭제 하시겠습니까?",
+          buttons : [{
+             name : "삭제",
+             func : function() {
+                var params = $("#action2Form").serialize();
+                 $.ajax({
+                    url : "QnaAction/delete",
+                    type : "POST",
+                    dataType : "json", 
+                    data : params, 
+                    success : function(res) { 
+                       switch(res.msg) {
+                       case "success" :
+                      		$("#page").val("1");
+								$("#searchGbn").val("1");
+								$("#searchTxt").val("");
+								
+								$("#actionForm").attr("action","qna");
+								$("#actionForm").submit();
+                          break;
+                       case "fail" :
+                          makeAlert("알림", "삭제에 실패하였습니다.");
+                          break;
+                       case "error" :
+                          makeAlert("알림", "삭제 중 문제가 발생하였습니다.");
+                          break;   
+                       }
+                    },
+                    error : function(request, status, error) {
+                       console.log(request, responseText); 
+                    }
+                 }); 
+             }
+          }, {
+             name : "취소"
+          }]        
+  	 });
+	 }); 
+   $("#updateBtn").on("click", function () {
+       $("#actionForm").attr("action","qnaUpdate");
+       $("#actionForm").submit();
+    });
+});
            	   
 </script>
 </head>
 <body>
+	<c:import url="/testAHeader"></c:import>
+<form action="#" id="action2Form" method="post">
+   <input type="hidden" name="gbn" value="delete" />
+   <input type="hidden" name="no" value="${data.QNA_NUM}" />
+   <!-- 전 화면에서 넘어온 페이지 정보 -->
+   <input type="hidden" name="page" id="page" value="${param.page}" />
+   <!-- 전 화면에서 넘어온 검색 정보 -->
+   <input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}" />
+   <input type="hidden" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
+   <!--  전화면에서 넘어온 카테고리 번호 -->
+ 
+</form>
   <c:import url="/header1"></c:import>
      <main>
         <div class="main_wrap">
@@ -188,7 +251,21 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
             </div>
             <div class="right_area">      
                 <div class="detail_wrap">
-                    <div class="title">QnA</div>
+                    <div class="title">QnA
+                    <div class="upbtn">
+                    <c:choose>
+                  		<c:when test="${sMemNo eq data.MEM_NUM}">
+                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
+                    			   <input type="button" value="삭제" class="btn del"  id="deleteBtn">
+                  		</c:when>
+                  		
+                  		<c:when test="${sMemNo eq 0}">
+                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
+                    			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
+                  		</c:when>
+                  </c:choose> 
+                  </div>
+                  	</div> 
                     <hr>
                     <div class="notice">
                         <div class="notice_left">
@@ -209,21 +286,35 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                  <hr>
                 
                  <div class="answer">
-                    <div class="txt"> </div>
+                    <div class="txt">답변</div>
                     <form action = "#" id="actionForm" method="post">
+                   <c:choose>
+                     <c:when test="${sMemNo eq 0}">
                     <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
+                    <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                    </c:when>
+                    <c:otherwise>
+                     <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
+                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                    </c:otherwise>
+                   </c:choose>
                     </form>
-                    <!-- 관리지만 노출 -->
-                    <div class="setting"></div> <!-- 글 등록, 수정 버튼 -->
-                    <div class="recycle_bin"></div> <!-- 글 삭제 버튼 -->
+                    
+                    <div class="setting"></div> 
+                    <div class="recycle_bin"></div> 
                 </div>
                 <hr>
                 <div class="btn_wrap">
+                	<c:choose>
+                     <c:when test="${sMemNo eq 0}">
                     <input type="button" value="목록" class="btn list" id="listBtn">
-                    <!-- 작성자만 노출 -->
-                    <!--  <input type="button" value="수정" class="btn update">-->
-                    <!--<input type="button" value="삭제" class="btn del">-->
                       <input type="button" value="등록" class="btn regi" id="insertBtn">
+                      </c:when>
+                       <c:otherwise>
+                         <input type="button" value="목록" class="btn list" id="listBtn">
+                        </c:otherwise>
+                      </c:choose>
+                      
                 </div>
             </div>
         </div>

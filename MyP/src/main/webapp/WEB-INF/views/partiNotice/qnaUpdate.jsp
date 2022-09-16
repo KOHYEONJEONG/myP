@@ -34,55 +34,65 @@ $(document).ready(function() {
     //.getData() : 작성중인 내용을 취득하겠다.
    
    
-   $("#listBtn").on("click", function() {
+   $("#cancelBtn").on("click", function() {
       $("#backForm").submit();
    });
    
+   $("#updateBtn").on("click", function() {
+	   
+	   		$("#answercon").val("");
+	      // CKEditor의 값 취득
+	      // CKEDITOR.instances[아이디] : CKEditor중 아이디가 같은 것을 찾겠다.
+	      // .getDate() : 작성중인 내용을 취득한다
+	      $("#con").val(CKEDITOR.instances['con'].getData());
+	      
+	      // $.trim(값) : 값 앞 뒤 공백제거
+	      if($.trim($("#title").val()) == "") {
+	         makeAlert("알림", "제목을 입력하세요.", function() {
+	            $("#title").focus();
+	         });
+	      } else if($.trim($("#con").val()) == "") {
+	         makeAlert("알림", "내용을 입력하세요.", function() {
+	            $("#con").focus();
+	         });
+	      }else{
+	    	  var params = $("#actionForm").serialize();
+	    	  
+	    	  $.ajax({
+	              url : "QnaAction/update",
+	              type : "POST",
+	              dataType : "json", 
+	              data : params, 
+	              success : function(res) { 
+	  				switch(res.msg){
+	  				case "success":
+	  					
+	  					$("#backForm").submit();
+	  					break;
+	  				case "fail":
+	  					 makeAlert("알림", "수정에 실패하였습니다.");
+	  					break;
+	  				case "error":
+	  					 makeAlert("알림", "수정 중 문제가 발생하였습니다.");
+	  					break;
+	  				}
+	              },
+	              error : function(request, status, error) {
+	                 console.log(request.responseText); 
+	          		    }
+	      	     });  
 
-    
-   $("#insertBtn").on("click", function() {
-	   $("#con").val(CKEDITOR.instances['con'].getData());
-         var params = $("#actionForm").serialize();
-         $.ajax({
-            url : "QnaAction/insert",
-            type : "POST",
-            dataType : "json", 
-            data : params, 
-            success : function(res) { 
-				switch(res.msg){
-				case "success":
-					location.href = "qna";
-					break;
-				case "fail":
-					 makeAlert("알림", "등록에 실패하였습니다.");
-					break;
-				case "error":
-					 makeAlert("알림", "등록 중 문제가 발생하였습니다.");
-					break;
-				}
-            },
-            error : function(request, status, error) {
-               console.log(request.responseText); 
-            }
-         });
-      });   
-   });
+	     	}
+	  });
 
-function check(box){
-	if(box.checked){
-		$('#ckval').val("0");
-		console.log($("#ckval").val());
-	}else{
-		console.log("체크안됨")
-	}
-}
-
+});
 </script>
 </head>
 <body>
 
-<form action="qna" id="backForm" method="post">
+<form action="QnaDetail" id="backForm" method="post">
    <!-- 전 화면에서 넘어온 페이지 정보 -->
+    <input type="hidden" id="no" name="no" value="${data.QNA_NUM}" />
    <input type="hidden" id="page" name="page" value="${page}" />
    <!-- 전 화면에서 넘어온 검색 정보 -->
    <input type="hidden" id="oldGbn" value="${param.searchGbn}" />
@@ -143,7 +153,8 @@ function check(box){
             </div>
             <div class="right_area">      
             <form action="#" id="actionForm" method="post">
-            	<input type="hidden" name="ckval" id="ckval"/>
+            	<input type="hidden" name="no" value="${data.QNA_NUM}"/>
+            	<input type="hidden" name="answercon" value="${data.ANSWER_CON}"/>
                 <div class="register_wrap">
                     <div class="title">
                         QnA
@@ -155,23 +166,24 @@ function check(box){
                         <option value="">불편사항</option>
                       </select>
                     <hr /> -->
-                    <input type="text" class="input_box" placeholder="제목을 입력하세요" id="title" name="title"/>
+                    <input type="text" class="input_box" placeholder="${data.TITLE}" id="title" name="title"/>
                     <hr />
                    <div class="con">
-                     <textarea class="form-control" rows="5" id="con" name="con"></textarea>
+                     <textarea class="form-control" rows="5" id="con" name="con"> ${data.CON}</textarea>
                 </div>
+                	
                     <hr >
                     <div class="checkbox_box">
                         <span>비공개</span>
-                        <input type="checkbox" id="checkbox" onClick="check(this)"/>
+                        <input type="checkbox" id=""/>
                     </div>
                     <input type="hidden" id="memNo" name="memNo" value="${sMemNo}"/>
                     </form>
                     <hr >
                     <div class="btn_wrap">
                     	
-                        <input type="button" value="목록" class="btn list" id="listBtn">
-                        <input type="button" value="등록" class="btn regi" id="insertBtn">
+                        <input type="button" value="취소" class="btn list" id="cancelBtn">
+                        <input type="button" value="등록" class="btn regi" id="updateBtn">
                     </div>
                 </div>
                 </div>

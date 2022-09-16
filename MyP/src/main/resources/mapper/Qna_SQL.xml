@@ -34,7 +34,7 @@
    </select>
 			
 	<select id="getqna" resultType="hashmap" parameterType="hashmap">
-		SELECT Q.QNA_NUM,Q.TITLE,M.NM,Q.HIT,Q.CON,Q.ANSWER_CON,
+		SELECT Q.QNA_NUM,Q.TITLE,M.NM,Q.HIT,Q.CON,Q.ANSWER_CON,Q.MEM_NUM,
     	CASE WHEN TO_CHAR(Q.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
     	THEN TO_CHAR(Q.REG_DT, 'HH24:MI')
     	ELSE TO_CHAR(Q.REG_DT, 'YY.MM.DD')
@@ -69,13 +69,27 @@
     </if>
  </select>   
     <insert id="insert" parameterType="hashmap">
-	INSERT INTO QNA(QNA_NUM,MEM_NUM,TITLE,CON)
-	VALUES(QNA_SEQ.NEXTVAL,#{memNo},#{title},#{con})
+	INSERT INTO QNA(QNA_NUM,MEM_NUM,TITLE,CON,PRIVATE)
+	VALUES(QNA_SEQ.NEXTVAL,#{memNo},#{title},#{con},#{ckval})
 	</insert>
 	
 	
 	<update id="commentinsert" parameterType="hashmap">
 		UPDATE QNA SET ANSWER_MEM = 0,
             ANSWER_CON=#{con},ANSWER_DT=SYSDATE
+            WHERE QNA_NUM = #{no}
+	</update>
+	
+	<update id="delete" parameterType="hashmap">
+	UPDATE QNA SET DEL =0
+	WHERE QNA_NUM = #{no}
+	
+	</update>
+	
+	<update id="update" parameterType="hashmap">
+		UPDATE QNA SET TITLE= #{title},REG_DT=SYSDATE,
+		CON=#{con}
+		WHERE QNA_NUM = #{no}
+	
 	</update>
 </mapper>

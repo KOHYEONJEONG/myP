@@ -93,12 +93,12 @@ function reloadList() {
 
 function drawList(list) {
 	var html = "";
-	
+
 	for(var data of list){
 		html +="<tr no=\"" + data.QNA_NUM  + "\">";
 		html +="<td>" + data.QNA_NUM + "</td>";
 		html +="<td>" + data.TITLE + "</td>";
-		if(data.ADT == "null"){
+		if(typeof data.ADT == 'undefined'){
 			html +="<td>" + "답변대기" + "</td>";
 		}else{
 			html +="<td>" + "답변완료" + "</td>";
@@ -332,6 +332,6 @@ function drawPaging(pd) {
         </div>
       </main>
 	<c:import url="/footer"></c:import>
-      <script src="./js/main.js"></script>
+     <!--  <script src="./js/main.js"></script> -->
 </body>
 </html>

@@ -85,7 +85,7 @@ public class QnaController {
 		
 		mav.setViewName("partiNotice/qnaDetail");
 		}else {
-			mav.setViewName("redirect:Qna");
+			mav.setViewName("redirect:qna");
 		}
 		return mav;
 	}
@@ -175,6 +175,22 @@ public class QnaController {
 			mav.setViewName("partiNotice/qnaRegister");
 		
 		
+		return mav;
+	}
+    @RequestMapping(value= "/qnaUpdate")
+	public ModelAndView aTUpdate(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
+		
+		if(params.get("no")!=null && params.get("no") != "") {
+		
+		
+		HashMap<String, String>data = iACDao.getMapData("qna.getqna",params);
+		mav.addObject("data",data);
+		
+		mav.setViewName("partiNotice/qnaUpdate");
+		}else {
+			mav.setViewName("redirect:qna");
+		}
 		return mav;
 	}
 }
