@@ -1,5 +1,6 @@
 
  $(document).ready(function() {
+	var vCk = "";
 	
    	reloadList();
   	$("#autority_popup").hide();
@@ -53,9 +54,9 @@
 				data: params, 
 				success : function(res) {//가져올 변수명
 					//console.log("성공 " + res.data.MEM_NUM)//그 변수명 안에 있는 data.MEM_NUM
-					console.log(res.gbn);
 					drawAutoritySelectBox(res.gbn);
 					drawPopup(res.data);
+					selectChecked(res.data.AUTORITY_NM);
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
@@ -113,13 +114,23 @@
 	 var html = "";
 	 var i = 1;
 	 for(var data of gbn){	
-		 console.log(data);
 		 html += "<option value=\""+i+"\">"+data.AUTORITY_NM+"</option>";
-		 console.log(html);
 		 i++;
 	 }
-	 $("#autority_popup .popup_right #autoritySelectBox option").html(html);
 	 
+	 $("#autority_popup .popup_right #autoritySelectBox").html(html);
+	 
+  }
+  
+  function selectChecked(AUTORITY_NM){
+	console.log("selectChecked==>"+AUTORITY_NM);
+	
+	//(*)val로 비교하면 안돼. 나는 value로 option을 숫자로 넣어뒀고, option태그에 엔티티값으로 비교해야한다.
+	$('#autority_popup .popup_right #autoritySelectBox option').each(function() {
+		if($(this).html() == AUTORITY_NM) {//엔티티로 비교해야하기에 .html()
+			$(this).prop("selected", true);
+		}
+	});
   }
   
   function drawPopup(data){ //권한 수정하려고 만든 팝업
@@ -153,16 +164,15 @@
         html += "<tr>";
       	html += "<th>권한</th>";
       	html += "<td>"+data.AUTORITY_NM+"</td>";
+      	
+      	vCk = data.AUTORITY_NM;
+      	
         html += "</tr>";
 		
 		$("#autority_popup").show();
 		$("#autority_popup thead").html(html);
 	}
 	
-	function drawAutoritySelectBox(gbn){
-		var html = "";
-	}
-  
   
   function reloadList() {
 	var params = $("#searchForm").serialize();

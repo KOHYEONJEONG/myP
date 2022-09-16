@@ -11,12 +11,36 @@
     
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
-    <script src="./jquery/jquery-1.12.4.js"></script>
-     <script src="./js/main.js"></script>
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+     <script src="resources/js/main.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+       // 아코디언
+       $("#setting_accordion").accordion({
+          collapsible: true
+      });
+      $("#question_accordion").accordion({
+          collapsible: true
+      });
+      $("#guide_accordion").accordion({
+          collapsible: true
+      });
+      
+      
+   // 등록 버튼
+  	$("#write_btn").on("click", function() {
+  		// 기존 검색상태 유지		
+  		$("#searchGbn").val($("#oldGbn").val());
+  		$("#searchTxt").val($("#oldTxt").val());
+  		
+  		$("#actionForm").attr("action", "ATInsert");
+  		$("#actionForm").submit();		
+  	});
+      
+    </script>
 
 </head>
 <body>
@@ -73,7 +97,7 @@
                        </div>
                     </div>
                        <div class="btn_wrap">
-                           <div class="write_btn">
+                           <div class="write_btn" id="write_btn">
                                글쓰기
                             </div>
                        </div>
@@ -212,18 +236,6 @@
         </div>
       </main>
       <c:import url="/footer"></c:import>
-      <script src="./js/main.js"></script>
-      <script>
-         // 아코디언
-         $("#setting_accordion").accordion({
-            collapsible: true
-        });
-        $("#question_accordion").accordion({
-            collapsible: true
-        });
-        $("#guide_accordion").accordion({
-            collapsible: true
-        });
-      </script>
+
 </body>
 </html>

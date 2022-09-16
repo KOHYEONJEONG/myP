@@ -16,12 +16,13 @@
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
 <!--추가-->
-<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script src="/resources/js/main.js"></script>
 
 
 <script>
-window.onload = function(){
-   
+$(document).ready(function () {
+   var send_num = "";
+	
 	$("#id_input").on("propertychange change keyup paste input", function() {
 		var id = $('#id_input').val();
 		var data = {id : id};
@@ -48,7 +49,7 @@ window.onload = function(){
 	
 	
 	
-   $('#mail-Check-Btn').click(function() {//가입하기 버튼
+   $('#mail-Check-Btn').click(function() {//인증번호 전송 버튼
 	   const email = $('#email1').val()+ '@' + $('#email2').val(); //이메일 주소값 얻어오기
 	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
@@ -57,21 +58,27 @@ window.onload = function(){
 	   
 	   /*이메일 형식 유효성 검사*/
 	   if(mailFormCheck(email)) {
-		   warnMsg.html("인증번호가 전송 되었습니다. 이메일을 확인해주세요.");
+		   warnMsg.html("인증번호가 전송 되었습니다. ");
 		   warnMsg.css("display", "inline-block");
 	   } else {
-		   warnMsg.html("올바르지 못한 이메일 형식입니다.");
+		   warnMsg.html("옳바르지 못한 이메일 형식입니다.");
 		   warnMsg.css("display", "inline-block");
 		   return false;
 	   }
+	   
+	   //이메일
 	   $.ajax({
 		   type : 'get',
-		   url : 'mailCheck', //Get 방식이라 url뒤에 email을 묻힐수있다.
+		   url : 'mailSend', //Get 방식이라 url뒤에 email을 묻힐수있다.
+		   dateType : "json",
 		   data : data,	   
 	   	   success : function(result) {
-	   		   console.log("result : " + result);
-	   		   checkInput.attr('disabled', false);
-	   		   code = result;
+	   		   console.log(result.send_num);
+	   		   send_num = result.send_num;
+	   		   
+	   		   //console.log("result : " + result);
+	   		   //checkInput.attr('disabled', false);
+	   		   //code = result;
 	   		   //alert('인증번호가 전송되었습니다.');
 	   	   }
 	   }); //end ajax
@@ -82,38 +89,88 @@ window.onload = function(){
    $('#inj').blur(function (){
 	   const inputCode = $(this).val();
 	   const $resultMsg = $('#mail-check-warn');
+	  
+	   var inj = $("#inj").val();//사용자가 입력한 인증번호
 	   
-	   if(inputCode === code) {
-		   $resultMsg.html('인증번호가 일치합니다.');
-		   $resultMsg.css('color', 'green');
-		   $('#mail-Check-Btn').attr('disabled', true);
-		   $('#email1').attr('readonly', true);
-		   $('#email2').attr('readonly', true);
-		   $('#email2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
-		   $('#email2').attr('onChange', 'this.selectedIndex = this.initialSelect');
-	   } else {
-		   $resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요.');
-		   $resultMsg.css('color', 'red');
-	   }
+	   //입력한 인증번호
+	   //발송번호(send_num)
+	   var data = {auth_num : inj, send_num:send_num};
+	    //이메일
+	   $.ajax({
+		   type : 'get',
+		   url : 'mailCheck', 
+		   data : data,	   
+		   dataType : "json",//데이터 형태
+	   	   success : function(result) {
+	   		   console.log(result.msg);
+	   		   if(result.msg === "success"){
+	   			 $resultMsg.css('color', 'green');
+		  		   $('#mail-Check-Btn').attr('disabled', true);
+		  		 $resultMsg.html('인증번호가 일치합니다.');
+		  		   $('#email1').attr('readonly', true);
+		  		   $('#email2').attr('readonly', true);
+		  		   $('#email2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+		  		   $('#email2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+		  		   
+		  		   $("#cert").val(1);//인증여부
+		  		   
+	   		   }else{
+	   			  $resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요.');
+	   		      $resultMsg.css('color', 'red');
+	   		   }
+	   	   }
+	   }); //end ajax
+	    
    });
    
+   $('#pwd').keyup(function () {
+		
+		var number = /([0-9])/;
+        var alphabets = /([a-zA-Z])/;
+        var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+        
+        if($("#pwd").val().length == 0){
+        	$('.pw_basic').show();
+        	$('#pw_ck_status').hide();
+        	
+        }else if ($("#pwd").val().length < 6) {
+        	$('#pw_ck_status').show();
+        	$('.pw_basic').hide();
+            $('#pw_ck_status').removeClass();
+            $('#pw_ck_status').addClass('weak-password');
+            $('#pw_ck_status').html("6자리 이상으로 작성하세요.");
+                        
+        } else {
+        	
+            if ($("#pwd").val().match(number) && $("#pwd").val().match(alphabets) && $("#pwd").val().match(special_characters)) {
+            	$('.pw_basic').hide();
+                $('#pw_ck_status').removeClass();
+                $('#pw_ck_status').addClass('strong-password');
+                $('#pw_ck_status').html("아주 좋은 비밀번호입니다!");
+            } else {
+            	$('.pw_basic').hide();
+                $('#pw_ck_status').removeClass();
+                $('#pw_ck_status').addClass('medium-password');
+                $('#pw_ck_status').html("특수문자,영문 대소문자와 숫자 혼합해주세요.");
+            }
+        }
+   });
+
    /*비밀번호 확인 일치 유효성 검사*/
-   $('#pw').on("propertychange change keyup paste input", function() {
+   $('#rePw').on("change", function() {
 	   var pwd = $('#pwd').val();
-	   var pw = $('#pw').val();
-	   $('.final_pw_ck').css('display', 'none');
+	   var rePw = $('#rePw').val();
 	   
-	   if(pwd != pw) {
+	   if(pwd != rePw) {
 		   $('.pwck_input_re_2').show();
 		   $('.pwck_input_re_1').hide();
 		   
 	   } else {
 		   $('.pwck_input_re_2').hide();
 		   $('.pwck_input_re_1').show();
-		   
 	   }
+		   
    });
-   
    
    $("#joinBtn").on("click", function() {
 	  
@@ -121,13 +178,13 @@ window.onload = function(){
 		   alert("아이디를 입력하세요.", function() {
 			   $("#id_input").focus();
 		   });
-	   } else if($.trim($("#pwd").val()) == "") {
-		   alert("비밀번호를 입력하세요.", function() {
+	   } else if($.trim($("#pwd").val()) == "" || $("#pwd").val().length < 6 ) {
+		   alert("비밀번호 6자리 이상으로 작성해주세요.", function() {
 			   $("#pwd").focus();
 		   });
-	   } else if($.trim($("#pw").val()) == "") {
+	   } else if($.trim($("#rePw").val()) == "") {
 		   alert("비밀번호 확인을 입력하세요.", function() {
-			   $("#pw").focus();
+			   $("#rePw").focus();
 		   });
 	   } else if($.trim($("#nickname").val()) == "") {
 		   alert("닉네임을 입력하세요.", function() {
@@ -142,38 +199,35 @@ window.onload = function(){
 			   $("#inj").focus();
 		   });
 	   } else {
-	   
-	   
-		var params = $("#joinform").serialize();
-		
-		
-		$.ajax({
-		url: "JAction/insert",
-		type: "GET",
-		dataType : "json",
-		data: params,
-		success : function(res) {
-			alert("성공");
-			switch (res.msg) {
-			case "success" :
-				location.href="login";
-				break;
-			case "fail" :
-				makeAlert("알림", "등록에 실패하였습니다.");
-				break;
-			case "error" :
-				makeAlert("알림", "등록 중 문제가 발생하였습니다.");
-				break;
+		   
+		   
+			var params = $("#joinform").serialize();
+			$.ajax({
+			url: "JAction/insert",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success : function(res) {
+				switch (res.msg) {
+					case "success" :
+						console.log("success");
+						location.href="login";
+						break;
+					case "fail" :
+						makeAlert("알림", "등록에 실패하였습니다.");
+						break;
+					case "error" :
+						makeAlert("알림", "등록 중 문제가 발생하였습니다.");
+						break;
+				}
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
 			}
-		},
-		error : function(request, status, error) {
-			console.log(request.responseText);
-		}
-		});
-	} //ajax end
+			});//ajax end
+		} 
 	}); //join btn end
-}
- 
+}); 
 
 /*입력 이메일 형식 유효성 검사*/
  function mailFormCheck(email) {
@@ -190,6 +244,8 @@ window.onload = function(){
 			<a href="/test2/index.html"> </a>
 		</h1>
 		<form action="#" class="was-validated" name="form" id="joinform" method="get">
+			<input type="hidden" name="cert" id="cert" >
+			
 			<div class="title">회원가입</div>
 			<div class="id_input">
 
@@ -202,14 +258,20 @@ window.onload = function(){
 
 			<div class="pwd_input">
 				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required><br>
-				<br>
+				<br> 
 			</div>
-			<div class="pw_input">
-				<input type="password" name="pw" id="pw" placeholder="비밀번호 재확인"><br>
-				<br> <span class="final_pw_ck"></span>
+			
+			<span class="pw_basic">숫자+영문자+특수문자 조합으로 6자리 이상 사용해야 합니다.</span>
+			<span class="" id="pw_ck_status"></span>
+				
+			<div class="rePw_input">
+				<input type="password" id="rePw" placeholder="비밀번호 재확인"><br>
+				<br> 
 			</div>
+			
 			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
 			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+			
 			<div class="nm_input">
 				<input type="text" name="nickname" id="nickname" placeholder="닉네임"><br>
 				<br>

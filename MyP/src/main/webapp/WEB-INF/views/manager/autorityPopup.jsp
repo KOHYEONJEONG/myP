@@ -27,7 +27,6 @@
 		      <!-- db에서 불러오게 해야겠음 -->
 		      <div id="autoBox"></div>
 		      <select name="autoritySelectBox" class="autoritySelectBox" id="autoritySelectBox">
-		       <option></option>
 		      </select>
 		  </div>
 	  </div>
