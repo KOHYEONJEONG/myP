@@ -36,20 +36,20 @@
       }
       
       .insert_btn{
-      	    width: 70px;
-    height: 35px;
-    border: 1px solid #FD9A29;
-    background: #FD9A29;
-    color: #fff;
-    font-size: 20px;
-    text-align: center;
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 14px;
-    line-height: 33px;
-    cursor: pointer;
-    margin-top: 10px;
-    float: right;
+      	width: 70px;
+	    height: 35px;
+	    border: 1px solid #FD9A29;
+	    background: #FD9A29;
+	    color: #fff;
+	    font-size: 20px;
+	    text-align: center;
+	    box-sizing: border-box;
+	    text-align: center;
+	    font-size: 14px;
+	    line-height: 33px;
+	    cursor: pointer;
+	    margin-top: 10px;
+	    float: right;
     
        }
 	.table_wrap {
@@ -135,6 +135,10 @@
     
     
 	<script type="text/javascript">
+	
+	var oldDivNm; // 분류명 테이블 기존 divNm 담는 변수
+	var oldCateNm; // 하위분류명 테이블 기존 CateNm 담는 변수
+	
  	 $(document).ready(function () {
 
 		reloadList1();
@@ -152,6 +156,7 @@
 	
 		})  */
 		
+		
 	// 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
 		$("#page").val($(this).attr("page"));
@@ -163,16 +168,13 @@
 	})
 	
 	
-	// 분류명 클릭시 하위분류명 데이틀 reload
+	// 분류명 테이블 클릭시 하위분류명 데이터 reload
 	$(".div_nm_tbody").on("click", "tr", function () {
 		$("#no").val($(this).attr("no"));
-		reloadList();
-		
+		reloadList();		
 	})
-	
-		
-	
-	// 분류명 검색 클릭시
+			
+	// 분류명 테이블 검색버튼 클릭시
 	 $("#searchBtn1").on("click", function () {
 		
 		$("#page").val("1");
@@ -183,23 +185,14 @@
 		reloadList1();
 	})
 	
-	// 하위분류명 검색 클릭시
-	 $("#searchBtn").on("click", function () {
-		
-		$("#page").val("1");
-		//기존 값 새값으로 변경
-		$("#oldGbn").val($("#searchGbn").val());
-		$("#oldText").val($("#searchText").val());
-		
-		reloadList();
-	})
-	
-	// 분류명 삭제버튼 클릭시
+	// 분류명 테이블 삭제버튼 클릭시
 	$(".div_nm_tbody").on("click", ".delete_btn", function () {
 		var no = $(this).parent().parent().parent().attr("no");
 		
 		console.log(no);
-		  makePopup({
+		
+		if($(".cate_nm_tbody .btn_wrap").length == 0) {
+			 makePopup({
 		         title : "알림",
 		         contents : "삭제하시겠습니까?",
 		         // draggable : true,
@@ -214,14 +207,79 @@
 		            name : "취소"
 		    }]
 		})
+		} else {
+			 makePopup({
+		         title : "알림",
+		         contents : "하위분류가 존재하여 삭제할수 없습니다",
+		         // draggable : true,
+		         buttons : [{
+		            name : "확인",
+		            func:function() {
+		            	closePopup(); // 제일 위의 팝업 닫기
+		            }
+		         }]
+			})		
+		}
 	}) 
 	
-	// 하위분류명 삭제버튼 클릭시
+	
+	
+	// 분류명 테이블 수정버튼 클릭시
+	 $(".div_nm_tbody").on("click", ".update_btn", function () {
+		// input으로 변경 및 oldDivNm을 input안에
+		oldDivNm = $(this).parent().parent().parent().children().eq(1).html();	
+		var html =  "<input type=\"text\" class=\"input\" value=\"" + oldDivNm + "\"/>";	
+		$(this).parent().parent().parent().children().eq(1).html(html);
+				
+		$(this).parent().children().eq(0).hide(); // 수정버튼 감추기
+		$(this).parent().children().eq(1).hide(); // 삭제버튼 감추기
+		$(this).parent().children().eq(2).show(); // 완료버튼 보이기
+		$(this).parent().children().eq(3).show(); // 취소버튼 보이기
+		
+	})
+	 
+	// 분류명 테이블 수정버튼 클릭후, 수정영역의 취소버튼 클릭시
+	$(".div_nm_tbody").on("click", ".cancle_btn", function () {
+		// 기존값으로 변경
+		var html =  oldDivNm;
+		$(this).parent().parent().parent().children().eq(1).html(html);
+		
+		$(this).parent().children().eq(0).show(); // 수정버튼 보이기
+		$(this).parent().children().eq(1).show(); // 삭제버튼 보이기
+		$(this).parent().children().eq(2).hide(); // 완료버튼 감추기
+		$(this).parent().children().eq(3).hide(); // 취소버튼 감추기
+	})
+	
+	//  분류명 테이블 수정버튼 클릭후, 수정영역의 완료버튼 클릭시
+	 $(".div_nm_tbody").on("click", ".finish_btn", function () {
+		var no = $(this).parent().parent().parent().attr("no");
+		$("#divNum").val(no);
+		
+		var divNm =  $(this).parent().parent().parent().children().children().val();	
+		$("#divNm").val(divNm);
+								
+		action1("update");
+	}) 
+	
+	
+	
+	
+	// 하위분류명 테이블 검색 클릭시
+	 $("#searchBtn").on("click", function () {
+		
+		$("#page").val("1");
+		//기존 값 새값으로 변경
+		$("#oldGbn").val($("#searchGbn").val());
+		$("#oldText").val($("#searchText").val());
+		
+		reloadList();
+	})
+	
+	// 하위분류명 테이블 삭제버튼 클릭시
 	$(".cate_nm_tbody").on("click", ".delete_btn", function () {
 
 		var no = $(this).parent().parent().parent().attr("no");
-		
-		
+			
 		  makePopup({
 		         title : "알림",
 		         contents : "삭제하시겠습니까?",
@@ -239,84 +297,45 @@
 		})
 	})
 	
-	// 분류명 수정버튼 클릭시
-	 $(".div_nm_tbody").on("click", ".update_btn", function () {
-		
-		var divNm = $(this).parent().parent().parent().children().eq(1).html();
-
-		console.log(divNm);
-		var html =  "<input type=\"text\" name=\"divNm\" id=\"divNm\" class=\"input\"/>";
-
-			
+	// 하위분류명 테이블 수정버튼 클릭시
+	 $(".cate_nm_tbody").on("click", ".update_btn", function () {
+		// input으로 변경 및 oldCateNm을 input안에
+		oldCateNm = $(this).parent().parent().parent().children().eq(1).html();	
+		var html =  "<input type=\"text\" class=\"input\" value=\"" + oldCateNm + "\"/>";	
 		$(this).parent().parent().parent().children().eq(1).html(html);
-
-		// 수정 내용 넣기 전 <> 변화
-		//con = con.replace(/&lt;/gi, "<");
-		//con = con.replace(/&gt;/gi, ">");
 				
-		//$("#cateNm").val(con);
-		
 		$(this).parent().children().eq(0).hide(); // 수정버튼 감추기
 		$(this).parent().children().eq(1).hide(); // 삭제버튼 감추기
 		$(this).parent().children().eq(2).show(); // 완료버튼 보이기
 		$(this).parent().children().eq(3).show(); // 취소버튼 보이기
 		
-		// 작성영역에 포커스
-		// $("#divNm").focus();
-		
-		// 수정 영역의 취소버튼
-		$(this).siblings().on("click", function () {
-			// 입력내용 초기화
-			// $("#no").val("");
-			var html =  divNm;
-			$(this).parent().parent().parent().children().eq(1).html(html);
-			
-			$(this).parent().children().eq(0).show(); // 수정버튼 보이기
-			$(this).parent().children().eq(1).show(); // 삭제버튼 보이기
-			$(this).parent().children().eq(2).hide(); // 완료버튼 감추기
-			$(this).parent().children().eq(3).hide(); // 취소버튼 감추기
-		})
-		
-		// 수정 영역의 완료버튼
-		 $(this).parent().children().eq(2).on("click", function () {
-			var no = $(this).parent().parent().parent().attr("no");
-			
-			console.log(no);
-			$("#divNum").val(no);
-			
-			//eq(인덱스번호) : 자식들 중 인덱스 몇번째 인지 찾아서 취득
-			var divNm = $(this).parent().parent().parent().children().eq(1).text();
-			// 수정 내용 넣기 전 <> 변화
-			//divNm = divNm.replace(/&lt;/gi, "<");
-			//divNm = divNm.replace(/&gt;/gi, ">");
-			
-			
-			$("#divNm").val(divNm);
-					
-			console.log(divNm);
-			
-			$("#divNm").val(divNm);
-			
-			
-			action1("update");
-		}) 
 	})
 	 
-	// 수정 영역의 취소버튼
-/* 	$("thead #cancelBtn").on("click", function () {
-		// 입력내용 초기화
-		$("#no").val("");
-		$("#cateNm").val("");
-		// 등록버튼 나타나기 + 수정, 취소버튼 감추기
-		$(".insert").show();
-		$(".update").hide();
-	}) */
-	 
-	// 수정 영역의 수정버튼
-	/* $("thead #updateBtn").on("click", function () {
+	// 하위분류명 테이블 수정버튼 클릭후, 수정영역의 취소버튼 클릭시
+	$(".cate_nm_tbody").on("click", ".cancle_btn", function () {
+		// 기존값으로 변경
+		var html =  oldCateNm;
+		$(this).parent().parent().parent().children().eq(1).html(html);
+		
+		$(this).parent().children().eq(0).show(); // 수정버튼 보이기
+		$(this).parent().children().eq(1).show(); // 삭제버튼 보이기
+		$(this).parent().children().eq(2).hide(); // 완료버튼 감추기
+		$(this).parent().children().eq(3).hide(); // 취소버튼 감추기
+	})
+	
+	//  하위분류명 테이블 수정버튼 클릭후, 수정영역의 완료버튼 클릭시
+	 $(".cate_nm_tbody").on("click", ".finish_btn", function () {
+		var no = $(this).parent().parent().parent().attr("no");
+		$("#cateNum").val(no);
+		
+		var cateNm =  $(this).parent().parent().parent().children().children().val();	
+		$("#cateNm").val(cateNm);
+								
 		action("update");
-		console.log("1");
-	}) */
+	}) 
+	
+	
+	
 	
 })
 
@@ -325,150 +344,161 @@ var msg ={
 	"update" : "수정",
 	"delete" : "삭제",
 }
+ 	
+
  	 
- 	function action(flag) {
- 		// con의 <를을 웹문자로 변환
- 		//$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
- 		// con의 >를을 웹문자로 변환
- 		//$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
- 		
- 		
- 		// Javascript object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수있다. 
- 		// Java의 Map에서 get, put역활
- 		console.log(msg[flag]);
- 		
- 		var params = $("#searchForm").serialize();
- 		
+	// 분류명 테이블의 action
+	function action1(flag) {
+		console.log(msg[flag]);
+		
+		var params = $("#searchForm1").serialize();
+		
+		$.ajax({
+			url : "divManagementAction/" + flag,
+			type : "POST", 
+			dataType: "json", 
+			data: params, 
+			success : function(res) { 
+				switch(res.msg){
+				case "success" :
+					// 내용 초기화
+					$("#cateNm").val("");
+					$("#no").val("");
+	
+					// 목록 재조회
+					switch(flag){
+					case "insert" :
+					case "delete" :
+						// 조회 데이터 초기화
+						$("#page").val("1");
+						$("#searchGbn").val("0");
+						$("#searchText").val("");
+						$("#oldGbn").val("0");
+						$("#oldText").val("");
+						break;
+					case "update" :
+						// 기존값 유지
+						$("#searchGbn").val($("#oldGbn").val());
+						$("#searchText").val($("#oldText").val());
+	
+						// 입력내용 초기화
+						$("#no").val("");
+						$("#cateNm").val("");
+						// 등록버튼 나타나기 + 수정, 취소버튼 감추기
+						$(".insert").show();
+						$(".update").hide();
+						break; 
+					}
+					reloadList1();
+					break;
+				case "fail" :
+					makeAlert("알림" ,  msg[flag] + "에 실패하였습니다.");
+					break;
+				case "error" :
+					makeAlert("알림" , msg[flag] + " 중 문제가 발생하였습니다.");
+					break;
+				}
+			},
+			error : function(request, status, error) { 
+				console.log(request.responseText); 
+			}
+		}); //Ajax End
+	} // action Function End
+
+ 	
+	//분류명 테이블 reload
+ 	 function reloadList1() {
+ 	 var params = $("#searchForm1").serialize();
  		$.ajax({
- 			url : "categoryManagementAction/" + flag,
+ 			url : "divManagementList",
  			type : "POST", 
  			dataType: "json", 
  			data: params, 
  			success : function(res) { 
- 				switch(res.msg){
- 				case "success" :
- 					// 내용 초기화
- 					$("#cateNm").val("");
- 					$("#no").val("");
-
- 					// 목록 재조회
- 					switch(flag){
- 					case "insert" :
- 					case "delete" :
- 						// 조회 데이터 초기화
- 						$("#page").val("1");
- 						$("#searchGbn").val("0");
- 						$("#searchText").val("");
- 						$("#oldGbn").val("0");
- 						$("#oldText").val("");
- 						break;
- 					case "update" :
- 						// 기존값 유지
- 						$("#searchGbn").val($("#oldGbn").val());
- 						$("#searchText").val($("#oldText").val());
-
- 						// 입력내용 초기화
- 						$("#no").val("");
- 						$("#cateNm").val("");
- 						// 등록버튼 나타나기 + 수정, 취소버튼 감추기
- 						$(".insert").show();
- 						$(".update").hide();
- 						break; 
- 					}
- 					reloadList();
- 					break;
- 				case "fail" :
- 					makeAlert("알림" ,  msg[flag] + "에 실패하였습니다.");
- 					break;
- 				case "error" :
- 					makeAlert("알림" , msg[flag] + " 중 문제가 발생하였습니다.");
- 					break;
- 				}
+ 				drawList1(res.list);
+ 				drawPaging1(res.pd);
  			},
  			error : function(request, status, error) { 
  				console.log(request.responseText); 
  			}
  		}); //Ajax End
- 	} // action Function End
- 	 
- 	 
- 	function action1(flag) {
- 		// con의 <를을 웹문자로 변환
- 		//$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
- 		// con의 >를을 웹문자로 변환
- 		//$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
  		
- 		
- 		// Javascript object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수있다. 
- 		// Java의 Map에서 get, put역활
- 		console.log(msg[flag]);
- 		
- 		var params = $("#searchForm1").serialize();
- 		
- 		$.ajax({
- 			url : "divManagementAction/" + flag,
- 			type : "POST", 
- 			dataType: "json", 
- 			data: params, 
- 			success : function(res) { 
- 				switch(res.msg){
- 				case "success" :
- 					// 내용 초기화
- 					$("#cateNm").val("");
- 					$("#no").val("");
+ 	 }	
 
- 					// 목록 재조회
- 					switch(flag){
- 					case "insert" :
- 					case "delete" :
- 						// 조회 데이터 초기화
- 						$("#page").val("1");
- 						$("#searchGbn").val("0");
- 						$("#searchText").val("");
- 						$("#oldGbn").val("0");
- 						$("#oldText").val("");
- 						break;
- 					case "update" :
- 						// 기존값 유지
- 						$("#searchGbn").val($("#oldGbn").val());
- 						$("#searchText").val($("#oldText").val());
+ 	//분류명 테이블 drawList
+ 	function drawList1(list) {
+ 		var html = "";
+ 		
+ 		var length = 10-list.length;
+ 		
+ 		if(list.length != 10){
+ 			for(var data of list){
 
- 						// 입력내용 초기화
- 						$("#no").val("");
- 						$("#cateNm").val("");
- 						// 등록버튼 나타나기 + 수정, 취소버튼 감추기
- 						$(".insert").show();
- 						$(".update").hide();
- 						break; 
- 					}
- 					reloadList1();
- 					break;
- 				case "fail" :
- 					makeAlert("알림" ,  msg[flag] + "에 실패하였습니다.");
- 					break;
- 				case "error" :
- 					makeAlert("알림" , msg[flag] + " 중 문제가 발생하였습니다.");
- 					break;
- 				}
- 			},
- 			error : function(request, status, error) { 
- 				console.log(request.responseText); 
+ 				html +="<tr no=\"" + data.DIV_NUM  + "\">";
+ 				html +="<td>" + data.RNK + "</td>";
+ 				html +="<td>" + data.DIV_NM + "</td>";
+ 				html +="<td>";
+ 					html +="<div class=\"btn_wrap\">";
+ 					html +="<div class=\"update_btn\">수정</div>";
+ 					html +="<div class=\"delete_btn\">삭제</div>";
+ 					html +="<div class=\"finish_btn\">완료</div>";
+ 					html +="<div class=\"cancle_btn\">취소</div>";
+ 					html +="</div>";
+ 				html +="</td>";
+ 				html +="</tr>";
  			}
- 		}); //Ajax End
- 	} // action Function End
- 	 
- 	 
- 	 
+ 			for(var i=0; i < length; i++){
+ 				html +="<tr>";
+ 				html +="<td></td>";
+ 				html +="<td></td>";
+ 				html +="<td></td>";
+ 				html +="</tr>";
+ 			}
+ 		}		
+ 		$(".div_nm_tbody").html(html);
+ 	}
 
+
+
+ 	//분류명 테이블 drawPaging
+ 	function drawPaging1(pd) {
+ 		var html = "";
+ 		
+ 		html +=
+ 		html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+ 		// 이전
+ 		if($("#page").val() == "1"){
+ 			html += "<a class=\"arrow prev\" page=\"1\"></a>";
+ 		} else{
+ 			// 문자열을 숫자로 바꾸기위해 *1
+ 			html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
+ 		}
+ 		
+ 		for(var i = pd.startP; i <= pd.endP; i++){
+ 			if($("#page").val() * 1 == i){ // 현재 페이지
+ 				html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+ 			} else { // 다른 페이지
+ 				html += "<a page=\"" + i + "\">" + i + "</a>";
+ 			}
+ 			
+ 		}
+ 		
+ 		if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+ 			html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+ 		} else {
+ 			html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+ 		}
+ 		
+ 		html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+ 		
+ 		$(".page_nation").html(html);
+ 	                                                                     
+ 	}
+
+ 	
+ 	 
+// 하위분류명 테이블의 action
 function action(flag) {
-	// con의 <를을 웹문자로 변환
-	//$("#cateNm").val($("#cateNm").val().replace(/</gi, "&lt;"));
-	// con의 >를을 웹문자로 변환
-	//$("#cateNm").val($("#cateNm").val().replace(/>/gi, "&gt;"));
-	
-	
-	// Javascript object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수있다. 
-	// Java의 Map에서 get, put역활
 	console.log(msg[flag]);
 	
 	var params = $("#searchForm").serialize();
@@ -524,11 +554,9 @@ function action(flag) {
 		}
 	}); //Ajax End
 } // action Function End
+  
  
- 
- 
- 
-// 오른쪽 테이블, 하위분류명
+// 하위분류명 reload
 function reloadList() {
 	var params = $("#searchForm").serialize();
 	$.ajax({
@@ -547,6 +575,7 @@ function reloadList() {
 	
 }
 
+//하위분류명 drawList
  function drawList(list) {
 		var html = "";
 		
@@ -561,6 +590,8 @@ function reloadList() {
 				html +="<div class=\"btn_wrap\">";
 				html +="<div class=\"update_btn\">수정</div>";
 				html +="<div class=\"delete_btn\">삭제</div>";
+				html +="<div class=\"finish_btn\">완료</div>";
+				html +="<div class=\"cancle_btn\">취소</div>";
 				html +="</div>";
 				html +="</td>";
 				html +="</tr>";
@@ -573,15 +604,14 @@ function reloadList() {
 				html +="<td></td>";
 				html +="</tr>";
 			}
-		
 	}
 		
 		$(".cate_nm_tbody").html(html);
-		
 		var html1 = "";
 	}
 
 
+//하위분류명 drawPaging
 	function drawPaging(pd) {
 		var html = "";
 		
@@ -617,96 +647,6 @@ function reloadList() {
 	}
 
 	 
-// 왼쪽 테이블, 분류명
- function reloadList1() {
- var params = $("#searchForm1").serialize();
-	$.ajax({
-		url : "divManagementList",
-		type : "POST", 
-		dataType: "json", 
-		data: params, 
-		success : function(res) { 
-			drawList1(res.list);
-			drawPaging1(res.pd);
-		},
-		error : function(request, status, error) { 
-			console.log(request.responseText); 
-		}
-	}); //Ajax End
-	
- }	
-
-function drawList1(list) {
-	var html = "";
-	
-	var length = 10-list.length;
-	
-	if(list.length != 10){
-		for(var data of list){
-
-			html +="<tr no=\"" + data.DIV_NUM  + "\">";
-			html +="<td>" + data.RNK + "</td>";
-			html +="<td>" + data.DIV_NM + "</td>";
-			html +="<td>";
-				html +="<div class=\"btn_wrap\">";
-				html +="<div class=\"update_btn\">수정</div>";
-				html +="<div class=\"delete_btn\">삭제</div>";
-				html +="<div class=\"finish_btn\">완료</div>";
-				html +="<div class=\"cancle_btn\">취소</div>";
-				html +="</div>";
-			html +="</td>";
-			html +="</tr>";
-		}
-		for(var i=0; i < length; i++){
-			html +="<tr>";
-			html +="<td></td>";
-			html +="<td></td>";
-			html +="<td></td>";
-			html +="</tr>";
-		}
-		
-	}
-	
-		
-	$(".div_nm_tbody").html(html);
-}
-
-
-
-function drawPaging1(pd) {
-	var html = "";
-	
-	html +=
-	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
-	// 이전
-	if($("#page").val() == "1"){
-		html += "<a class=\"arrow prev\" page=\"1\"></a>";
-	} else{
-		// 문자열을 숫자로 바꾸기위해 *1
-		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
-	}
-	
-	for(var i = pd.startP; i <= pd.endP; i++){
-		if($("#page").val() * 1 == i){ // 현재 페이지
-			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
-		} else { // 다른 페이지
-			html += "<a page=\"" + i + "\">" + i + "</a>";
-		}
-		
-	}
-	
-	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
-		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
-	} else {
-		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
-	}
-	
-	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
-	
-	$(".page_nation").html(html);
-                                                                     
-}
-
 </script>
 </head>
 <body>
@@ -737,7 +677,8 @@ function drawPaging1(pd) {
                 <input type="hidden" id="oldGbn1" value="0" />
 				<input type="hidden" id="oldText1" />
 				<input type="hidden" name="page" id="page" value="1" />
-					<input type="hidden" name="divNum" id="divNum" />
+				<input type="hidden" name="divNum" id="divNum" />
+				<input type="hidden" name="divNm" id="divNm" />
                   <div class="select">
 					<select name="searchGbn1" id="searchGbn1">
 						 <option value="0">분류명</option>
@@ -770,9 +711,7 @@ function drawPaging1(pd) {
                    </div>
                     <div class="insert_btn" id="insertBtn">추가</div>
               </div>
-              
-              
-                
+                     
            <!-- 하위분류명 테이블 -->
              <div class="table_wrap second">
              <!-- 페이징 때 기존 검색 내용 유지용 -->
@@ -786,6 +725,7 @@ function drawPaging1(pd) {
 				<input type="hidden" id="oldText" />
 				<input type="hidden" name="page" id="page" value="1" />
 				<input type="hidden" name="cateNum" id="cateNum" />
+				<input type="hidden" name="cateNm" id="cateNm" />
 				<input type="hidden" name="no" id="no" />
                   <div class="select">
 					<select name="searchGbn" id="searchGbn">
