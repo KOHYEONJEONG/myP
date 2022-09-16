@@ -10,8 +10,8 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
-    <script src="./jquery/jquery-1.12.4.js"></script>
-     <script src="./js/main.js"></script>
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+     <script src="resources/js/main.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>

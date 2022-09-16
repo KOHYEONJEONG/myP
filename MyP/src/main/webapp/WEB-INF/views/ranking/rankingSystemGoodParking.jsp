@@ -63,9 +63,19 @@ function drawList(list) {
             } else {
             	html1 +="  		<div class=\"icon bronze\"></div>";
             }
-            html1 +="  		<div class=\"photo\">";
-            html1 +="      		<img src=\"resources/img/weP.jpg\" alt=\"\" width=\"100%\">";
-            html1 +="  		</div>";
+            if(data.RNK == 1) {
+            	html1 +="  		<div class=\"photo\">";
+                html1 +="      		<img src=\"resources/img/weP.jpg\" alt=\"\" width=\"100%\">";
+                html1 +="  		</div>";
+            } else if(data.RNK == 2) {
+            	html1 +="  		<div class=\"photo\">";
+                html1 +="      		<img src=\"resources/img/wep1.jpg\" alt=\"\" width=\"100%\">";
+                html1 +="  		</div>";
+            } else {
+            	html1 +="  		<div class=\"photo\">";
+                html1 +="      		<img src=\"resources/img/wep2.jpg\" alt=\"\" width=\"100%\">";
+                html1 +="  		</div>";
+            }
             html1 +="  		<div class=\"info\">";
             html1 +="    		<span class=\"parking_name\">" + data.CAR_PARK_NM + "</span>";          
             html1 +="    		<div class=\"star" + data.RNK + "\"></div>";
@@ -192,13 +202,20 @@ function drawPaging(pd) {
                     </div>
                 </div>
            <table>
+           <colgroup>
+					<col width="100"> <!-- 순위 -->
+					<col width="300"> <!-- 주차장명 -->
+					<col width="125"> <!-- 구 -->
+					<col width="125"> <!-- 동 -->
+					<col width="150"> <!-- 별점 -->
+				</colgroup>
                 <thead>
                   <tr>
                     <th>순위</th>
                     <th>주차장명</th>
                     <th>구</th>
                     <th>동</th>
-                    <th width="150px">별점</th>
+                    <th>별점</th>
                   </tr>
                 </thead>
                 <tbody></tbody> 
