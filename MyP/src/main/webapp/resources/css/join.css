@@ -45,7 +45,7 @@ a{
     box-sizing: border-box;
 }
 
-.pw_input{
+.rePw_input{
     height: 60px;
     border: solid 1px #dadada;
     background: #fff;
@@ -180,7 +180,19 @@ input::placeholder {
 	display : none;
 }
 
+.pw_basic{
+	display : block;
+	color : gray;
+}
+
 /*유효성 검사 문구*/
-.final_pw_ck{
-    display: none;
+.weak-password{
+	color : red;
+}
+
+.strong-password{
+	color : green;
+}
+.medium-password{
+	color: blue;
 }

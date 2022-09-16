@@ -125,7 +125,7 @@
   function selectChecked(AUTORITY_NM){
 	console.log("selectChecked==>"+AUTORITY_NM);
 	
-	//val로 비교하면 안돼. 나는 value로 option을 숫자로 넣어뒀고, option태그에 엔티티값으로 비교해야한다.
+	//(*)val로 비교하면 안돼. 나는 value로 option을 숫자로 넣어뒀고, option태그에 엔티티값으로 비교해야한다.
 	$('#autority_popup .popup_right #autoritySelectBox option').each(function() {
 		if($(this).html() == AUTORITY_NM) {//엔티티로 비교해야하기에 .html()
 			$(this).prop("selected", true);
