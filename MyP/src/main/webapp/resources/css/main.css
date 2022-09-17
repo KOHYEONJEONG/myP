@@ -1220,16 +1220,16 @@ main {
   margin-top: 30px;
 }
 
-.page_nation {
+.page_nation, .page_nation1 {
   margin: 0 auto;
   display: inline-block;
 }
 
-.page_nation .none {
+.page_nation .none, .page_nation1 .none {
   display: none;
 }
 
-.page_nation a {
+.page_nation a, .page_nation1 a {
   display: block;
   margin: 0 3px;
   float: left;
@@ -1245,31 +1245,31 @@ main {
   cursor: pointer;
 }
 
-.page_nation .arrow {
+.page_nation .arrow, .page_nation1 .arrow {
   border: 1px solid #dfdfdf;
 }
 
-.page_nation .pprev {
+.page_nation .pprev, .page_nation1 .pprev {
   background: #f8f8f8 url("../icons/page_pprev.png") no-repeat center center;
   margin-left: 0;
 }
 
-.page_nation .prev {
+.page_nation .prev, .page_nation1 .prev {
   background: #f8f8f8 url("../icons/page_prev.png") no-repeat center center;
   margin-right: 7px;
 }
 
-.page_nation .next {
+.page_nation .next, .page_nation1 .next {
   background: #f8f8f8 url("../icons/page_next.png") no-repeat center center;
   margin-left: 7px;
 }
 
-.page_nation .nnext {
+.page_nation .nnext, .page_nation1 .nnext {
   background: #f8f8f8 url("../icons/page_nnext.png") no-repeat center center;
   margin-right: 0;
 }
 
-.page_nation a.active {
+.page_nation a.active, .page_nation1 a.active {
   background-color: #eeeeee;
   color: #000;
   border: 1px solid #dfdfdf;

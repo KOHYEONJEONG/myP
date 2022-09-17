@@ -1,5 +1,6 @@
 package com.gdj51.MyP.web.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,10 +79,14 @@ public class ManagerController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
+		
 		// 페이지 받아오게 되어있음
-		int cnt = dao.getIntData("cate.getCateCnt", params);
+		int cnt = dao.getIntData("cate.getCateCnt", params);				
 
 		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		
+
+		System.out.println("params : " + params.toString());
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
@@ -103,7 +108,7 @@ public class ManagerController {
 		// 페이지 받아오게 되어있음
 		int cnt = dao.getIntData("div.getDivCnt", params);
 
-		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page1")), cnt, 10, 5);
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
