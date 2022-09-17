@@ -1,34 +1,5 @@
 $(document).ready(function () {
 	
-		// 헤더
-		// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
-       if($(".login_comment").hasClass("on")){
-            $(".login_i1").off().click(function () {
-                var hasOn1 = $(".login_box").hasClass("on")
-                console.log(hasOn1);
-                if (hasOn1) {
-                    $(".login_box").removeClass("on");
-                } else {
-                    $(".login_box").addClass("on");
-                }
-            })
-        } else {
-            $(".login_i").click(function () {
-            location.href = "login";
-            })
-        }
-        
-        $("#logoutBtn").on("click", function () {
-			location.href = "logout";
-		});
-		
-		$("#myPage").on("click", function () {
-			location.href = "myPage";
-		});
-		
-		
-		
-		
 		
 		
         // 메인 페이지 아이콘 클릭시 왼쪽영역 변경

@@ -256,7 +256,28 @@ header .header_wrap {
   display: none;
 }
 
+.login_box2 {
+    border: 1px solid #ccc;
+    width: 120px;
+    height: 105px;
+    position: absolute;
+    right: 0;
+    bottom: -80px;
+    background: #fff;
+    text-align: center;
+    padding: 7px 10px;
+    box-sizing: border-box;
+    color: #2A3340;
+    font-size: 14px;
+    display: none;
+}
+
 .login_box.on {
+  display: block;
+  z-index: 101;
+}
+
+.login_box2.on {
   display: block;
   z-index: 101;
 }
@@ -266,6 +287,15 @@ header .header_wrap {
 }
 
 .login_box div:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login_box2 div {
+  margin: 12px 0;
+}
+
+.login_box2 div:hover {
   text-decoration: underline;
   cursor: pointer;
 }
