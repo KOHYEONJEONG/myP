@@ -37,7 +37,8 @@ public class ManagerController {
 		mav.setViewName("manager/categoryManagement");
 		return mav;
 	}
-
+	
+	// 관리자 페이지 카테고리 하위분류명 테이블 action
 	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String categoryManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
@@ -73,6 +74,7 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
+	// 관리자 페이지 카테고리 하위분류명 테이블 list
 	@RequestMapping(value = "/categoryManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String categoryManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -99,6 +101,7 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
+	// 관리자 페이지 카테고리 분류명 테이블 list
 	@RequestMapping(value = "/divManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String divManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -121,6 +124,7 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
+	// 관리자 페이지 카테고리 분류명 테이블 action
 	@RequestMapping(value = "/divManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String divManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
@@ -154,25 +158,7 @@ public class ManagerController {
 		}
 
 		return mapper.writeValueAsString(model);
-	}
-
-	// 관리자 페이지 카테고리 등록화면
-	@RequestMapping(value = "/categoryManagementRegister")
-	public ModelAndView categoryManagementRegister(ModelAndView mav) {
-		mav.setViewName("manager/categoryManagementRegister");
-		return mav;
-	}
-
-	// 관리자 페이지 카테고리 수정화면
-	@RequestMapping(value = "/categoryManagementUpdate")
-	public ModelAndView categoryManagementUpdate(ModelAndView mav) {
-		mav.setViewName("manager/categoryManagementUpdate");
-		return mav;
-	}
-
-	
-	
-	
+	}	
 
 	// 관리자 페이지 회원관리 목록화면
 	@RequestMapping(value = "/memManagement")
@@ -215,6 +201,7 @@ public class ManagerController {
 
 		return mapper.writeValueAsString(model);
 	}
+	
 	// 관리자 페이지 데이터관리 목록화면
 	@RequestMapping(value = "/autorityPopup")
 	public ModelAndView autorityPopup(ModelAndView mav) {

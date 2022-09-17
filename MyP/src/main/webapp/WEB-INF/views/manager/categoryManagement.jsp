@@ -288,9 +288,7 @@
 								
 		action1("update");
 	}) 
-	
-	
-	
+		
 	
 	// 하위분류명 테이블 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
