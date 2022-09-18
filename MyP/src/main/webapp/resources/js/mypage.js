@@ -69,12 +69,20 @@ $(document).ready(function () {
 	    
 	});
 	
+	
+	$("#btn_memWit").on("click", function(){
+		//회원 탈퇴 버튼
+		$("#sendForm").attr("action", "withdraw");
+        $("#sendForm").submit();  
+	});
+	
 });
 
+//사진 영역만 비동기화
 function imgRelod() {
 	var params = $("#sendForm").serialize();
 	$.ajax({
-		url : "memListAjax",
+		url : "memImgAjax",
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
@@ -91,8 +99,15 @@ function imgRelod() {
 
 
 function img(data){
+	var img = data.PIC;
 	var html = "";
 	
+	if(img != null && !img.equals("")){
+		html += "<img class=\"lightboxed\" rel=\"group1\" src=\"resources/upload/"+data.PIC+"\" data-link=\"resources/upload/"+data.PIC+"\" alt=\"Image Alt\" data-caption=\""+data.DESCRIPT+"\" />";
+	}else{
+		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
+	}
 	
+	$(".pic_top #imgRelod").html(html);
 	
 }

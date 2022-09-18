@@ -43,16 +43,7 @@
 	                       
 	                        <div class="pic_top">
 	                            <div id="imgRelod">
-		                           <!--
-		                            <c:choose>
-		                            	<c:when test="${!empty data.IMG}">
-		                            	
-		                            	</c:when>
-		                            	<c:otherwise>
-		                            		<img src="resources/icons/person3.png" alt="이미지">
-		                            	</c:otherwise>
-		                            </c:choose>
-		                              -->
+		                       
 	                            </div>
 	                            <div class="filebox">
 	                                <label for="file">사진선택</label>
@@ -99,7 +90,7 @@
                                     게시글
                                 </div>
                             </div>
-                            <div class="my_btn1 myResignMembership">
+                            <div class="my_btn1 myResignMembership" id="btn_memWit">
                                 <img class="resignMembershipImg" src="resources/icons/logout.png">
                                 <div class="txt">회원탈퇴</div>
                             </div>

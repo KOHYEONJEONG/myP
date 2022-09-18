@@ -28,7 +28,7 @@ public class MyPageController {
 	public ModelAndView mypage(ModelAndView mav, HttpSession session) throws Throwable {
 		
 		HashMap<String, String> params = new HashMap<String, String>();
-		String no = String.valueOf(session.getAttribute("sMemNo"));
+		String no = String.valueOf(session.getAttribute("sMemNo"));//toString() x
 		params.put("no",no);
 		System.out.println("no===>"+params.get(no));
 		
@@ -39,10 +39,10 @@ public class MyPageController {
 		return mav;
 	}
 	
-	//ListAjax
-	@RequestMapping(value = "/memListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	//사진부분만 비동기화
+	@RequestMapping(value = "/memImgAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String memListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String memImgAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 		
@@ -50,7 +50,7 @@ public class MyPageController {
 
 		model.put("data", data);
 
-		return mapper.writeValueAsString(model);
+		return mapper.writeValueAsString(model);//jsp에서 img만 받으면 됌.
 	}
 	
 	@RequestMapping(value = "/memModify")
@@ -86,15 +86,17 @@ public class MyPageController {
 	      try {
 	         switch (gbn) {
 	         case "insert": 
-	        	 cnt = dao.insert("T.tBoardInsert", params);
+	        	 //cnt = dao.insert("member.boardInsert", params);
 	            break;
 	            
 	         case "update": 
-	        	 cnt = dao.update("T.tBoardUpdate", params);
+	        	 //비밀번호 수정 ..etc
+	        	 //cnt = dao.update("member.memUpdate", params);
 	            break;
 	            
 	         case "delete": 
-	        	 cnt = dao.update("T.tBoardDelete", params);
+	        	 //회원탈퇴
+	        	 cnt = dao.update("member.memWit", params);
 	            break;
 	         }
 	         
@@ -114,7 +116,29 @@ public class MyPageController {
 	      return mapper.writeValueAsString(model);
 	   }
 
-	
+	 @RequestMapping(value = "/pwUpdate")
+		public ModelAndView pwUpdate(ModelAndView mav) {
+			mav.setViewName("mypage/mypagePwUpdate");
+			return mav;
+		}
+
+		@RequestMapping(value = "/mypageReviewBoard")
+		public ModelAndView mypageReviewBoard(ModelAndView mav) {
+			mav.setViewName("mypage/mypageReviewBoard");
+			return mav;
+		}
+
+		//회원탈퇴
+		@RequestMapping(value = "/withdraw")
+		public ModelAndView withdraw(ModelAndView mav,@RequestParam HashMap<String, String> params) {
+			
+			//no를 받아와서 이동
+			mav.addObject("no",params.get("no"));
+			
+			//회원탈퇴
+			mav.setViewName("mypage/withdraw");
+			return mav;
+		}
 	
 
 }

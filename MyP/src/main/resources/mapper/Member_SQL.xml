@@ -59,6 +59,22 @@
 			AND MEM_NUM = #{no}
 	</select>
 	
+	<!--  
+	<insert id="boardInsert" parameterType="hashmap">
+	</insert>
+	-->
+	
+	<!--  
+	<update id="memUpdate" parameterType="hashmap">
+	</update>
+	-->
+	
+	<update id="memWit" parameterType="hashmap">
+		UPDAET MEMBER 
+		SET WIT_DT = sysdate
+		WHERE MEM_NO = #{no}
+	</update>
+	
 
 	
 </mapper>
