@@ -49,7 +49,7 @@
 	</select>
 	
 	<select id="getMember" resultType="hashmap" parameterType="hashmap">
-		 SELECT M.MEM_NUM, M.ID, M.NM, M.EMAIL, M.WARNING, AT.AUTORITY_NM,
+		 SELECT M.MEM_NUM, M.IMG, M.ID, M.NM, M.EMAIL, M.WARNING, AT.AUTORITY_NM,
 					 CASE WHEN TO_CHAR(REG_DT, 'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
 									THEN TO_CHAR(REG_DT, 'HH24:MI')
 									ELSE TO_CHAR(REG_DT,'YY.MM.DD')

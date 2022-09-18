@@ -1,6 +1,7 @@
 package com.gdj51.MyP.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -38,12 +39,35 @@ public class MyPageController {
 		return mav;
 	}
 	
+	//ListAjax
+	@RequestMapping(value = "/memListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String memListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		HashMap<String, String> data = dao.getMapData("member.getMember",params);
+
+		model.put("data", data);
+
+		return mapper.writeValueAsString(model);
+	}
+	
 	@RequestMapping(value = "/memModify")
 	public ModelAndView memModify(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session) throws Throwable {
 		//개인정보 수정 페이지(no넘어옴)
 		HashMap<String, String> data = dao.getMapData("member.getMember",params);
 		mav.addObject("data", data);
-		mav.setViewName("mypage/memModify");
+		mav.setViewName("mypage/mypageModify");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/memPwUpdate")
+	public ModelAndView memPwUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session) throws Throwable {
+		//비밀번호 수정 페이지(no넘어옴)
+		HashMap<String, String> data = dao.getMapData("member.getMember",params);
+		mav.addObject("data", data);
+		mav.setViewName("mypage/mypagePwUpdate");//no만 받으면 됌.
 		return mav;
 	}
 	

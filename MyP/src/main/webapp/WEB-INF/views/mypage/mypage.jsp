@@ -18,7 +18,7 @@
 </head>
     
 <body>
-<c:import url="/header1"></c:import>
+	<c:import url="/header1"></c:import>
 
 		<form action="#" id="sendForm" method="post">
 			<input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
@@ -39,15 +39,28 @@
                     <div class="top">
 						
 						<form action="fileUploadAjax" id="actionForm" method="post" enctype="multipart/form-data">
-						 <input type="hidden" id="att" name="att"/>                     
+						 <input type="hidden" id="img" name="img"/>                     
+	                       
 	                        <div class="pic_top">
-	                            <div><img src="resources/icons/person3.png" alt="이미지"></div>
+	                            <div id="imgRelod">
+		                           <!--
+		                            <c:choose>
+		                            	<c:when test="${!empty data.IMG}">
+		                            	
+		                            	</c:when>
+		                            	<c:otherwise>
+		                            		<img src="resources/icons/person3.png" alt="이미지">
+		                            	</c:otherwise>
+		                            </c:choose>
+		                              -->
+	                            </div>
 	                            <div class="filebox">
 	                                <label for="file">사진선택</label>
 	                                <input type="file" name="pic" id="pic"/>
 	                                <input type="button" id="savefile" class="savefile" value="저장"/>
 	                            </div>
 	                        </div>  
+	                        
                         </form>
                         
                         <div class="mypage_top">
@@ -71,7 +84,7 @@
                     <div class="mypage_bottom">
                         <!--bottom1-->
                         <div class="bottom1" style="text-align: center;">
-                            <input type="button" class="my_btn info" id="info_modify" value="기본정보 수정하기">
+                            <input type="button" class="my_btn info" id="mypage_modify" value="기본정보 수정하기">
                             <input type="button" class="my_btn password" id="password_modify"  value="비밀번호 수정하기">
                         </div>
                         <!--bottom2-->

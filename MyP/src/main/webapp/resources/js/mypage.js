@@ -1,10 +1,17 @@
 $(document).ready(function () {
 	
-	reloadList();
+	imgRelod();
 	
-	$("#info_modify").click(function(){
+	$("#mypage_modify").click(function(){
 		//개인정보 수정하기 버튼
 		$("#sendForm").attr("action", "memModify");
+        $("#sendForm").submit();   
+	});
+	
+	//memPwUpdate
+	$("#password_modify").click(function(){
+		//개인정보 수정하기 버튼
+		$("#sendForm").attr("action", "memPwUpdate");
         $("#sendForm").submit();   
 	});
 	
@@ -18,7 +25,7 @@ $(document).ready(function () {
 				   success:function(res){
 				   if(res.result == "SUCCESS"){
 					   if(res.fileName.length > 0){
-						   $("#att").val(res.fileName[0]);//올라간 파일명 보관(서버에서 파일이름 알맞게 바꿔서 보내줌.)
+						   $("#img").val(res.fileName[0]);//올라간 파일명 보관(서버에서 파일이름 알맞게 바꿔서 보내줌.)
 					   }
 						   
 				   /*글 저장*/
@@ -31,18 +38,18 @@ $(document).ready(function () {
 					   success: function(res){
 							switch (res.msg) {
 							case "success":
-								reloadList();
+								imgRelod();
 								break;
 							case "fail":
-								makeAlert("알림","등록에 실패하였습니다");
+								makeAlert("알림","사진 등록 실패하였습니다");
 								break;
 							case "error":
-								makeAlert("알림","등록 중 문제가 발생하였습니다");
+								makeAlert("알림","사진 등록 중 문제가 발생하였습니다");
 								break;
 		
 							}
 					   },
-					   error : function(resques) {
+					   error : function(request, status, error) {
 							console.log(request.responseText);
 					   }//error
 				   });//ajax
@@ -64,6 +71,28 @@ $(document).ready(function () {
 	
 });
 
-function reloadList(){
-	//사진때문에 리로드 해야할듯.
+function imgRelod() {
+	var params = $("#sendForm").serialize();
+	$.ajax({
+		url : "memListAjax",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) {
+			console.log("성공")
+			img(res.data);
+		
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); //Ajax End
+}
+
+
+function img(data){
+	var html = "";
+	
+	
+	
 }
