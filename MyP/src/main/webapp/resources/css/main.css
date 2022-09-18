@@ -256,7 +256,22 @@ header .header_wrap {
   display: none;
 }
 
-.login_box2 {
+.login_box.on {
+  display: block;
+  z-index: 101;
+}
+
+.login_box div {
+  margin: 12px 0;
+}
+
+.login_box div:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+.login_box2 {/*관리자*/
     border: 1px solid #ccc;
     width: 120px;
     height: 105px;
@@ -272,30 +287,16 @@ header .header_wrap {
     display: none;
 }
 
-.login_box.on {
+.login_box2.on {/*관리자*/
   display: block;
   z-index: 101;
 }
 
-.login_box2.on {
-  display: block;
-  z-index: 101;
-}
-
-.login_box div {
+.login_box2 div { /*관리자*/
   margin: 12px 0;
 }
 
-.login_box div:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.login_box2 div {
-  margin: 12px 0;
-}
-
-.login_box2 div:hover {
+.login_box2 div:hover {/*관리자*/
   text-decoration: underline;
   cursor: pointer;
 }

@@ -197,7 +197,7 @@ function drawList(list) {
 	var html = "";
 	for(var data of list){		
 		html +="<tr no=\""+data.MEM_NUM+"\">";
-		html +="<td>" + data.MEM_NUM+ "</td>";
+		html +="<td>" + data.NORNK+ "</td>";
 		html +="<td>" + data.ID+ "</td>";
 		html +="<td>" + data.NM+ "</td>";
 		html +="<td>" + data.EMAIL+ "</td>";

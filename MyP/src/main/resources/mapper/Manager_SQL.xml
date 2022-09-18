@@ -15,6 +15,7 @@
 			<when test="autoritySelectBox eq 1">AUTORITY_NUM = 1</when>
 			<when test="autoritySelectBox eq 2">AUTORITY_NUM = 2</when>
 			<when test="autoritySelectBox eq 3">AUTORITY_NUM = 3</when>
+			<when test="autoritySelectBox eq 4">AUTORITY_NUM = 4</when>
 		</choose>
 		WHERE WIT_DT IS NULL
 		AND MEM_NUM = #{no2} <!-- 팝업에서 no를 no2로 바꿨다, 기존 회원관리 테이블에 있는 no와 이름이 같아서이다. -->

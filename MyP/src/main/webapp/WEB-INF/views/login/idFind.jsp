@@ -1,45 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-<link rel="stylesheet" href="﻿${pageContext.request.contextPath}/resources/css/login.css">
-<link rel="stylesheet" href="﻿${pageContext.request.contextPath}/resources/css/font.css">
-<link rel="stylesheet" href="﻿${pageContext.request.contextPath}/resources/css/font.css">
-<style>
-
-</style>
-<script>
-window.onload = function(){
-   document.getElementById("send");
-   send.addEventListener("click",function(){
-      var frm = document.form;
-            
-      if(frm.uname.value.trim().length<=6)
-      {
-         alert("아이디를 6글자이상 입력해주세요");
-         return false(); 
-      }
-          
-      if(frm.pwd.value.trim().length<=8)
-      {
-         alert("비밀번호를 8글자이상 입력해주세요");
-         return false(); 
-      }
-      
-      frm.submit();
-   })
-}       
-</script>
+<title>MyP</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
 </head>
 <body>
 	<div class="wrap">
 		<h1 class="logo">
-			<a href="/test2/index.html"> </a>
+			<a href="/"></a>
 		</h1>
 		<form class="was-validated" name="form" id="form">
 			<div class="title">아이디 찾기</div>
