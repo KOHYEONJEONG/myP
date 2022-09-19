@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
+<title>MyP</title>
+  <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font.css">
 <style>
 * {
 	font-family: 'TmoneyRoundWindRegular';
@@ -30,7 +30,7 @@
 .logo {
 	width: 280px;
 	height: 110px;
-	background: url(./icons/logo8.png) no-repeat;
+	background: url('resources/icons/logo8.png') no-repeat;
 	background-size: 100%;
 	background-position: 50%;
 	position: absolute;

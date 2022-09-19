@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyP</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
-    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.12.4.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+    <link rel="stylesheet" href="resources/css/main.css">
+   	<link rel="stylesheet" href="resources/css/font.css">
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
 <style>
    .wrap {
    width: 490px;
@@ -144,40 +144,22 @@ input, select{
 
 </style>
 <script>
-window.onload = function(){
-   document.getElementById("send");
-   send.addEventListener("click",function(){
-      var frm = document.form;
-            
-      if(frm.uname.value.trim().length<=6)
-      {
-         alert("아이디를 6글자이상 입력해주세요");
-         return false(); 
-      }
-          
-      if(frm.pwd.value.trim().length<=8)
-      {
-         alert("비밀번호를 8글자이상 입력해주세요");
-         return false(); 
-      }
-      
-      frm.submit();
-   })
-}       
+    
 </script>
 </head>
 <body>
     <div class="wrap">
         <h1 class="logo"></h1>
-    <form class="was-validated" name="form" id="form">
+   <form class="was-validated" name="form" id="form">
         <div class="title">비밀번호 변경</div>
         <div class="input_box">
             <input type="password" name="password" for="password"  
                    placeholder="새 비밀번호" id="uname" required><br><br>
         </div> 
-        <div class="input_box">
-            <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
-        </div>  
+       
+            <div class="input_box">
+                <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
+            </div>  
         <div>
             <button class="sign_up" type="submit" id="joinBtn">변경</button>
         </div>

@@ -81,9 +81,15 @@ public class LoginController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/idFindResult")
+	public ModelAndView idFindFesult(ModelAndView mav) {
+		mav.setViewName("login/idFindResult");
+		return mav;
+	}
+
 	@RequestMapping(value = "/pwChange")
 	public ModelAndView pwChange(ModelAndView mav) {
-		mav.setViewName("login/pwFind");
+		mav.setViewName("login/pwChange");
 		return mav;
 	}
 
