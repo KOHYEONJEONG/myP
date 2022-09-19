@@ -1,5 +1,6 @@
 package com.gdj51.MyP.web.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,8 @@ public class ManagerController {
 		mav.setViewName("manager/categoryManagement");
 		return mav;
 	}
-
+	
+	// 관리자 페이지 카테고리 하위분류명 테이블 action
 	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String categoryManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
@@ -72,16 +74,21 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
+	// 관리자 페이지 카테고리 하위분류명 테이블 list
 	@RequestMapping(value = "/categoryManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String categoryManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
+		
 		// 페이지 받아오게 되어있음
-		int cnt = dao.getIntData("cate.getCateCnt", params);
+		int cnt = dao.getIntData("cate.getCateCnt", params);				
 
 		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		
+
+		System.out.println("params : " + params.toString());
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
@@ -94,6 +101,7 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
+	// 관리자 페이지 카테고리 분류명 테이블 list
 	@RequestMapping(value = "/divManagementList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String divManagementListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -103,7 +111,7 @@ public class ManagerController {
 		// 페이지 받아오게 되어있음
 		int cnt = dao.getIntData("div.getDivCnt", params);
 
-		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page1")), cnt, 10, 5);
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));
@@ -116,6 +124,7 @@ public class ManagerController {
 		return mapper.writeValueAsString(model);
 	}
 
+	// 관리자 페이지 카테고리 분류명 테이블 action
 	@RequestMapping(value = "/divManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String divManagementActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
@@ -149,25 +158,7 @@ public class ManagerController {
 		}
 
 		return mapper.writeValueAsString(model);
-	}
-
-	// 관리자 페이지 카테고리 등록화면
-	@RequestMapping(value = "/categoryManagementRegister")
-	public ModelAndView categoryManagementRegister(ModelAndView mav) {
-		mav.setViewName("manager/categoryManagementRegister");
-		return mav;
-	}
-
-	// 관리자 페이지 카테고리 수정화면
-	@RequestMapping(value = "/categoryManagementUpdate")
-	public ModelAndView categoryManagementUpdate(ModelAndView mav) {
-		mav.setViewName("manager/categoryManagementUpdate");
-		return mav;
-	}
-
-	
-	
-	
+	}	
 
 	// 관리자 페이지 회원관리 목록화면
 	@RequestMapping(value = "/memManagement")
@@ -210,6 +201,7 @@ public class ManagerController {
 
 		return mapper.writeValueAsString(model);
 	}
+	
 	// 관리자 페이지 데이터관리 목록화면
 	@RequestMapping(value = "/autorityPopup")
 	public ModelAndView autorityPopup(ModelAndView mav) {

@@ -44,7 +44,7 @@
        }
 	.table_wrap {
 	    width: 400px;
-	    top: 200px;
+	    top: 230px;
 	    left: 50%;
 	    transform: translateX(-50%);
 	    position: absolute;
@@ -142,33 +142,59 @@
 	
 	
  	 $(document).ready(function () {
+ 		 
+ 		if("${params.searchGbn1}" != ""){
+ 			$("#searchGbn1").val("${param.searchGbn1}");
+ 		} else {
+ 			$("#oldGbn1").val("0");
+ 		}
 
-		reloadList1();
-		reloadList();
-				
-	// 페이징 클릭시
-	 $(".page_nation").on("click", "a", function () {
-		$("#page").val($(this).attr("page"));
-		//기존 값 유지
-		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchText").val($("#oldText").val());
+ 		if("${params.searchGbn}" != ""){
+ 			$("#searchGbn").val("${param.searchGbn}");
+ 		} else {
+ 			$("#oldGbn").val("0");
+ 		}
+ 		
+		reloadList1(); // 분류명 테이블 reload
+		reloadList(); // 하위분류명 테이블 reload
 		
-		reloadList();
+				
+	// 분류명 테이블 페이징 클릭시
+	 $(".page_nation1").on("click", "a", function () {
+		$("#page1").val($(this).attr("page1"));
+		//기존 값 유지
+		$("#searchGbn1").val($("#oldGbn1").val());
+		$("#searchText1").val($("#oldText1").val());
+		
+		reloadList1();
 	})
 	
 	
 	// 분류명 테이블 클릭시 하위분류명 데이터 reload
 	$(".div_nm_tbody").on("click", "tr", function () {
 		$("#no").val($(this).attr("no"));
-		
-		$(this).addClass("on");
+			
 		reloadList();		
+		
 	})
+	
+	// 분류명 테이블 검색버튼 부분, 엔터키 이벤트 막기
+	$("#searchForm1").on("keypress", "input", function(event){
+		if(event.keyCode == 13){ //이벤트 코드가 엔터가들어오면
+		
+		//버튼 이벤트 발생
+		$("#searchBtn1").click();
+			return false;
+			
+		}
+
+	});	
+		
 			
 	// 분류명 테이블 검색버튼 클릭시
 	 $("#searchBtn1").on("click", function () {
 		
-		$("#page").val("1");
+		$("#page1").val("1");
 		//기존 값 새값으로 변경
 		$("#oldGbn1").val($("#searchGbn1").val());
 		$("#oldText1").val($("#searchText1").val());
@@ -186,11 +212,15 @@
 		         buttons : [{
 		            name : "추가",
 		            func:function() {
-		            	var divNm =  $(".input1").val();
-		            	console.log(divNm);
-		        		$("#divNm").val(divNm);
-		            	action1("insert");
-		            	closePopup(); // 제일 위의 팝업 닫기
+		            	if($.trim($(".input1").val())==""){
+		            		$(".input1").focus()
+		            		$(".input1").attr("placeholder", "분류명을 입력해주세요");
+		            	} else {
+		            		var divNm =  $(".input1").val();
+			        		$("#divNm").val(divNm);
+			            	action1("insert");
+			            	closePopup();
+		            	}
 		            }
 		         }, {
 		            name : "취소"
@@ -201,8 +231,6 @@
 	// 분류명 테이블 삭제버튼 클릭시
 	$(".div_nm_tbody").on("click", ".delete_btn", function () {
 		var no = $(this).parent().parent().parent().attr("no");
-		
-		console.log(no);	
 	
 		 makePopup({
 	         title : "알림",
@@ -260,9 +288,29 @@
 								
 		action1("update");
 	}) 
+		
+	
+	// 하위분류명 테이블 페이징 클릭시
+	 $(".page_nation").on("click", "a", function () {
+		$("#page").val($(this).attr("page"));
+		//기존 값 유지
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchText").val($("#oldText").val());
+		
+		reloadList();
+	})
 	
 	
-	
+	// 하위분류명 테이블 검색버튼 부분, 엔터키 이벤트 막기
+	$("#searchForm").on("keypress", "input", function(event){
+		if(event.keyCode == 13){ //이벤트 코드가 엔터가들어오면
+		
+		//버튼 이벤트 발생
+		$("#searchBtn").click();
+			return false;
+		}
+	});	
+		
 	
 	// 하위분류명 테이블 검색 클릭시
 	 $("#searchBtn").on("click", function () {
@@ -274,6 +322,8 @@
 		
 		reloadList();
 	})
+	
+	
 	
 	
 	// 하위분류명 테이블 추가버튼 클릭시
@@ -302,11 +352,15 @@
 		         buttons : [{
 		            name : "추가",
 		            func:function() {
-		            	var cateNm =  $(".input1").val();
-		            	console.log(cateNm);
-		        		$("#cateNm").val(cateNm);
-		            	action("insert");
-		            	closePopup(); // 제일 위의 팝업 닫기
+		            	if($.trim($(".input1").val())==""){
+		            		$(".input1").focus()
+		            		$(".input1").attr("placeholder", "하위분류명을 입력해주세요");
+		            	} else {
+		            		var cateNm =  $(".input1").val();
+			        		$("#cateNm").val(cateNm);
+			            	action("insert");
+			            	closePopup();
+		            	}
 		            }
 		         }, {
 		            name : "취소"
@@ -411,16 +465,16 @@ var msg ={
 					case "insert" :
 					case "delete" :
 						// 조회 데이터 초기화
-						$("#page").val("1");
-						$("#searchGbn").val("0");
-						$("#searchText").val("");
-						$("#oldGbn").val("0");
-						$("#oldText").val("");
+						$("#page1").val("1");
+						$("#searchGbn1").val("0");
+						$("#searchText1").val("");
+						$("#oldGbn1").val("0");
+						$("#oldText1").val("");
 						break;
 					case "update" :
 						// 기존값 유지
-						$("#searchGbn").val($("#oldGbn").val());
-						$("#searchText").val($("#oldText").val());
+						$("#searchGbn1").val($("#oldGbn1").val());
+						$("#searchText1").val($("#oldText1").val());
 	
 						break; 
 					}
@@ -464,9 +518,7 @@ var msg ={
  	function drawList1(list) {
  		var html = "";
  		
- 		var length = 10-list.length;
- 		
- 		if(list.length != 10){
+
  			for(var data of list){
 
  				html +="<tr no=\"" + data.DIV_NUM  + "\">";
@@ -486,14 +538,8 @@ var msg ={
  				html +="</td>";
  				html +="</tr>";
  			}
- 			for(var i=0; i < length; i++){
- 				html +="<tr>";
- 				html +="<td></td>";
- 				html +="<td></td>";
- 				html +="<td></td>";
- 				html +="</tr>";
- 			}
- 		}
+
+
  		$(".div_nm_tbody").html(html);
  	}
 
@@ -504,33 +550,33 @@ var msg ={
  		var html = "";
  		
  		html +=
- 		html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+ 		html += "<a class=\"parrow pprev\" page1=\"1\"></a>";
  		// 이전
- 		if($("#page").val() == "1"){
- 			html += "<a class=\"arrow prev\" page=\"1\"></a>";
+ 		if($("#page1").val() == "1"){
+ 			html += "<a class=\"arrow prev\" page1=\"1\"></a>";
  		} else{
  			// 문자열을 숫자로 바꾸기위해 *1
- 			html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
+ 			html += "<a class=\"arrow prev\" page1=\"" + ($("#page1").val() *1 - 1) + "\"></a>";
  		}
  		
  		for(var i = pd.startP; i <= pd.endP; i++){
- 			if($("#page").val() * 1 == i){ // 현재 페이지
- 				html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+ 			if($("#page1").val() * 1 == i){ // 현재 페이지
+ 				html += "<a class=\"active\" page1=\"" + i + "\">" + i + "</a>";
  			} else { // 다른 페이지
- 				html += "<a page=\"" + i + "\">" + i + "</a>";
+ 				html += "<a page1=\"" + i + "\">" + i + "</a>";
  			}
  			
  		}
  		
- 		if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
- 			html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+ 		if($("#page1").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+ 			html += "<a class=\"arrow next\" page1=\"" +pd.maxP+ "\"></a>";
  		} else {
- 			html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+ 			html += "<a class=\"arrow next\" page1=\"" + ($("#page1").val() *1 + 1) + "\"></a>";
  		}
  		
- 		html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+ 		html += "<a class=\"arrow nnext\" page1=\"" +pd.maxP+ "\"></a>";
  		
- 		$(".page_nation").html(html);
+ 		$(".page_nation1").html(html);
  	                                                                     
  	}
 
@@ -552,7 +598,7 @@ function action(flag) {
 			case "success" :
 				// 내용 초기화
 				$("#cateNm").val("");
-				$("#no").val("");
+				//$("#no").val("");
 
 				// 목록 재조회
 				switch(flag){
@@ -614,9 +660,6 @@ function reloadList() {
  function drawList(list) {
 		var html = "";
 		
-		var length = 10-list.length;
-		
-		if(list.length != 10){
 			for(var data of list){
 				html +="<tr no=\"" + data.CATE_NUM  + "\">";
 				html +="<td>" + data.RNK + "</td>";
@@ -631,18 +674,9 @@ function reloadList() {
 				html +="</td>";
 				html +="</tr>";
 			
-			}
-			for(var i=0; i < length; i++){
-				html +="<tr>";
-				html +="<td></td>";
-				html +="<td></td>";
-				html +="<td></td>";
-				html +="</tr>";
-			}
-	}
-		
+			}	
 		$(".cate_nm_tbody").html(html);
-		var html1 = "";
+
 	}
 
 
@@ -711,7 +745,7 @@ function reloadList() {
                 <!-- 검색어 유지용 -->
                 <input type="hidden" id="oldGbn1" value="0" />
 				<input type="hidden" id="oldText1" />
-				<input type="hidden" name="page" id="page" value="1" />
+				<input type="hidden" name="page1" id="page1" value="1" />
 				<input type="hidden" name="divNum" id="divNum" />
 				<input type="hidden" name="divNm" id="divNm" />
                   <div class="select">
@@ -742,7 +776,7 @@ function reloadList() {
                 </table>
                   <!--페이징-->
                   <div class="page_wrap">
-                      <div class="page_nation"></div>
+                      <div class="page_nation1"></div>
                    </div>
                     <div class="insert_btn" id="insertBtn1">추가</div>
               </div>
@@ -792,9 +826,7 @@ function reloadList() {
                   <div class="page_wrap">
                       <div class="page_nation"></div>
                    </div>
-                   <c:if test="${empty no}">
-						 <div class="insert_btn" id="insertBtn">추가</div>
-					</c:if>
+					<div class="insert_btn" id="insertBtn">추가</div>
               </div>
         </div>
         

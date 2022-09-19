@@ -21,8 +21,62 @@ $(document).ready(function() {
 		$("#oldGbn").val("0"); //없으면 0으로 고정
 	}
 	
+	//카테고리 설정
+	if("${param.cateNo}" != "") {
+		$("#cateNo").val("${param.cateNo}")
+	}
+	
+	//카테고리 번호가 1번이면 reloadList1 데이터를 가져온다.
+	$("#cateNo").on("change", function() {
+		$("#cateNo").val("1");
+		$("#page").val("1");
+		$("#searchGbn").val("0");
+		$("#searchTxt").val("");
+		$("#oldGbn").val("0");
+		$("#oldTxt").val("");
+		
+		reloadList1();
+		//alert(cateNo,"몇번");
+	});
+	
+	//카테고리 번호가 2번이면 reloadList2 데이터를 가져온다.
+	$("#cateNo").on("change", function() {
+		$("#cateNo").val("2");
+		$("#page").val("1");
+		$("#searchGbn").val("0");
+		$("#searchTxt").val("");
+		$("#oldGbn").val("0");
+		$("#oldTxt").val("");
+		
+		reloadList2();
+	});
+	
+	//카테고리 번호가 3번이면 reloadList3 데이터를 가져온다.
+	$("#cateNo").on("change", function() {
+		$("#page").val("1");
+		$("#searchGbn").val("0");
+		$("#searchTxt").val("");
+		$("#oldGbn").val("0");
+		$("#oldTxt").val("");
+		$("#cateNo").val("3");
+		
+		reloadList3();
+	});
+	
+	//카테고리 번호가 4번이면 reloadList4 데이터를 가져온다.
+	$("#cateNo").on("change", function() {
+		$("#cateNo").val("4");
+		$("#page").val("1");
+		$("#searchGbn").val("0");
+		$("#searchTxt").val("");
+		$("#oldGbn").val("0");
+		$("#oldTxt").val("");
+		
+		reloadList4();
+	});
+	
 	//목록 조회
-	reloadList();
+		reloadList1();
 	
 	//검색 버튼
 	$("#search_btn").on("click", function() {
@@ -31,21 +85,21 @@ $(document).ready(function() {
 		$("#oldGbn").val($("#searchGbn").val());
 		$("#oldTxt").val($("#searchTxt").val());
 		
-		reloadList();
+		reloadList1();
 	});
 	
 	
 	
-	function reloadList() {
+	function reloadList1() {
 		var params = $("#dataForm").serialize();
 		
 		$.ajax({
-			url: "dataManagementAjax",
+			url: "datacarAjax",
 			type: "POST",
 			dataType : "json",
 			data: params,
 			success: function(res) {
-				drawList(res.list);
+				drawListcar(res.list1);
 				drawPaging(res.pd);
 			},
 			error : function(request, status, error) {
@@ -53,6 +107,158 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	function reloadList2() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "datafoodAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListfood(res.list2);
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+	
+	function reloadList3() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "datacultureAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListculture(res.list3);
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+	
+	function reloadList4() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "datagasAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListgas(res.list4);
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+	
+	function drawListcar(list1) {
+		var html = "";
+		
+		html += "<tr>"+ +"<\>";
+		html += "<th>"+"주차장관리번호"+"</th>";
+	    html += "<th>"+"주차장명"+"</th>";
+	    html += "<th>"+"주차장유형"+"</th>";
+	    html += "<th>"+"주소"+"</th>";
+		html += "</tr>";
+	    
+	    $("thead").html(html);
+	    
+		for(var data of list1) {
+			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
+		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>";
+		    html += "<th>"+data.CAR_PARK_NM+"</th>";
+		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
+		    html += "<th>"+data.ADDRESS+"</th>";
+		    html += "</tr>";
+		    $("tbody").html(html);
+		}
+		
+	}
+
+	function drawListfood(list2) {
+		var html = "";
+		
+		html += "<tr>"+ +"<\>";
+		html += "<th>"+"맛집관리번호"+"</th>";
+	    html += "<th>"+"사업장명"+"</th>";
+	    html += "<th>"+"전화번호"+"</th>";
+	    html += "<th>"+"도로명 주소"+"</th>";
+		html += "</tr>";
+	    
+	    $("thead").html(html);
+	    
+		for(var data of list2) {
+			html += "<tr no=\""+data.RESTAURANT_NO+"\">";
+		    html += "<th>"+data.RESTAURANT_NO+"</th>";
+		    html += "<th>"+data.ENT_NM+"</th>";
+		    html += "<th>"+data.PHONE+"</th>";
+		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>";
+		    html += "</tr>";
+		    
+		}
+		$("tbody").html(html);
+	}
+
+	function drawListculture(list3) {
+		var html = "";
+		
+		html += "<tr>"+ +"<\>";
+		html += "<th>"+"영화관관리번호"+"</th>";
+	    html += "<th>"+"사업자명"+"</th>";
+	    html += "<th>"+"전화번호"+"</th>";
+	    html += "<th>"+"도로명 주소"+"</th>";
+		html += "</tr>";
+	    
+	    $("thead").html(html);
+	    
+		for(var data of list3) {
+			html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">";
+		    html += "<th>"+data.CINEMA_MAG_NUM+"</th>";
+		    html += "<th>"+data.ENT_NM+"</th>";
+		    html += "<th>"+data.PHONE+"</th>";
+		    html += "<th>"+data.ROAD_NM+"</th>";
+		    html += "</tr>";
+		    
+		}
+		$("tbody").html(html);
+	}
+	
+function drawListgas(list4) {
+		var html = "";
+		
+		html += "<tr>"+ +"<\>";
+		html += "<th>"+"주유소관리번호"+"</th>";
+	    html += "<th>"+"주유소명"+"</th>";
+	    html += "<th>"+"전화번호"+"</th>";
+	    html += "<th>"+"도로명 주소"+"</th>";
+		html += "</tr>";
+	    
+	    $("thead").html(html);
+	    
+		for(var data of list4) {
+			html += "<tr no=\""+data.GAS_STATION_NUM+"\">";
+		    html += "<th>"+data.GAS_STATION_NUM+"</th>";
+		    html += "<th>"+data.GAS_NM+"</th>";
+		    html += "<th>"+data.PHONE+"</th>";
+		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>";
+		    html += "</tr>";
+		    
+		}
+		$("tbody").html(html);
+	}
+
+
 	
 	function drawPaging(pd) {
 	var html = "";
@@ -88,19 +294,6 @@ $(document).ready(function() {
                                                                      
 }
 
-	function drawList(list) {
-		var html = "";
-		
-		for(var data of list) {
-			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
-		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>";
-		    html += "<th>"+data.CAR_PARK_NM+"</th>";
-		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
-		    html += "<th>"+data.ADDRESS+"</th>";
-		    html += "</tr>";
-		}
-		$("tbody").html(html);
-	}
 	
 	$(".page_nation").on("click", "a", function() {
 		$("#page").val($(this).attr("page"));
@@ -108,7 +301,7 @@ $(document).ready(function() {
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchText").val($("#oldText").val());
 		
-		reloadList();
+		reloadList1();
 	});
 });
 </script>
@@ -132,11 +325,11 @@ $(document).ready(function() {
         <div class="right_area">     
             <div class="table_wrap">
               <div class="search_box1">
-                <select class="cate">
-                  <option value="parking">주차장</option>
-                  <option value="restaurant">맛집</option>
-                  <option value="culture">문화생활</option>
-                  <option value="gasstation">주유소</option>
+                <select class="cate" id="cateNo">
+                  <option value="1">주차장</option>
+                  <option value="2">맛집</option>
+                  <option value="3">문화생활</option>
+                  <option value="4">주유소</option>
                 </select>
                 <form action="#" id="dataForm" method="post">
                 <input type="hidden" name="page" id="page" value="1" /> 
@@ -168,12 +361,7 @@ $(document).ready(function() {
 				<col width="250" />
 			</colgroup>
                 <thead>
-                  <tr>
-                    <th>주차장관리번호</th>
-                    <th>주차장명</th>
-                    <th>주차장유형</th>
-                    <th>주소</th>
-                  </tr>
+                 
                 </thead>
                 <tbody>
                   

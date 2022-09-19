@@ -3,15 +3,27 @@ $(document).ready(function () {
 	// 헤더
 	// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
    if($(".login_comment").hasClass("on")){
+		var sessionData = $("#sMemAuto").val();//세션가져옴.
+
         $(".login_i1").off().click(function () {
-            var hasOn1 = $(".login_box").hasClass("on")
-            console.log(hasOn1);
+           
+            var hasOn1 = $("#login_box").hasClass("on");
+
             if (hasOn1) {
-                $(".login_box").removeClass("on");
+				$("#login_box").removeClass("on");
+				
             } else {
-                $(".login_box").addClass("on");
+				console.log("관리자");
+				$("#login_box").addClass("on");
+				
+				if(sessionData == "관리자"){
+					$("#login_box").removeClass();
+					$("#login_box").addClass('login_box2 on');
+				}
             }
-        })
+            
+        });//$(".login_i1").off()
+        
     } else {
         $(".login_i").click(function () {
         location.href = "login";

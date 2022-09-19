@@ -44,20 +44,5 @@
 	      ) S
 		WHERE S.RNK BETWEEN #{start} AND #{end}
 	</select>
-	
-<!-- 	<select id="getCateAllList" resultType="hashmap">
-		SELECT C.CATE_NUM, CD.DIV_NM, C.CATE_NM 
-		FROM CATEGORY C INNER JOIN CATEGORY_DIV CD ON C.DIV_NUM = CD.DIV_NUM
-		WHERE DEL = 1
-	</select>
-	 -->
-	<!-- 이름 취득용 -->
-	<!-- <select id="getCate" parameterType="hashmap" resultType="String">
-		SELECT CATE_NM
-		FROM CATE
-		WHERE DEL = 1
-		AND CATE_NO = #{cateNo}
-	</select> -->
-	
-	
+
 </mapper>

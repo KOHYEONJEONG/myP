@@ -22,6 +22,8 @@
 <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
+   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+   <script src="${pageContext.request.contextPath}/resources/js/header.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
 </head>
 <body>
@@ -814,7 +816,7 @@
     var map = new window.kakao.maps.Map(container, options);
   </script>
   
-  <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+
 </body>
 
 </html>

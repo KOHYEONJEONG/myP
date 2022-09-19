@@ -45,7 +45,7 @@ a{
     box-sizing: border-box;
 }
 
-.pw_input{
+.rePw_input{
     height: 60px;
     border: solid 1px #dadada;
     background: #fff;
@@ -156,20 +156,6 @@ input::placeholder {
     width: 450px;
 }
 
-/* 중복아이디 존재하지 않는경우 */
-.id_input_re_1{
-	height: 20px;
-	color : green;
-	display : none;
-}
-
-/* 중복아이디 존재하는 경우 */
-.id_input_re_2{
-	height: 20px;
-	color : red;
-	display : none;
-}
-
 /*비밀번호 확인 일치 유효성 검사*/
 .pwck_input_re_1 {
 	color : green;
@@ -181,6 +167,18 @@ input::placeholder {
 }
 
 /*유효성 검사 문구*/
-.final_pw_ck{
-    display: none;
+.basic-password{
+	display : block;
+	color : gray;
+}
+
+.weak-password{
+	color : red;
+}
+
+.strong-password{
+	color : green;
+}
+.medium-password{
+	color: blue;
 }
