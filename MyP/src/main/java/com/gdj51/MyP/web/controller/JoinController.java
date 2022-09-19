@@ -32,16 +32,16 @@ public class JoinController {
 	public IACDao dao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(JoinController.class);
+
+	@RequestMapping(value="/join")
+	public ModelAndView jInsert(
+			ModelAndView mav) {//회원가입
+		mav.setViewName("/join/join");
 	
-	@RequestMapping(value="/mailCheck",
-    method=RequestMethod.GET)
-	@ResponseBody
-	public String mailCheck(@RequestParam HashMap<String, String> params) {
-		System.out.println("이메일 인증 요청이 들어옴.");
-		System.out.println("이메일 :"+params);
-		return mailService.joinEmail(params.get("email"));
+		return mav;
 	}
 	
+	//아이디 중복 체크
 	@RequestMapping(value="/checkIdAjax", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkIdAjax(@RequestParam HashMap<String, String> params)throws Throwable{
@@ -61,19 +61,50 @@ public class JoinController {
 		
 	}
 	
-	
-	
-	@RequestMapping(value="/join")
-	public ModelAndView jInsert(
-			ModelAndView mav) {//회원가입
-		mav.setViewName("/join/join");
-	
-		return mav;
+	//해당 메일에 인증번호 이메일 전송 + 인증번호 테이블에 데이터 생성
+	@RequestMapping(value="/mailSend",
+    method=RequestMethod.GET,
+    produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String mailSend(@RequestParam HashMap<String, String> params) throws Throwable {
+		System.out.println("이메일 :"+params);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		int send_num = mailService.joinEmail(params.get("email"));
+		model.put("send_num",send_num);
+		
+		System.out.println("발송번호 : "+ send_num);
+		
+		return mapper.writeValueAsString(model); //결과값으로 발송번호 받기
 	}
 	
+	//작성한 인증번호가 맞는지 체크('send_num'과 '사용자가 작성한 인증번호'를 받아온다)
+	@RequestMapping(value="/mailCheck",
+    method=RequestMethod.GET)
+	@ResponseBody
+	public String mailCheck(@RequestParam HashMap<String, String> params) throws Throwable {
+		System.out.println("인증번호 체크 params ===>"+params.toString());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		 
+		//count를 하여 1이면 성공, 
+		int cnt = dao.getIntData("join.mailAuteCheck", params);
 	
+		if(cnt > 0) {
+			model.put("msg","success");
+		}else {
+			model.put("msg","fail");
+		}
+		 
+		return mapper.writeValueAsString(model);
+ 	}
+	
+	//가입하기
 	@RequestMapping(value="/JAction/{gbn}",
-			method = RequestMethod.GET,
+			method = RequestMethod.POST,
 			produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String JAction(
@@ -94,7 +125,6 @@ public class JoinController {
 	            
 	            params.put("email",email);
 	            
-	            cnt = dao.insert("join.autInsert", params);
 				cnt = dao.insert("join.joinInsert", params);
 				break;
 
@@ -104,6 +134,8 @@ public class JoinController {
 			} else {
 				model.put("msg", "fail");
 			}
+			
+			System.out.println("msg-=>"+model.get("msg"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();

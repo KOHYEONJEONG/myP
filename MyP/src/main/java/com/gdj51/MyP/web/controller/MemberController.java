@@ -25,23 +25,7 @@ public class MemberController {
 	public IPagingService ips;
 	
 	
-	@RequestMapping(value = "/pwUpdate")
-	public ModelAndView pwUpdate(ModelAndView mav) {
-		mav.setViewName("member/pwUpdate");
-		return mav;
-	}
-
-	@RequestMapping(value = "/mypageReviewBoard")
-	public ModelAndView mypageReviewBoard(ModelAndView mav) {
-		mav.setViewName("member/mypageReviewBoard");
-		return mav;
-	}
-
-	@RequestMapping(value = "/withdraw")
-	public ModelAndView withdraw(ModelAndView mav) {
-		mav.setViewName("member/withdraw");
-		return mav;
-	}
+	
 
 	
 }

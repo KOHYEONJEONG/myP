@@ -7,20 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TestController {
 
-	// 화면 보기 위한 테스트
-	@RequestMapping(value = "/pwChange")
-	public ModelAndView pwChange(ModelAndView mav) {
-		mav.setViewName("login/pwChange");
-		return mav;
-	}
-
-	// 화면 보기 위한 테스트
-	@RequestMapping(value = "/pwFind")
-	public ModelAndView pwFind(ModelAndView mav) {
-		mav.setViewName("login/pwFind");
-		return mav;
-	}
-
 	@RequestMapping(value = "/parkinfo")
 	public ModelAndView parkinfo(ModelAndView mav) {
 		mav.setViewName("parkInfo/pubserviceParkingList");

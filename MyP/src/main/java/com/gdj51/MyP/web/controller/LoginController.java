@@ -43,6 +43,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView mav) {
+		System.out.println("로그인 창 들어감.");
 		mav.setViewName("login/login");		
 		return mav;
 	}
@@ -79,6 +80,19 @@ public class LoginController {
 		return mapper.writeValueAsString(model);
 	}
 
+	
+	@RequestMapping(value= "/idFind")
+	public ModelAndView idFind(ModelAndView mav) {
+		mav.setViewName("login/idFind");
+		return mav;
+	}
+	
+	@RequestMapping(value= "/pwFind")
+	public ModelAndView pwFind(ModelAndView mav) {
+		mav.setViewName("login/pwFind");
+		return mav;
+	}
+	
 	@RequestMapping(value= "/logout")
 	public ModelAndView logout(
 			HttpSession session,

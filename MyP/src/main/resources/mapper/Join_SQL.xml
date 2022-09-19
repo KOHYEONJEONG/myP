@@ -8,13 +8,35 @@
 	</select>
 
 	<insert id="joinInsert" parameterType="hashmap">
-	INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, REG_DT)
-	VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, SYSDATE)
+		INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, CERT, REG_DT)
+		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, #{cert}, SYSDATE)
 	</insert>
 	
-	<insert id="autInsert" parameterType="hashmap">
-	INSERT INTO AUTHENTICATION_NUM(SEND_NUM, EMAIL, AUTH_NUM, REG_DT)
-	VALUES(#{inj}, #{email}, #{inj}, SYSDATE)
+	<select id="sendNum" resultType="Integer" >
+		<!-- 발송번호만 전송 -->
+		<!--SELECT SEND_NUM
+		FROM AUTHENTICATION_NUM
+		WHERE EMAIL = #{email}-->
+		
+		SELECT SEND_NUM_SEQ.NEXTVAL 
+		FROM DUAL
+	</select>
+	
+	<insert id="authInsert" parameterType="hashmap">
+		<!-- 인증번호 테이블에 발송번호, 인증번호, 이메일, 등록일 추가-->
+		<!--
+			INSERT INTO AUTHENTICATION_NUM(SEND_NUM, EMAIL, AUTH_NUM, REG_DT)
+			VALUES(SEND_NUM_SEQ.NEXTVAL, #{email}, #{auth_num}, SYSDATE)
+		-->
+		INSERT INTO AUTHENTICATION_NUM(SEND_NUM, EMAIL, AUTH_NUM, REG_DT)
+		VALUES(#{send_num}, #{email}, #{auth_num}, SYSDATE)
 	</insert>
+	
+	<select id="mailAuteCheck" parameterType="hashmap" resultType="Integer">
+		<!-- 인증번호, 발송번호로 count함, 왜? 이메일은 중복될 수 있으니까.  -->	
+		SELECT COUNT(*)
+		FROM AUTHENTICATION_NUM
+		WHERE AUTH_NUM = #{auth_num} AND SEND_NUM = #{send_num}
+	</select>
 	
 </mapper>

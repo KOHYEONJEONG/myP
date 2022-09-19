@@ -1,5 +1,6 @@
 package com.gdj51.MyP.web.service;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+
+import com.gdj51.MyP.web.dao.IACDao;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -16,6 +20,10 @@ public class MailSendService implements IJoinService {
 
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	
+	@Autowired
+	public IACDao dao;
 
 	private int authNumber; 
 
@@ -28,7 +36,7 @@ public class MailSendService implements IJoinService {
 	}
 
 	//이메일 보낼 양식! 
-	public String joinEmail(String email) {
+	public int joinEmail(String email) throws Throwable {
 		makeRandomNumber();
 		String setFrom = "hongaeyong99@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
 		String toMail = email;
@@ -40,9 +48,23 @@ public class MailSendService implements IJoinService {
 						"<br>" + 
 						"해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
 		mailSend(setFrom, toMail, title, content);
-
-		System.out.println("들어오냐");
-		return Integer.toString(authNumber);
+		//return Integer.toString(authNumber);
+		HashMap<String, String> params = new HashMap<String, String>();
+		
+		//이제 등록된 인증번호테이블을 조회(발송번호만 가져온다.) <-- 이 발송번호 값을 클라이언트한테 보내야한다.
+		//클라이언트가 입력한 인증번호를 체크할때 필하다.
+		int send_num = dao.getIntData("join.sendNum");
+		//발송번호(시퀀스) 저장
+				
+		//이메일, 만든 인증번호 보내기
+		params.put("send_num", Integer.toString(send_num));
+		params.put("email", email);
+		params.put("auth_num", Integer.toString(authNumber));
+		
+		//해당 이메일에 발손번호, 이메일, 인증번호, 등록일 저장
+		dao.insert("join.authInsert",params);
+		
+		return send_num;
 	}
 
 	//이메일 전송 메소드

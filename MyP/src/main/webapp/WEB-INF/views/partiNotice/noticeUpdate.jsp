@@ -28,11 +28,11 @@
 			height : 400
 		});
 		
-		$("#listBtn").on("click", function () {
+		$("#cancelBtn").on("click", function () {
 			$("#backForm").submit();
 		});
 		
-		$("#insertBtn").on("click", function () {
+		$("#updateBtn").on("click", function () {
 			// CKEditor의 값 취득
 			// CKEDITOR.instances[아이디] : CKEditor중 아이디가 같은 것을 찾겠다.
 			//.getData() : 작성중인 내용을 취득하겠다.
@@ -50,7 +50,7 @@
 				var params = $("#backForm").serialize();
 				
 				$.ajax({
-					url : "noticeAction/insert", 
+					url : "noticeAction/update", 
 					type : "POST", 
 					dataType: "json", 
 					data: params, 
@@ -83,8 +83,9 @@
 </head>
 <body>
   <c:import url="/header1"></c:import>
-    <form action="notice" id="backForm" method="post">
+    	<form action="noticeDetail" id="backForm" method="post">
       <main>
+    <input type="hidden" name="no" value="${param.no}">
 	<input type="hidden" name="page" value="${param.page}" />
 	<input type="hidden" name="searchGbn" value="${param.searchGbn}"/>
 	<input type="hidden" name="searchText" value="${param.searchText}"/>
@@ -104,15 +105,15 @@
                         공지사항
                     </div>
                     <hr />
-                    <input type="text" class="input_box" name="title" id="title" placeholder="제목을 입력하세요">
+                    <input type="text" class="input_box" name="title" id="title" value="${data.TITLE}">
                     <hr />
                      <div class="con">
-                     	<textarea class="form-control" rows="5" id="con" name="con"></textarea>
+                     	<textarea class="form-control" rows="5" id="con" name="con">${data.CON}</textarea>
                 	</div>
                     <hr >
-                    <div class="btn_wrap">
-                        <input type="button" value="목록" class="btn list">
-                        <input type="button" value="등록" class="btn regi" id="insertBtn">
+					<div class="btn_wrap">
+                        <input type="button" value="취소" class="btn list" id="cancelBtn">
+                        <input type="button" value="수정" class="btn regi" id="updateBtn">
                     </div>
                 </div>
                 </div>

@@ -45,33 +45,38 @@
                       </ul>
                   </nav>
             <c:choose>
-              <c:when test="${empty sMemNm}">
-            <div class="login_comment"></div>
-             <div class="login_i" id="loginBtn"></div>
-            </c:when>
-            <c:otherwise>
-             <div class="login_comment on">${sMemNm}님 환영합니다</div>
-              <div class="login_i1">
-                  <div class="img1"></div>
-                </div>
-            	<div class="login_box">
-				<c:choose>
-					<c:when test="${sMemAuto eq 1}">
-						<%-- 관리자 권한 --%>
-						<div class="managerPage" id="managerPage">관리자 페이지</div>
-						<div class="logout" id="logoutBtn">로그아웃</div>
-					</c:when>
-					<c:otherwise>
-						<div class="mypage" id="myPage">마이페이지</div>
-						<div class="logout" id="logoutBtn">로그아웃</div>
-					</c:otherwise>
-				</c:choose>
-			</div>
-            </c:otherwise>
-              </c:choose>
-              </div>
-          </div>
-        </div> 
-      </header>
+						<c:when test="${empty sMemNm}">
+							<div class="login_comment"></div>
+							<div class="login_i" id="loginBtn"></div>
+						</c:when>
+						
+						<c:otherwise>
+							<div class="login_comment on">${sMemNm}님환영합니다</div>
+							<div class="login_i1">
+								<div class="img1"></div>
+							</div>
+							
+							<c:choose>
+								<c:when test="${sMemAuto eq 1}">
+									<input type="hidden" id="sMemAuto" value="관리자"/>
+								</c:when>
+							</c:choose>
+							
+							<div class="login_box" id="login_box">
+								<c:choose>
+									<c:when test="${sMemAuto eq 1}">
+										<%-- 관리자 권한 --%>
+										<div class="managerPage" id="managerPage">관리자 페이지</div>
+									</c:when>
+								</c:choose>
+								<div class="mypage" id="myPage">마이페이지</div>
+								<div class="logout" id="logoutBtn">로그아웃</div>
+						  </div>
+						</c:otherwise>
+					</c:choose>
+         </div>
+        </div>
+      </div> 
+    </header>
 </body>
 </html>
