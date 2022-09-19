@@ -6,6 +6,10 @@
 	<select id="idCheck" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*) FROM MEMBER WHERE ID = #{id}	
 	</select>
+	
+	<select id="emailCheck" resultType="int" parameterType="hashmap">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email}
+	</select>
 
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, CERT,AUTORITY_NUM, REG_DT)

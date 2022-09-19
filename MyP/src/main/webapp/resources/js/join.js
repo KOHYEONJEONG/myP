@@ -14,28 +14,70 @@ $(document).ready(function () {
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
 	   const warnMsg = $(".mail_input_box_warn");
 	   var data = {email : email};
+	   const str = window.location.pathname; // 현재 url 경로 ex) /MyP/idFind
+	   const word = str.split("/")
+	   console.log(word[2]);
 	   
-	   /*이메일 형식 유효성 검사*/
+	   // 유효성 검사 후,
 	   if(mailFormCheck(email)) {
-		   warnMsg.html("인증번호가 전송 되었습니다. ");
-		   warnMsg.css("display", "inline-block");
+		   $.ajax({
+		         type:"post",
+		         url:"checkEmailAjax", // 메일 중복성 체크
+		         data : data,
+		         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+		         
+		         // id찾기에서 메일 중복 체크
+		         if(word[2] == 'idFind'){
+					if(res == 'fail'){
+		            	warnMsg.html("가입되지 않은 이메일 입니다. 다시 확인 부탁드립니다.");   
+		                warnMsg.css("color","red");
+		            } else {
+					//이메일
+					   $.ajax({
+						   type : 'get',
+						   url : 'mailSend', //Get 방식이라 url뒤에 email을 묻힐수있다.
+						   dateType : "json",
+						   data : data,	   
+					   	   success : function(result) {
+					   		   console.log(result.send_num);
+					   		   send_num = result.send_num;
+					   		   warnMsg.html("인증번호가 발송 되었습니다.");
+					   		   warnMsg.css("color","green");
+					   	   }
+					   }); //end ajax
+		            }
+		        // 회원가입에서 메일 중복 체크
+				} else {
+					if(res != 'fail'){ 
+		            	warnMsg.html("이미 가입된 이메일 입니다. 다시 확인 부탁드립니다.");   
+		                warnMsg.css("color","red");
+		            } else {
+					//이메일
+					   $.ajax({
+						   type : 'get',
+						   url : 'mailSend', //Get 방식이라 url뒤에 email을 묻힐수있다.
+						   dateType : "json",
+						   data : data,	   
+					   	   success : function(result) {
+					   		   console.log(result.send_num);
+					   		   send_num = result.send_num;
+					   		   warnMsg.html("인증번호가 발송 되었습니다.");
+					   		   warnMsg.css("color","green");
+					   	   }
+					   }); //end ajax
+		            }
+					}
+		         },
+		         error : function(request, status, error) {// 실패했을 때 함수 실행
+		            console.log(request.responseText);    //실패 상세 내역
+		         }
+		      }); //ajax
 	   } else {
 		   warnMsg.html("옳바르지 못한 이메일 형식입니다.");
 		   warnMsg.css("display", "inline-block");
 		   return false;
 	   }
 	   
-	   //이메일
-	   $.ajax({
-		   type : 'get',
-		   url : 'mailSend', //Get 방식이라 url뒤에 email을 묻힐수있다.
-		   dateType : "json",
-		   data : data,	   
-	   	   success : function(result) {
-	   		   console.log(result.send_num);
-	   		   send_num = result.send_num;
-	   	   }
-	   }); //end ajax
    }); //end send email
    
    //인증번호 비교
@@ -194,6 +236,51 @@ $(document).ready(function () {
 		});//ajax end
 		 
 	}); //join btn end
+	
+	
+	
+	 $("#idFindBtn").on("click", function() {
+	  
+	   
+	   if($.trim($("#email1").val()) == "") {
+		   alert("이메일을 입력하세요.", function() {
+			   $("#email1").focus();
+		   });
+		   return false;
+	   }  
+	   
+	   if($.trim($("#inj").val()) == "") {
+		   alert("인증번호를 입력하세요.", function() {
+			   $("#inj").focus();
+		   });
+		   return false;
+	   }
+	   
+		var params = $("#idFindform").serialize();
+		
+		/*$.ajax({
+		url: "JAction/insert",
+		type: "POST",
+		dataType : "json",
+		data: params,
+		success : function(res) {
+			console.log(res);
+			console.log("res.msg:"+res.msg);
+			if(res.msg == "success"){
+				location.href = "login";
+			}else if(res.msg == "fail"){
+				makeAlert("알림", "등록에 실패하였습니다.");
+			}else{
+				makeAlert("알림", "등록 중 문제가 발생하였습니다.");
+			}
+		},
+		error : function(request, status, error) {
+			console.log(request.responseText);
+		}
+		});//ajax end*/
+		 
+	}); //idFindBtn btn end
+	
 }); 
 
 /*입력 이메일 형식 유효성 검사*/

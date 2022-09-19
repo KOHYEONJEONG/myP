@@ -10,7 +10,8 @@
 <title>MyP</title>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/font.css">
-<script src="/resources/js/join.js"></script>
+ <script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/join.js"></script>
 <style>
     *{
         font-family: 'TmoneyRoundWindRegular';
@@ -138,21 +139,65 @@ input, select{
 }
 
 </style>
+<script type="text/javascript">
+/* $(document).ready(function () {
+	
+	$("#mail-Check-Btn1").click(function () {
+		const email = $('#email1').val()+ '@' + $('#email2').val();
+		ckEmail(email);
+	})
+
+
+
+}); 
+
+function ckEmail(email) {
+   var status = $(".email_status");
+   var data = {email : email};
+   
+   /*이메일 형식 유효성 검사*/
+   if(mailFormCheck(email)) {
+	   $.ajax({
+	         type:"post",
+	         url:"checkEmailAjax",
+	         data : data,
+	         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+	         
+	            if(res == 'fail'){ // 중복 이메일이 존재
+	            	status.html("가입되지 않은 이메일 입니다. 다시 확인 부탁드립니다.");   
+	                status.css("color","red");
+	            } else {
+	            	status.html("인증번호가 발송 되었습니다."); 
+	            }
+	         },
+	         error : function(request, status, error) {// 실패했을 때 함수 실행
+	            console.log(request.responseText);    //실패 상세 내역
+	         }
+	      }); //ajax
+   } else {
+	   status.html("옳바르지 못한 이메일 형식입니다.");
+	   status.css("display", "inline-block");
+	   return false;
+   }
+
+} */
+
+</script>
 </head>
 <body>
 	<div class="wrap">
 		<h1 class="logo">
 			<a href="/"></a>
 		</h1>
-		<form class="was-validated" name="form" id="form">
+		<form action="#" class="was-validated" name="form" id="form">
 			<div class="title">아이디 찾기</div>
 			<div class="df">
 				<div class="input_box2">
-					<input type="text" name="email" placeholder="이메일">
+					<input type="text" name="email1" id="email1" placeholder="이메일">
 				</div>
 				<div class="a">@</div>
 				<div class="input_box2">
-					<select>
+					<select class="form-control" name="email2" id="email2">
 						<option>직접입력</option>
 						<option>naver.com</option>
 						<option>gmail.com</option>
@@ -165,16 +210,20 @@ input, select{
 				<br>
 				<br>
 			</div>
+			<span class="email_status"></span> 
+			<span class="mail_input_box_warn"></span>
 			<div class="df">
 				<div class="input_box3">
-					<input type="number" name="inj" placeholder="인증번호">
+					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
 				</div>
 				<button class="join_btn" type="button">확인</button>
 				<br>
 				<br>
 			</div>
+			<span id="mail-check-warn"></span>
+			
 			<div>
-				<button class="sign_up" type="submit" id="joinBtn">아이디 찾기</button>
+				<button class="sign_up" type="submit" id="idFindBtn">아이디 찾기</button>
 			</div>
 		</form>
 	</div>
