@@ -178,6 +178,7 @@ $(document).ready(function () {
 		dataType : "json",
 		data: params,
 		success : function(res) {
+			console.log(res);
 			console.log("res.msg:"+res.msg);
 			if(res.msg == "success"){
 				location.href = "login";

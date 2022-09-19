@@ -8,11 +8,11 @@
 	</select>
 
 	<insert id="joinInsert" parameterType="hashmap">
-		INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, CERT, REG_DT)
-		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, #{cert}, SYSDATE)
+		INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, CERT,AUTORITY_NUM, REG_DT)
+		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, #{cert},2, SYSDATE)
 	</insert>
 	
-	<select id="sendNum" resultType="Integer" >
+	<select id="sendNum" resultType="Integer">
 		<!-- 발송번호만 전송 -->
 		<!--SELECT SEND_NUM
 		FROM AUTHENTICATION_NUM

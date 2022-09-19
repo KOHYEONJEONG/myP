@@ -14,7 +14,6 @@
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/header.js"></script>
     <script src="resources/js/mypage.js"></script>
-  
 </head>
     
 <body>

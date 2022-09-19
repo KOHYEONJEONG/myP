@@ -19,12 +19,12 @@ import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
 public class PartiNoticeController {
-	@Autowired 
+	@Autowired
 	public IACDao dao;
-	
+
 	@Autowired
 	public IPagingService ips;
-	
+
 	// 공지사항 메뉴
 	@RequestMapping(value = "/notice")
 	public ModelAndView notice(@RequestParam HashMap<String, String> params, ModelAndView mav) {
@@ -37,22 +37,19 @@ public class PartiNoticeController {
 		// 페이지 번호
 		mav.addObject("page", page);
 
-		
 		mav.setViewName("partiNotice/notice");
 		return mav;
 	}
-	
+
 	// 공지사항 메뉴
-		@RequestMapping(value = "/noticeRegister")
-		public ModelAndView noticeRegister(@RequestParam HashMap<String, String> params, ModelAndView mav) {
-			
+	@RequestMapping(value = "/noticeRegister")
+	public ModelAndView noticeRegister(@RequestParam HashMap<String, String> params, ModelAndView mav) {
+
 		mav.setViewName("partiNotice/noticeRegister");
-			return mav;
-		}
+		return mav;
+	}
 
-		
-
-	// 공지사항 메뉴 리스트 
+	// 공지사항 메뉴 리스트
 	@RequestMapping(value = "/noticeList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String noticeListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -74,8 +71,7 @@ public class PartiNoticeController {
 
 		return mapper.writeValueAsString(model);
 	}
-	
-	
+
 	// 가져오고 변경되는게 없기 때문에 비동기 처리 X
 	@RequestMapping(value = "/noticeDetail")
 	public ModelAndView noticeDetail(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
@@ -94,7 +90,7 @@ public class PartiNoticeController {
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/noticeUpdate")
 	public ModelAndView noticelUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		// 글번호 안 넘어왔을때 처리
@@ -110,11 +106,11 @@ public class PartiNoticeController {
 
 		return mav;
 	}
-	
-	
+
 	@RequestMapping(value = "/noticeAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String noticeAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params) throws Throwable {
+	public String noticeAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
@@ -146,24 +142,21 @@ public class PartiNoticeController {
 		return mapper.writeValueAsString(model);
 	}
 
-	
-		
-		
-		
-	@RequestMapping(value= "/faq")
-	public ModelAndView faq(@RequestParam HashMap<String,String> params, ModelAndView mav) {
-		
+	@RequestMapping(value = "/faq")
+	public ModelAndView faq(@RequestParam HashMap<String, String> params, ModelAndView mav) {
+
 		int page = 1;
-		
-		if(params.get("page")!=null && params.get("page")!="") {
-		page = Integer.parseInt(params.get("page"));
+
+		if (params.get("page") != null && params.get("page") != "") {
+			page = Integer.parseInt(params.get("page"));
 		}
-		mav.addObject("page",page);
-		
+		mav.addObject("page", page);
+
 		mav.setViewName("partiNotice/faqList");
-				
+
 		return mav;
 	}
+
 	
 	@RequestMapping(value = "/FaqList",
 			method = RequestMethod.POST, 

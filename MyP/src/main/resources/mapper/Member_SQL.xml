@@ -64,10 +64,12 @@
 	</insert>
 	-->
 	
-	<!--  
 	<update id="memUpdate" parameterType="hashmap">
+		UDPATE MEMBER
+		SET IMG = #{img}
+		WHERE MEM_NO = #{no}
+	
 	</update>
-	-->
 	
 	<update id="memWit" parameterType="hashmap">
 		UPDAET MEMBER 
