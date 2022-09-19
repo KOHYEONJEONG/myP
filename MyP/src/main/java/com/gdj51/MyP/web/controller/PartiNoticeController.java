@@ -30,22 +30,26 @@ public class PartiNoticeController {
 		mav.setViewName("partiNotice/notice");
 		return mav;
 	}
-
-	@RequestMapping(value= "/faq")
-	public ModelAndView faq(
-			@RequestParam HashMap<String,String> params,
-			ModelAndView mav) {
-		int page = 1;
-		
-		if(params.get("page")!=null && params.get("page")!="") {
-		page = Integer.parseInt(params.get("page"));
-		}
-		mav.addObject("page",page);
-		
+	
+	@RequestMapping(value = "/faq")
+	public ModelAndView faq(ModelAndView mav) {
 		mav.setViewName("partiNotice/faqList");
-				
 		return mav;
 	}
+
+	/*
+	 * @RequestMapping(value= "/faq") public ModelAndView faq(
+	 * 
+	 * @RequestParam HashMap<String,String> params, ModelAndView mav) { int page =
+	 * 1;
+	 * 
+	 * if(params.get("page")!=null && params.get("page")!="") { page =
+	 * Integer.parseInt(params.get("page")); } mav.addObject("page",page);
+	 * 
+	 * mav.setViewName("partiNotice/faqList");
+	 * 
+	 * return mav; }
+	 */
 	
 	
 }
