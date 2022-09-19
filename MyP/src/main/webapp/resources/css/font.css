@@ -3,13 +3,13 @@
 /* @import url('https://webfontworld.github.io/tmoney/TmoneyRoundWind.css'); */
 @font-face {
     font-family: 'TmoneyRoundWindExtraBold';
-    src: url('resources/font/TmoneyRoundWindExtraBold.woff') format('woff');
+    src: url('../font/TmoneyRoundWindExtraBold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'TmoneyRoundWindRegular';
-    src: url('resources/font/TmoneyRoundWindRegular.woff') format('woff');
+    src: url('../font/TmoneyRoundWind-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 } 
