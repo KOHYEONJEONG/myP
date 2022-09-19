@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>   
+<!-- jstl의 functions : el tag 추가 옵션 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +13,21 @@
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/mypage.css">
     <link rel="stylesheet" href="resources/css/font.css">
+<!-- Popup CSS -->
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/header.js"></script>
     <script src="resources/js/mypage.js"></script>
+    <script type="text/javascript" 
+		src="resources/script/jquery/jquery.form.js"></script>
+	<script type="text/javascript"
+	      src="resources/script/common/popup.js"></script> 
 </head>
     
 <body>
 	<c:import url="/header1"></c:import>
+
+	<!-- nm, email과 domain을 보내줘야함. -->
 
 		<form action="#" id="sendForm" method="post">
 			<input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
@@ -38,37 +48,42 @@
                     <div class="top">
 						
 						<form action="fileUploadAjax" id="actionForm" method="post" enctype="multipart/form-data">
-						 <input type="hidden" id="img" name="img"/>                     
-	                       
+						 <input type="hidden" id="img" name="img"/><!-- 올라갈 파일명 -->                     
+	                       <input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
 	                        <div class="pic_top">
 	                            <div id="imgRelod">
 		                       
 	                            </div>
-	                            <div class="filebox">
-	                                <label for="file">사진선택</label>
-	                                <input type="file" name="pic" id="pic"/>
+	                            <div class="filebox2">
+	                                <label for="vPic">사진선택</label> <!-- type=file에 id와 같아야함. -->
+	                                <input type="file" name="vPic" id="vPic"/>
 	                                <input type="button" id="savefile" class="savefile" value="저장"/>
 	                            </div>
 	                        </div>  
 	                        
                         </form>
                         
-                        <div class="mypage_top">
-                            <div class="my_info">
-                                <div class="info_first">
-                                    <div>아이디</div>
-                                    <div>${data.ID}</div>
-                                    <div>닉네임</div>
-                                    <div>${data.NM}</div>
-                                </div>
-                                <div class="info_second">
-                                    <div>경고수</div>
-                                    <div>${data.WARNING}</div>
-                                    <div>이메일</div>
-                                    <div>${data.EMAIL}</div>
-                                </div>
-                            </div>
-                        </div>
+                        <form name="#" id="sendForm" method="post">
+	                        <div class="mypage_top">
+	                            <div class="my_info">
+	                                <div class="info_first">
+	                                    <div>아이디</div>
+	                                    <div>${data.ID}</div>
+	                                    <div>닉네임</div>
+	                                    <div>${data.NM}</div>
+	                                </div>
+	                                <div class="info_second">
+	                                    <div>경고수</div>
+	                                    <div>${data.WARNING}</div>
+	                                    <div>이메일</div>
+	                                    <div>${data.EMAIL}</div>
+	                                    <c:set var="emailS" value="${fn:split(data.EMAIL,'@')}" />
+	                                    <input type="hidden" name="account" id="account" value="${emailS[0]}">
+	                                    <input type="hidden" name="domain" id="domain" value="${emailS[1]}">
+	                                </div>
+	                            </div>
+	                        </div>
+                        </form> 
                     </div>             
                     <!--하단 버튼's-->
                     <div class="mypage_bottom">

@@ -30,8 +30,6 @@ public class MyPageController {
 		HashMap<String, String> params = new HashMap<String, String>();
 		String no = String.valueOf(session.getAttribute("sMemNo"));//toString() x
 		params.put("no",no);
-		System.out.println("no===>"+params.get(no));
-		
 		HashMap<String, String> data = dao.getMapData("member.getMember",params);
 
 		mav.addObject("data", data);
@@ -45,7 +43,7 @@ public class MyPageController {
 	public String memImgAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
-		
+		System.out.println("no===>"+params.get("no"));
 		HashMap<String, String> data = dao.getMapData("member.getMember",params);
 
 		model.put("data", data);
