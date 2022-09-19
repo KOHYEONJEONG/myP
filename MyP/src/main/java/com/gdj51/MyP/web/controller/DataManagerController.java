@@ -49,12 +49,8 @@ public class DataManagerController {
 		}
 
 		
-		//카테고리 목록 취득
-		List<HashMap<String, String>> cate
-		= dao.getList("cata.getCateAllList");
-
 		mav.addObject("page", page);
-		mav.addObject("cate", cate);
+	
 
 		mav.setViewName("manager/dataManagement");
 
