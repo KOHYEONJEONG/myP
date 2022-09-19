@@ -131,8 +131,6 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	
-	console.log($("#searchText").val());
-	console.log($("#searchGbn").val());
 	
 	$("#listBtn").on("click", function () {
 		$("#backForm").attr("action","notice");
