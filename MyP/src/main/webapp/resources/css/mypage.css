@@ -114,11 +114,11 @@
       .my_info > div{
           height: 50px;            
       }
-      .filebox{
+      .filebox2{
           padding: 0 10px;
       }
       
-      .filebox label {
+      .filebox2 label {
         display: inline-block;
 	    padding: 6px 9px;
 	    color: #fff;
@@ -130,21 +130,21 @@
         border: 0;
 	}
 	
-	.filebox .savefile{
-        display: inline-block;
-	    padding: 9px 7px;
-	    color: #fff;
-	    vertical-align: middle;
-	    background-color: #ee8003;
-	    cursor: pointer;
-	    height: 24px;
-	    line-height: 9px;
-	    border: 0;
-	    box-sizing: border-box;
-	    font-size: 14px;
+	.filebox2 .savefile{
+	    display: inline-block;
+	   padding: 9px 5px;
+	   color: #fff;
+	   vertical-align: middle;
+	   background-color: #ee8003;
+	   cursor: pointer;
+	   line-height: 9px;
+	   border: 0;
+	   /* box-sizing: border-box; */
+	   font-size: 14px;
+	   margin-left: 3px;
 	}
 
-     .filebox input[type="file"] {
+     .filebox2 input[type="file"] {
 	    position: absolute;
 	    width: 0;
 	    height: 0;
@@ -194,3 +194,23 @@
       .my_btn:hover, .my_btn1:hover {
 			background-color: #ee800366;		
 		}	
+		
+	  .filebox2 .memImg{
+	  
+	  }
+	  
+	  .row2 .input{
+	  border : 1px solid red;
+	  	display: flex;
+	  }
+
+	.row2 .input select {
+		
+	    height: 100%;
+	    width: 100%;
+	    border: 0;
+	    background: #fff;
+	    font-size: 15px;
+	    outline: 0;
+	}
+	 
