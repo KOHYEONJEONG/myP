@@ -75,7 +75,7 @@ public class MyPageController {
 	         method = RequestMethod.POST,
 	         produces = "text/json;charset=UTF-8")
 	   @ResponseBody
-	   public String ATAction(
+	   public String memAction(
 	         @PathVariable String gbn,
 	         @RequestParam HashMap<String, String> params) throws Throwable{
 	      ObjectMapper mapper = new ObjectMapper();
@@ -91,7 +91,7 @@ public class MyPageController {
 	            
 	         case "update": 
 	        	 //비밀번호 수정 ..etc
-	        	 //cnt = dao.update("member.memUpdate", params);
+	        	 cnt = dao.update("member.memUpdate", params);
 	            break;
 	            
 	         case "delete": 
@@ -109,9 +109,7 @@ public class MyPageController {
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         model.put("msg", "error");
-	     
 	      }
-	      
 	      
 	      return mapper.writeValueAsString(model);
 	   }

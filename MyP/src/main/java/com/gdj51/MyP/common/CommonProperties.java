@@ -20,6 +20,7 @@ public class CommonProperties {
 	 * 파일 업로드
 	 */
 	//파일 업로드 경로
+	//git이여도 알아서 자바에서 폴더 생성해준다.
 	public static final String FILE_UPLOAD_PATH = "C:\\web\\workspace\\.metadata"
 													+ "\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps"
 													+ "\\SampleSpring\\resources\\upload";

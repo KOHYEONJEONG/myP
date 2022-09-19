@@ -31,7 +31,7 @@ $(document).ready(function () {
 				   /*글 저장*/
 				   var params = $("#actionForm").serialize();
 				   $.ajax({
-					   url : "memAction/insert",
+					   url : "memAction/update",
 					   type:"POST",
 					   dataType:"json",
 					   data : params, 
@@ -89,7 +89,6 @@ function imgRelod() {
 		success : function(res) {
 			console.log("성공")
 			img(res.data);
-		
 		},
 		error : function(request, status, error) { 
 			console.log(request.responseText); 
@@ -109,5 +108,4 @@ function img(data){
 	}
 	
 	$(".pic_top #imgRelod").html(html);
-	
 }
