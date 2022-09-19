@@ -165,5 +165,32 @@ public class PartiNoticeController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/FaqList",
+			method = RequestMethod.POST, 
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String FaqList(
+			@RequestParam HashMap<String, String> params) throws Throwable {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		int cnt = dao.getIntData("faq.getFaqCnt", params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
+				cnt, 10, 5);
+
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+		
+		List<HashMap<String, String>> list = dao.getList("faq.getFaqList", params);
+		
+		model.put("list", list);
+		model.put("pd", pd);
+		
+		return mapper.writeValueAsString(model);
+	}
+	
 	
 }

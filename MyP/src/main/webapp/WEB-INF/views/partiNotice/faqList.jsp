@@ -14,38 +14,17 @@
     <script src="resources/jquery/jquery-1.12.4.js"></script>
      <script src="resources/js/main.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <!-- <link rel="stylesheet" href="resources/demos/style.css"> -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   
-    <script>
-       // 아코디언
-       $("#setting_accordion").accordion({
-          collapsible: true
-      });
-      $("#question_accordion").accordion({
-          collapsible: true
-      });
-      $("#guide_accordion").accordion({
-          collapsible: true
-      });
-      
-      
-   // 등록 버튼
-  	$("#write_btn").on("click", function() {
-  		// 기존 검색상태 유지		
-  		$("#searchGbn").val($("#oldGbn").val());
-  		$("#searchTxt").val($("#oldTxt").val());
-  		
-  		$("#actionForm").attr("action", "ATInsert");
-  		$("#actionForm").submit();		
-  	});
-      
-    </script>
 
 </head>
 <body>
   <c:import url="/header1"></c:import>
+<!-- 페이징 때 기존 검색 내용 유지용 -->
+<input type="hidden" id="oldGbn" value="${param.searchGbn}" />
+<input type="hidden" id="oldTxt" value="${param.searchTxt}" />  
       <main>
         <div class="main_wrap">
             <div class="side_bar">
@@ -58,22 +37,29 @@
             </div>
             <div class="right_area">            
                 <div class="table_wrap">
+                <form action="#" id="searchForm">
                   <div class="search_box">
                     <div class="select">
-                        <select name="select_b" id="select_b" >
-                          <option value="all">전체</option>
-                          <option value="title">제목</option>
-                          <option value="content">내용</option>
-                          <option value="nickname">작성자</option>
+                    <input type="hidden" name="no" id="no" />	
+					<input type="hidden" name="page" id="page" value="${page}" />
+                        <select name="searchGbn" id="searchGbn" >
+                          <option value="0">제목</option>
+                          <option value="1">내용</option>
                       </select>
                      <!--조건선택-->
                     </div>
+                    
+	                    <input type="hidden" id="oldGbn" value="0" />
+						<input type="hidden" id="oldText" />
+						<input type="hidden" name="no" id="no" />
+						<input type="hidden" name="page" id="page" value="${page}"/>
                     <div class="search_form">
                       <input type="text" />
                     </div>  
-                    <div class="search_btn" >
+                    <div class="search_btn" id="searchBtn">
                       검색
-                    </div>           
+                    </div>  
+                    </form>         
                   </div>
                   <div class="accordion">
     
@@ -97,11 +83,12 @@
                            <div class="tap_txt">이용안내</div>
                        </div>
                     </div>
-                       <div class="btn_wrap">
-                           <div class="write_btn" id="write_btn">
-                               글쓰기
-                            </div>
-                       </div>
+                       <c:if test="${sMemAuto == 1}">
+					 <div class="btn_wrap">
+                    	 <div class="write_btn" id="insertBtn">글쓰기</div>
+                 	</div>
+				</c:if>
+                       
                        <div class="accordion_wrap">
                        <div class="setting_accordion on">
                          <div id="setting_accordion">
@@ -237,6 +224,118 @@
         </div>
       </main>
       <c:import url="/footer"></c:import>
+   <script>
+ $(document).ready(function () {
+
+		reloadList();
+			
+		// 페이징 클릭시
+		 $(".page_nation").on("click", "a", function () {
+			$("#page").val($(this).attr("page"));
+			//기존 값 유지
+			$("#searchGbn").val($("#oldGbn").val());
+			$("#searchText").val($("#oldText").val());
+			
+			reloadList();
+		})		
+		
+	      	      
+	   // 등록 버튼
+	  	$("#insertBtn").on("click", function() {
+	  		// 기존 검색상태 유지		
+	  		$("#searchGbn").val($("#oldGbn").val());
+	  		$("#searchTxt").val($("#oldTxt").val());
+	  		
+	  		$("#actionForm").attr("action", "ATInsert");
+	  		$("#actionForm").submit();		
+	  	});
+	})
+
+
+	function reloadList() {
+		var params = $("#searchForm").serialize();
+		$.ajax({
+			url : "FaqList",
+			type : "POST", 
+			dataType: "json", 
+			data: params, 
+			success : function(res) { 
+				drawList(res.list);
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) { 
+				console.log(request.responseText); 
+			}
+		}); //Ajax End
+	}
+
+	function drawList(list) {
+		
+		var html = "";
+
+		for(var data of list){
+					                                                         
+          html +="<div class=\"question_accordion\">";                               
+          html +="  <div id=\"question_accordion\"> ";                               
+          html +="    <h3>" + data.QUE + "</h3>     ";
+          html +="    <div>                         ";                               
+          html +="      <p>" + data.ANSWER_CON + "</p>     ";                                                        
+          html +="    </div>                        ";                               
+          html +="  </div>                          ";                               
+          html +="</div>                            ";                               
+                                                                                   
+		}                                                                          
+		
+		$(".accordion_wrap").html(html);
+		
+	}
+
+
+	function drawPaging(pd) {
+		var html = "";
+		
+		html +=
+		html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+		// 이전
+		if($("#page").val() == "1"){
+			html += "<a class=\"arrow prev\" page=\"1\"></a>";
+		} else{
+			// 문자열을 숫자로 바꾸기위해 *1
+			html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
+		}
+		
+		for(var i = pd.startP; i <= pd.endP; i++){
+			if($("#page").val() * 1 == i){ // 현재 페이지
+				html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+			} else { // 다른 페이지
+				html += "<a page=\"" + i + "\">" + i + "</a>";
+			}
+			
+		}
+		
+		if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+			html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+		} else {
+			html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+		}
+		
+		html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+		
+		$(".page_nation").html(html);
+	                                                                     
+	}    
+       // 아코디언
+       $("#setting_accordion").accordion({
+          collapsible: true
+      });
+      $("#question_accordion").accordion({
+          collapsible: true
+      });
+      $("#guide_accordion").accordion({
+          collapsible: true
+      });
+      
+    </script>
 
 </body>
 </html>
