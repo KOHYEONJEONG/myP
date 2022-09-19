@@ -7,9 +7,5 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TestController {
 
-	@RequestMapping(value = "/parkinfo")
-	public ModelAndView parkinfo(ModelAndView mav) {
-		mav.setViewName("parkInfo/pubserviceParkingList");
-		return mav;
-	}
+	
 }
