@@ -118,7 +118,7 @@ function reloadList() {
 		
 		for(var data of list){
 			html +="<tr no=\"" + data.NOTICE_NUM  + "\">";
-			html +="<td>" + data.RNK + "</td>";
+			html +="<td>" + data.NORNK + "</td>";
 			html +="<td>" + data.TITLE + "</td>"; // 제목
 			html +="<td>관리자</td>"; // 작성자
 			html +="<td>" + data.REG_DT + "</td>"; // 작성일
@@ -182,7 +182,7 @@ function reloadList() {
         </div>
         <div class="right_area">            
             <div class="table_wrap">
-            <form action="#" id="searchForm">
+            <form action="#" id="searchForm" method="post">
                 <div class="search_box">
                 <!-- 검색어 유지용 -->
                 <input type="hidden" id="oldGbn" value="0" />

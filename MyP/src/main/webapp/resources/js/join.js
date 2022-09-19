@@ -10,7 +10,9 @@ $(document).ready(function () {
 	
    $('#mail-Check-Btn').click(function() {//인증번호 전송 버튼
 	   const email = $('#email1').val()+ '@' + $('#email2').val(); //이메일 주소값 얻어오기
-	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
+	   $("#email").attr('value', email);
+	   console.log($("#email").val());
+	   //console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
 	   const warnMsg = $(".mail_input_box_warn");
 	   var data = {email : email};
@@ -255,29 +257,8 @@ $(document).ready(function () {
 		   });
 		   return false;
 	   }
-	   
-		var params = $("#idFindform").serialize();
-		
-		/*$.ajax({
-		url: "JAction/insert",
-		type: "POST",
-		dataType : "json",
-		data: params,
-		success : function(res) {
-			console.log(res);
-			console.log("res.msg:"+res.msg);
-			if(res.msg == "success"){
-				location.href = "login";
-			}else if(res.msg == "fail"){
-				makeAlert("알림", "등록에 실패하였습니다.");
-			}else{
-				makeAlert("알림", "등록 중 문제가 발생하였습니다.");
-			}
-		},
-		error : function(request, status, error) {
-			console.log(request.responseText);
-		}
-		});//ajax end*/
+	   $("#idFindform").attr("action", "idFindResult");
+		$("#idFindform").submit();
 		 
 	}); //idFindBtn btn end
 	
