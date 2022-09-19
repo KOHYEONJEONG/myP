@@ -19,7 +19,7 @@ import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	public IACDao iACDao;
 
@@ -44,67 +44,68 @@ public class LoginController {
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView mav) {
 		System.out.println("로그인 창 들어감.");
-		mav.setViewName("login/login");		
+		mav.setViewName("login/login");
 		return mav;
 	}
-	
-	@RequestMapping(value= "/loginAjax",
-			method = RequestMethod.POST,
-			produces = "text/json;charset=UTF-8")
+
+	@RequestMapping(value = "/loginAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String testALoginAjax(
-			HttpSession session,
-			@RequestParam HashMap<String,String> params) throws Throwable{
+	public String testALoginAjax(HttpSession session, @RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
-		
-		Map<String, Object> model = new HashMap<String,Object>();
-		
-		params.put("pw",Utils.encryptAES128(params.get("pw")));
-		//System.out.println("테스트 비밀번호 암호화 : "+params.get("pw")); //1234 암호화
-		
-		HashMap<String, String>data = iACDao.getMapData("login.checkMem",params);
-		
-		if(data != null) {
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		params.put("pw", Utils.encryptAES128(params.get("pw")));
+		// System.out.println("테스트 비밀번호 암호화 : "+params.get("pw")); //1234 암호화
+
+		HashMap<String, String> data = iACDao.getMapData("login.checkMem", params);
+
+		if (data != null) {
 			session.setAttribute("sMemNo", data.get("MEM_NUM"));
 			session.setAttribute("sMemNm", data.get("NM"));
-			session.setAttribute("sMemAuto", data.get("AUTORITY_NUM"));//권한
-			System.out.println("권한 : "+ session.getAttribute("sMemAuto"));
-			
-			model.put("msg","success");
-			
-		}else {
-			model.put("msg","failed");
+			session.setAttribute("sMemAuto", data.get("AUTORITY_NUM"));// 권한
+			System.out.println("권한 : " + session.getAttribute("sMemAuto"));
+
+			model.put("msg", "success");
+
+		} else {
+			model.put("msg", "failed");
 		}
-		
-		
+
 		return mapper.writeValueAsString(model);
 	}
 
-	
-	@RequestMapping(value= "/idFind")
+	@RequestMapping(value = "/idFind")
 	public ModelAndView idFind(ModelAndView mav) {
 		mav.setViewName("login/idFind");
 		return mav;
 	}
-	
-	@RequestMapping(value= "/pwFind")
+
+	@RequestMapping(value = "/idFindResult")
+	public ModelAndView idFindFesult(ModelAndView mav) {
+		mav.setViewName("login/idFindResult");
+		return mav;
+	}
+
+	@RequestMapping(value = "/pwChange")
+	public ModelAndView pwChange(ModelAndView mav) {
+		mav.setViewName("login/pwChange");
+		return mav;
+	}
+
+	@RequestMapping(value = "/pwFind")
 	public ModelAndView pwFind(ModelAndView mav) {
 		mav.setViewName("login/pwFind");
 		return mav;
 	}
-	
-	@RequestMapping(value= "/logout")
-	public ModelAndView logout(
-			HttpSession session,
-			ModelAndView mav) {
+
+	@RequestMapping(value = "/logout")
+	public ModelAndView logout(HttpSession session, ModelAndView mav) {
 		session.invalidate();
-	
-			
+
 		mav.setViewName("redirect:home");
-		
-		
+
 		return mav;
 	}
-	
 
 }

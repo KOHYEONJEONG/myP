@@ -24,11 +24,8 @@
  		} else {
  			$("#oldGbn").val("0");
  		}
-
-		reloadList(); 
-		
-
-	
+			
+ 		reloadList();
 
 	//  테이블 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
@@ -117,8 +114,9 @@ function reloadList() {
 		var html = "";
 		
 		for(var data of list){
+
 			html +="<tr no=\"" + data.NOTICE_NUM  + "\">";
-			html +="<td>" + data.RNK + "</td>";
+			html +="<td>" + data.NORNK + "</td>";
 			html +="<td>" + data.TITLE + "</td>"; // 제목
 			html +="<td>관리자</td>"; // 작성자
 			html +="<td>" + data.REG_DT + "</td>"; // 작성일
@@ -170,6 +168,9 @@ function reloadList() {
 </head>
 <body>
   <c:import url="/header1"></c:import>
+  <!-- 기존 검색 내용 유지용 -->
+<input type="hidden" id="oldGbn" value="${param.searchGbn}"/>
+<input type="hidden" id="oldText" value="${param.searchText}"/>
       <main>
         <div class="main_wrap">
           <div class="side_bar">
@@ -182,7 +183,7 @@ function reloadList() {
         </div>
         <div class="right_area">            
             <div class="table_wrap">
-            <form action="#" id="searchForm">
+            <form action="#" id="searchForm" method="post">
                 <div class="search_box">
                 <!-- 검색어 유지용 -->
                 <input type="hidden" id="oldGbn" value="0" />
@@ -195,7 +196,7 @@ function reloadList() {
                   </select>
                 </div>
                 <div class="search_form">
-                  <input type="text" name="searchText" id="searchText" />
+                  <input type="text" name="searchText" id="searchText" value="${param.searchText}" />
                 </div>
                 <div class="search_btn" id="searchBtn">검색</div>
                   </div>
