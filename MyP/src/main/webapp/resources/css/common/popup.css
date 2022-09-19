@@ -1,4 +1,13 @@
 @CHARSET "UTF-8";
+
+ html {
+	overflow: hidden;
+}
+
+body {
+	overflow-y: auto; 
+} 
+
 html, body {
 	margin: 0;
 	font-size: 0pt;

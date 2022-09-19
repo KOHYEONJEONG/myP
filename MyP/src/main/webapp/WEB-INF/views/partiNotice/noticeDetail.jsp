@@ -131,6 +131,8 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	
+	console.log($("#searchText").val());
+	console.log($("#searchGbn").val());
 	
 	$("#listBtn").on("click", function () {
 		$("#backForm").attr("action","notice");
@@ -192,10 +194,10 @@ $(document).ready(function () {
     <main>
  <form action="#" id="backForm" method="post">
 	<input type="hidden" name="no" value="${data.NOTICE_NUM}">
-	<input type="hidden" name="page" value="${param.page}" /> <!-- 전 화면에서 넘어온 페이지 정보 -->
+	<input type="hidden" name="page" id="page" value="${param.page}" /> <!-- 전 화면에서 넘어온 페이지 정보 -->
 		<!-- 전 화면에서 넘어온 검색 정보 -->
-	<input type="hidden" name="searchGbn" value="${param.searchGbn}"/>
-	<input type="hidden" name="searchText" value="${param.searchText}"/>
+	<input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}"/>
+	<input type="hidden" name="searchText" id="searchText" value="${param.searchText}"/>
 </form>
         <div class="main_wrap">
             <div class="side_bar">
