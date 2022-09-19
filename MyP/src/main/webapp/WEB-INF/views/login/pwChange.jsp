@@ -8,10 +8,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyP</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="resources/css/main.css">
    	<link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
+=======
+    <link rel="stylesheet" href="/resources/css/main.css">
+   	<link rel="stylesheet" href="/resources/css/font.css">
+    <script src="/resources/jquery/jquery-1.12.4.js"></script>
+    <script src="/resources/js/main.js"></script>
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 <style>
    .wrap {
    width: 490px;
