@@ -86,6 +86,14 @@ $(document).ready(function() {
 	  });
 
 });
+function check(box){
+	if(box.checked){
+		$('#ckval').val("0");
+		console.log($("#ckval").val());
+	}else{
+		console.log("체크안됨")
+	}
+}
 </script>
 </head>
 <body>
@@ -155,6 +163,7 @@ $(document).ready(function() {
             <form action="#" id="actionForm" method="post">
             	<input type="hidden" name="no" value="${data.QNA_NUM}"/>
             	<input type="hidden" name="answercon" value="${data.ANSWER_CON}"/>
+            	<input type="hidden" name="ckval" id="ckval"/>
                 <div class="register_wrap">
                     <div class="title">
                         QnA
@@ -175,7 +184,7 @@ $(document).ready(function() {
                     <hr >
                     <div class="checkbox_box">
                         <span>비공개</span>
-                        <input type="checkbox" id=""/>
+                         <input type="checkbox" id="checkbox" onClick="check(this)"/>
                     </div>
                     <input type="hidden" id="memNo" name="memNo" value="${sMemNo}"/>
                     </form>

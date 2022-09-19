@@ -118,6 +118,8 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
    
    $(document).ready(function() {
 	   
+	   console.log(${sMemAuto});
+	   
 	   $("#listBtn").on("click", function() {
 	         $("#actionForm").attr("action","qna"); 
 	         $("#actionForm").submit();
@@ -267,6 +269,8 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                   </div>
                   	</div> 
                     <hr>
+                     <c:choose>
+                  		<c:when test="${sMemNo eq data.MEM_NUM  and data.PRIVATE == 0}">
                     <div class="notice">
                         <div class="notice_left">
                             <span class="i"></span>
@@ -282,6 +286,65 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                           ${data.CON}
                        
                     </div>
+                    </c:when>
+                    
+                    <c:when test="${sMemNo eq 0}">
+                    <div class="notice">
+                        <div class="notice_left">
+                            <span class="i"></span>
+                            <span>${data.TITLE}</span>
+                        </div>
+                        <div class="notice_right">
+                            <div>작성일 : ${data.DT}</div>
+                            <div>조회수:${data.HIT}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                          ${data.CON}
+                       
+                    </div>
+                    </c:when>
+                    
+                     <c:when test="${data.PRIVATE == 1}">
+                    <div class="notice">
+                        <div class="notice_left">
+                            <span class="i"></span>
+                            <span>${data.TITLE}</span>
+                        </div>
+                        <div class="notice_right">
+                            <div>작성일 : ${data.DT}</div>
+                            <div>조회수:${data.HIT}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                          ${data.CON}
+                       
+                    </div>
+                    </c:when>
+                    
+                    <c:when test="${data.PRIVATE == 0 }">
+                    
+                    <div class="notice">
+                        <div class="notice_left">
+                            <span class="i"></span>
+                            <span>비공개</span>
+                        </div>
+                        <div class="notice_right">
+                            <div>비공개</div>
+                            <div>비공개</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                          비공개
+                       
+                    </div>
+                    </c:when>
+                      </c:choose>
+                      
+                    
                     
                  <hr>
                 

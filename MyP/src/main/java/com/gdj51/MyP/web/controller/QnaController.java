@@ -31,6 +31,7 @@ public class QnaController {
 	
 	@RequestMapping(value= "/qna")
 	public ModelAndView qna(
+			HttpSession session,
 			@RequestParam HashMap<String,String> params,
 			ModelAndView mav) {
 		int page = 1;
@@ -41,8 +42,7 @@ public class QnaController {
 		mav.addObject("page",page);
 		
 		mav.setViewName("partiNotice/quaBoard");
-			
-	
+		
 		return mav;
 	}
 	@RequestMapping(value= "/QnaAjax",
@@ -77,7 +77,7 @@ public class QnaController {
 		
 		if(params.get("no")!=null && params.get("no") != "") {
 		
-		
+			iACDao.update("qna.updateHit",params);
 		
 		HashMap<String, String>data = iACDao.getMapData("qna.getqna",params);
 		
@@ -144,13 +144,7 @@ public class QnaController {
           case "insert":
                 cnt = iACDao.update("qna.commentinsert", params);
              break;
-          case "update":
-                cnt = iACDao.update("ob.updateOb",params);
-             break;
-          case "delete":
-                cnt = iACDao.update("ob.deleteOb",params);
-             break;
-             
+         
           }
           
           if(cnt > 0) {
