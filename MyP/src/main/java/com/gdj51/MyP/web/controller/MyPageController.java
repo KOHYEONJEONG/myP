@@ -1,6 +1,7 @@
 package com.gdj51.MyP.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,20 +16,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdj51.MyP.common.service.IPagingService;
 import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
-public class MyPageController {
+public class MyPageController { //no(변경전) -> mem_num(변경후)
 
 	@Autowired
 	public IACDao dao;
+	
+	@Autowired
+	public IPagingService ips;
+	
 
 	@RequestMapping(value = "/myPage")
 	public ModelAndView mypage(ModelAndView mav, HttpSession session) throws Throwable {
 
 		HashMap<String, String> params = new HashMap<String, String>();
 		String no = String.valueOf(session.getAttribute("sMemNo"));// toString() x
-		params.put("hno", no);
+		params.put("mem_num", no);
 		HashMap<String, String> data = dao.getMapData("member.getMember", params);
 
 		mav.addObject("data", data);
@@ -116,11 +122,54 @@ public class MyPageController {
 	}
 
 	@RequestMapping(value = "/mypageReviewBoard")
-	public ModelAndView mypageReviewBoard(ModelAndView mav) {
+	public ModelAndView mypageReviewBoard(ModelAndView mav, @RequestParam HashMap<String, String> params) {
+		int page = 1;// 첫페이지로 나타내려고
+
+		if (params.get("page") != null && params.get("page") != "") {
+			page = Integer.parseInt(params.get("page"));
+		}
+		// 페이지 번호
+		mav.addObject("page", page);
 		mav.setViewName("mypage/mypageReviewBoard");
 		return mav;
 	}
+	
+	//마이페이지 - 나의 리뷰게시판
+	@RequestMapping(value = "/mypageReviewBoardAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String mypageReviewBoardAjax(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		System.out.println("mypageReviewBoard : " + params.toString());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		// 페이지 받아오게 되어있음
+		int cnt = dao.getIntData("member.getMyReviewCnt", params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
 
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+
+		List<HashMap<String, String>> list = dao.getList("member.myReviewList", params);
+
+		model.put("list", list);
+		model.put("pd", pd);
+
+		return mapper.writeValueAsString(model);
+	}
+	
+	//나의 리뷰 상세페이지
+	@RequestMapping(value = "/myReviewDetail")
+	public ModelAndView myReviewDetail(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		System.out.println("myReviewDetail : " + params.toString());
+	
+		//review_num <--넘겨받음
+		 HashMap<String, String> data = dao.getMapData("memger.getMyReview",params);
+		
+		mav.setViewName("mypage/myReviewDetail");
+		return mav;
+	}
+	
 	// 회원탈퇴
 	@RequestMapping(value = "/withdraw")
 	public ModelAndView withdraw(ModelAndView mav, @RequestParam HashMap<String, String> params) {

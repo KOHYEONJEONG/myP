@@ -10,7 +10,7 @@
 </head>
 <body>
 	<form action="#" id="sendForm">
-		<input type="hidden" name="hno" id="hno" value="${sMemNo}">
+		<input type="hidden" name="mem_num" id="mem_num" value="${sMemNo}">
 	</form>
  <header>
         <div class="header_wrap">

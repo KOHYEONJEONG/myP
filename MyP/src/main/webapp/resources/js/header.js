@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	if($("#hno").val() != null && $("#hno").val() != ""){
+	if($("#mem_num").val() != null && $("#mem_num").val() != ""){
 		img1Relod();
 	}
 	
