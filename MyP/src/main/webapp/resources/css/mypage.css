@@ -27,7 +27,7 @@
           padding: 0 20px;
       }
 
-      .top{
+      .mypage_top{
           /*pic_top 박스와 mypage_top을 감싼 큰 박스 */
           display: flex;
       }
@@ -46,11 +46,7 @@
           height: 150px;
           text-align: center;
       }
-      .mypage_top{
-          /*경고수,이메일,아이디,닉네임 박스*/
-          margin: 10px 0 10px 0;
-          padding-top: 25px;
-      }
+      
       .line {
           width: 650px;
           border: solid 2px #9e9e9e;
@@ -109,7 +105,9 @@
 
       }
       .my_info{
-          box-sizing: border-box;
+         margin: 10px 10px 10px 0px;
+	    box-sizing: border-box;
+	    padding: 26px 0;
       }
       .my_info > div{
           height: 50px;            

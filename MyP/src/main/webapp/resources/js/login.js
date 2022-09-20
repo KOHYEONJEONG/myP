@@ -56,7 +56,6 @@ $(document).ready(function() {
 	
 	$("#pwFind").on("click", function(){
 		location.href = "pwFind";
-		console.log("1");
 	});
 	
 	

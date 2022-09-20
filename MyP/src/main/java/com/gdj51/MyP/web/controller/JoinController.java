@@ -77,6 +77,26 @@ public class JoinController {
 
 	}
 
+	// 이메일, 아이디 일치여부 체크
+	@RequestMapping(value = "/idEmailChackAjax", method = RequestMethod.POST)
+	@ResponseBody
+	public String idEmailChackAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+
+		logger.info("idEmailChackAjax() 진입");
+
+		// 아이디 중복체크
+		int result = dao.memberCheck("join.idEmailCheck", params);
+
+		logger.info("결과값 : " + result);
+
+		if (result == 1) {
+			return "success";// 이메일, 아이디 일치
+		} else {
+			return "fail";
+		}
+
+	}
+
 	// 해당 메일에 인증번호 이메일 전송 + 인증번호 테이블에 데이터 생성, 회원가입시에 적용
 	@RequestMapping(value = "/mailSend", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
 	@ResponseBody

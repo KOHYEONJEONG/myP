@@ -9,6 +9,10 @@
 <script src="resources/js/header.js"></script>
 </head>
 <body>
+	<form action="#" id="sendForm">
+		<input type="hidden" name="no" id="no" value="${sMemNo}">
+	</form>
+
 	<!-- 메인페이지 용, 너비가 넓음. -->
 	<header>
 		<div class="header_wrap">
@@ -50,7 +54,8 @@
 						<c:otherwise>
 							<div class="login_comment on">${sMemNm}님환영합니다</div>
 							<div class="login_i1">
-								<div class="img1"></div>
+								<div class="img1">
+								</div>
 							</div>
 							
 							<c:choose>
