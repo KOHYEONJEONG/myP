@@ -133,14 +133,15 @@
 	});
 	
     	      
- // 등록 버튼
-	/* 	// 기존 검색상태 유지		
-		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchTxt").val($("#oldTxt").val());
-		
-		$("#actionForm").attr("action", "FaqRegister");
-		$("#actionForm").submit();		
-	}); */
+   // 글쓰기 버튼
+   $("#insertBtn").on("click", function() {
+      // 기존 검색상태 유지      
+      $("#searchGbn").val($("#oldGbn").val());
+      $("#searchTxt").val($("#oldTxt").val());
+      
+      $("#actionForm").attr("action", "FaqInsert");
+      $("#actionForm").submit();      
+   });
 });
 
 

@@ -185,7 +185,7 @@ public class PartiNoticeController {
 		return mapper.writeValueAsString(model);
 	}
 	
-	@RequestMapping(value = "/FaqRegister")
+	@RequestMapping(value = "/FaqInsert")
 	public ModelAndView FaqRegister(@RequestParam HashMap<String, String> params, ModelAndView mav) {
 
 		mav.setViewName("partiNotice/faqRegister");
