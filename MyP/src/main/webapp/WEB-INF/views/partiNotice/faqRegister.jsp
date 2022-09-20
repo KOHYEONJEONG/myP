@@ -87,6 +87,7 @@ $(document).ready(function () {
       <input type="hidden" name="page" value="${param.page}" />
 	  <input type="hidden" name="searchGbn" value="${param.searchGbn}"/>
 	  <input type="hidden" name="searchText" value="${param.searchText}"/>
+
         <div class="main_wrap">
             <div class="side_bar">
                 <div class="title">참여/알림</div>
