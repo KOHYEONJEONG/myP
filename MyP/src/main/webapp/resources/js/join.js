@@ -313,7 +313,7 @@ $(document).ready(function () {
 		 
 	}); //idFindBtn btn end
 	
-	$("#pwFindBtn").on("click", function() {	   
+	$("#idFindBtn").on("click", function() {	   
 	   if($.trim($("#inj").val()) == "") {
 		   alert("인증번호를 입력하세요.", function() {
 			   $("#inj").focus();
@@ -342,7 +342,7 @@ $(document).ready(function () {
 	    $("#pwFindform").attr("action", "pwChange");
 		$("#pwFindform").submit();
 		 
-	}); //idFindBtn btn end
+	}); //pwFindBtn btn end
 	
 }); 
 
