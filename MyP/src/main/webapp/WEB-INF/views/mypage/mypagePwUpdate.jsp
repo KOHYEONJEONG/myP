@@ -52,6 +52,11 @@
 	            </div>
             </form>
         </div>
+        
+        <!--페이징-->
+		<div class="page_wrap">
+			<div class="page_nation"></div>
+		</div>
       </main>
       
       <c:import url="/footer"></c:import>

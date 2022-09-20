@@ -40,12 +40,13 @@ public class MyPageController {
 	@RequestMapping(value = "/memImgAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String memImgAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		
+		System.out.println("memImgAjax ==>"+params.toString());
+		
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 		HashMap<String, String> data = dao.getMapData("member.getMember", params);
-
 		model.put("data", data);
-
 		return mapper.writeValueAsString(model);// jsp에서 img만 받으면 됌.
 	}
 
@@ -126,10 +127,11 @@ public class MyPageController {
 
 		// no를 받아와서 이동
 		mav.addObject("no", params.get("no"));
-
-		// 회원탈퇴
+			
+		//회원탈퇴
 		mav.setViewName("mypage/withdraw");
 		return mav;
 	}
+
 
 }
