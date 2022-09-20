@@ -17,9 +17,36 @@
     <!-- <link rel="stylesheet" href="resources/demos/style.css"> -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<style type="text/css">
+.update {
+    margin: 0px 8px 0px 0px;
+    background: #FD9A29;
+    border: solid 1px #FD9A29;
+}    
+
+.delete {
+    background: #00af80;
+    border: solid 1px #00af80;
+}
+
+.btn {
+    width: 70px;
+    height: 35px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+    box-sizing: border-box;
+    line-height: 35px;
+    text-align: center;
+}
+
+.btn_wrap1{
+    display: flex;
+}
+</style>
 <script type="text/javascript">
   $(document).ready(function () {
-//검색 구분 설정
+	//검색 구분 설정
 	if("${param.searchGbn}" != "") {
 		$("#searchGbn").val("${param.searchGbn}");
 	} else {
@@ -103,7 +130,7 @@
 		$("#searchText").val($("#oldText").val());
 		
 		reloadList();
-	})		
+	});
 	
     	      
  // 등록 버튼
@@ -143,12 +170,16 @@ function drawList(list) {
 	for(var data of list){
 				                                                         
     html +="    <h3>" + data.QUE + "</h3>     ";
-    html +="    <div>                         ";                               
-    html +="      <p>" + data.ANSWER_CON + "</p>     ";                                                        
-    html +="    </div>                        ";                               
+    if("${sMemAuto}" == 1){
+	    html +="    <div class=\"btn_wrap1\">                         ";                               
+	    html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+	    html +="<div class=\"btn update\" id=\"updateBtn\">수정</div>";
+	    html +="<div class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
+	    html +="    </div>    ";       
+    	}
 	}                                                                          
-    html +="  </div>                          ";                               
-    html +="</div>                            ";                               
+    html +="  </div>";                               
+    html +="</div>";                               
 	
 	$(".accordion_wrap").html(html);
 	
@@ -192,8 +223,7 @@ function drawPaging(pd) {
 	$(".page_nation").html(html);
                                                                    
 }    
-
-  </script>
+</script>
 
 </head>
 <body>
@@ -254,11 +284,11 @@ function drawPaging(pd) {
                            <div class="tap_txt" value="${data.FAQ_NUM}">이용안내</div>
                        </div>
                     </div> <!-- tab wrap end -->
-                       <c:if test="${sMemAuto == 1}">
-					 <div class="btn_wrap">
-                    	 <div class="write_btn" id="insertBtn">글쓰기</div>
-                 	</div> <!-- btn wrap end -->
-				</c:if>
+                       <c:if test="${sMemAuto == 1}"><!-- 관리자로 로그인해야 글쓰기 보임 -->
+						 <div class="btn_wrap">
+	                    	 <div class="write_btn" id="insertBtn">글쓰기</div>
+	                 	</div> <!-- btn wrap end -->
+					   </c:if>
                      
                      <div class="accordion_wrap"></div>
                     </div> <!-- accordion end -->
@@ -282,17 +312,12 @@ function drawPaging(pd) {
                            <a class="arrow nnext" href="#"></a>
                         </div>
                      </div>
+              		</div><!-- table_wrap -->
                 </div><!-- right area -->
-              </div>
         </div>
       </main>
       <c:import url="/footer"></c:import>
-   <script>
-
-
-	
-      
-    </script>
+ 
 
 </body>
 </html>

@@ -185,5 +185,47 @@ public class PartiNoticeController {
 		return mapper.writeValueAsString(model);
 	}
 	
+	@RequestMapping(value = "/FaqRegister")
+	public ModelAndView FaqRegister(@RequestParam HashMap<String, String> params, ModelAndView mav) {
+
+		mav.setViewName("partiNotice/faqRegister");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/faqAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String faqAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		int cnt = 0;
+
+		try {
+			switch (gbn) {
+			case "insert":
+				cnt = dao.insert("faq.insertFaq", params);
+				break;
+			case "update":
+				cnt = dao.update("faq.updateFaq", params);
+				break;
+			case "delete":
+				cnt = dao.delete("faq.deleteFaq", params);
+				break;
+			}
+
+			if (cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
+
+		return mapper.writeValueAsString(model);
+	}
+	
 	
 }
