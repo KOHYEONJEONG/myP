@@ -172,6 +172,7 @@ header .header_wrap {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 15px;
 }
 
 .login_select_box {
@@ -232,7 +233,6 @@ header .header_wrap {
 
 /* 로그인 되어있을때, 아이콘 안에 이미지를 프로필사진느낌으로*/
 .login_i1 .img1 {
-  background: url(../img/dog.jpg) no-repeat;
   width: 50px;
   height: 50px;
   background-size: 100%;

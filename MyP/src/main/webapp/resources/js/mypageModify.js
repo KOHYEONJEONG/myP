@@ -1,7 +1,15 @@
 $(document).ready(function () {
-	
-	
+	selectCheck();
 });
+
+function selectCheck(){
+	$(".row2 .input_box2.right #emailGbn option").each(function() {
+		if($(this).html() == "${param.domain}") {//엔티티로 비교해야하기에 .html()
+			$(this).prop("selected", true);
+		}
+	});
+}
+
 /*
 function reloadList(){
 	var params = $("#actionForm").serialize();

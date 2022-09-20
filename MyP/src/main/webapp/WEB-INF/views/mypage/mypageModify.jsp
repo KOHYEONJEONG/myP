@@ -11,6 +11,7 @@
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/font.css">
+<script src="resources/js/mypageModify.js"></script>
 <style>
 input {
 	font-family: 'TmoneyRoundWindRegular';
@@ -183,7 +184,6 @@ height: 100%;
 	box-sizing: border-box;
 }
 </style>
-<script src="resources/jquery/jquery-1.12.4.js"></script>
 </head>
 <body>
 	<c:import url="/header1"></c:import>
@@ -208,7 +208,7 @@ height: 100%;
 							<div class="row1">
 								<div class="box_title">닉네임</div>
 								<div class="input">
-									<input type="text" value="${param.NM}" />
+									<input type="text" id="nm" name="nm" value="${param.nm}"/>
 								</div>
 							</div>
 
@@ -216,7 +216,7 @@ height: 100%;
 								<div class="box_title">이메일</div>
 								<div class="input">
 									<div class="input_box2 left">
-										<input type="text" id="email1" class="email1"/>
+										<input type="text" id="account" name="account" value="${param.account}"/>
 									</div>
 									<div class="a">@</div>
 									<div class="input_box2 right">

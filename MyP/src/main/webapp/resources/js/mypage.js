@@ -4,6 +4,7 @@ $(document).ready(function () {
 	
 	$("#mypage_modify").click(function(){
 		//개인정보 수정하기 버튼
+		console.log("도메인-->"+$("#domain").val());//2mypage.js:7 도메인-->naver.com
 		$("#sendForm").attr("action", "memModify");
         $("#sendForm").submit();   
 	});
@@ -109,5 +110,5 @@ function img(data){
 		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
 	}
 	
-	$(".pic_top #imgRelod").html(html);
+	$(".my_pic #imgRelod").html(html);
 }
