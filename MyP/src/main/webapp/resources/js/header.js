@@ -1,5 +1,7 @@
 $(document).ready(function () {
 	
+	img1Relod();
+	
 	// 헤더
 	// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
    if($(".login_comment").hasClass("on")){
@@ -123,3 +125,33 @@ $(document).ready(function () {
 });
     
     
+//사진 영역만 비동기화
+function img1Relod() {
+	var params = $("#sendForm").serialize();
+	$.ajax({
+		url : "memImgAjax",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) {
+			console.log("사진 리로드 성공");
+			img1(res.data);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); //Ajax End
+}
+//<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>
+function img1(data){
+	var img = data.IMG;
+	var html = "";
+	
+	if(img != null && !img.length == 0){
+		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
+	}else{
+		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
+	}
+	
+	$(".login_i1 .img1").html(html);
+}
