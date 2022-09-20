@@ -7,18 +7,6 @@ $(document).ready(function () {
 	
    	var send_num = "";
 	
-	// 회원가입 화면에서 id 유효성 체크
-	$("#id_input").keyup(function () {
-		var id = $('#id_input').val();
-		ckId(id);
-	});
-	
-	// 비밀번호 찾기 화면에서 id와 email일치 여부 확인
-	$("#id").keyup(function () {
-		var id = $('#id').val();
-		
-	});
-	
 	
    $('#mail-Check-Btn').click(function() {//인증번호 전송 버튼
 	   const email = $('#email1').val()+ '@' + $('#email2').val(); //이메일 주소값 얻어오기
@@ -32,15 +20,52 @@ $(document).ready(function () {
 	   const word = str.split("/")
 	   console.log(word[2]);
 	   
+	  var id = $('#id').val();
+	  var data1 = {id : id, email : email};
+	   
 	   // 유효성 검사 후,
 	   if(mailFormCheck(email)) {
+		
+		// 비번 찾기에서, id랑 email 일치 ajax
+		if(word[2] == 'pwFind'){
+			  $.ajax({
+		         type:"post",
+		         url:"idEmailChackAjax", // 메일, id 체크
+		         data : data1,
+		         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+		         	if(res == 'fail'){
+		            	warnMsg.html("아이디와 이메일이 일치하지 않습니다. 다시 확인 부탁드립니다.");   
+		                warnMsg.css("color","red");           
+		            } else {
+					   $.ajax({
+						   type : 'get',
+						   url : 'mailSend', //Get 방식이라 url뒤에 email을 묻힐수있다.
+						   dateType : "json",
+						   data : data,	   
+					   	   success : function(result) {
+					   		   console.log(result.send_num);
+					   		   send_num = result.send_num;
+					   		   warnMsg.html("인증번호가 발송 되었습니다.");
+					   		   warnMsg.css("color","green");
+					   	   }
+					   }); //end ajax
+		            }
+		     
+		         },
+		         error : function(request, status, error) {// 실패했을 때 함수 실행
+		            console.log(request.responseText);    //실패 상세 내역
+		         }
+		      }); //ajax
+		      
+		}else {
+			// id 찾기, 회원가입에서 메일 중복성 체크 ajax
 		   $.ajax({
 		         type:"post",
 		         url:"checkEmailAjax", // 메일 중복성 체크
 		         data : data,
 		         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
 		         
-		         // id찾기에서 메일 중복 체크
+		         // id 찾기에서 메일 중복 체크
 		         if(word[2] == 'idFind'){
 					if(res == 'fail'){
 		            	warnMsg.html("가입되지 않은 이메일 입니다. 다시 확인 부탁드립니다.");   
@@ -87,24 +112,12 @@ $(document).ready(function () {
 		         }
 		      }); //ajax
 		      
-		      
-		       $.ajax({
-		         type:"post",
-		         url:"idEmailChackAjax", // 메일 중복성 체크
-		         data : data,
-		         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
-		         
-		     
-		         },
-		         error : function(request, status, error) {// 실패했을 때 함수 실행
-		            console.log(request.responseText);    //실패 상세 내역
-		         }
-		      }); //ajax
-		      
+		      }
 		      
 	   } else {
 		   warnMsg.html("옳바르지 못한 이메일 형식입니다.");
 		   warnMsg.css("display", "inline-block");
+		   warnMsg.css("color","red");
 		   return false;
 	   }
 	   
@@ -283,10 +296,30 @@ $(document).ready(function () {
 		   });
 		   return false;
 	   }
-	   $("#idFindform").attr("action", "idFindResult");
+	    $("#idFindform").attr("action", "idFindResult");
 		$("#idFindform").submit();
 		 
 	}); //idFindBtn btn end
+	
+	$("#pwFindBtn").on("click", function() {	   
+	   if($.trim($("#email1").val()) == "") {
+		   alert("이메일을 입력하세요.", function() {
+			   $("#email1").focus();
+		   });
+		   return false;
+	   }  
+	   
+	   if($.trim($("#inj").val()) == "") {
+		   alert("인증번호를 입력하세요.", function() {
+			   $("#inj").focus();
+		   });
+		   return false;
+	   }
+	    $("#pwFindform").attr("action", "pwChange");
+		$("#pwFindform").submit();
+		 
+	}); //idFindBtn btn end
+	
 	
 	
 	

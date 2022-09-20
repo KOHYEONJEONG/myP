@@ -92,6 +92,7 @@ function imgRelod() {
 		success : function(res) {
 			console.log("사진 리로드 성공");
 			img(res.data);
+			img1Relod();
 		},
 		error : function(request, status, error) { 
 			console.log(request.responseText); 
