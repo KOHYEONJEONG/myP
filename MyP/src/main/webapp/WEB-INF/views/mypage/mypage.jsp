@@ -56,15 +56,11 @@
 			                        </div>  
 		                        </form>
                         	</div>
-	                        <form name="#" id="sendForm" method="post">
+	                        <form name="#" id="sendForm2" method="post">
 	                       		<input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
 	                       		<input type="hidden" name="nm" id="nm" value="${data.NM}">
-	                       		<c:set var="emailS" value="${fn:split(data.EMAIL,'@')}" />
-	                            <input type="hidden" name="account" id="account" value="${emailS[0]}">
-	                            <input type="hidden" name="domain" id="domain" value="${emailS[1]}">
 	                       	</form> 	
                        	
-                        
                             <div class="my_info">
                                 <div class="info_first">
                                     <div>아이디</div>
@@ -91,7 +87,7 @@
                         </div>
                         <!--bottom2-->
                         <div class="bottom2">
-                            <div class="my_btn1 myReview">
+                            <div class="my_btn1 myReview" id="myReview">
                                 <img class="myReviewImg" src="resources/icons/reviewmypage.png">
                                 <div class="txt">주차장리뷰</div>
                             </div>

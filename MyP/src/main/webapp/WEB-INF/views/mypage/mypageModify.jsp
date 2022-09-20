@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="resources/js/mypageModify.js"></script>
+<script src="resources/js/join.js"></script>
 <style>
 input {
 	font-family: 'TmoneyRoundWindRegular';
@@ -40,7 +41,7 @@ input {
 
 .box {
 	width: 800px;
-	height: 240px;
+    height: 273px;
 	background-color: #f5f5f5;
 	border: solid 1px #fbfbfb;
 	box-sizing: border-box;
@@ -100,10 +101,7 @@ input {
 .row2 .input input[type=text] {
     box-sizing: border-box;
     height: 100%;
-}
-
-.row2 .input input[type=text] .eamil1{
-	width: 100%;
+    width: 100%;
 }
 
 .row2 .input .a {
@@ -132,7 +130,7 @@ height: 100%;
 	border-right: solid 1px #dadada;
 }
 
-.row3 .input input[type=text] {
+.row3 .input input[type=number] {
     box-sizing: border-box;
     height: 100%;
     width: 84%;
@@ -212,36 +210,11 @@ height: 100%;
 								</div>
 							</div>
 
-							<div class="row2">
-								<div class="box_title">이메일</div>
-								<div class="input">
-									<div class="input_box2 left">
-										<input type="text" id="account" name="account" value="${param.account}"/>
-									</div>
-									<div class="a">@</div>
-									<div class="input_box2 right">
-										<select id="emailGbn" name="emailGbn">
-											<option>직접입력</option>
-											<option>naver.com</option>
-											<option>gmail.com</option>
-											<option>hanmail.net</option>
-										</select>
-									</div>
-									<input type="button" value="인증번호" class="btn email">
-								</div>
-							</div>
-							<div class="row3">
-								<div class="box_title">인증번호</div>
-								<div class="input">
-									<input type="text" placeholder="인증번호" /> <input type="button"
-										value="확인" class="btn confirm">
-								</div>
-							</div>
-						</div>
 						<div class="btn_wrap">
 							<input type="button" value="수정" class="btn update">
 						</div>
 					</div>
+				</div>
 				</div>
 			</form>
 		</div>

@@ -5,15 +5,15 @@ $(document).ready(function () {
 	$("#mypage_modify").click(function(){
 		//개인정보 수정하기 버튼
 		console.log("도메인-->"+$("#domain").val());//2mypage.js:7 도메인-->naver.com
-		$("#sendForm").attr("action", "memModify");
-        $("#sendForm").submit();   
+		$("#sendForm2").attr("action", "memModify");
+        $("#sendForm2").submit();   
 	});
 	
 	//memPwUpdate
 	$("#password_modify").click(function(){
 		//개인정보 수정하기 버튼
-		$("#sendForm").attr("action", "memPwUpdate");
-        $("#sendForm").submit();   
+		$("#sendForm2").attr("action", "memPwUpdate");
+        $("#sendForm2").submit();   
 	});
 	
 	$("#savefile").click(function(){
@@ -75,22 +75,25 @@ $(document).ready(function () {
 	
 	$("#btn_memWit").on("click", function(){
 		//회원 탈퇴 버튼
-		$("#sendForm").attr("action", "withdraw");
-        $("#sendForm").submit();  
+		$("#sendForm2").attr("action", "withdraw");
+        $("#sendForm2").submit();  
+	});
+	
+	$("#myReview").on("click", function(){
+		
 	});
 	
 });
 
 //사진 영역만 비동기화
 function imgRelod() {
-	var params = $("#sendForm").serialize();
+	var params = $("#sendForm2").serialize();
 	$.ajax({
 		url : "memImgAjax",
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log("사진 리로드 성공");
 			img(res.data);
 		},
 		error : function(request, status, error) { 

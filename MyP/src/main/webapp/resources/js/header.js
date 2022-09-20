@@ -15,7 +15,6 @@ $(document).ready(function () {
 				$("#login_box").removeClass("on");
 				
             } else {
-				console.log("관리자");
 				$("#login_box").addClass("on");
 				
 				if(sessionData == "관리자"){
@@ -134,7 +133,6 @@ function img1Relod() {
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log("사진 리로드 성공");
 			img1(res.data);
 		},
 		error : function(request, status, error) { 
