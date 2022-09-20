@@ -111,6 +111,10 @@ public class LoginController {
 
 		if (params.get("email") != null && params.get("email") != "") {
 
+			HashMap<String, String> data = iACDao.getMapData("join.getMemNum", params);
+
+			mav.addObject("data", data);
+
 			mav.setViewName("login/pwChange");
 		} else {
 			mav.setViewName("redirect:pwFind");

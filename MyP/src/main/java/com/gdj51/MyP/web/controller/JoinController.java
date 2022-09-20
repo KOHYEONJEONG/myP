@@ -156,6 +156,11 @@ public class JoinController {
 
 				cnt = dao.insert("join.joinInsert", params);
 				break;
+			case "update":
+				params.put("pwd", Utils.encryptAES128(params.get("pwd")));
+
+				cnt = dao.update("join.joinUpdate", params);
+				break;
 
 			}
 			if (cnt > 0) {
