@@ -43,6 +43,6 @@
 	
 	<insert id="insertFaq" parameterType="hashmap">
 	 	INSERT INTO FAQ(FAQ_NUM, CATE_NUM, MEM_NUM, QUE, ANSWER_CON)
-		VALUES(FAQ_SEQ.NEXTVAL, #{cate_num}, #{mem_num}, #{que},#{answer_con})
+		VALUES(FAQ_SEQ.NEXTVAL, #{cate_num}, #{mem_num}, #{que}, #{con})
 	</insert>
 </mapper>
