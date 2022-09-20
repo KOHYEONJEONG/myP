@@ -47,8 +47,21 @@ public class ParkInfoController {
 	}
 	
 	@RequestMapping(value = "/parkinfodetail")
-	public ModelAndView parkinfod(ModelAndView mav) {
-		mav.setViewName("parkInfo/pubserviceParkingListDetail");
+	public ModelAndView parkinfodetail(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
+		
+		
+			
+			HashMap<String, String> data
+			= dao.getMapData("info.getinfo", params);
+			
+			mav.addObject("data", data);
+			
+			mav.setViewName("parkInfo/pubserviceParkingListDetail");
+			
+		
+		
+		
 		return mav;
 	}
 	
