@@ -145,7 +145,7 @@ input, select{
 <body>
     <div class="wrap">
         <h1 class="logo"></h1>
-    <form class="was-validated" name="form" id="form">
+    <form id="pwFindform" method="post">
         <div class="title">비밀번호 찾기</div>
         <div class="input_box">
             <input type="text" name="id" placeholder="아이디" id="id">
@@ -153,11 +153,11 @@ input, select{
         <div class="df">
         	<input type="hidden" name="email" id="email" value=""/>
             <div class="input_box2">
-            	<input type="text" name="email1" id="email1" placeholder="이메일">
+            	<input type="text"name="account" id="account" placeholder="이메일">
             </div>
             <div class="a">@</div> 
             <div class="input_box2">
-                <select class="form-control" name="email2" id="email2">
+                <select class="form-control" name="domain" id="domain">
                     <option>직접입력</option>
                     <option>naver.com</option>
                     <option>gmail.com</option>
@@ -173,7 +173,7 @@ input, select{
             </div>
             <button class="join_btn" type="button">확인</button>
         </div>
-        <span id="mail-check-warn"></span>
+        <span class="mail-check-warn"></span>
         <div>
             <button class="sign_up" type="submit" id="pwFindBtn">비밀번호 찾기</button>
         </div>

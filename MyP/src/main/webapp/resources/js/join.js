@@ -287,46 +287,71 @@ $(document).ready(function () {
 	
 	
 	
+		// 비밀번호 변경하기
+	   $("#changeBtn").on("click", function() {
+	     
+	   if($.trim($("#pwd").val()) == "" || $("#pwd").val().length < 6 ) {
+		   alert("비밀번호 6자리 이상으로 작성해주세요.", function() {
+			   $("#pwd").focus();
+		   });
+		   return false;
+	   }
+	   
+	   if($.trim($("#rePw").val()) == "") {
+		   alert("비밀번호 확인을 입력하세요.", function() {
+			   $("#rePw").focus();
+		   });
+		   return false;
+	   }
+	      
+		var params = $("#pwChangeform").serialize();
+		$.ajax({
+		url: "JAction/update",
+		type: "POST",
+		dataType : "json",
+		data: params,
+		success : function(res) {
+			console.log(res);
+			console.log("res.msg:"+res.msg);
+			if(res.msg == "success"){
+				makeAlert("알림", "비밀번호가 변경되었습니다.");
+			}else if(res.msg == "fail"){
+				makeAlert("알림", "변경에 실패하였습니다.");
+			}else{
+				makeAlert("알림", "변경 중 문제가 발생하였습니다.");
+			}
+		},
+		error : function(request, status, error) {
+			console.log(request.responseText);
+		}
+		});//ajax end
+		 
+	}); //join btn end
+	
+	
+	
 	 $("#idFindBtn").on("click", function() {	   
-	   if($.trim($("#email1").val()) == "") {
+	   if($.trim($("#account").val()) == "") {
 		   alert("이메일을 입력하세요.", function() {
 			   $("#email1").focus();
 		   });
 		   return false;
 	   }  
 	   
+	   if($.trim($("#inj").val()) == "") {
+		   alert("인증번호를 입력하세요.", function() {
+			   $("#inj").focus();
+		   });
+		   return false;
+	   }
+	    $("#idFindform").attr("action", "idFindResult");
+		$("#idFindform").submit();
+		 
+	}); //idFindBtn btn end
+	
+	
+	$("#pwFindBtn").on("click", function() {	   
 	   if($.trim($("#account").val()) == "") {
-		   alert("이메일을 입력하세요.", function() {
-			   $("#account").focus();
-		   });
-		   return false;
-	   }  
-	   
-	   if($.trim($("#inj").val()) == "") {
-		   alert("인증번호를 입력하세요.", function() {
-			   $("#inj").focus();
-		   });
-		   return false;
-	   }
-	    $("#idFindform").attr("action", "idFindResult");
-		$("#idFindform").submit();
-		 
-	}); //idFindBtn btn end
-	
-	$("#pwFindBtn").on("click", function() {	   
-	   if($.trim($("#inj").val()) == "") {
-		   alert("인증번호를 입력하세요.", function() {
-			   $("#inj").focus();
-		   });
-		   return false;
-	   }
-	    $("#idFindform").attr("action", "idFindResult");
-		$("#idFindform").submit();
-		 
-	}); //idFindBtn btn end
-	
-	$("#pwFindBtn").on("click", function() {	   
-	   if($.trim($("#email1").val()) == "") {
 		   alert("이메일을 입력하세요.", function() {
 			   $("#email1").focus();
 		   });
@@ -342,7 +367,7 @@ $(document).ready(function () {
 	    $("#pwFindform").attr("action", "pwChange");
 		$("#pwFindform").submit();
 		 
-	}); //idFindBtn btn end
+	}); //pwFindBtn btn end
 	
 }); 
 
