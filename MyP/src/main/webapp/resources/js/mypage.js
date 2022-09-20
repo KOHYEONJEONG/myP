@@ -80,7 +80,8 @@ $(document).ready(function () {
 	});
 	
 	$("#myReview").on("click", function(){
-		
+		$("#sendForm2").attr("action", "memParkReview");
+        $("#sendForm2").submit();  
 	});
 	
 });

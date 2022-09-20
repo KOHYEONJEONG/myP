@@ -126,10 +126,11 @@ public class MyPageController {
 
 		// no를 받아와서 이동
 		mav.addObject("no", params.get("no"));
-
-		// 회원탈퇴
+			
+		//회원탈퇴
 		mav.setViewName("mypage/withdraw");
 		return mav;
 	}
+
 
 }
