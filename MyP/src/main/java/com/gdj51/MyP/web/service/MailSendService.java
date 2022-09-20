@@ -6,26 +6,23 @@ import java.util.Random;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import com.gdj51.MyP.web.dao.IACDao;
 
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-
 @Service
 public class MailSendService implements IJoinService {
 
 	@Autowired
 	private JavaMailSender mailSender;
-	
-	
+
 	@Autowired
 	public IACDao dao;
 
-	private int authNumber; 
+	private int authNumber;
 
 	public void makeRandomNumber() {
 		// 난수의 범위 111111 ~ 999999 (6자리 난수)
@@ -35,44 +32,40 @@ public class MailSendService implements IJoinService {
 		authNumber = checkNum;
 	}
 
-	//이메일 보낼 양식! 
+	// 이메일 보낼 양식!
 	public int joinEmail(String email) throws Throwable {
 		makeRandomNumber();
-		String setFrom = "hongaeyong99@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
+		String setFrom = "hongaeyong99@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
 		String toMail = email;
-		String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
-		String content = 
-				"홈페이지를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
-						"<br><br>" + 
-						"인증 번호는 " + authNumber + "입니다." + 
-						"<br>" + 
-						"해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
+		String title = "MyP 인증번호 발송 이메일 입니다."; // 이메일 제목
+		String content = "홈페이지를 방문해주셔서 감사합니다." + // html 형식으로 작성 !
+				"<br><br>" + "인증 번호는 " + authNumber + "입니다." + "<br>" + "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; // 이메일 내용 삽입
 		mailSend(setFrom, toMail, title, content);
-		//return Integer.toString(authNumber);
+		// return Integer.toString(authNumber);
 		HashMap<String, String> params = new HashMap<String, String>();
-		
-		//이제 등록된 인증번호테이블을 조회(발송번호만 가져온다.) <-- 이 발송번호 값을 클라이언트한테 보내야한다.
-		//클라이언트가 입력한 인증번호를 체크할때 필하다.
+
+		// 이제 등록된 인증번호테이블을 조회(발송번호만 가져온다.) <-- 이 발송번호 값을 클라이언트한테 보내야한다.
+		// 클라이언트가 입력한 인증번호를 체크할때 필하다.
 		int send_num = dao.getIntData("join.sendNum");
-		//발송번호(시퀀스) 저장
-				
-		//이메일, 만든 인증번호 보내기
+		// 발송번호(시퀀스) 저장
+
+		// 이메일, 만든 인증번호 보내기
 		params.put("send_num", Integer.toString(send_num));
 		params.put("email", email);
 		params.put("auth_num", Integer.toString(authNumber));
-		
-		//해당 이메일에 발손번호, 이메일, 인증번호, 등록일 저장
-		dao.insert("join.authInsert",params);
-		
+
+		// 해당 이메일에 발손번호, 이메일, 인증번호, 등록일 저장
+		dao.insert("join.authInsert", params);
+
 		return send_num;
 	}
 
-	//이메일 전송 메소드
-	public void mailSend(String setFrom, String toMail, String title, String content) { 
+	// 이메일 전송 메소드
+	public void mailSend(String setFrom, String toMail, String title, String content) {
 		// true 매개값을 전달하면 multipart 형식의 메세지 전달이 가능.문자 인코딩 설정도 가능하다.
 		final MimeMessagePreparator preparator = new MimeMessagePreparator() {
 
-			public void prepare(MimeMessage mimeMessage) throws Exception{
+			public void prepare(MimeMessage mimeMessage) throws Exception {
 				final MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
 				mailHelper.setFrom(setFrom);
@@ -84,13 +77,12 @@ public class MailSendService implements IJoinService {
 
 		};
 
-		try {    
+		try {
 			mailSender.send(preparator);
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}        
-		
-		
+		}
+
 	}
 }

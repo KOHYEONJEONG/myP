@@ -16,11 +16,12 @@ $(document).ready(function () {
 	});
 	
 	$("#savefile").click(function(){
-		if($.trim($("#pic").val())==""){
+		if($.trim($("#vPic").val())==""){
 		   makeAlert("알림","사진을 첨부해주세요.", function(){
 			   return false;
 		   });
 	    }else{
+			var form = $("#actionForm");
 			form.ajaxForm({
 				   success:function(res){
 				   if(res.result == "SUCCESS"){
@@ -38,6 +39,7 @@ $(document).ready(function () {
 					   success: function(res){
 							switch (res.msg) {
 							case "success":
+								makeAlert("성공","사진 등록 성공");
 								imgRelod();
 								break;
 							case "fail":
@@ -87,7 +89,7 @@ function imgRelod() {
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log("성공")
+			console.log("사진 리로드 성공");
 			img(res.data);
 		},
 		error : function(request, status, error) { 
@@ -98,11 +100,11 @@ function imgRelod() {
 
 
 function img(data){
-	var img = data.PIC;
+	var img = data.IMG;
 	var html = "";
 	
-	if(img != null && !img.equals("")){
-		html += "<img class=\"lightboxed\" rel=\"group1\" src=\"resources/upload/"+data.PIC+"\" data-link=\"resources/upload/"+data.PIC+"\" alt=\"Image Alt\" data-caption=\""+data.DESCRIPT+"\" />";
+	if(img != null && !img.length == 0){
+		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
 	}else{
 		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
 	}

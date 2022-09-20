@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,8 @@
 <title>MyP</title>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/font.css">
-<script src="/resources/js/join.js"></script>
+ <script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/join.js"></script>
 <style>
     *{
         font-family: 'TmoneyRoundWindRegular';
@@ -123,19 +123,18 @@ input, select{
     cursor: pointer;
 }
 
-#joinBtn{
-    margin-top: 15px;
-	height: 60px;
+.sign_up{   
+	margin-top: 10px;
+    height: 60px;
     border: solid 1px #00af80;
     text-align: center;
     background: #00af80;
-    color:white;
-    font-size: 18px; 
-	box-sizing: border-box;
-	border-radius: 5px;
-	cursor: pointer;
-    width: 450px;
-}
+    color: white;
+    font-size: 18px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 450px;}
 
 </style>
 </head>
@@ -144,15 +143,16 @@ input, select{
 		<h1 class="logo">
 			<a href="/"></a>
 		</h1>
-		<form class="was-validated" name="form" id="form">
+		<form action="#" class="was-validated" name="form" id="idFindform" method="post">
 			<div class="title">아이디 찾기</div>
 			<div class="df">
+				<input type="hidden" name="email" id="email" value=""/>
 				<div class="input_box2">
-					<input type="text" name="email" placeholder="이메일">
+					<input type="text" name="email1" id="email1" placeholder="이메일">
 				</div>
 				<div class="a">@</div>
 				<div class="input_box2">
-					<select>
+					<select class="form-control" name="email2" id="email2">
 						<option>직접입력</option>
 						<option>naver.com</option>
 						<option>gmail.com</option>
@@ -165,16 +165,19 @@ input, select{
 				<br>
 				<br>
 			</div>
+			<span class="email_status"></span> 
+			<span class="mail_input_box_warn"></span>
 			<div class="df">
 				<div class="input_box3">
-					<input type="number" name="inj" placeholder="인증번호">
+					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
 				</div>
 				<button class="join_btn" type="button">확인</button>
 				<br>
 				<br>
 			</div>
+			<span id="mail-check-warn"></span>
 			<div>
-				<button class="sign_up" type="submit" id="joinBtn">아이디 찾기</button>
+				<button class="sign_up" type="submit" id="idFindBtn">아이디 찾기</button>
 			</div>
 		</form>
 	</div>

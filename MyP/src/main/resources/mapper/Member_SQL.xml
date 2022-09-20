@@ -65,16 +65,15 @@
 	-->
 	
 	<update id="memUpdate" parameterType="hashmap">
-		UDPATE MEMBER
+		UPDATE MEMBER
 		SET IMG = #{img}
-		WHERE MEM_NO = #{no}
-	
+		WHERE MEM_NUM = #{no}
 	</update>
 	
 	<update id="memWit" parameterType="hashmap">
-		UPDAET MEMBER 
+		UPDATE MEMBER 
 		SET WIT_DT = sysdate
-		WHERE MEM_NO = #{no}
+		WHERE MEM_NUM = #{no}
 	</update>
 	
 

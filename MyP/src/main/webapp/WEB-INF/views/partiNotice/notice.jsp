@@ -24,8 +24,11 @@
  		} else {
  			$("#oldGbn").val("0");
  		}
-			
- 		reloadList();
+
+		reloadList(); 
+		
+
+	
 
 	//  테이블 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
@@ -114,7 +117,6 @@ function reloadList() {
 		var html = "";
 		
 		for(var data of list){
-
 			html +="<tr no=\"" + data.NOTICE_NUM  + "\">";
 			html +="<td>" + data.NORNK + "</td>";
 			html +="<td>" + data.TITLE + "</td>"; // 제목
@@ -151,7 +153,7 @@ function reloadList() {
 			
 		}
 		
-		if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+		if($("#page").val() *1 == pd.maxp){ // 현재페이지가 마지막 페이지라면
 			html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
 		} else {
 			html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
@@ -168,9 +170,6 @@ function reloadList() {
 </head>
 <body>
   <c:import url="/header1"></c:import>
-  <!-- 기존 검색 내용 유지용 -->
-<input type="hidden" id="oldGbn" value="${param.searchGbn}"/>
-<input type="hidden" id="oldText" value="${param.searchText}"/>
       <main>
         <div class="main_wrap">
           <div class="side_bar">
@@ -196,7 +195,7 @@ function reloadList() {
                   </select>
                 </div>
                 <div class="search_form">
-                  <input type="text" name="searchText" id="searchText" value="${param.searchText}" />
+                  <input type="text" name="searchText" id="searchText" />
                 </div>
                 <div class="search_btn" id="searchBtn">검색</div>
                   </div>
