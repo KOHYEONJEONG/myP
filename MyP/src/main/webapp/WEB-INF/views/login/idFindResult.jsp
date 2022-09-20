@@ -104,9 +104,7 @@ $("#pwFind").on("click", function(){
 <body>
 <input type="hidden" name="email" id="email" value="${param.email}"/>
 	<div class="wrap">
-		<h1 class="logo">
-			<a href="/test2/index.html"> </a>
-		</h1>
+		<h1 class="logo"></h1>
 		<div class="title">아이디 찾기 완료</div>
 		<div class="result_text">
 			고객님의 아이디 <span class="result"><c:out value="${fn:substring(data.ID, 0, fn:length(data.ID) - 3)}" />***</span> 입니다.
