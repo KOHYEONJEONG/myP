@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/font.css">
+     <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/join.js"></script>
 <style>
    .wrap {
    width: 490px;
@@ -146,15 +148,16 @@ input, select{
     <form class="was-validated" name="form" id="form">
         <div class="title">비밀번호 찾기</div>
         <div class="input_box">
-            <input type="text" name="id" placeholder="아이디" id="id_input">
+            <input type="text" name="id" placeholder="아이디" id="id">
         </div>
         <div class="df">
+        	<input type="hidden" name="email" id="email" value=""/>
             <div class="input_box2">
             	<input type="text" name="email1" id="email1" placeholder="이메일">
             </div>
             <div class="a">@</div> 
-            <div class="input_box2" name="email2" id="email2">
-                <select>
+            <div class="input_box2">
+                <select class="form-control" name="email2" id="email2">
                     <option>직접입력</option>
                     <option>naver.com</option>
                     <option>gmail.com</option>
@@ -163,14 +166,16 @@ input, select{
             </div>
             <button class="join_btn" type="button" id="mail-Check-Btn">인증번호<br/>전송</button>
         </div>
+        <span class="mail_input_box_warn"></span>
         <div class="df">
             <div class="input_box3">
                 <input type="number" name="inj" id="inj" placeholder="인증번호">
             </div>
             <button class="join_btn" type="button">확인</button>
         </div>
+        <span id="mail-check-warn"></span>
         <div>
-            <button class="sign_up" type="submit" id="joinBtn">비밀번호 찾기</button>
+            <button class="sign_up" type="submit" id="pwFindBtn">비밀번호 찾기</button>
         </div>
     </form>
 </div>

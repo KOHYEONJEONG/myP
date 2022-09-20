@@ -170,8 +170,6 @@ input, select{
 					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
 				</div>
 				<button class="join_btn" type="button">확인</button>
-				<br>
-				<br>
 			</div>
 			<span id="mail-check-warn"></span>
 			<div>

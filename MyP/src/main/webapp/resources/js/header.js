@@ -15,7 +15,6 @@ $(document).ready(function () {
 				$("#login_box").removeClass("on");
 				
             } else {
-				console.log("관리자");
 				$("#login_box").addClass("on");
 				
 				if(sessionData == "관리자"){
@@ -134,7 +133,6 @@ function img1Relod() {
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log("사진 리로드 성공");
 			img1(res.data);
 		},
 		error : function(request, status, error) { 
@@ -148,10 +146,10 @@ function img1(data){
 	var html = "";
 	
 	if(img != null && !img.length == 0){
-		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
+		html += "<img id=\"myImg\" class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
 	}else{
-		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
+		html += "<img id=\"myImg\" src=\"resources/icons/person3.png\" alt=\"이미지\">";
 	}
 	
-	$(".login_i1 .img1").html(html);
+	$(".login_i1").html(html);
 }

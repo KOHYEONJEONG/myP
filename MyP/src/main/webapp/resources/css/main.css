@@ -220,24 +220,26 @@ header .header_wrap {
   margin-top: 22.5px;
   margin-left: 5px;
   background: #fff;
+  position: relative;
 }
 
 .login_i1 .img {
-  background: url(../icons/person3.png) no-repeat;
-  width: 50px;
-  height: 50px;
-  background-size: 100%;
-  background-position: 50%;
-  border-radius: 50%;
+ 	width: 50px;
+    height: 50px;
+    background-size: 100%;
+    background-position: 50%;
+    border-radius: 50%;
 }
 
 /* 로그인 되어있을때, 아이콘 안에 이미지를 프로필사진느낌으로*/
-.login_i1 .img1 {
-  width: 50px;
-  height: 50px;
-  background-size: 100%;
-  background-position: 50%;
-  border-radius: 50%;
+.login_i1 #myImg{
+	width: 50px;
+    height: 50px;
+    background-size: 100%;
+    border-radius: 50%;
+    position: absolute;
+    margin-top: 0;
+  
 }
 
 .login_box {
