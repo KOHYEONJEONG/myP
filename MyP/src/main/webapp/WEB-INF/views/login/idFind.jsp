@@ -134,7 +134,9 @@ input, select{
     box-sizing: border-box;
     border-radius: 5px;
     cursor: pointer;
-    width: 450px;}
+    width: 450px;
+   
+  }
 
 </style>
 </head>
