@@ -58,13 +58,13 @@
 			</div>
 			<div class="df">
 				<div class="input_box2">
-					<input type="text" name="email1" id="email1" placeholder="이메일">
+					<input type="text" name="account" id="account">
 
 				</div>
 
 				<div class="a">@</div>
 				<div class="input_box2">
-					<select class="form-control" name="email2" id="email2">
+					<select class="form-control" name="domain" id="domain">
 						<option>직접입력</option>
 						<option>naver.com</option>
 						<option>gmail.com</option>
@@ -88,7 +88,7 @@
 				<br>
 			</div>
 
-			<span id="mail-check-warn"></span>
+			<span class="mail-check-warn"></span>
 
 			<div>
 				<button class="sign_up" type="submit" id="joinBtn">가입하기</button>

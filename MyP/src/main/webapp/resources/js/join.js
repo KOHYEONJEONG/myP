@@ -9,10 +9,9 @@ $(document).ready(function () {
 	
 	
    $('#mail-Check-Btn').click(function() {//인증번호 전송 버튼
-	   const email = $('#email1').val()+ '@' + $('#email2').val(); //이메일 주소값 얻어오기
+	   const email = $('#account').val()+ '@' + $('#domain').val(); //이메일 주소값 얻어오기
 	   $("#email").attr('value', email);
-	   console.log($("#email").val());
-	   //console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
+	   console.log('완성된 이메일 : ' + email); //이메일 오는지 확인
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
 	   const warnMsg = $(".mail_input_box_warn");
 	   var data = {email : email};
@@ -69,7 +68,8 @@ $(document).ready(function () {
 		         if(word[2] == 'idFind'){
 					if(res == 'fail'){
 		            	warnMsg.html("가입되지 않은 이메일 입니다. 다시 확인 부탁드립니다.");   
-		                warnMsg.css("color","red");               
+		                warnMsg.css("color","red");
+		                warnMsg.show();
 		            } else {
 					//이메일
 					   $.ajax({
@@ -82,6 +82,7 @@ $(document).ready(function () {
 					   		   send_num = result.send_num;
 					   		   warnMsg.html("인증번호가 발송 되었습니다.");
 					   		   warnMsg.css("color","green");
+					   		   warnMsg.show();
 					   	   }
 					   }); //end ajax
 		            }
@@ -90,6 +91,7 @@ $(document).ready(function () {
 					if(res != 'fail'){ 
 		            	warnMsg.html("이미 가입된 이메일 입니다. 다시 확인 부탁드립니다.");   
 		                warnMsg.css("color","red");
+		                warnMsg.show();
 		            } else {
 					//이메일
 					   $.ajax({
@@ -102,6 +104,7 @@ $(document).ready(function () {
 					   		   send_num = result.send_num;
 					   		   warnMsg.html("인증번호가 발송 되었습니다.");
 					   		   warnMsg.css("color","green");
+					   		   warnMsg.show();
 					   	   }
 					   }); //end ajax
 		            }
@@ -117,7 +120,7 @@ $(document).ready(function () {
 	   } else {
 		   warnMsg.html("옳바르지 못한 이메일 형식입니다.");
 		   warnMsg.css("display", "inline-block");
-		   warnMsg.css("color","red");
+		   warnMsg.show();
 		   return false;
 	   }
 	   
@@ -127,7 +130,7 @@ $(document).ready(function () {
    //blur -> focus가 벗어나는 경우 발생
    $('#inj').blur(function (){
 	   const inputCode = $(this).val();
-	   const $resultMsg = $('#mail-check-warn');
+	   const $resultMsg = $('.mail-check-warn');
 	  
 	   var inj = $("#inj").val();//사용자가 입력한 인증번호
 	   
@@ -145,17 +148,19 @@ $(document).ready(function () {
 	   		   if(result.msg === "success"){
 	   			 $resultMsg.css('color', 'green');
 		  		   $('#mail-Check-Btn').attr('disabled', true);
-		  		 $resultMsg.html('인증번호가 일치합니다.');
-		  		   $('#email1').attr('readonly', true);
-		  		   $('#email2').attr('readonly', true);
-		  		   $('#email2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
-		  		   $('#email2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+		  		   $resultMsg.html('인증번호가 일치합니다.');
+		  		   $resultMsg.show();
+		  		   $('#account').attr('readonly', true);
+		  		   $('#domain').attr('readonly', true);
+		  		   $('#domain').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+		  		   $('#domain').attr('onChange', 'this.selectedIndex = this.initialSelect');
 		  		   
 		  		   $("#cert").val(1);//인증여부
 		  		   
 	   		   }else{
 	   			  $resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요.');
 	   		      $resultMsg.css('color', 'red');
+	   		      $resultMsg.show();
 	   		   }
 	   	   }
 	   }); //end ajax
@@ -241,9 +246,9 @@ $(document).ready(function () {
 		   return false;
 	   }
 	   
-	   if($.trim($("#email1").val()) == "") {
+	   if($.trim($("#account").val()) == "") {
 		   alert("이메일을 입력하세요.", function() {
-			   $("#email1").focus();
+			   $("#account").focus();
 		   });
 		   return false;
 	   }  
@@ -290,6 +295,25 @@ $(document).ready(function () {
 		   return false;
 	   }  
 	   
+	   if($.trim($("#account").val()) == "") {
+		   alert("이메일을 입력하세요.", function() {
+			   $("#account").focus();
+		   });
+		   return false;
+	   }  
+	   
+	   if($.trim($("#inj").val()) == "") {
+		   alert("인증번호를 입력하세요.", function() {
+			   $("#inj").focus();
+		   });
+		   return false;
+	   }
+	    $("#idFindform").attr("action", "idFindResult");
+		$("#idFindform").submit();
+		 
+	}); //idFindBtn btn end
+	
+	$("#pwFindBtn").on("click", function() {	   
 	   if($.trim($("#inj").val()) == "") {
 		   alert("인증번호를 입력하세요.", function() {
 			   $("#inj").focus();
