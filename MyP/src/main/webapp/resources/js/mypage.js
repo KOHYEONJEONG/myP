@@ -5,15 +5,15 @@ $(document).ready(function () {
 	$("#mypage_modify").click(function(){
 		//개인정보 수정하기 버튼
 		console.log("도메인-->"+$("#domain").val());//2mypage.js:7 도메인-->naver.com
-		$("#sendForm2").attr("action", "memModify");
-        $("#sendForm2").submit();   
+		$("#sendForm").attr("action", "memModify");
+        $("#sendForm").submit();   
 	});
 	
 	//memPwUpdate
 	$("#password_modify").click(function(){
 		//개인정보 수정하기 버튼
-		$("#sendForm2").attr("action", "memPwUpdate");
-        $("#sendForm2").submit();   
+		$("#sendForm").attr("action", "memPwUpdate");
+        $("#sendForm").submit();   
 	});
 	
 	$("#savefile").click(function(){
@@ -75,20 +75,20 @@ $(document).ready(function () {
 	
 	$("#btn_memWit").on("click", function(){
 		//회원 탈퇴 버튼
-		$("#sendForm2").attr("action", "withdraw");
-        $("#sendForm2").submit();  
+		$("#sendForm").attr("action", "withdraw");
+        $("#sendForm").submit();  
 	});
 	
 	$("#myReview").on("click", function(){
-		$("#sendForm2").attr("action", "memParkReview");
-        $("#sendForm2").submit();  
+		$("#sendForm").attr("action", "mypageReviewBoard");
+        $("#sendForm").submit();  
 	});
 	
 });
 
 //사진 영역만 비동기화
 function imgRelod() {
-	var params = $("#sendForm2").serialize();
+	var params = $("#sendForm").serialize();
 	$.ajax({
 		url : "memImgAjax",
 		type : "POST", 

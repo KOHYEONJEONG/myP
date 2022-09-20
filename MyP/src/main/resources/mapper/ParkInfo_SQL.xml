@@ -34,8 +34,8 @@
 	FROM CAR_PARK
 	</select>
 	
-	<update id="updateInfo">
 	
-	</update>
+	
+	
 	
 </mapper>
