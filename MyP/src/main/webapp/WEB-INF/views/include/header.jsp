@@ -10,7 +10,7 @@
 </head>
 <body>
 	<form action="#" id="sendForm">
-		<input type="hidden" name="no" id="no" value="${sMemNo}">
+		<input type="hidden" name="hno" id="hno" value="${sMemNo}">
 	</form>
 
 	<!-- 메인페이지 용, 너비가 넓음. -->

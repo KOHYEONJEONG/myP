@@ -320,10 +320,6 @@ $(document).ready(function () {
 		 
 	}); //idFindBtn btn end
 	
-	
-	
-	
-	
 }); 
 
 /*입력 이메일 형식 유효성 검사*/

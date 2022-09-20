@@ -56,7 +56,7 @@
 									END AS REG_DT
 			FROM MEMBER M INNER JOIN AUTORITY AT ON M.autority_num = AT.autority_num
 			WHERE WIT_DT IS NULL
-			AND MEM_NUM = #{no}
+			AND MEM_NUM = #{hno}
 	</select>
 	
 	<!--  
@@ -67,13 +67,13 @@
 	<update id="memUpdate" parameterType="hashmap">
 		UPDATE MEMBER
 		SET IMG = #{img}
-		WHERE MEM_NUM = #{no}
+		WHERE MEM_NUM = #{hno}
 	</update>
 	
 	<update id="memWit" parameterType="hashmap">
 		UPDATE MEMBER 
 		SET WIT_DT = sysdate
-		WHERE MEM_NUM = #{no}
+		WHERE MEM_NUM = #{hno}
 	</update>
 	
 
