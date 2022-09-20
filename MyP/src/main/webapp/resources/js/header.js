@@ -146,10 +146,10 @@ function img1(data){
 	var html = "";
 	
 	if(img != null && !img.length == 0){
-		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
+		html += "<img id=\"myImg\" class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
 	}else{
-		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
+		html += "<img id=\"myImg\" src=\"resources/icons/person3.png\" alt=\"이미지\">";
 	}
 	
-	$(".login_i1 .img1").html(html);
+	$(".login_i1").html(html);
 }

@@ -95,6 +95,7 @@ function imgRelod() {
 		data: params, 
 		success : function(res) {
 			img(res.data);
+			img1Relod();
 		},
 		error : function(request, status, error) { 
 			console.log(request.responseText); 

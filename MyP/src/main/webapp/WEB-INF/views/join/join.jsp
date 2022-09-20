@@ -30,8 +30,7 @@
 			
 			<div class="title">회원가입</div>
 			<div class="id_input">
-
-				<input type="text" name="id" placeholder="아이디" id="id_input" required><br>
+				<input type="text" name="id" placeholder="아이디" id="id" required><br>
 				<br>
 			</div>
 

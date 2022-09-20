@@ -29,12 +29,12 @@
 }
 .logo {
     width: 280px;
-    height: 110px;
+    height: 100px;
     background: url('resources/icons/logo8.png') no-repeat;
-    background-size: 100%;
+    background-size: 130%;
     background-position: 50%;
     position: absolute;
-    top: -70px;
+    top: -80px;
     left: 50%;
     transform: translate(-50%,-50%);
 }
@@ -140,9 +140,7 @@ input, select{
 </head>
 <body>
 	<div class="wrap">
-		<h1 class="logo">
-			<a href="/"></a>
-		</h1>
+		<h1 class="logo" id="logo"></h1>
 		<form action="#" class="was-validated" name="form" id="idFindform" method="post">
 			<div class="title">아이디 찾기</div>
 			<div class="df">
@@ -172,8 +170,6 @@ input, select{
 					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
 				</div>
 				<button class="join_btn" type="button">확인</button>
-				<br>
-				<br>
 			</div>
 			<span id="mail-check-warn"></span>
 			<div>
