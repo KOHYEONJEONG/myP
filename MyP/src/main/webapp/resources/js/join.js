@@ -1,11 +1,23 @@
 $(document).ready(function () {
-   var send_num = "";
 	
+	// 로고 클릭시 메인화면으로 이동
+	 $("#logo").on("click", function() {
+	  	location.href = "home";		 
+	}); 
+	
+   	var send_num = "";
+	
+	// 회원가입 화면에서 id 유효성 체크
 	$("#id_input").keyup(function () {
 		var id = $('#id_input').val();
 		ckId(id);
 	});
 	
+	// 비밀번호 찾기 화면에서 id와 email일치 여부 확인
+	$("#id").keyup(function () {
+		var id = $('#id').val();
+		
+	});
 	
 	
    $('#mail-Check-Btn').click(function() {//인증번호 전송 버튼
@@ -32,7 +44,7 @@ $(document).ready(function () {
 		         if(word[2] == 'idFind'){
 					if(res == 'fail'){
 		            	warnMsg.html("가입되지 않은 이메일 입니다. 다시 확인 부탁드립니다.");   
-		                warnMsg.css("color","red");
+		                warnMsg.css("color","red");               
 		            } else {
 					//이메일
 					   $.ajax({
@@ -74,6 +86,22 @@ $(document).ready(function () {
 		            console.log(request.responseText);    //실패 상세 내역
 		         }
 		      }); //ajax
+		      
+		      
+		       $.ajax({
+		         type:"post",
+		         url:"idEmailChackAjax", // 메일 중복성 체크
+		         data : data,
+		         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+		         
+		     
+		         },
+		         error : function(request, status, error) {// 실패했을 때 함수 실행
+		            console.log(request.responseText);    //실패 상세 내역
+		         }
+		      }); //ajax
+		      
+		      
 	   } else {
 		   warnMsg.html("옳바르지 못한 이메일 형식입니다.");
 		   warnMsg.css("display", "inline-block");
@@ -241,9 +269,7 @@ $(document).ready(function () {
 	
 	
 	
-	 $("#idFindBtn").on("click", function() {
-	  
-	   
+	 $("#idFindBtn").on("click", function() {	   
 	   if($.trim($("#email1").val()) == "") {
 		   alert("이메일을 입력하세요.", function() {
 			   $("#email1").focus();
@@ -261,6 +287,9 @@ $(document).ready(function () {
 		$("#idFindform").submit();
 		 
 	}); //idFindBtn btn end
+	
+	
+	
 	
 }); 
 

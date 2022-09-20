@@ -22,13 +22,13 @@
    box-sizing: border-box;
 }
 .logo {
-    width: 250px;
+    width: 280px;
     height: 100px;
     background: url(resources/icons/logo8.png) no-repeat;
-    background-size: 140%;
+    background-size: 130%;
     background-position: 50%;
     position: absolute;
-    top: -70px;
+    top: -100px;
     left: 50%;
     transform: translate(-50%,-50%);
 }
@@ -146,15 +146,14 @@ input, select{
     <form class="was-validated" name="form" id="form">
         <div class="title">비밀번호 찾기</div>
         <div class="input_box">
-            <input type="text" name="id"
-                   placeholder="아이디" id="id"><br><br>
-        </div> 
+            <input type="text" name="id" placeholder="아이디" id="id_input">
+        </div>
         <div class="df">
             <div class="input_box2">
-                <input type="text" name="email" placeholder="이메일"> 
+            	<input type="text" name="email1" id="email1" placeholder="이메일">
             </div>
             <div class="a">@</div> 
-            <div class="input_box2">
+            <div class="input_box2" name="email2" id="email2">
                 <select>
                     <option>직접입력</option>
                     <option>naver.com</option>
@@ -162,13 +161,13 @@ input, select{
                     <option>hanmail.net</option>
                 </select>
             </div>
-            <button class="join_btn" type="button">인증번호<br/>전송</button><br><br>  
+            <button class="join_btn" type="button" id="mail-Check-Btn">인증번호<br/>전송</button>
         </div>
         <div class="df">
             <div class="input_box3">
-                <input type="number" name="inj" placeholder="인증번호">
+                <input type="number" name="inj" id="inj" placeholder="인증번호">
             </div>
-            <button class="join_btn" type="button">확인</button><br><br>
+            <button class="join_btn" type="button">확인</button>
         </div>
         <div>
             <button class="sign_up" type="submit" id="joinBtn">비밀번호 찾기</button>

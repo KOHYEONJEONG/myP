@@ -33,9 +33,9 @@
 
 .logo {
 	width: 280px;
-	height: 110px;
+	height: 100px;
 	background: url('resources/icons/logo8.png') no-repeat;
-	background-size: 100%;
+	background-size: 130%;
 	background-position: 50%;
 	position: absolute;
 	top: -80px;

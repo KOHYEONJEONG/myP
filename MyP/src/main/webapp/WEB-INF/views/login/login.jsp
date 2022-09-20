@@ -17,10 +17,7 @@
 
 <body>
 <div class="wrap">
-   <h1 class="logo">
-      <a href="/test2/index.html">
-      </a>
-     </h1>
+   <h1 class="logo" id="logo"></h1>
    <div class="title">로그인</div>
    <form action="#" id="actionForm" >
    <div class="input_box">
