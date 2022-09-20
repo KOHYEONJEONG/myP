@@ -124,6 +124,13 @@ public class MyPageController {
 			return mav;
 		}
 
+		
+		@RequestMapping(value ="/memParkReview")
+		public ModelAndView memParkReview(ModelAndView mav,@RequestParam HashMap<String, String> params) {
+			mav.setViewName("mypage/mypageReviewBoard");
+			return mav;
+		}
+		
 		//회원탈퇴
 		@RequestMapping(value = "/withdraw")
 		public ModelAndView withdraw(ModelAndView mav,@RequestParam HashMap<String, String> params) {
