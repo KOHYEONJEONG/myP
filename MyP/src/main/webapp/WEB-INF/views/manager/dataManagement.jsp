@@ -309,7 +309,7 @@ function drawPaging(pd) {
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchTxt").val($("#oldTxt").val());
 		
-		$("#dataForm").attr("action", "parkinfod");
+		$("#dataForm").attr("action", "parkinfodetail");
 		$("#dataForm").submit();
 	});
 	

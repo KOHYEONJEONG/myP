@@ -190,10 +190,16 @@ $(document).ready(function() {
 		reloadList();
 	});
 	
-	//수정 영역의 수정버튼
-    $("thead #updateBtn").on("click", function() {
-    	action("update");
-    });
+	//디테일로 이동 코드
+	$("tbody").on("click", "tr", function() {
+		$("#no").val($(this).attr("no"));
+		
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTxt").val($("#oldTxt").val());
+		
+		$("#infoForm").attr("action", "parkinfodetail");
+		$("#infoForm").submit();
+	});
 });
 
 </script>
