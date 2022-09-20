@@ -55,7 +55,7 @@ $(document).ready(function() {
 	});
 	
 	$("#pwFind").on("click", function(){
-		location.href = "idFind";
+		location.href = "pwFind";
 	});
 	
 	

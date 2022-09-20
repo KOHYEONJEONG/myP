@@ -8,17 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyP</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="resources/css/main.css">
    	<link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
-=======
-    <link rel="stylesheet" href="/resources/css/main.css">
-   	<link rel="stylesheet" href="/resources/css/font.css">
-    <script src="/resources/jquery/jquery-1.12.4.js"></script>
-    <script src="/resources/js/main.js"></script>
->>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 <style>
    .wrap {
    width: 490px;
@@ -36,7 +29,7 @@
     width: 250px;
     height: 100px;
     background: url(resources/icons/logo8.png) no-repeat;
-    background-size: 140%;
+    background-size: 130%;
     background-position: 50%;
     position: absolute;
     top: -80px;
@@ -162,8 +155,7 @@ input, select{
         <div class="input_box">
             <input type="password" name="password" for="password"  
                    placeholder="새 비밀번호" id="uname" required><br><br>
-        </div> 
-       
+        </div>     
             <div class="input_box">
                 <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
             </div>  

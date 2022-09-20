@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>   
+<!-- jstl의 functions : el tag 추가 옵션 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,18 +13,21 @@
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/mypage.css">
     <link rel="stylesheet" href="resources/css/font.css">
+<!-- Popup CSS -->
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/header.js"></script>
     <script src="resources/js/mypage.js"></script>
+    <script type="text/javascript" 
+		src="resources/script/jquery/jquery.form.js"></script>
+	<script type="text/javascript"
+	      src="resources/script/common/popup.js"></script> 
 </head>
     
 <body>
 	<c:import url="/header1"></c:import>
 
-		<form action="#" id="sendForm" method="post">
-			<input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
-		</form>
-    
+	<!-- nm, email과 domain을 보내줘야함. -->
           <main class="main1">
             <div class="main_wrap">
               <div class="side_bar">
@@ -34,26 +39,28 @@
             <div class="right_area">
                 <div class="bg">
                     <h2>MYPAGE</h2>
-                    <hr class="line" />
-                    <div class="top">
-						
-						<form action="fileUploadAjax" id="actionForm" method="post" enctype="multipart/form-data">
-						 <input type="hidden" id="img" name="img"/>                     
-	                       
-	                        <div class="pic_top">
-	                            <div id="imgRelod">
-		                       
-	                            </div>
-	                            <div class="filebox">
-	                                <label for="file">사진선택</label>
-	                                <input type="file" name="pic" id="pic"/>
-	                                <input type="button" id="savefile" class="savefile" value="저장"/>
-	                            </div>
-	                        </div>  
-	                        
-                        </form>
-                        
-                        <div class="mypage_top">
+                    	<div class="mypage_top">
+                    		<div class="my_pic">
+								<form action="fileUploadAjax" id="actionForm" method="post" enctype="multipart/form-data">
+								 <input type="hidden" id="img" name="img"/><!-- 올라갈 파일명 -->                     
+			                       <input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
+			                        <div class="pic_top">
+			                            <div id="imgRelod">
+				                       
+			                            </div>
+			                            <div class="filebox2">
+			                                <label for="vPic">사진선택</label> <!-- type=file에 id와 같아야함. -->
+			                                <input type="file" name="vPic" id="vPic"/>
+			                                <input type="button" id="savefile" class="savefile" value="저장"/>
+			                            </div>
+			                        </div>  
+		                        </form>
+                        	</div>
+	                        <form name="#" id="sendForm2" method="post">
+	                       		<input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
+	                       		<input type="hidden" name="nm" id="nm" value="${data.NM}">
+	                       	</form> 	
+                       	
                             <div class="my_info">
                                 <div class="info_first">
                                     <div>아이디</div>
@@ -69,7 +76,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>             
+                        
+                              
                     <!--하단 버튼's-->
                     <div class="mypage_bottom">
                         <!--bottom1-->
@@ -79,7 +87,7 @@
                         </div>
                         <!--bottom2-->
                         <div class="bottom2">
-                            <div class="my_btn1 myReview">
+                            <div class="my_btn1 myReview" id="myReview">
                                 <img class="myReviewImg" src="resources/icons/reviewmypage.png">
                                 <div class="txt">주차장리뷰</div>
                             </div>
