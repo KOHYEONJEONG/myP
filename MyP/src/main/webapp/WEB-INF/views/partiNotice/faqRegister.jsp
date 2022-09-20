@@ -103,7 +103,8 @@ $(document).ready(function () {
                         FAQ
                     </div>
                     <hr />
-                    <select name="use_time" class="select_box">
+                    <input type="hidden" name="cate_num" id="cate_num" />
+                    <select name="cate_num" class="select_box">
                         <option value="0">환경설정</option>
                         <option value="1">주차장문의</option>
                         <option value="2">이용안내</option>

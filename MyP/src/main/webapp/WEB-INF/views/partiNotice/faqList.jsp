@@ -228,7 +228,7 @@ function drawPaging(pd) {
 
 </head>
 <body>
-  <%-- <c:import url="/header1"></c:import> --%>
+<c:import url="/header1"></c:import>
 <!-- 페이징 때 기존 검색 내용 유지용 -->
 <input type="hidden" id="oldGbn" value="${param.searchGbn}" />
 <input type="hidden" id="oldTxt" value="${param.searchTxt}" />  
