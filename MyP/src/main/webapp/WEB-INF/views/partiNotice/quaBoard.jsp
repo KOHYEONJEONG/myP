@@ -164,15 +164,11 @@ function drawPaging(pd) {
             </div> 
         </div>
         
-        <div class="right_area">   
-       
-		  
-       
-        
+        <div class="right_area">  
             <div class="table_wrap">
             
             
-             <input type="hidden" id="oldGbn" value="${param.select_b}" />
+        <input type="hidden" id="oldGbn" value="${param.select_b}" />
 		<input type="hidden" id="oldTxt" value="${param.searchTxt}" />
 		
 		<form action="#" id="actionForm" method="post">

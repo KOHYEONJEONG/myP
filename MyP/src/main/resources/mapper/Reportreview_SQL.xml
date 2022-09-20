@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reportreview">
+
+<select id="reportreviewCnt" parameterType="hashmap" resultType="Integer"><!-- 숫자만 돌려주니깐 -->
+		SELECT  COUNT(*) AS CNT
+		FROM REVIEW R INNER JOIN MEMBER M
+    	ON R.MEM_NUM = M.MEM_NUM
+    	WHERE R.DEL = 1
+		<if test="searchTxt != null and searchTxt != ''">
+    <choose>
+    	<when test = "select_b eq 1">
+    		AND R.TITLE LIKE '%' || #{searchTxt} || '%'
+    	</when>
+    	
+    	<when test = "select_b eq 2">
+    		AND M.NM LIKE '%' || #{searchTxt} || '%'
+    	</when>
+    	
+    </choose>
+    
+    </if>
+ </select>   
+
+<select id="List" resultType="hashmap">
+	SELECT A.REVIEW_NUM, A.TITLE, A.NM, A.DT,
+	A.HIT, A.STS_NUM, M.CNT
+	FROM(
+	SELECT R.REVIEW_NUM,R.TITLE,M.NM,
+	R.HIT,R.STS_NUM, CASE WHEN TO_CHAR(R.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
+	    	THEN TO_CHAR(R.REG_DT, 'HH24:MI')
+	    	ELSE TO_CHAR(R.REG_DT, 'YY.MM.DD')
+	END AS DT,
+	ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNUM
+		FROM REVIEW R INNER JOIN MEMBER M
+	ON R.MEM_NUM = M.MEM_NUM
+	WHERE R.DEL =1
+	<if test="searchTxt != null and searchTxt != ''">
+    <choose>
+    	<when test = "select_b eq 1">
+    		AND R.TITLE LIKE '%' || #{searchTxt} || '%'
+    	</when>
+    	
+    	<when test = "select_b eq 2">
+    		AND M.NM LIKE '%' || #{searchTxt} || '%'
+    	</when>
+    	
+    </choose>
+    
+    </if>
+    ) A INNER JOIN (SELECT REVIEW_NUM, COUNT(*) AS CNT 
+	FROM REPORT  GROUP BY REVIEW_NUM) 
+	M ON A.REVIEW_NUM = M.REVIEW_NUM
+		WHERE A.RNUM BETWEEN #{start} AND #{end}
+</select>
+
+<select id="getreportReview" resultType="hashmap" parameterType="hashmap">
+		SELECT A.REVIEW_NUM, A.TITLE, A.NM, A.DT,A.CON,A.SYSTEM,A.SYSTEM2,
+	A.HIT, A.STS_NUM, M.CNT
+	FROM(
+	SELECT R.REVIEW_NUM,R.TITLE,M.NM,R.CON,(R.CCTV_STAR_SCORE + R.ENV_STAR_SCORE) / 2 AS SYSTEM,
+	(R.FEE_STAR_SCORE + R.DIS_STAR_SCORE) / 2 AS SYSTEM2,
+	R.HIT,R.STS_NUM, CASE WHEN TO_CHAR(R.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
+	    	THEN TO_CHAR(R.REG_DT, 'HH24:MI')
+	    	ELSE TO_CHAR(R.REG_DT, 'YY.MM.DD')
+	END AS DT,
+	ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNUM
+		FROM REVIEW R INNER JOIN MEMBER M
+	ON R.MEM_NUM = M.MEM_NUM
+	WHERE R.DEL =1)A INNER JOIN (SELECT REVIEW_NUM, COUNT(*) AS CNT 
+	FROM REPORT  GROUP BY REVIEW_NUM) 
+	M ON A.REVIEW_NUM = M.REVIEW_NUM
+	WHERE A.REVIEW_NUM = #{no}
+</select>
+
+</mapper>
