@@ -52,6 +52,9 @@
 	} else {
 		$("#oldGbn").val("0");
 	}
+	
+	// 목록 조회
+	reloadList();
 
 	// 카테고리 설정
 	if("${param.no}" != "") {
@@ -168,16 +171,15 @@ function drawList(list) {
 
     html +="<div class=\"accordion_con on\">";                               
     html +="  <div id=\"accordion_con\"> ";                               
-	for(var data of list){
-				                                                         
+	for(var data of list){				                                                         
     html +="    <h3>" + data.QUE + "</h3>     ";
+	html +="    <div class=\"btn_wrap1\">                         ";                               
+	html +="      <p>" + data.ANSWER_CON + "</p>     "; 
     if("${sMemAuto}" == 1){
-	    html +="    <div class=\"btn_wrap1\">                         ";                               
-	    html +="      <p>" + data.ANSWER_CON + "</p>     "; 
 	    html +="<div class=\"btn update\" id=\"updateBtn\">수정</div>";
 	    html +="<div class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
-	    html +="    </div>    ";       
-    	}
+    }
+    html +="    </div>    ";       	   
 	}                                                                          
     html +="  </div>";                               
     html +="</div>";                               
@@ -229,9 +231,7 @@ function drawPaging(pd) {
 </head>
 <body>
 <c:import url="/header1"></c:import>
-<!-- 페이징 때 기존 검색 내용 유지용 -->
-<input type="hidden" id="oldGbn" value="${param.searchGbn}" />
-<input type="hidden" id="oldTxt" value="${param.searchTxt}" />  
+<!-- 페이징 때 기존 검색 내용 유지용 --> 
       <main>
         <div class="main_wrap">
             <div class="side_bar">
@@ -244,28 +244,29 @@ function drawPaging(pd) {
             </div>
             <div class="right_area">            
                 <div class="table_wrap">
+                
+            <input type="hidden" id="oldGbn" value="${param.searchGbn}" />
+			<input type="hidden" id="oldTxt" value="${param.searchTxt}" /> 
                 <form action="#" id="actionForm" method="post">
                   <div class="search_box">
+                  <input type="hidden" id="oldGbn" value="0" />
+				  <input type="hidden" id="oldTxt" />
+                  <input type="hidden" name="no" id="no" />   
+                  <input type="hidden" name="page" id="page" value="${page}" />
                     <div class="select">
-                    <input type="hidden" name="no" id="no" />	
-					<input type="hidden" name="page" id="page" value="${page}" />
                         <select name="searchGbn" id="searchGbn" >
                           <option value="0">제목</option>
                           <option value="1">내용</option>
                       </select>
                      <!--조건선택-->
-                    </div>                   
-						<input type="hidden" name="no" id="no" />
-						<input type="hidden" name="page" id="page" value="${page}"/>
+                    </div>                   						
                     <div class="search_form">
                       <input type="text" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
                     </div>  
-                    <div class="search_btn" id="searchBtn">
-                      검색
-                    </div>                               
+                    <div class="search_btn" id="searchBtn">검색</div>                               
                   </div>
                   <div class="accordion">   
-                    <div class="tap_wrap" name="cateNo" id="cateNo">
+                    <div class="tap_wrap" name="faq_num" id="faq_num">
                        <div class="tap t1 on">
                            <div class="img_wrap">
                                <div class="img"></div> 

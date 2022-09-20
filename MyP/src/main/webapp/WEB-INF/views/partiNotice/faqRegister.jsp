@@ -87,7 +87,7 @@ $(document).ready(function () {
       <input type="hidden" name="page" value="${param.page}" />
 	  <input type="hidden" name="searchGbn" value="${param.searchGbn}"/>
 	  <input type="hidden" name="searchText" value="${param.searchText}"/>
-
+	  <input type="hidden" name="mem_num" value="${sMemNo}"/>
         <div class="main_wrap">
             <div class="side_bar">
                 <div class="title">참여/알림</div>
@@ -102,12 +102,11 @@ $(document).ready(function () {
                     <div class="title">
                         FAQ
                     </div>
-                    <hr />
-                    <input type="hidden" name="cate_num" id="cate_num" />
-                    <select name="cate_num" class="select_box">
-                        <option value="0">환경설정</option>
-                        <option value="1">주차장문의</option>
-                        <option value="2">이용안내</option>
+                    <hr />            
+                    <select name="cate_num" class="select_box" id="cate_num">
+                        <option value="1">환경설정</option>
+                        <option value="2">주차장문의</option>
+                        <option value="3">이용안내</option>
                       </select>
                     <hr />
                     <input type="text" class="input_box" id="que" name="que" placeholder="제목을 입력하세요">

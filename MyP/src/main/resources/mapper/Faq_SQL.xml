@@ -12,10 +12,10 @@
              <if test="searchTxt != null and searchTxt != ''">
 				<choose>
 					<when test="searchGbn eq 0">
-						AND QUE '%' || #{searchTxt} || '%'
+						AND QUE LIKE '%' || #{searchTxt} || '%'
 					</when>
 					<when test="searchGbn eq 1">
-						AND ANSWER_CON '%' || #{searchTxt} || '%'
+						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
 					</when>
 				</choose>		
 			</if>
@@ -32,10 +32,10 @@
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
 				<when test="searchGbn eq 0">
-					AND QUE '%' || #{searchTxt} || '%'
+					AND QUE LIKE '%' || #{searchTxt} || '%'
 				</when>
 				<when test="searchGbn eq 1">
-					AND ANSWER_CON '%' || #{searchTxt} || '%'
+					AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
 				</when>
 			</choose>		
 		</if>
