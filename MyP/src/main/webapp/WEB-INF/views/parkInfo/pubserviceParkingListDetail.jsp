@@ -8,7 +8,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyP</title>
+<link rel="stylesheet" type="text/css" href="resources/css/common/cmn.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
 <link rel="stylesheet" href="resources/css/main.css">
+<script type="text/javascript"
+      src="resources/script/jquery/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <style>
@@ -66,12 +70,39 @@ justify-content: space-between;
 padding: 0 50px;
 box-sizing: border-box;
 }
+.btn_wrap1{
+ display: flex;
+ justify-content: flex-end;
+}
 
+.btn {
+ width: 70px;
+ height: 35px;
+ font-size: 14px;
+ color: #fff;
+ cursor: pointer;
+ box-sizing: border-box;
+ line-height: 35px;
+ text-align: center;
+}
+
+.update {
+ margin: 0px 8px 0px 0px;
+ background: #FD9A29;
+ border: solid 1px #FD9A29;
+ margin-left:5px;
+}
+
+.delete {
+  background: #00af80;
+  border: solid 1px #00af80;
+}
 </style>
 </head>
 <body>
     <c:import url="/header1"></c:import>
     <main>
+    
     <div class="main_wrap">
         <div class="side_bar">
         <div class="title">주차장 안내</div>
@@ -79,8 +110,13 @@ box-sizing: border-box;
             <div class="on">공영 주차장 조회</div>
         </div> 
     </div>
+    
     <div class="right_area">   
         <div class="rigth_contents">
+        	<div class="btn_wrap1">
+        <div class="btn delete" id="deleteBtn">삭제</div>
+		<div class="btn update" id="updateBtn">수정</div>
+		</div>
             <table>
                 <thead>
                 <tr>
@@ -142,13 +178,14 @@ box-sizing: border-box;
                 </tr>
                 </tbody>
                 </table>
+                
     </div>
+    
     </div>
+
 </div>
 </main>
 <c:import url="/footer"></c:import>
-<script src="./jquery/jquery-1.12.4.js"></script>
-<script src="./js/main.js"></script>
 <script type="text/javascript">
 var context = document
     .getElementById('myChart')

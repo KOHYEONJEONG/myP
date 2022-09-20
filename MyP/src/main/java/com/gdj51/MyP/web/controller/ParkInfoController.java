@@ -47,24 +47,9 @@ public class ParkInfoController {
 	}
 	
 	@RequestMapping(value = "/parkinfodetail")
-	public ModelAndView parkinfodetail(@RequestParam HashMap<String, String> params,
-			ModelAndView mav) throws Throwable{
-		if(params.get("no") != null && params.get("no") != "") {
-			
-			HashMap<String, String> data
-			= dao.getMapData("info.getinfo", params);
-			
-			mav.addObject("data", data);
-			
-			mav.setViewName("parkInfo/pubserviceParkingListDetail");
-			
-			mav.setViewName("parkInfo/pubserviceParkingListDetail");
-		} else {
-			mav.setViewName("redirect:parkinfo");
-		}
-		
+	public ModelAndView parkinfod(ModelAndView mav) {
+		mav.setViewName("parkInfo/pubserviceParkingListDetail");
 		return mav;
-		
 	}
 	
 	//관리자 페이지 데이터관리 리스트화면
@@ -130,6 +115,7 @@ public class ParkInfoController {
 			}
 			return mapper.writeValueAsString(model);
 		}
+		
 		
 
 }

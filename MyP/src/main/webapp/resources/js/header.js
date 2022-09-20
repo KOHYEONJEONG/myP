@@ -1,6 +1,7 @@
 $(document).ready(function () {
-	
-	img1Relod();
+	if($("#hno").val() != null && $("#hno").val() != ""){
+		img1Relod();
+	}
 	
 	// 헤더
 	// 로그인 아이콘 클릭시, 마이페이지, 로그아웃

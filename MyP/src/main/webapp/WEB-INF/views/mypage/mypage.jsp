@@ -16,12 +16,9 @@
 <!-- Popup CSS -->
 <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
     <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/header.js"></script>
     <script src="resources/js/mypage.js"></script>
-    <script type="text/javascript" 
-		src="resources/script/jquery/jquery.form.js"></script>
-	<script type="text/javascript"
-	      src="resources/script/common/popup.js"></script> 
+    <script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
+	<script type="text/javascript" src="resources/script/common/popup.js"></script> 
 </head>
     
 <body>
@@ -56,11 +53,8 @@
 			                        </div>  
 		                        </form>
                         	</div>
-<<<<<<< HEAD
-=======
-	                        <form name="#" id="sendForm2" method="post">
-	                       		<input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
->>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
+	                        <form name="#" id="sendForm" method="post">
+	                       		<input type="hidden" name="hno" id="hno" value="${data.MEM_NUM}"/>
 	                       		<input type="hidden" name="nm" id="nm" value="${data.NM}">
 	                       	</form> 	
                        	
