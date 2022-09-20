@@ -113,7 +113,7 @@
  	 </script>
 </head>
 <body>
-    <c:import url="/header1"></c:import>
+    <%-- <c:import url="/header1"></c:import> --%>
       <main class="main1">
       <form action="#" id="backForm" method="post">
 	

@@ -130,7 +130,7 @@ $(document).ready(function() {
 
 </head>
 <body>
-<c:import url="/header1"></c:import>
+<%-- <c:import url="/header1"></c:import> --%>
       <main>
         <div class="main_wrap">
           <div class="side_bar">
