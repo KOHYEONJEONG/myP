@@ -143,13 +143,11 @@ input, select{
 }
 
 </style>
-<script>
-    
-</script>
 </head>
 <body>
+<input type="hidden" name="email" id="email" value="${param.email}"/>
     <div class="wrap">
-        <h1 class="logo"></h1>
+   	<h1 class="logo"></h1>
    <form class="was-validated" name="form" id="form">
         <div class="title">비밀번호 변경</div>
         <div class="input_box">

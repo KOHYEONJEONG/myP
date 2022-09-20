@@ -59,9 +59,7 @@
 			<div class="df">
 				<div class="input_box2">
 					<input type="text" name="account" id="account">
-
 				</div>
-
 				<div class="a">@</div>
 				<div class="input_box2">
 					<select class="form-control" name="domain" id="domain">

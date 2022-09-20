@@ -143,7 +143,7 @@ input, select{
 <body>
 	<div class="wrap">
 		<h1 class="logo" id="logo"></h1>
-		<form action="#" class="was-validated" name="form" id="idFindform" method="post">
+		<form action="#" class="was-validated" id="idFindform" method="post">
 			<div class="title">아이디 찾기</div>
 			<div class="df">
 				<input type="hidden" name="email" id="email" value=""/>

@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>
-    <!-- <script src="resources/js/header.js"></script> -->
     <style>
 /* .search_form1 {
   width: 200px;
@@ -190,10 +189,16 @@ $(document).ready(function() {
 		reloadList();
 	});
 	
-	//수정 영역의 수정버튼
-    $("thead #updateBtn").on("click", function() {
-    	action("update");
-    });
+	//디테일로 이동 코드
+	$("tbody").on("click", "tr", function() {
+		$("#no").val($(this).attr("no"));
+		
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTxt").val($("#oldTxt").val());
+		
+		$("#infoForm").attr("action", "parkinfodetail");
+		$("#infoForm").submit();
+	});
 });
 
 </script>

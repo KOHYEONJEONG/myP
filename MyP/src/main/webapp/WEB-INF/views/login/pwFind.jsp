@@ -145,7 +145,7 @@ input, select{
 <body>
     <div class="wrap">
         <h1 class="logo"></h1>
-    <form class="was-validated" name="form" id="form">
+    <form class="was-validated" id="pwFindform" method="post">
         <div class="title">비밀번호 찾기</div>
         <div class="input_box">
             <input type="text" name="id" placeholder="아이디" id="id">
