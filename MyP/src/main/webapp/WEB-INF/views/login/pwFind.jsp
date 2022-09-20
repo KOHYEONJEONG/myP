@@ -139,28 +139,6 @@ input, select{
 }
 
 </style>
-<script>
-window.onload = function(){
-   document.getElementById("send");
-   send.addEventListener("click",function(){
-      var frm = document.form;
-            
-      if(frm.uname.value.trim().length<=6)
-      {
-         alert("아이디를 6글자이상 입력해주세요");
-         return false(); 
-      }
-          
-      if(frm.pwd.value.trim().length<=8)
-      {
-         alert("비밀번호를 8글자이상 입력해주세요");
-         return false(); 
-      }
-      
-      frm.submit();
-   })
-}       
-</script>
 </head>
 <body>
     <div class="wrap">
@@ -168,12 +146,12 @@ window.onload = function(){
     <form class="was-validated" name="form" id="form">
         <div class="title">비밀번호 찾기</div>
         <div class="input_box">
-            <input type="text" name="uname" for="uname"  
-                   placeholder="아이디" id="uname" required><br><br>
+            <input type="text" name="id"
+                   placeholder="아이디" id="id"><br><br>
         </div> 
         <div class="df">
             <div class="input_box2">
-                <input  type="text" name="email" placeholder="이메일"> 
+                <input type="text" name="email" placeholder="이메일"> 
             </div>
             <div class="a">@</div> 
             <div class="input_box2">
@@ -188,7 +166,7 @@ window.onload = function(){
         </div>
         <div class="df">
             <div class="input_box3">
-                <input type="inj" name="inj" placeholder="인증번호">
+                <input type="number" name="inj" placeholder="인증번호">
             </div>
             <button class="join_btn" type="button">확인</button><br><br>
         </div>

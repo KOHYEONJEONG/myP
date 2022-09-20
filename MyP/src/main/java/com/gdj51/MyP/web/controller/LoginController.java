@@ -81,11 +81,6 @@ public class LoginController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/idFindResult")
-	public ModelAndView idFindFesult(ModelAndView mav) {
-		mav.setViewName("login/idFindResult");
-		return mav;
-	}
 
 	@RequestMapping(value = "/pwChange")
 	public ModelAndView pwChange(ModelAndView mav) {
@@ -96,6 +91,25 @@ public class LoginController {
 	@RequestMapping(value = "/pwFind")
 	public ModelAndView pwFind(ModelAndView mav) {
 		mav.setViewName("login/pwFind");
+		return mav;
+	}
+	
+	// 가져오고 변경되는게 없기 때문에 비동기 처리 X
+	@RequestMapping(value = "/idFindResult")
+	public ModelAndView idFindResult(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		
+		
+		if (params.get("email") != null && params.get("email") != "") {
+			
+			HashMap<String, String> data = iACDao.getMapData("join.getId", params);
+
+			mav.addObject("data", data);
+
+			mav.setViewName("login/idFindResult");
+		} else {
+			mav.setViewName("redirect:idFind");
+		}		
+
 		return mav;
 	}
 
