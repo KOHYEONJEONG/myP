@@ -9,7 +9,7 @@
 	
 	<!-- 아이디 찾기jsp에서 메일로 아이디 찾기 --> 
 	<select id="getId" parameterType="hashmap"  resultType="hashmap">
-		SELECT ID, PW FROM MEMBER WHERE EMAIL = #{email}
+		SELECT ID FROM MEMBER WHERE EMAIL = #{email}
 	</select>
 	<!--  이메일 중복 체크 --> 
 	<select id="emailCheck" resultType="int" parameterType="hashmap">

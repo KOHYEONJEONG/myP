@@ -126,7 +126,7 @@ input, select{
     cursor: pointer;
 }
 
-#joinBtn{
+#pwFindBtn{
     margin-top: 15px;
    height: 60px;
     border: solid 1px #00af80;
