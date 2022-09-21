@@ -60,9 +60,9 @@
 	if("${param.no}" != "") {
 		$("#no").val("${param.no}");
 	} else {
-		$('.tap.t2').addClass('on');
-        $('.tap.t2').siblings().removeClass('on');
-		$("#no").val("2");
+		$('.tap.t1').addClass('on');
+        $('.tap.t1').siblings().removeClass('on');
+		$("#no").val("1");
 	}
 	
 	// 목록 조회
@@ -130,7 +130,7 @@
 		$("#page").val($(this).attr("page"));
 		//기존 값 유지
 		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchText").val($("#oldText").val());
+		$("#searchTxt").val($("#oldTxt").val());
 		
 		reloadList();
 	});
@@ -145,6 +145,12 @@
       $("#actionForm").attr("action", "FaqInsert");
       $("#actionForm").submit();      
    });
+   
+	// 업데이트 버튼
+    $("#updateBtn").on("click", function () {
+		$("#backForm").attr("action","faqUpdate");
+		$("#backForm").submit();
+	});
 });
 
 
@@ -266,24 +272,24 @@ function drawPaging(pd) {
                     <div class="search_btn" id="searchBtn">검색</div>                               
                   </div>
                   <div class="accordion">   
-                    <div class="tap_wrap" name="faq_num" id="faq_num">
-                       <div class="tap t1 on">
+                    <div class="tap_wrap">
+                       <div class="tap t1 on" value="1" name="faq_num" id="faq_num">
                            <div class="img_wrap">
                                <div class="img"></div> 
                            </div>
-                           <div class="tap_txt" value="${data.FAQ_NUM}">환경설정</div>
+                           <div class="tap_txt">환경설정</div>
                        </div>
-                       <div class="tap t2">
+                       <div class="tap t2" value="2" name="faq_num" id="faq_num">
                            <div class="img_wrap">
                                <div class="img"></div> 
                            </div>
-                           <div class="tap_txt" value="${data.FAQ_NUM}">주차장 문의</div>
+                           <div class="tap_txt">주차장 문의</div>
                        </div>
-                       <div class="tap t3">
+                       <div class="tap t3" value="3" name="faq_num" id="faq_num">
                            <div class="img_wrap">
                                <div class="img"></div> 
                            </div>
-                           <div class="tap_txt" value="${data.FAQ_NUM}">이용안내</div>
+                           <div class="tap_txt">이용안내</div>
                        </div>
                     </div> <!-- tab wrap end -->
                        <c:if test="${sMemAuto == 1}"><!-- 관리자로 로그인해야 글쓰기 보임 -->

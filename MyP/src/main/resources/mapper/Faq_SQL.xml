@@ -9,7 +9,8 @@
              ON F.CATE_NUM = C.CATE_NUM
              WHERE F.DEL = 1 AND C.DEL = 1
              AND F.CATE_NUM = #{no}
-             <if test="searchTxt != null and searchTxt != ''">
+			<if test="faq_num == 1">
+			<if test="searchTxt != null and searchTxt != ''">
 				<choose>
 					<when test="searchGbn eq 0">
 						AND QUE LIKE '%' || #{searchTxt} || '%'
@@ -18,6 +19,31 @@
 						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
 					</when>
 				</choose>		
+			</if>
+			</if>
+			<if test="faq_num == 2">
+			<if test="searchTxt != null and searchTxt != ''">
+				<choose>
+					<when test="searchGbn eq 0">
+						AND QUE LIKE '%' || #{searchTxt} || '%'
+					</when>
+					<when test="searchGbn eq 1">
+						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
+					</when>
+				</choose>		
+			</if>
+			</if>
+			<if test="faq_num == 3">
+			<if test="searchTxt != null and searchTxt != ''">
+				<choose>
+					<when test="searchGbn eq 0">
+						AND QUE LIKE '%' || #{searchTxt} || '%'
+					</when>
+					<when test="searchGbn eq 1">
+						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
+					</when>
+				</choose>		
+			</if>
 			</if>
 			) A
 			WHERE A.RNK BETWEEN #{start} AND #{end} 
@@ -29,20 +55,58 @@
 		ON F.CATE_NUM = C.CATE_NUM
 		WHERE F.DEL = 1 AND C.DEL = 1
 		AND F.CATE_NUM = #{no}
+		<if test="faq_num == 1">
 		<if test="searchTxt != null and searchTxt != ''">
-			<choose>
-				<when test="searchGbn eq 0">
-					AND QUE LIKE '%' || #{searchTxt} || '%'
-				</when>
-				<when test="searchGbn eq 1">
-					AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
-				</when>
-			</choose>		
-		</if>
+				<choose>
+					<when test="searchGbn eq 0">
+						AND QUE LIKE '%' || #{searchTxt} || '%'
+					</when>
+					<when test="searchGbn eq 1">
+						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
+					</when>
+				</choose>		
+			</if>
+			</if>
+			<if test="faq_num == 2">
+			<if test="searchTxt != null and searchTxt != ''">
+				<choose>
+					<when test="searchGbn eq 0">
+						AND QUE LIKE '%' || #{searchTxt} || '%'
+					</when>
+					<when test="searchGbn eq 1">
+						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
+					</when>
+				</choose>		
+			</if>
+			</if>
+			<if test="faq_num == 3">
+			<if test="searchTxt != null and searchTxt != ''">
+				<choose>
+					<when test="searchGbn eq 0">
+						AND QUE LIKE '%' || #{searchTxt} || '%'
+					</when>
+					<when test="searchGbn eq 1">
+						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
+					</when>
+				</choose>		
+			</if>
+			</if>
 	</select>
 	
 	<insert id="insertFaq" parameterType="hashmap">
 	 	INSERT INTO FAQ(FAQ_NUM, CATE_NUM, MEM_NUM, QUE, ANSWER_CON)
 		VALUES(FAQ_SEQ.NEXTVAL, #{cate_num}, #{mem_num}, #{que}, #{con})
 	</insert>
+	
+	<update id="deleteFaq" parameterType="hashmap">
+		UPDATE FAQ SET DEL = 0
+		WHERE FAQ_NUM = #{no}
+	</update> 
+	
+	<update id="updateFaq" parameterType="hashmap">
+		UPDATE FAQ SET CATE_NUM = #{cate_num},
+		               QUE = #{que},
+		               ANSWER_CON = #{con}
+		               WHERE FAQ_NUM = 7
+	</update>
 </mapper>

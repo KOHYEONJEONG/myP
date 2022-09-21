@@ -210,7 +210,7 @@ public class PartiNoticeController {
 				cnt = dao.update("faq.updateFaq", params);
 				break;
 			case "delete":
-				cnt = dao.delete("faq.deleteFaq", params);
+				cnt = dao.update("faq.deleteFaq", params);
 				break;
 			}
 
@@ -225,6 +225,22 @@ public class PartiNoticeController {
 		}
 
 		return mapper.writeValueAsString(model);
+	}
+	
+	@RequestMapping(value = "/faqUpdate")
+	public ModelAndView faqUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		// 글번호 안 넘어왔을때 처리
+		if (params.get("no") != null && params.get("no") != "") {
+			HashMap<String, String> data = dao.getMapData("faq.updateFaq", params);
+
+			mav.addObject("data", data);
+
+			mav.setViewName("partiNotice/faqUpdate");
+		} else {
+			mav.setViewName("redirect:faqList");
+		}
+
+		return mav;
 	}
 	
 	
