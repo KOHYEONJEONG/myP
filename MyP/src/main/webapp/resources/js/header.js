@@ -3,6 +3,8 @@ $(document).ready(function () {
 		img1Relod();
 	}
 	
+	notireload();
+	
 	// 헤더
 	// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
    if($(".login_comment").hasClass("on")){
@@ -122,12 +124,52 @@ $(document).ready(function () {
 	$("#managerPage").click(function(){
 		location.href = "memManagement"; //수정해야함.
 	});
+	
 });
-    
+
+function notireload() {
+	var params = $("#headerNotiForm").serialize();
+	
+	$.ajax({
+		url : "hnoticeList",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) { 
+			console.log(res)
+			notidraw(res.list);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); 
+	
+}
+
+ function notidraw(list) {
+		var html = "";
+		
+		for(var data of list){
+			html +="<div class=\"swiper-slide\">" + data.TITLE+ "</div>"
+		}
+		
+		$(".swiper-container1 .swiper-wrapper").html(html);
+		
+		
+	const mySwiper = new Swiper('.swiper-container1', {
+		   direction: "vertical",
+		  autoplay: {
+		    delay: 2000,
+		    disableOnInteraction: true // 쓸어 넘기거나 버튼 클릭 시 자동 슬라이드 정지.
+		  },
+		  loop: true
+		})
+
+	}
     
 //사진 영역만 비동기화
 function img1Relod() {
-	var params = $("#sendForm").serialize();
+	var params = $("#headerForm").serialize();
 	$.ajax({
 		url : "memImgAjax",
 		type : "POST", 

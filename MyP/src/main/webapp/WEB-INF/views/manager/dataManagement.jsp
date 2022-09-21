@@ -398,17 +398,19 @@ function drawPaging(pd) {
 				<col width="100" />
 				<col width="250" />
 			</colgroup>
+			
                 <thead>
-                 
                 </thead>
+                
                 <tbody>
-                  
                 </tbody>
               </table>
+              
                 <!--페이징-->
                 <div class="page_wrap">
-                      <div class="page_nation"></div>
-                   </div>
+                   <div class="page_nation"></div>
+                </div>
+                
             </div>
           </div>
         </div>

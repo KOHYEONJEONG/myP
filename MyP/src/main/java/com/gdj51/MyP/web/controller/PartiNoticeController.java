@@ -50,6 +50,22 @@ public class PartiNoticeController {
 	}
 
 	// 공지사항 메뉴 리스트
+		@RequestMapping(value = "/hnoticeList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+		@ResponseBody
+		public String hnoticeListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> model = new HashMap<String, Object>();
+
+
+			List<HashMap<String, String>> list = dao.getList("noti.hgetNoticeList");
+
+			model.put("list", list);
+
+			return mapper.writeValueAsString(model);
+		}
+
+		
+	// 공지사항 메뉴 리스트
 	@RequestMapping(value = "/noticeList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String noticeListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -183,6 +199,64 @@ public class PartiNoticeController {
 		model.put("pd", pd);
 		
 		return mapper.writeValueAsString(model);
+	}
+	
+	@RequestMapping(value = "/FaqInsert")
+	public ModelAndView FaqRegister(@RequestParam HashMap<String, String> params, ModelAndView mav) {
+
+		mav.setViewName("partiNotice/faqRegister");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/faqAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String faqAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		int cnt = 0;
+
+		try {
+			switch (gbn) {
+			case "insert":
+				cnt = dao.insert("faq.insertFaq", params);
+				break;
+			case "update":
+				cnt = dao.update("faq.updateFaq", params);
+				break;
+			case "delete":
+				cnt = dao.update("faq.deleteFaq", params);
+				break;
+			}
+
+			if (cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
+
+		return mapper.writeValueAsString(model);
+	}
+	
+	@RequestMapping(value = "/faqUpdate")
+	public ModelAndView faqUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		// 글번호 안 넘어왔을때 처리
+		if (params.get("no") != null && params.get("no") != "") {
+			HashMap<String, String> data = dao.getMapData("faq.updateFaq", params);
+
+			mav.addObject("data", data);
+
+			mav.setViewName("partiNotice/faqUpdate");
+		} else {
+			mav.setViewName("redirect:faqList");
+		}
+
+		return mav;
 	}
 	
 	

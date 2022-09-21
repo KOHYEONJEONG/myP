@@ -79,7 +79,7 @@ $(document).ready(function(){
                     '</div>' +
                     '</div>' +
                 '</div>';
-                $('.swiper-wrapper').append(bottomHtml);  
+                $('.mySwiper .swiper-wrapper').append(bottomHtml);  
             }
             
     }

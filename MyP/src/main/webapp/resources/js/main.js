@@ -32,26 +32,6 @@ $(document).ready(function () {
     //     $('.right_area').css({"width" : "100%"});
     // })
 
-    // 참여/알림 메뉴 FAQ에서 버튼 클릭시 하단 아코디언 변경
-    $(".tap.t1").click(function () {
-        $('.tap.t1').addClass('on');
-        $('.tap.t1').siblings().removeClass('on');  
-        $('.setting_accordion').addClass('on');
-        $('.setting_accordion').siblings().removeClass('on');  
-    })
-    $(".tap.t2").click(function () {
-        $('.tap.t2').addClass('on');
-        $('.tap.t2').siblings().removeClass('on');  
-        $('.question_accordion').addClass('on');
-        $('.question_accordion').siblings().removeClass('on');  
-    })
-    $(".tap.t3").click(function () {
-        $('.tap.t3').addClass('on');
-        $('.tap.t3').siblings().removeClass('on');  
-        $('.guide_accordion').addClass('on');
-        $('.guide_accordion').siblings().removeClass('on');  
-    })
-
     $(".review_btn").click(function () {
         document.getElementById("review_popup").style.display = "block";
         $('main').css({"opacity" : "0.5","pointer-events":"none"});

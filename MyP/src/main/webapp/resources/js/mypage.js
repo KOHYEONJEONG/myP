@@ -80,6 +80,7 @@ $(document).ready(function () {
 	});
 	
 	$("#myReview").on("click", function(){
+		
 		$("#sendForm").attr("action", "mypageReviewBoard");
         $("#sendForm").submit();  
 	});
@@ -88,7 +89,7 @@ $(document).ready(function () {
 
 //사진 영역만 비동기화
 function imgRelod() {
-	var params = $("#sendForm").serialize();
+	var params = $("#headerForm").serialize();
 	$.ajax({
 		url : "memImgAjax",
 		type : "POST", 

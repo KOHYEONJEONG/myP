@@ -40,7 +40,7 @@
                     		<div class="my_pic">
 								<form action="fileUploadAjax" id="actionForm" method="post" enctype="multipart/form-data">
 								 <input type="hidden" id="img" name="img"/><!-- 올라갈 파일명 -->                     
-			                       <input type="hidden" name="mem_num" id="mem_num" value="${data.MEM_NUM}"/>
+			                       <input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
 			                        <div class="pic_top">
 			                            <div id="imgRelod">
 				                       
@@ -54,7 +54,7 @@
 		                        </form>
                         	</div>
 	                        <form name="#" id="sendForm" method="post">
-	                       		<input type="hidden" name="mem_num" id="mem_num" value="${data.MEM_NUM}"/>
+	                       		<input type="hidden" name="no" id="no" value="${sMemNo}"/>
 	                       		<input type="hidden" name="nm" id="nm" value="${data.NM}">
 	                       	</form> 	
                        	
