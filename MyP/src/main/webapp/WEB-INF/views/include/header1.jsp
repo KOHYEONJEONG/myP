@@ -9,7 +9,7 @@
 <script src="resources/js/header.js"></script>
 </head>
 <body>
-	<form action="#" id="sendForm">
+	<form action="#" id="headerForm">
 		<input type="hidden" name="mem_num" id="mem_num" value="${sMemNo}">
 	</form>
  <header>

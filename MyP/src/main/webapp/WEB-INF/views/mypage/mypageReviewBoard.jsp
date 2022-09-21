@@ -41,17 +41,15 @@
    		});
     	
     	//행을 누르면 상세보기로 이동~
-    	$(".tbody").on("click", "tr", function() {
-    	      //Ajax
-    	      // 성공 시 #autority_popup에 html넣기
-    	      $("#review_num").val($(this).attr("no"));
+   		$("tbody").on("click", "tr", function() {
+   		      $("#review_num").val($(this).attr("no"));
+   			  $("#actionForm").attr("action","myReviewDetail");
+   			  $("#actionForm").submit();
+   		   });
     	     
-    	   });
-    	
-    	//myReviewDetail 이동
-    	
-    	
 	});
+    
+    
     function reloadList() {
 		//mypageReviewBoard
 		 var params = $("#actionForm").serialize();
@@ -136,11 +134,11 @@
         </div>
         
         <form name="#" id="actionForm" method="post">
-        <input type="hidden" id="oldGbn" value="0" />
-		<input type="hidden" id="oldText" />
-        <input type="hidden" id="review_num" name="review_num" /><!-- 해당 글 리뷰 번호 -->
-		<input type="hidden" name="page" id="page" value="1" />
- 		<input type="hidden" name="mem_num" id="mem_num" value="${param.mem_num}"/><!-- 나의 no-->
+	        <input type="hidden" id="oldGbn" value="0" />
+			<input type="hidden" id="oldText" />
+	        <input type="hidden" id="review_num" name="review_num"/><!-- 해당 글 리뷰 번호 -->
+			<input type="hidden" name="page" id="page" value="1" />
+	 		<input type="hidden" name="no" id="no" value="${sMemNo}"/><!-- 나의 no-->
 	       <div class="right_area">
 	           <div class="table_wrap">
 	               <div class="search_box">

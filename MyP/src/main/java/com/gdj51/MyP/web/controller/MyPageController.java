@@ -20,7 +20,7 @@ import com.gdj51.MyP.common.service.IPagingService;
 import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
-public class MyPageController { //no(변경전) -> mem_num(변경후)
+public class MyPageController { //no
 
 	@Autowired
 	public IACDao dao;
@@ -34,7 +34,7 @@ public class MyPageController { //no(변경전) -> mem_num(변경후)
 
 		HashMap<String, String> params = new HashMap<String, String>();
 		String no = String.valueOf(session.getAttribute("sMemNo"));// toString() x
-		params.put("mem_num", no);
+		params.put("no", no);
 		HashMap<String, String> data = dao.getMapData("member.getMember", params);
 
 		mav.addObject("data", data);
@@ -51,7 +51,8 @@ public class MyPageController { //no(변경전) -> mem_num(변경후)
 		
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
-		HashMap<String, String> data = dao.getMapData("member.getMember", params);
+		
+		HashMap<String, String> data = dao.getMapData("member.getMemberImg", params);
 		model.put("data", data);
 		return mapper.writeValueAsString(model);// jsp에서 img만 받으면 됌.
 	}
@@ -164,7 +165,8 @@ public class MyPageController { //no(변경전) -> mem_num(변경후)
 		System.out.println("myReviewDetail : " + params.toString());
 	
 		//review_num <--넘겨받음
-		 HashMap<String, String> data = dao.getMapData("memger.getMyReview",params);
+		HashMap<String, String> data = dao.getMapData("member.getMyReview",params);
+		mav.addObject("data",data);
 		
 		mav.setViewName("mypage/myReviewDetail");
 		return mav;

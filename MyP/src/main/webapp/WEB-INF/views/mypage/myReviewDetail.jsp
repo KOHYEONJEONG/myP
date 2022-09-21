@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script src="resources/js/main.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script> <!-- 별 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css"><!-- 별 -->
 <style>
 .rigth_contents {
 	width: 900px;
@@ -92,12 +94,14 @@ td.money>div {
 	background: #00af80;
 	border: solid 1px #00af80;
 }
+td.con{
+	background-color: #fff;
+}
 </style>
 </head>
 <body>
 	<c:import url="/header1"></c:import>
 	<main>
-
 		<div class="main_wrap">
 			<div class="side_bar">
 				<div class="title">주차장 안내</div>
@@ -115,56 +119,76 @@ td.money>div {
 					<table>
 						<thead>
 							<tr>
-								<th colspan="4">주차장 정보</th>
+								<th colspan="4">[주차장 정보]</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>주차장명</td>
-								<td></td>
+								<td>${data.CAR_PARK_NM}</td>
 								<td>연락처</td>
-								<td></td>
+								<td>${data.PHONE}</td>
 							</tr>
 							<tr>
 								<td>노상/노외</td>
-								<td></td>
+								<td>${data.CAR_PARK_TP_NM}</td>
 								<td>무료/유료</td>
-								<td></td>
+								<td>${data.PAYORFREE_DIV}</td>
 							</tr>
 							<tr>
 								<td>주소</td>
-								<td colspan="3"></td>
+								<td colspan="3">${data.ADDRESS}</td>
 							</tr>
 							<tr>
 								<td>운영시간</td>
 								<td class="time">
 									<div>
-										<span>매일</span> <span>00:00~24:00</span>
+										<span>매일</span> <span>${data.WEEKDAY_START_TIME}</span> <span>${data.WEEKDAY_END_TIME}</span>
 									</div>
 									<div>
-										<span>공휴일</span> <span>00:00~24:00</span>
+										<span>공휴일</span> <span>${data.WEEKEND_START_TIME}</span> <span>${data.WEEKEND_END_TIME}</span>
 									</div>
 								</td>
 								<td>주차요금</td>
 								<td class="money">
 									<div>
-										<span>30분</span><span>1,500원</span>
+										<span>기본요금</span> <span>${data.TIME_RATE}분</span><span>${data.FEE_RATE}원</span>
 									</div>
 									<div>
-										<span>60분</span><span> 3,000원</span>
-									</div>
-									<div>
-										<span>120분 </span><span> 6,000원</span>
-									</div>
-									<div>
-										<span>240분</span>12,000원</span>
+										<span>추가요금</span> <span>${data.ADD_TIME_RATE}분</span><span>${data.ADD_FEE}원</span>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th colspan="4">나의 리뷰</th>
-								<td colspan="4">
+								<td colspan="4">[나의 리뷰]</td>
+							</tr>
+							<tr>
+								<td>CCTV별점</td>
+								<td>
+									<div>
+									</div>
 								</td>
+								<td>환경별점</td>
+								<td>
+									<div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>요금별점</td>
+								<td>
+									<div>
+									</div>
+								</td>
+								<td>할인정보별점</td>
+								<td>
+									<div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>내용</td>
+								<td class="con" colspan="3">${data.CON}</td>
 							</tr>
 						</tbody>
 					</table>

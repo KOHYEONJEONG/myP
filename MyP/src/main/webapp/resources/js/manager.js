@@ -110,19 +110,16 @@
 });//$(document)
   
   function drawAutoritySelectBox(gbn){
-	console.log("왜 안되지");
 	 var html = "";
 	 var i = 1;
 	 for(var data of gbn){	
 		 html += "<option value=\""+i+"\">"+data.AUTORITY_NM+"</option>";
 		 i++;
 	 }
-	 
 	 $("#autority_popup .popup_right #autoritySelectBox").html(html);
-	 
   }
   
-  function selectChecked(AUTORITY_NM){
+  function selectChecked(AUTORITY_NM){//팝업창에 권한 select(해당 회원에 권한으로 체크해준다.)
 	console.log("selectChecked==>"+AUTORITY_NM);
 	
 	//(*)val로 비교하면 안돼. 나는 value로 option을 숫자로 넣어뒀고, option태그에 엔티티값으로 비교해야한다.

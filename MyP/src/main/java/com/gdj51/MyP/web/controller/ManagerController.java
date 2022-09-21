@@ -223,9 +223,9 @@ public class ManagerController {
 
 		model.put("data", data);
 		
-		
 		List<HashMap<String, String>> gbn = dao.getList("manager.autority", params);
 		model.put("gbn", gbn);
+		
 		return mapper.writeValueAsString(model);
 	}
 	

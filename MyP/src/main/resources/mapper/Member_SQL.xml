@@ -48,6 +48,15 @@
 	       </if>
 	</select>
 	
+	<!-- 해당 회원에 이미지만 조회하는 쿼리 -->
+	<select id="getMemberImg" resultType="hashmap" parameterType="hashmap">
+		 SELECT M.MEM_NUM, M.IMG, M.ID
+			FROM MEMBER M 
+			WHERE WIT_DT IS NULL
+			AND MEM_NUM = #{mem_num}
+	</select>
+	
+	
 	<select id="getMember" resultType="hashmap" parameterType="hashmap">
 		 SELECT M.MEM_NUM, M.IMG, M.ID, M.NM, M.EMAIL, M.WARNING, AT.AUTORITY_NM,
 					 CASE WHEN TO_CHAR(REG_DT, 'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
@@ -56,7 +65,7 @@
 									END AS REG_DT
 			FROM MEMBER M INNER JOIN AUTORITY AT ON M.autority_num = AT.autority_num
 			WHERE WIT_DT IS NULL
-			AND MEM_NUM = #{mem_num}
+			AND MEM_NUM = #{no}
 	</select>
 	
 	<select id="myReviewList" resultType="hashmap" parameterType="hashmap">
@@ -70,7 +79,7 @@
 		 			ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM ASC) AS NORNK, ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNK
 				FROM REVIEW R JOIN CAR_PARK C
 				ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-				WHERE DEL = 1 AND MEM_NUM = #{mem_num}
+				WHERE DEL = 1 AND MEM_NUM = #{no}
 				<if test="searchText != null and searchText != ''">
 					<choose>
 						<when test="searchGbn eq 1">
@@ -92,7 +101,7 @@
 		SELECT COUNT(*) AS CNT
 		FROM REVIEW R JOIN CAR_PARK C
 		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-		WHERE DEL = 1 AND MEM_NUM = #{mem_num}
+		WHERE DEL = 1 AND MEM_NUM = #{no}
 		<if test="searchText != null and searchText != ''">
 			<choose>
 				<when test="searchGbn eq 1">
@@ -111,16 +120,27 @@
        </if>
 	</select>
 	
+	<select id="getMyReview" resultType="hashmap" parameterType="hashmap">
+		SELECT CAR_PARK_NM, PHONE, CAR_PARK_TP_NM, ADDRESS, PAYORFREE_DIV, CON,
+				TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI:SS') AS WEEKDAY_START_TIME, TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI:SS') AS WEEKDAY_END_TIME,
+				TO_CHAR(WEEKEND_START_TIME, 'HH24:MI:SS') AS WEEKEND_START_TIME, TO_CHAR(WEEKEND_END_TIME, 'HH24:MI:SS') AS WEEKEND_END_TIME,  
+				FEE_RATE, TIME_RATE,ADD_FEE, ADD_TIME_RATE
+		FROM CAR_PARK C JOIN REVIEW R
+	    		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+	    		AND R.DEL = 1 AND R.REVIEW_NUM = #{review_num}
+		WHERE R.MEM_NUM = #{no}
+	</select>
+	
 	<update id="memUpdate" parameterType="hashmap">
 		UPDATE MEMBER
 		SET IMG = #{img}
-		WHERE MEM_NUM = #{mem_num}
+		WHERE MEM_NUM = #{no}
 	</update>
 	
 	<update id="memWit" parameterType="hashmap">
 		UPDATE MEMBER 
 		SET WIT_DT = sysdate
-		WHERE MEM_NUM = #{mem_num}
+		WHERE MEM_NUM = #{no}
 	</update>
 	
 	

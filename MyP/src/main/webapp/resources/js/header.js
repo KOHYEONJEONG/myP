@@ -127,7 +127,7 @@ $(document).ready(function () {
     
 //사진 영역만 비동기화
 function img1Relod() {
-	var params = $("#sendForm").serialize();
+	var params = $("#headerForm").serialize();
 	$.ajax({
 		url : "memImgAjax",
 		type : "POST", 
