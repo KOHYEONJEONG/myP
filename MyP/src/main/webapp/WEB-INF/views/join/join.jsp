@@ -25,7 +25,7 @@
 		<h1 class="logo">
 			<a href="/test2/index.html"> </a>
 		</h1>
-		<form action="#" class="was-validated" name="form" id="joinform" method="get">
+		<form action="#" class="was-validated" name="form" id="joinform" method="post">
 			<input type="hidden" name="cert" id="cert" >
 			
 			<div class="title">회원가입</div>
@@ -35,7 +35,7 @@
 			</div>
 
 			<span class="id_status"></span> 
-			<!-- 멋진 아이디네요!<span class="id_input_re_2">아이디가 이미 존재하거나 삭제된 아이디입니다.</span> -->
+
 
 			<div class="pwd_input">
 				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required><br>
@@ -89,7 +89,7 @@
 			<span class="mail-check-warn"></span>
 
 			<div>
-				<button class="sign_up" type="submit" id="joinBtn">가입하기</button>
+				<div class="sign_up" id="joinBtn">가입하기</div>
 			</div>
 		</form>
 	</div>
