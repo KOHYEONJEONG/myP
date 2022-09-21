@@ -1,9 +1,10 @@
 package com.gdj51.MyP.web.controller;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,9 +223,9 @@ public class ManagerController {
 
 		model.put("data", data);
 		
-		
 		List<HashMap<String, String>> gbn = dao.getList("manager.autority", params);
 		model.put("gbn", gbn);
+		
 		return mapper.writeValueAsString(model);
 	}
 	
@@ -250,8 +251,62 @@ public class ManagerController {
 
 	// 관리자 페이지 신고관리 목록화면
 	@RequestMapping(value = "/reportReviewManagement")
-	public ModelAndView reportReviewManagement(ModelAndView mav) {
+	public ModelAndView reportReviewManagement(
+			HttpSession session,
+			@RequestParam HashMap<String,String> params,
+			ModelAndView mav) {
+		int page = 1;
+		
+		if(params.get("page")!=null && params.get("page")!="") {
+		page = Integer.parseInt(params.get("page"));
+		}
+		mav.addObject("page",page);
+		
 		mav.setViewName("manager/reportReviewManagement");
+		
+		return mav;
+	}
+	@RequestMapping(value= "/reportReviewAjax",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String reportReviewAjax(
+			@RequestParam HashMap<String, String> params)throws Throwable{
+			ObjectMapper mapper = new ObjectMapper();
+			
+			Map<String, Object> model = new HashMap<String,Object>();
+			
+			int cnt = dao.getIntData("reportreview.reportreviewCnt",params);
+			
+			HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
+					cnt,10,5);
+			
+			params.put("start", Integer.toString(pd.get("start")));
+			params.put("end", Integer.toString(pd.get("end")));
+		
+			
+			List<HashMap<String, String>> list = dao.getList("reportreview.List",params);
+			
+			model.put("list",list);
+			model.put("pd",pd);
+			
+			return mapper.writeValueAsString(model);
+		}
+	@RequestMapping(value= "/reportReviewDetail")
+	public ModelAndView QnaDetail(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
+		
+		if(params.get("no")!=null && params.get("no") != "") {
+			
+		
+		HashMap<String, String>data = dao.getMapData("reportreview.getreportReview",params);
+		
+		mav.addObject("data",data);
+		
+		mav.setViewName("report/reportReviewManagementDetail1");
+		}else {
+			mav.setViewName("redirect:reportReviewManagement");
+		}
 		return mav;
 	}
 }

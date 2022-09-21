@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyP</title>
+<link rel="stylesheet" type="text/css" href="resources/css/common/cmn.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
 <link rel="stylesheet" href="resources/css/main.css">
+<script type="text/javascript"
+      src="resources/script/jquery/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <style>
@@ -66,12 +71,43 @@ justify-content: space-between;
 padding: 0 50px;
 box-sizing: border-box;
 }
+.btn_wrap1{
+ display: flex;
+ justify-content: flex-end;
+ margin-bottom:10px;
+}
 
+.btn {
+ width: 70px;
+ height: 35px;
+ font-size: 14px;
+ color: #fff;
+ cursor: pointer;
+ box-sizing: border-box;
+ line-height: 35px;
+ text-align: center;
+}
+
+.update {
+ margin: 0px 8px 0px 0px;
+ background: #FD9A29;
+ border: solid 1px #FD9A29;
+ margin-left:5px;
+}
+
+.delete {
+  background: #00af80;
+  border: solid 1px #00af80;
+}
 </style>
+<script type="text/javascript">
+const address = data.ADDRESS.split(' ');
+</script>
 </head>
 <body>
     <c:import url="/header1"></c:import>
     <main>
+    
     <div class="main_wrap">
         <div class="side_bar">
         <div class="title">주차장 안내</div>
@@ -79,56 +115,62 @@ box-sizing: border-box;
             <div class="on">공영 주차장 조회</div>
         </div> 
     </div>
+    
     <div class="right_area">   
         <div class="rigth_contents">
+        <form action = "#" id="dataForm" method="post">
+        <input type="hidden" name="no" value="${data.CAR_PARK_MAG_NUM}"/>
+        	<div class="btn_wrap1">
+        <div class="btn delete" id="deleteBtn">삭제</div>
+		<div class="btn update" id="updateBtn">수정</div>
+		</div>
             <table>
                 <thead>
                 <tr>
-                    <th colspan="4">가산동</th>
+                <c:set var="gu" value="${fn:split(data.ADDRESS,' ')}" />
+                    <th colspan="4">${gu[0]}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>주차장명</td>
-                    <td>가산공영주차장</td>
+                    <td>${data.CAR_PARK_NM}</td>
                     <td>연락처</td>
-                    <td>031-111-2222</td>
+                    <td>${data.PHONE}</td>
                 </tr>
                 <tr>
                     <td>노상/노외</td>
-                    <td>노상</td>
+                    <td>${data.CAR_PARK_TP_NM}</td>
                     <td>무료/유료</td>
-                    <td>무료</td>
+                    <td>${data.PAYORFREE_DIV}</td>
                 </tr>
                 <tr>
                     <td>주소</td>
-                    <td colspan="3">서울시 금천구 가산동</td>
+                    <td colspan="3">${data.ADDRESS}</td>
                 </tr>
                 <tr>
                     <td>운영시간</td>
                     <td class="time">
                         <div>
                         <span>매일</span>
-                        <span>00:00~24:00</span>
+                        <span>${data.WEEKDAY_START_TIME}</span>
+                        <span>${data.WEEKDAY_END_TIME}</span>
                         </div>
                         <div>
                         <span>공휴일</span>
-                        <span>00:00~24:00</span>
+                        <span>${data.WEEKEND_START_TIME}</span>
+                        <span>${data.WEEKEND_END_TIME}</span>
                         </div>
                     </td>
                     <td>주차요금</td>
                     <td class="money">
                         <div>
-                        <span>30분</span><span>1,500원</span>
+                        <span>기본요금</span>
+                        <span>${data.TIME_RATE}분</span><span>${data.FEE_RATE}원</span>
                         </div>
                         <div>
-                        <span>60분</span><span> 3,000원</span>
-                        </div>
-                        <div>
-                        <span>120분 </span><span> 6,000원</span>
-                        </div>
-                        <div>
-                        </span>240분<span>12,000원</span>
+                        <span>추가요금</span>
+                        <span>${data.ADD_TIME_RATE}분</span><span>${data.ADD_FEE}원</span> 
                         </div>
                     </td>
                 </tr>
@@ -142,13 +184,14 @@ box-sizing: border-box;
                 </tr>
                 </tbody>
                 </table>
+                </form>
     </div>
+    
     </div>
+
 </div>
 </main>
 <c:import url="/footer"></c:import>
-<script src="./jquery/jquery-1.12.4.js"></script>
-<script src="./js/main.js"></script>
 <script type="text/javascript">
 var context = document
     .getElementById('myChart')

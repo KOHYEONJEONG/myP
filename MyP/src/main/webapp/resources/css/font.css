@@ -1,12 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+/* @import url('https://webfontworld.github.io/tmoney/TmoneyRoundWind.css'); */
 @font-face {
-  font-family: "TmoneyRoundWindExtraBold";
-  src: url("resources/font/TmoneyRoundWindExtraBold.woff") format("woff");
-  font-weight: 400;
+    font-family: 'TmoneyRoundWindExtraBold';
+    src: url('../font/TmoneyRoundWindExtraBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: "TmoneyRoundWindRegular";
-  src: url("resources/font/TmoneyRoundWind-Regular.woff") format("woff");
-  font-weight: 400;
-}
+    font-family: 'TmoneyRoundWindRegular';
+    src: url('../font/TmoneyRoundWind-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+} 

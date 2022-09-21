@@ -13,7 +13,6 @@ $(document).ready(function(){
         if((result.ListAvgOfSeoulAirQualityService.row[0].GRADE) == "보통"){
             $('.fineDust2').css({"color" : "#00b686"});
         }  
-        console.log(result);
     });
 
     $.getJSON('http://api.openweathermap.org/data/2.5/forecast?id=1835848&APPID=ab4b94596d87701c72ecaf24d6f9e37c&units=metric&lang=KR'
@@ -62,8 +61,6 @@ $(document).ready(function(){
                 day = time[0]+"일";
             }
 
-            console.log(typeof(currentTime));
-            console.log(currentTime);
             var wiconUrl = '<img src="http://openweathermap.org/img/wn/'+result.daily[i].weather[0].icon+'.png" alt="'+result.hourly[i].weather[0].description+'" >';
             
 

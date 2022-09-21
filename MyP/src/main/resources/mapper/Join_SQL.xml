@@ -6,13 +6,35 @@
 	<select id="idCheck" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*) FROM MEMBER WHERE ID = #{id}	
 	</select>
+	
+	<!-- 아이디 찾기jsp에서 메일로 아이디 찾기 --> 
+	<select id="getId" parameterType="hashmap"  resultType="hashmap">
+		SELECT ID FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+	<!--  이메일 중복 체크 --> 
+	<select id="emailCheck" resultType="int" parameterType="hashmap">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+	
+	<!--  id와 이메일 일치 여부 체크 --> 
+	<select id="idEmailCheck" resultType="int" parameterType="hashmap">
+		SELECT COUNT(*) FROM MEMBER WHERE ID = #{id} AND EMAIL = #{email}
+	</select>
 
 	<insert id="joinInsert" parameterType="hashmap">
-		INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, CERT, REG_DT)
-		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, #{cert}, SYSDATE)
+		INSERT INTO MEMBER(MEM_NUM, ID, PW, NM, EMAIL, CERT,AUTORITY_NUM, REG_DT)
+		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, #{cert},2, SYSDATE)
 	</insert>
 	
-	<select id="sendNum" resultType="Integer" >
+	<select id="getMemNum" parameterType="hashmap"  resultType="hashmap">
+		SELECT MEM_NUM FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+	
+	<insert id="joinUpdate" parameterType="hashmap">
+		UPDATE MEMBER SET PW = #{pwd} WHERE MEM_NUM = #{memNo}
+	</insert>
+	
+	<select id="sendNum" resultType="Integer">
 		<!-- 발송번호만 전송 -->
 		<!--SELECT SEND_NUM
 		FROM AUTHENTICATION_NUM

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="qna">
 	<select id="List" resultType="hashmap">
-	SELECT Q.QNA_NUM,Q.TITLE,Q.NM,Q.HIT,Q.DT,Q.ADT,Q.CON            
-		FROM(SELECT Q.QNA_NUM,Q.TITLE,M.NM,Q.HIT,Q.CON,
+	SELECT Q.QNA_NUM,Q.TITLE,Q.NM,Q.HIT,Q.DT,Q.ADT,Q.CON,Q.ANSWER_CON,Q.PRIVATE            
+		FROM(SELECT Q.QNA_NUM,Q.TITLE,M.NM,Q.HIT,Q.CON,Q.ANSWER_CON,Q.PRIVATE,
     CASE WHEN TO_CHAR(Q.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
     	THEN TO_CHAR(Q.REG_DT, 'HH24:MI')
     	ELSE TO_CHAR(Q.REG_DT, 'YY.MM.DD')
@@ -18,11 +18,11 @@
     	WHERE Q.DEL = 1
     <if test="searchTxt != null and searchTxt != ''">
     <choose>
-    	<when test = "select_b eq title">
+    	<when test = "select_b eq 1">
     		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
     	</when>
     	
-    	<when test = "select_b eq nickname">
+    	<when test = "select_b eq 2">
     		AND M.NM LIKE '%' || #{searchTxt} || '%'
     	</when>
     	
@@ -34,7 +34,7 @@
    </select>
 			
 	<select id="getqna" resultType="hashmap" parameterType="hashmap">
-		SELECT Q.QNA_NUM,Q.TITLE,M.NM,Q.HIT,Q.CON,
+		SELECT Q.QNA_NUM,Q.TITLE,M.NM,Q.HIT,Q.CON,Q.ANSWER_CON,Q.MEM_NUM,Q.PRIVATE,
     	CASE WHEN TO_CHAR(Q.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
     	THEN TO_CHAR(Q.REG_DT, 'HH24:MI')
     	ELSE TO_CHAR(Q.REG_DT, 'YY.MM.DD')
@@ -56,11 +56,11 @@
     	WHERE Q.DEL = 1
 		<if test="searchTxt != null and searchTxt != ''">
     <choose>
-    	<when test = "searchGbn eq title">
+    	<when test = "select_b eq 1">
     		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
     	</when>
     	
-    	<when test = "searchGbn eq nickname">
+    	<when test = "select_b eq 2">
     		AND M.NM LIKE '%' || #{searchTxt} || '%'
     	</when>
     	
@@ -69,13 +69,36 @@
     </if>
  </select>   
     <insert id="insert" parameterType="hashmap">
-	INSERT INTO QNA(QNA_NUM,MEM_NUM,TITLE,CON)
-	VALUES(QNA_SEQ.NEXTVAL, #{title},#{memNo},#{con},#{att},#{cateNo})
+	INSERT INTO QNA(QNA_NUM,MEM_NUM,TITLE,CON,PRIVATE)
+	VALUES(QNA_SEQ.NEXTVAL,#{memNo},#{title},#{con},#{ckval})
 	</insert>
 	
 	
 	<update id="commentinsert" parameterType="hashmap">
 		UPDATE QNA SET ANSWER_MEM = 0,
             ANSWER_CON=#{con},ANSWER_DT=SYSDATE
+            WHERE QNA_NUM = #{no}
 	</update>
+	
+	<update id="delete" parameterType="hashmap">
+	UPDATE QNA SET DEL =0
+	WHERE QNA_NUM = #{no}
+	
+	</update>
+	
+	<update id="update" parameterType="hashmap">
+		UPDATE QNA SET TITLE= #{title},REG_DT=SYSDATE,
+		CON=#{con},PRIVATE=#{ckval}
+		WHERE QNA_NUM = #{no}
+	
+	</update>
+	
+	<update id="updateHit" parameterType="hashmap">
+	UPDATE QNA SET HIT = HIT + 1
+	WHERE QNA_NUM =#{no}
+	
+	</update>
+	
+	
+	
 </mapper>

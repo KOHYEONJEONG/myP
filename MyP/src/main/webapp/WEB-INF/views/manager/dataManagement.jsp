@@ -24,59 +24,37 @@ $(document).ready(function() {
 	//카테고리 설정
 	if("${param.cateNo}" != "") {
 		$("#cateNo").val("${param.cateNo}")
+	}else{
+		$("#cateNo").val("1");
 	}
 	
-	//카테고리 번호가 1번이면 reloadList1 데이터를 가져온다.
-	$("#cateNo").on("change", function() {
-		$("#cateNo").val("1");
-		$("#page").val("1");
-		$("#searchGbn").val("0");
-		$("#searchTxt").val("");
-		$("#oldGbn").val("0");
-		$("#oldTxt").val("");
-		
-		reloadList1();
-		//alert(cateNo,"몇번");
-	});
+	console.log($("#cateNo").val());
 	
-	//카테고리 번호가 2번이면 reloadList2 데이터를 가져온다.
-	$("#cateNo").on("change", function() {
-		$("#cateNo").val("2");
-		$("#page").val("1");
-		$("#searchGbn").val("0");
-		$("#searchTxt").val("");
-		$("#oldGbn").val("0");
-		$("#oldTxt").val("");
-		
-		reloadList2();
-	});
-	
-	//카테고리 번호가 3번이면 reloadList3 데이터를 가져온다.
+	//카테고리 번호가 1이면 주차장 리스트 가져오고 2로 바뀌면 맛집 리스트를 가져옴
 	$("#cateNo").on("change", function() {
 		$("#page").val("1");
 		$("#searchGbn").val("0");
 		$("#searchTxt").val("");
 		$("#oldGbn").val("0");
 		$("#oldTxt").val("");
-		$("#cateNo").val("3");
-		
-		reloadList3();
+		switch($(this).val()) {
+		case "1" :
+			reloadList1();
+			break;
+		case "2" :
+			reloadList2();
+			break;
+		case "3" :
+			reloadList3();
+			break;
+		case "4" :
+			reloadList4();
+			break;
+		}
 	});
 	
-	//카테고리 번호가 4번이면 reloadList4 데이터를 가져온다.
-	$("#cateNo").on("change", function() {
-		$("#cateNo").val("4");
-		$("#page").val("1");
-		$("#searchGbn").val("0");
-		$("#searchTxt").val("");
-		$("#oldGbn").val("0");
-		$("#oldTxt").val("");
-		
-		reloadList4();
-	});
-	
-	//목록 조회
-		reloadList1();
+	//처음에 보이는 리스트를 가져온다.
+	reloadList1();
 	
 	//검색 버튼
 	$("#search_btn").on("click", function() {
@@ -89,7 +67,7 @@ $(document).ready(function() {
 	});
 	
 	
-	
+	//주차장관련 ajax
 	function reloadList1() {
 		var params = $("#dataForm").serialize();
 		
@@ -99,7 +77,7 @@ $(document).ready(function() {
 			dataType : "json",
 			data: params,
 			success: function(res) {
-				drawListcar(res.list1);
+				drawListcar(res.list1); //리스트 각각 가져와야해서 4개 만들었음.
 				drawPaging(res.pd);
 			},
 			error : function(request, status, error) {
@@ -107,7 +85,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+	//맛집관련 ajax
 	function reloadList2() {
 		var params = $("#dataForm").serialize();
 		
@@ -117,7 +95,7 @@ $(document).ready(function() {
 			dataType : "json",
 			data: params,
 			success: function(res) {
-				drawListfood(res.list2);
+				drawListfood(res.list2); 
 				drawPaging(res.pd);
 			},
 			error : function(request, status, error) {
@@ -125,7 +103,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+	//문화생활관련 ajax
 	function reloadList3() {
 		var params = $("#dataForm").serialize();
 		
@@ -143,7 +121,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+	//주유소관련 ajax
 	function reloadList4() {
 		var params = $("#dataForm").serialize();
 		
@@ -164,15 +142,22 @@ $(document).ready(function() {
 	
 	function drawListcar(list1) {
 		var html = "";
+		var flag = true;
 		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"주차장관리번호"+"</th>";
-	    html += "<th>"+"주차장명"+"</th>";
-	    html += "<th>"+"주차장유형"+"</th>";
-	    html += "<th>"+"주소"+"</th>";
-		html += "</tr>";
-	    
-	    $("thead").html(html);
+		if(flag){
+			
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"주차장관리번호"+"</th>";
+		    html += "<th>"+"주차장명"+"</th>";
+		    html += "<th>"+"주차장유형"+"</th>";
+		    html += "<th>"+"주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+		
+		html = "";
 	    
 		for(var data of list1) {
 			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
@@ -181,22 +166,31 @@ $(document).ready(function() {
 		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
 		    html += "<th>"+data.ADDRESS+"</th>";
 		    html += "</tr>";
-		    $("tbody").html(html);
+		    
 		}
+		$("tbody").html(html);
+		
 		
 	}
-
+	
 	function drawListfood(list2) {
 		var html = "";
+		var flag = true;
 		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"맛집관리번호"+"</th>";
-	    html += "<th>"+"사업장명"+"</th>";
-	    html += "<th>"+"전화번호"+"</th>";
-	    html += "<th>"+"도로명 주소"+"</th>";
-		html += "</tr>";
-	    
-	    $("thead").html(html);
+		if(flag){
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"맛집관리번호"+"</th>";
+		    html += "<th>"+"사업장명"+"</th>";
+		    html += "<th>"+"전화번호"+"</th>";
+		    html += "<th>"+"도로명 주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+		
+		html = "";
+	  
 	    
 		for(var data of list2) {
 			html += "<tr no=\""+data.RESTAURANT_NO+"\">";
@@ -212,16 +206,23 @@ $(document).ready(function() {
 
 	function drawListculture(list3) {
 		var html = "";
+		var flag = true;
 		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"영화관관리번호"+"</th>";
-	    html += "<th>"+"사업자명"+"</th>";
-	    html += "<th>"+"전화번호"+"</th>";
-	    html += "<th>"+"도로명 주소"+"</th>";
-		html += "</tr>";
-	    
-	    $("thead").html(html);
-	    
+		if(flag){
+			
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"영화관관리번호"+"</th>";
+		    html += "<th>"+"사업자명"+"</th>";
+		    html += "<th>"+"전화번호"+"</th>";
+		    html += "<th>"+"도로명 주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+	
+		html = "";
+		
 		for(var data of list3) {
 			html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">";
 		    html += "<th>"+data.CINEMA_MAG_NUM+"</th>";
@@ -236,15 +237,22 @@ $(document).ready(function() {
 	
 function drawListgas(list4) {
 		var html = "";
+		var flag = true;
 		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"주유소관리번호"+"</th>";
-	    html += "<th>"+"주유소명"+"</th>";
-	    html += "<th>"+"전화번호"+"</th>";
-	    html += "<th>"+"도로명 주소"+"</th>";
-		html += "</tr>";
-	    
-	    $("thead").html(html);
+		if(flag){
+			
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"주유소관리번호"+"</th>";
+		    html += "<th>"+"주유소명"+"</th>";
+		    html += "<th>"+"전화번호"+"</th>";
+		    html += "<th>"+"도로명 주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+		html = "";
+		
 	    
 		for(var data of list4) {
 			html += "<tr no=\""+data.GAS_STATION_NUM+"\">";
@@ -260,7 +268,7 @@ function drawListgas(list4) {
 
 
 	
-	function drawPaging(pd) {
+function drawPaging(pd) {
 	var html = "";
 	
 	html +=
@@ -282,7 +290,7 @@ function drawListgas(list4) {
 		
 	}
 	
-	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+	if($("#page").val() *1 == pd.maxp){ //endp로하면 5번째 페이징에서 끝으로 넘어가버림.
 		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
 	} else {
 		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
@@ -293,16 +301,43 @@ function drawListgas(list4) {
 	$(".page_nation").html(html);
                                                                      
 }
-
 	
-	$(".page_nation").on("click", "a", function() {
-		$("#page").val($(this).attr("page"));
+	//디테일로 이동 코드
+	$("tbody").on("click", "tr", function() {
+		$("#no").val($(this).attr("no"));
 		
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTxt").val($("#oldTxt").val());
+		
+		$("#dataForm").attr("action", "parkinfodetail");
+		
+		$("#dataForm").submit();
+	});
+	
+	//카테고리 번호에 맞춰서 리스트 가져온다
+	$(".page_nation").on("click", "a", function() {
+		$("#page").val($(this).attr("page")); 
+	
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchText").val($("#oldText").val());
 		
-		reloadList1();
+		switch($("#cateNo").val())  {
+		case "1" :
+			reloadList1();
+			break;
+		case "2" :
+			reloadList2();
+			break;
+		case "3" :
+			reloadList3();
+			break;
+		case "4" :
+			reloadList4();
+			break;
+		}
 	});
+	
+	
 });
 </script>
 </head>
@@ -332,6 +367,9 @@ function drawListgas(list4) {
                   <option value="4">주유소</option>
                 </select>
                 <form action="#" id="dataForm" method="post">
+                <input type="hidden" name="no" id="no" />
+                <input type="hidden" id="oldGbn" value="0" />
+				<input type="hidden" id="oldText" />
                 <input type="hidden" name="page" id="page" value="1" /> 
                 <div class="select_box">
                 <div class="select">
@@ -360,17 +398,19 @@ function drawListgas(list4) {
 				<col width="100" />
 				<col width="250" />
 			</colgroup>
+			
                 <thead>
-                 
                 </thead>
+                
                 <tbody>
-                  
                 </tbody>
               </table>
+              
                 <!--페이징-->
                 <div class="page_wrap">
-                      <div class="page_nation"></div>
-                   </div>
+                   <div class="page_nation"></div>
+                </div>
+                
             </div>
           </div>
         </div>

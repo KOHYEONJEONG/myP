@@ -44,7 +44,7 @@
        }
 	.table_wrap {
 	    width: 400px;
-	    top: 200px;
+	    top: 230px;
 	    left: 50%;
 	    transform: translateX(-50%);
 	    position: absolute;
@@ -826,9 +826,7 @@ function reloadList() {
                   <div class="page_wrap">
                       <div class="page_nation"></div>
                    </div>
-                   <c:if test="${empty no}">
-						 <div class="insert_btn" id="insertBtn">추가</div>
-					</c:if>
+					<div class="insert_btn" id="insertBtn">추가</div>
               </div>
         </div>
         

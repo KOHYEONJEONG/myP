@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
+<title>MyP</title>
+<link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/font.css">
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+    
 <style>
 * {
 	font-family: 'TmoneyRoundWindRegular';
@@ -29,9 +33,9 @@
 
 .logo {
 	width: 280px;
-	height: 110px;
-	background: url(./icons/logo8.png) no-repeat;
-	background-size: 100%;
+	height: 100px;
+	background: url('resources/icons/logo8.png') no-repeat;
+	background-size: 130%;
 	background-position: 50%;
 	position: absolute;
 	top: -80px;
@@ -63,7 +67,7 @@ a {
 	text-align: center;
 }
 
-#joinBtn {
+#loginBtn {
 	margin-top: 15px;
 	height: 60px;
 	border: solid 1px #00af80;
@@ -88,22 +92,27 @@ a {
 	text-decoration: underline;
 }
 </style>
-
+<script type="text/javascript">
+$("#loginBtn").on("click", function(){
+	location.href = "login";
+});
+$("#pwFind").on("click", function(){
+	location.href = "pwFind";
+});
+</script>
 </head>
 <body>
+<input type="hidden" name="email" id="email" value="${param.email}"/>
 	<div class="wrap">
-		<h1 class="logo">
-			<a href="/test2/index.html"> </a>
-		</h1>
+		<h1 class="logo"></h1>
 		<div class="title">아이디 찾기 완료</div>
-
 		<div class="result_text">
-			고객님의 아이디는 <span class="result">saehee***</span> 입니다.
+			고객님의 아이디 <span class="result"><c:out value="${fn:substring(data.ID, 0, fn:length(data.ID) - 3)}" />***</span> 입니다.
 		</div>
 		<div>
-			<button type="submit" id="joinBtn">로그인하기</button>
+			<button type="submit" id="loginBtn">로그인하기</button>
 		</div>
-		<div class="btn_bottom">
+		<div class="btn_bottom" id="pwFind">
 			<span>비밀번호 찾기</span>
 		</div>
 	</div>

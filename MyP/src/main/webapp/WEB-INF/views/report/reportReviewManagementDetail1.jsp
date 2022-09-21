@@ -85,12 +85,42 @@
             padding: 10px;
         }
     </style>
-       <script src="./jquery/jquery-1.12.4.js"></script>
-       <script src="./js/main.js"></script>
+       <script src="resources/jquery/jquery-1.12.4.js"></script>
+       <script src="resources/js/main.js"></script>
+    <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
+     <script type="text/javascript"
+      src="resources/script/common/popup.js"></script>  
+<script type="text/javascript">
+ 	 $(document).ready(function () {
+ 		  $("#listBtn").on("click", function() {
+ 	         $("#backForm").attr("action","reportReviewManagement"); 
+ 	         $("#backForm").submit();
+ 	      });
+ 		  
+ 	$("#warningBtn").on("click",function(){
+ 		 if($.trim($("#feedtxt").val())==""){//1.내용이 있는지 먼저 확인하기!!
+             makeAlert("알림", "내용을 입력하세요.", function() {
+                $("#feedtxt").focus();
+             });
+          }else{
+        	  $("#actionForm").attr("action","reportReviewDetail2");
+              $("#actionForm").submit();
+          	}
+          
+  	 	});
+ 	 })
+ 	 </script>
 </head>
 <body>
     <c:import url="/header1"></c:import>
       <main class="main1">
+      <form action="#" id="backForm" method="post">
+	
+	<input type="hidden" name="page" id="page" value="${param.page}" /> <!-- 전 화면에서 넘어온 페이지 정보 -->
+		<!-- 전 화면에서 넘어온 검색 정보 -->
+	<input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}"/>
+	<input type="hidden" name="searchText" id="searchText" value="${param.searchText}"/>
+	</form>
         <div class="main_wrap">
           <div class="side_bar">
             <div class="title">관리자페이지</div>
@@ -101,7 +131,13 @@
                 <div>신고 리뷰관리</div>
             </div> 
         </div>
-        <div class="right_area">            
+        <div class="right_area">   
+        	
+        		<input type="hidden" name="no" value="${data.REVIEW_NUM}"/>
+        		
+        	
+        	
+        	       
             <table class="table1">
                 <thead>
                 <tr>
@@ -111,21 +147,21 @@
                 <tbody>
                 <tr>
                     <td>닉네임</td>
-                    <td>두린이</td>
+                    <td>${data.NM}</td>
                     <td>작성일</td>
-                    <td>2022-07-07</td>
+                    <td>${data.DT}</td>
                 </tr>
                 <tr>
                     <td>시스템별점</td>
-                    <td>3.0 ★★★☆☆</td>
+                    <td>${data.SYSTEM}</td>
                     <td>요금별점</td>
-                    <td>2.0 ★★★☆☆</td>
+                    <td>${data.SYSTEM2}</td>
                 </tr>
                 <tr>
                     <td>조회수</td>
-                    <td>22</td>
+                    <td>${data.HIT}</td>
                     <td>신고수</td>
-                    <td>4</td>
+                    <td>${data.CNT}</td>
                 </tr>
                 <tr>
                     <td>내용</td>
@@ -134,7 +170,7 @@
                 </tbody>
             </table>
             <div class="btn_wrap1">
-                <input type="button" class="btn1" value="목록" />
+                 <input type="button" value="목록" class="btn list" id="listBtn">
                 <input type="button" class="btn2 refuseBtn" value="반려" />
                 <input type="button" class="btn3" value="경고" />
             </div>
@@ -143,14 +179,22 @@
       </main>
       <c:import url="/footer"></c:import>
     <div id="refuse_popup">
-        <form>
+        <form action= "#" id="actionForm" method="post">
+        <input type="hidden" name="gbn" value="delete" />
+   <input type="hidden" name="no" value="${data.REVIEW_NUM}" />
+   <!-- 전 화면에서 넘어온 페이지 정보 -->
+   <input type="hidden" name="page" id="page" value="${param.page}" />
+   <!-- 전 화면에서 넘어온 검색 정보 -->
+   <input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}" />
+   <input type="hidden" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
+   
             <div class="close_i">
-                <img src="./icons/close.png" alt="">
+                <img src="resources/icons/close.png" alt="">
             </div>
             <div class="popup_top">
                 <div class="title">반려사유</div>
                 <div class="input">
-                    <input type="text" class="txt_title" readonly>
+                    <input type="text" class="txt_title" id="feedtxt" name="feedtxt">
                 </div>
             </div>
             <div class="warningBtn_wrap" style="text-align: center">
@@ -158,7 +202,6 @@
             </div>
         </form>
       </div>
-      <script src="./jquery/jquery-1.12.4.js"></script>
-      <script src="./js/main.js"></script>
+ 
 </body>
 </html>

@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyP</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
-    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.12.4.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+    <link rel="stylesheet" href="resources/css/main.css">
+   	<link rel="stylesheet" href="resources/css/font.css">
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+	<script src="resources/js/join.js"></script>
 <style>
    .wrap {
    width: 490px;
@@ -29,7 +29,7 @@
     width: 250px;
     height: 100px;
     background: url(resources/icons/logo8.png) no-repeat;
-    background-size: 140%;
+    background-size: 130%;
     background-position: 50%;
     position: absolute;
     top: -80px;
@@ -128,7 +128,7 @@ input, select{
     cursor: pointer;
 }
 
-#joinBtn{
+#changeBtn{
     margin-top: 15px;
    height: 60px;
     border: solid 1px #00af80;
@@ -142,44 +142,39 @@ input, select{
     width: 450px;
 }
 
+/*비밀번호 확인 일치 유효성 검사*/
+.pwck_input_re_1 {
+	color : green;
+	display : none;
+}
+.pwck_input_re_2{
+	color : red;
+	display : none;
+}
+
 </style>
-<script>
-window.onload = function(){
-   document.getElementById("send");
-   send.addEventListener("click",function(){
-      var frm = document.form;
-            
-      if(frm.uname.value.trim().length<=6)
-      {
-         alert("아이디를 6글자이상 입력해주세요");
-         return false(); 
-      }
-          
-      if(frm.pwd.value.trim().length<=8)
-      {
-         alert("비밀번호를 8글자이상 입력해주세요");
-         return false(); 
-      }
-      
-      frm.submit();
-   })
-}       
+<script type="text/javascript">
+console.log($("#memNo").val());
+
 </script>
 </head>
 <body>
     <div class="wrap">
-        <h1 class="logo"></h1>
-    <form class="was-validated" name="form" id="form">
+   	<h1 class="logo"></h1>
+   <form name="pwChangeform" id="pwChangeform">
+   		<input type="hidden" name="memNo" id="memNo" value="${data.MEM_NUM}"/>
         <div class="title">비밀번호 변경</div>
         <div class="input_box">
-            <input type="password" name="password" for="password"  
-                   placeholder="새 비밀번호" id="uname" required><br><br>
+           <input type="password" name="pwd" placeholder="새비밀번호" id="pwd" required><br>
         </div> 
-        <div class="input_box">
-            <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
-        </div>  
+        <span class="" id="pw_ck_status"></span>
+          <div class="input_box">
+              <input type="password" id="rePw" placeholder="새비밀번호 재확인"><br>
+          </div>  
+         <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
+			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
         <div>
-            <button class="sign_up" type="submit" id="joinBtn">변경</button>
+            <button class="sign_up" type="submit" id="changeBtn">변경</button>
         </div>
     </form>
 </div>

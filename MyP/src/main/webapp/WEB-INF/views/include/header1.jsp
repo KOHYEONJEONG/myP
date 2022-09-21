@@ -9,7 +9,9 @@
 <script src="resources/js/header.js"></script>
 </head>
 <body>
-<!-- 메인페이지 제외하고 다 사용. 너비가 header.jsp보다 좁음. -->
+	<form action="#" id="headerForm">
+		<input type="hidden" name="mem_num" id="mem_num" value="${sMemNo}">
+	</form>
  <header>
         <div class="header_wrap">
           <div class="top_area">
@@ -52,10 +54,7 @@
 						
 						<c:otherwise>
 							<div class="login_comment on">${sMemNm}님환영합니다</div>
-							<div class="login_i1">
-								<div class="img1"></div>
-							</div>
-							
+							<div class="login_i1"></div>							
 							<c:choose>
 								<c:when test="${sMemAuto eq 1}">
 									<input type="hidden" id="sMemAuto" value="관리자"/>

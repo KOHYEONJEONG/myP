@@ -1,4 +1,7 @@
 $(document).ready(function () {
+	if($("#mem_num").val() != null && $("#mem_num").val() != ""){
+		img1Relod();
+	}
 	
 	// 헤더
 	// 로그인 아이콘 클릭시, 마이페이지, 로그아웃
@@ -13,7 +16,6 @@ $(document).ready(function () {
 				$("#login_box").removeClass("on");
 				
             } else {
-				console.log("관리자");
 				$("#login_box").addClass("on");
 				
 				if(sessionData == "관리자"){
@@ -123,3 +125,32 @@ $(document).ready(function () {
 });
     
     
+//사진 영역만 비동기화
+function img1Relod() {
+	var params = $("#headerForm").serialize();
+	$.ajax({
+		url : "memImgAjax",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) {
+			img1(res.data);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); //Ajax End
+}
+//<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>
+function img1(data){
+	var img = data.IMG;
+	var html = "";
+	
+	if(img != null && !img.length == 0){
+		html += "<img id=\"myImg\" class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
+	}else{
+		html += "<img id=\"myImg\" src=\"resources/icons/person3.png\" alt=\"이미지\">";
+	}
+	
+	$(".login_i1").html(html);
+}

@@ -48,6 +48,15 @@
 	       </if>
 	</select>
 	
+	<!-- 해당 회원에 이미지만 조회하는 쿼리 -->
+	<select id="getMemberImg" resultType="hashmap" parameterType="hashmap">
+		 SELECT M.MEM_NUM, M.IMG, M.ID
+			FROM MEMBER M 
+			WHERE WIT_DT IS NULL
+			AND MEM_NUM = #{mem_num}
+	</select>
+	
+	
 	<select id="getMember" resultType="hashmap" parameterType="hashmap">
 		 SELECT M.MEM_NUM, M.IMG, M.ID, M.NM, M.EMAIL, M.WARNING, AT.AUTORITY_NM,
 					 CASE WHEN TO_CHAR(REG_DT, 'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
@@ -59,21 +68,81 @@
 			AND MEM_NUM = #{no}
 	</select>
 	
-	<!--  
-	<insert id="boardInsert" parameterType="hashmap">
-	</insert>
-	-->
+	<select id="myReviewList" resultType="hashmap" parameterType="hashmap">
+		<!-- 순위, 리뷰 번호, 주차장명, 제목, 등록일, 조회수 -->
+		SELECT R.NORNK, R.REVIEW_NUM, R.CAR_PARK_NM, R.TITLE, R.REG_DT, R.HIT
+		FROM(SELECT R.REVIEW_NUM,C.CAR_PARK_NM, R.TITLE, R.HIT,
+					CASE WHEN TO_CHAR(REG_DT, 'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
+									THEN TO_CHAR(REG_DT, 'HH24:MI')
+									ELSE TO_CHAR(REG_DT,'YY.MM.DD')
+									END AS REG_DT,
+		 			ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM ASC) AS NORNK, ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNK
+				FROM REVIEW R JOIN CAR_PARK C
+				ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+				WHERE DEL = 1 AND MEM_NUM = #{no}
+				<if test="searchText != null and searchText != ''">
+					<choose>
+						<when test="searchGbn eq 1">
+							AND CAR_PARK_NM LIKE '%' || #{searchText} || '%'
+						</when>
+						<when test="searchGbn eq 2">
+							AND TITLE LIKE '%' || #{searchText} || '%'
+						</when>
+						<when test="searchGbn eq 2">
+							AND CON LIKE '%' || #{searchText} || '%'
+						</when>
+			        </choose>
+		       </if>
+	    )R
+	    WHERE R.RNK BETWEEN #{start} AND #{end}		
+	</select>
 	
-	<!--  
+	<select id="getMyReviewCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM REVIEW R JOIN CAR_PARK C
+		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+		WHERE DEL = 1 AND MEM_NUM = #{no}
+		<if test="searchText != null and searchText != ''">
+			<choose>
+				<when test="searchGbn eq 1">
+					AND ID = #{searchText}
+				</when>
+				<when test="searchGbn eq 2">
+					AND NM = #{searchText}
+				</when>
+				<when test="searchGbn eq 3">
+					AND EMAIL LIKE '%' || #{searchText} || '%'
+				</when>
+				<when test="searchGbn eq 4">
+					AND AT.AUTORITY_NM = #{searchText}
+				</when>
+	        </choose>
+       </if>
+	</select>
+	
+	<select id="getMyReview" resultType="hashmap" parameterType="hashmap">
+		SELECT CAR_PARK_NM, PHONE, CAR_PARK_TP_NM, ADDRESS, PAYORFREE_DIV, CON,
+				TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI:SS') AS WEEKDAY_START_TIME, TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI:SS') AS WEEKDAY_END_TIME,
+				TO_CHAR(WEEKEND_START_TIME, 'HH24:MI:SS') AS WEEKEND_START_TIME, TO_CHAR(WEEKEND_END_TIME, 'HH24:MI:SS') AS WEEKEND_END_TIME,  
+				FEE_RATE, TIME_RATE,ADD_FEE, ADD_TIME_RATE
+		FROM CAR_PARK C JOIN REVIEW R
+	    		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+	    		AND R.DEL = 1 AND R.REVIEW_NUM = #{review_num}
+		WHERE R.MEM_NUM = #{no}
+	</select>
+	
 	<update id="memUpdate" parameterType="hashmap">
+		UPDATE MEMBER
+		SET IMG = #{img}
+		WHERE MEM_NUM = #{no}
 	</update>
-	-->
 	
 	<update id="memWit" parameterType="hashmap">
-		UPDAET MEMBER 
+		UPDATE MEMBER 
 		SET WIT_DT = sysdate
-		WHERE MEM_NO = #{no}
+		WHERE MEM_NUM = #{no}
 	</update>
+	
 	
 
 	

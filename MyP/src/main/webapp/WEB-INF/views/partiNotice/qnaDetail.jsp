@@ -10,6 +10,7 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
+   	<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
     <style>
         .contents{
             position: absolute;
@@ -20,11 +21,15 @@
             width: 800px;
         }
         .right_area .title{
-            width: 60%;
+            width: 790px;
             margin: 10px 0px;
             padding-left: 10px;
             font-size: 30px;
+            display:flex;
+            justify-content: space-between;
         }
+       
+        
         .right_area .notice{
             margin: 5px 0px;
             width: 800px; 
@@ -32,11 +37,12 @@
             display:flex;
             justify-content: space-between;
             line-height: 35px;
-            
+            font-size:14px;
         }
         .notice_right{
             padding-right: 20px;
             display: flex;
+       
         }
         .notice_right > div:nth-child(1){
             margin-right: 20px;
@@ -50,11 +56,14 @@
             height: 400px;
             padding: 20px;
             box-sizing: border-box;
+            font-size:14px;
         }
         .answer {
             display: flex;
             margin: 8px 0;
             height: 100px;
+             font-size:14px;
+         
         }
         .answer .txt{
             padding: 10px 0 0 20px;
@@ -69,6 +78,7 @@
             outline-color: #000;
             padding: 10px;
             box-sizing: border-box;
+            font-size:14px;
         }
         .btn_wrap{
             display: flex;
@@ -93,17 +103,29 @@
             background-color:#00af80;
             color: #fff;
         }
+       
 
     </style>
-    <script src="./jquery/jquery-1.12.4.js"></script>
-     <script src="./js/main.js"></script>
+    <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script src="resources/js/main.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script type="text/javascript"
 src="resources/script/jquery/jquery.slimscroll.js"></script>
+  <script type="text/javascript"
+		src="resources/script/common/popup.js"></script>
 <script type="text/javascript">
    
    $(document).ready(function() {
+	   
+	   console.log(${sMemAuto});
+	   
+	   $("#listBtn").on("click", function() {
+	         $("#actionForm").attr("action","qna"); 
+	         $("#actionForm").submit();
+	      });
+	   
+	   
       
       $("#insertBtn").on("click", function() { 
           
@@ -116,20 +138,20 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
           	}
           
   	 	});
-   });
-   var msg={
+      
+     
+   
+   
+   var mag={
 		      "insert" : "등록",
-		      "update" : "수정",
-		      "delete" : "삭제",
+		  
 		   }
          function action(flag){
-        	 
         	//con  <들을 웹문자로 변환
              $("#con").val($("#con").val().replace(/</gi, "&lt;"));
            	//con dml <들을 웹문자로 변환
            	      $("#con").val($("#con").val().replace(/>/gi, "&gt;"));
-           	
-           	var params = $("actionForm").serialize();
+           	var params = $("#actionForm").serialize();
            	   $.ajax({
            		   url : "qnaDetail/"+flag,
            		 type : "POST",
@@ -138,8 +160,8 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                  success : function(res) { 
                 	 switch(res.msg){
                      case "success":
-                     //내용초기화
-                        $("#con").val("");
+                    	 makeAlert("알림", "답변이 등록되었습니다.");
+                      
                      break;
                 	 
                      case "fail":
@@ -151,15 +173,73 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                   }
                },
                error : function(request, status, error) {
-                  console.log(request, responseText); 
+                  console.log(request); 
                }
             });//ajax End
-      }//action(flag) function End
-      
+   } //action(flag) function End
+   
+   $("#deleteBtn").on("click", function () {
+       makePopup({
+          title : "알림",
+          contents : "삭제 하시겠습니까?",
+          buttons : [{
+             name : "삭제",
+             func : function() {
+                var params = $("#action2Form").serialize();
+                 $.ajax({
+                    url : "QnaAction/delete",
+                    type : "POST",
+                    dataType : "json", 
+                    data : params, 
+                    success : function(res) { 
+                       switch(res.msg) {
+                       case "success" :
+                      		$("#page").val("1");
+								$("#searchGbn").val("1");
+								$("#searchTxt").val("");
+								
+								$("#actionForm").attr("action","qna");
+								$("#actionForm").submit();
+                          break;
+                       case "fail" :
+                          makeAlert("알림", "삭제에 실패하였습니다.");
+                          break;
+                       case "error" :
+                          makeAlert("알림", "삭제 중 문제가 발생하였습니다.");
+                          break;   
+                       }
+                    },
+                    error : function(request, status, error) {
+                       console.log(request, responseText); 
+                    }
+                 }); 
+             }
+          }, {
+             name : "취소"
+          }]        
+  	 });
+	 }); 
+   $("#updateBtn").on("click", function () {
+       $("#actionForm").attr("action","qnaUpdate");
+       $("#actionForm").submit();
+    });
+});
            	   
 </script>
 </head>
 <body>
+	<c:import url="/testAHeader"></c:import>
+<form action="#" id="action2Form" method="post">
+   <input type="hidden" name="gbn" value="delete" />
+   <input type="hidden" name="no" value="${data.QNA_NUM}" />
+   <!-- 전 화면에서 넘어온 페이지 정보 -->
+   <input type="hidden" name="page" id="page" value="${param.page}" />
+   <!-- 전 화면에서 넘어온 검색 정보 -->
+   <input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}" />
+   <input type="hidden" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
+   <!--  전화면에서 넘어온 카테고리 번호 -->
+ 
+</form>
   <c:import url="/header1"></c:import>
      <main>
         <div class="main_wrap">
@@ -173,8 +253,24 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
             </div>
             <div class="right_area">      
                 <div class="detail_wrap">
-                    <div class="title">QnA</div>
+                    <div class="title">QnA
+                    <div class="upbtn">
+                    <c:choose>
+                  		<c:when test="${sMemNo eq data.MEM_NUM}">
+                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
+                    			   <input type="button" value="삭제" class="btn del"  id="deleteBtn">
+                  		</c:when>
+                  		
+                  		<c:when test="${sMemNo eq 0}">
+                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
+                    			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
+                  		</c:when>
+                  </c:choose> 
+                  </div>
+                  	</div> 
                     <hr>
+                     <c:choose>
+                  		<c:when test="${sMemNo eq data.MEM_NUM  and data.PRIVATE == 0}">
                     <div class="notice">
                         <div class="notice_left">
                             <span class="i"></span>
@@ -188,26 +284,100 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                     <hr>
                     <div class="content">
                           ${data.CON}
-                          ${data.ANSWER_CON}
+                       
                     </div>
+                    </c:when>
+                    
+                    <c:when test="${sMemNo eq 0}">
+                    <div class="notice">
+                        <div class="notice_left">
+                            <span class="i"></span>
+                            <span>${data.TITLE}</span>
+                        </div>
+                        <div class="notice_right">
+                            <div>작성일 : ${data.DT}</div>
+                            <div>조회수:${data.HIT}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                          ${data.CON}
+                       
+                    </div>
+                    </c:when>
+                    
+                     <c:when test="${data.PRIVATE == 1}">
+                    <div class="notice">
+                        <div class="notice_left">
+                            <span class="i"></span>
+                            <span>${data.TITLE}</span>
+                        </div>
+                        <div class="notice_right">
+                            <div>작성일 : ${data.DT}</div>
+                            <div>조회수:${data.HIT}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                          ${data.CON}
+                       
+                    </div>
+                    </c:when>
+                    
+                    <c:when test="${data.PRIVATE == 0 }">
+                    
+                    <div class="notice">
+                        <div class="notice_left">
+                            <span class="i"></span>
+                            <span>비공개</span>
+                        </div>
+                        <div class="notice_right">
+                            <div>비공개</div>
+                            <div>비공개</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                          비공개
+                       
+                    </div>
+                    </c:when>
+                      </c:choose>
+                      
+                    
+                    
                  <hr>
+                
                  <div class="answer">
                     <div class="txt">답변</div>
-                    <form action = "#" id="actionForm">
-                    <textarea type="text" class="answer_txt" >
-                    </textarea>
+                    <form action = "#" id="actionForm" method="post">
+                   <c:choose>
+                     <c:when test="${sMemNo eq 0}">
+                    <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
+                    <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                    </c:when>
+                    <c:otherwise>
+                     <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
+                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                    </c:otherwise>
+                   </c:choose>
                     </form>
-                    <!-- 관리지만 노출 -->
-                    <div class="setting"></div> <!-- 글 등록, 수정 버튼 -->
-                    <div class="recycle_bin"></div> <!-- 글 삭제 버튼 -->
+                    
+                    <div class="setting"></div> 
+                    <div class="recycle_bin"></div> 
                 </div>
                 <hr>
                 <div class="btn_wrap">
-                    <input type="button" value="목록" class="btn list">
-                    <!-- 작성자만 노출 -->
-                    <!--  <input type="button" value="수정" class="btn update">-->
-                    <!--<input type="button" value="삭제" class="btn del">-->
+                	<c:choose>
+                     <c:when test="${sMemNo eq 0}">
+                    <input type="button" value="목록" class="btn list" id="listBtn">
                       <input type="button" value="등록" class="btn regi" id="insertBtn">
+                      </c:when>
+                       <c:otherwise>
+                         <input type="button" value="목록" class="btn list" id="listBtn">
+                        </c:otherwise>
+                      </c:choose>
+                      
                 </div>
             </div>
         </div>

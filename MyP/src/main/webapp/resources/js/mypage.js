@@ -4,6 +4,7 @@ $(document).ready(function () {
 	
 	$("#mypage_modify").click(function(){
 		//개인정보 수정하기 버튼
+		console.log("도메인-->"+$("#domain").val());//2mypage.js:7 도메인-->naver.com
 		$("#sendForm").attr("action", "memModify");
         $("#sendForm").submit();   
 	});
@@ -16,11 +17,12 @@ $(document).ready(function () {
 	});
 	
 	$("#savefile").click(function(){
-		if($.trim($("#pic").val())==""){
+		if($.trim($("#vPic").val())==""){
 		   makeAlert("알림","사진을 첨부해주세요.", function(){
 			   return false;
 		   });
 	    }else{
+			var form = $("#actionForm");
 			form.ajaxForm({
 				   success:function(res){
 				   if(res.result == "SUCCESS"){
@@ -31,13 +33,14 @@ $(document).ready(function () {
 				   /*글 저장*/
 				   var params = $("#actionForm").serialize();
 				   $.ajax({
-					   url : "memAction/insert",
+					   url : "memAction/update",
 					   type:"POST",
 					   dataType:"json",
 					   data : params, 
 					   success: function(res){
 							switch (res.msg) {
 							case "success":
+								makeAlert("성공","사진 등록 성공");
 								imgRelod();
 								break;
 							case "fail":
@@ -76,20 +79,25 @@ $(document).ready(function () {
         $("#sendForm").submit();  
 	});
 	
+	$("#myReview").on("click", function(){
+		
+		$("#sendForm").attr("action", "mypageReviewBoard");
+        $("#sendForm").submit();  
+	});
+	
 });
 
 //사진 영역만 비동기화
 function imgRelod() {
-	var params = $("#sendForm").serialize();
+	var params = $("#headerForm").serialize();
 	$.ajax({
 		url : "memImgAjax",
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log("성공")
 			img(res.data);
-		
+			img1Relod();
 		},
 		error : function(request, status, error) { 
 			console.log(request.responseText); 
@@ -99,15 +107,14 @@ function imgRelod() {
 
 
 function img(data){
-	var img = data.PIC;
+	var img = data.IMG;
 	var html = "";
 	
-	if(img != null && !img.equals("")){
-		html += "<img class=\"lightboxed\" rel=\"group1\" src=\"resources/upload/"+data.PIC+"\" data-link=\"resources/upload/"+data.PIC+"\" alt=\"Image Alt\" data-caption=\""+data.DESCRIPT+"\" />";
+	if(img != null && !img.length == 0){
+		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
 	}else{
 		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
 	}
 	
-	$(".pic_top #imgRelod").html(html);
-	
+	$(".my_pic #imgRelod").html(html);
 }
