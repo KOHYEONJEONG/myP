@@ -144,6 +144,7 @@ $(document).ready(function () {
 	});
 	
 	
+	
 	$("#deleteBtn").on("click", function () {
 		  makePopup({
 		         title : "알림",
