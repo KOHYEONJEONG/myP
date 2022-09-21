@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="resources/css/main.css">
    	<link rel="stylesheet" href="resources/css/font.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
+	<script src="resources/js/join.js"></script>
 <style>
    .wrap {
    width: 490px;
@@ -128,7 +128,7 @@ input, select{
     cursor: pointer;
 }
 
-#joinBtn{
+#changeBtn{
     margin-top: 15px;
    height: 60px;
     border: solid 1px #00af80;
@@ -142,23 +142,39 @@ input, select{
     width: 450px;
 }
 
+/*비밀번호 확인 일치 유효성 검사*/
+.pwck_input_re_1 {
+	color : green;
+	display : none;
+}
+.pwck_input_re_2{
+	color : red;
+	display : none;
+}
+
 </style>
+<script type="text/javascript">
+console.log($("#memNo").val());
+
+</script>
 </head>
 <body>
-<input type="hidden" name="email" id="email" value="${param.email}"/>
     <div class="wrap">
    	<h1 class="logo"></h1>
-   <form class="was-validated" name="form" id="form">
+   <form name="pwChangeform" id="pwChangeform">
+   		<input type="hidden" name="memNo" id="memNo" value="${data.MEM_NUM}"/>
         <div class="title">비밀번호 변경</div>
         <div class="input_box">
-            <input type="password" name="password" for="password"  
-                   placeholder="새 비밀번호" id="uname" required><br><br>
-        </div>     
-            <div class="input_box">
-                <input type="password" name="passwordok" placeholder="새 비밀번호 재확인">
-            </div>  
+           <input type="password" name="pwd" placeholder="새비밀번호" id="pwd" required><br>
+        </div> 
+        <span class="" id="pw_ck_status"></span>
+          <div class="input_box">
+              <input type="password" id="rePw" placeholder="새비밀번호 재확인"><br>
+          </div>  
+         <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
+			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
         <div>
-            <button class="sign_up" type="submit" id="joinBtn">변경</button>
+            <button class="sign_up" type="submit" id="changeBtn">변경</button>
         </div>
     </form>
 </div>

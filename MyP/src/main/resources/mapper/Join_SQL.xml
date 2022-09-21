@@ -26,6 +26,14 @@
 		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pwd}, #{nickname}, #{email}, #{cert},2, SYSDATE)
 	</insert>
 	
+	<select id="getMemNum" parameterType="hashmap"  resultType="hashmap">
+		SELECT MEM_NUM FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+	
+	<insert id="joinUpdate" parameterType="hashmap">
+		UPDATE MEMBER SET PW = #{pwd} WHERE MEM_NUM = #{memNo}
+	</insert>
+	
 	<select id="sendNum" resultType="Integer">
 		<!-- 발송번호만 전송 -->
 		<!--SELECT SEND_NUM

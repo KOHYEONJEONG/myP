@@ -56,25 +56,73 @@
 									END AS REG_DT
 			FROM MEMBER M INNER JOIN AUTORITY AT ON M.autority_num = AT.autority_num
 			WHERE WIT_DT IS NULL
-			AND MEM_NUM = #{hno}
+			AND MEM_NUM = #{mem_num}
 	</select>
 	
-	<!--  
-	<insert id="boardInsert" parameterType="hashmap">
-	</insert>
-	-->
+	<select id="myReviewList" resultType="hashmap" parameterType="hashmap">
+		<!-- 순위, 리뷰 번호, 주차장명, 제목, 등록일, 조회수 -->
+		SELECT R.NORNK, R.REVIEW_NUM, R.CAR_PARK_NM, R.TITLE, R.REG_DT, R.HIT
+		FROM(SELECT R.REVIEW_NUM,C.CAR_PARK_NM, R.TITLE, R.HIT,
+					CASE WHEN TO_CHAR(REG_DT, 'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
+									THEN TO_CHAR(REG_DT, 'HH24:MI')
+									ELSE TO_CHAR(REG_DT,'YY.MM.DD')
+									END AS REG_DT,
+		 			ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM ASC) AS NORNK, ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNK
+				FROM REVIEW R JOIN CAR_PARK C
+				ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+				WHERE DEL = 1 AND MEM_NUM = #{mem_num}
+				<if test="searchText != null and searchText != ''">
+					<choose>
+						<when test="searchGbn eq 1">
+							AND CAR_PARK_NM LIKE '%' || #{searchText} || '%'
+						</when>
+						<when test="searchGbn eq 2">
+							AND TITLE LIKE '%' || #{searchText} || '%'
+						</when>
+						<when test="searchGbn eq 2">
+							AND CON LIKE '%' || #{searchText} || '%'
+						</when>
+			        </choose>
+		       </if>
+	    )R
+	    WHERE R.RNK BETWEEN #{start} AND #{end}		
+	</select>
+	
+	<select id="getMyReviewCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM REVIEW R JOIN CAR_PARK C
+		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+		WHERE DEL = 1 AND MEM_NUM = #{mem_num}
+		<if test="searchText != null and searchText != ''">
+			<choose>
+				<when test="searchGbn eq 1">
+					AND ID = #{searchText}
+				</when>
+				<when test="searchGbn eq 2">
+					AND NM = #{searchText}
+				</when>
+				<when test="searchGbn eq 3">
+					AND EMAIL LIKE '%' || #{searchText} || '%'
+				</when>
+				<when test="searchGbn eq 4">
+					AND AT.AUTORITY_NM = #{searchText}
+				</when>
+	        </choose>
+       </if>
+	</select>
 	
 	<update id="memUpdate" parameterType="hashmap">
 		UPDATE MEMBER
 		SET IMG = #{img}
-		WHERE MEM_NUM = #{hno}
+		WHERE MEM_NUM = #{mem_num}
 	</update>
 	
 	<update id="memWit" parameterType="hashmap">
 		UPDATE MEMBER 
 		SET WIT_DT = sysdate
-		WHERE MEM_NUM = #{hno}
+		WHERE MEM_NUM = #{mem_num}
 	</update>
+	
 	
 
 	

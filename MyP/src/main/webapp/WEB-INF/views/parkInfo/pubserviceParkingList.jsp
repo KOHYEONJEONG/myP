@@ -97,7 +97,7 @@ $(document).ready(function() {
 	
 	//주차장관련 ajax
 	function reloadList() {
-		var params = $("#infoForm").serialize();
+		var params = $("#dataForm").serialize();
 		
 		$.ajax({
 			url: "parkinfoList",
@@ -196,8 +196,8 @@ $(document).ready(function() {
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchTxt").val($("#oldTxt").val());
 		
-		$("#infoForm").attr("action", "parkinfodetail");
-		$("#infoForm").submit();
+		$("#dataForm").attr("action", "parkinfodetail");
+		$("#dataForm").submit();
 	});
 });
 
@@ -216,8 +216,7 @@ $(document).ready(function() {
       
       <div class="right_area">            
           <div class="table_wrap">
-          <div class="cmn_btn mtb" id="updateBtn">수정</div><br/>
-          <form action="#" id="infoForm" method="post">
+          <form action="#" id="dataForm" method="post">
            <input type="hidden" id="oldGbn" value="0" />
 				<input type="hidden" id="oldText" />
           <input type="hidden" name="no" id="no" />
