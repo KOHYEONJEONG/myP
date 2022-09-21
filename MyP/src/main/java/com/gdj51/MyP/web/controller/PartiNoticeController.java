@@ -50,6 +50,22 @@ public class PartiNoticeController {
 	}
 
 	// 공지사항 메뉴 리스트
+		@RequestMapping(value = "/hnoticeList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+		@ResponseBody
+		public String hnoticeListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> model = new HashMap<String, Object>();
+
+
+			List<HashMap<String, String>> list = dao.getList("noti.hgetNoticeList");
+
+			model.put("list", list);
+
+			return mapper.writeValueAsString(model);
+		}
+
+		
+	// 공지사항 메뉴 리스트
 	@RequestMapping(value = "/noticeList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String noticeListAjax(@RequestParam HashMap<String, String> params) throws Throwable {

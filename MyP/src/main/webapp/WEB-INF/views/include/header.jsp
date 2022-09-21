@@ -6,12 +6,43 @@
 <head>
 <meta charset="UTF-8">
 <title>MyP</title>
-<script src="resources/js/header.js"></script>
+<link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <style>
+		
+.swiper-container1 {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+
+}
+.swiper-wrapper {
+  height: 40px;
+}
+.swiper-container1 .swiper-slide {
+text-align: left;
+  font-size: 16px;
+  background: #fff;
+  heigth: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center; 
+}
+    </style>
+<script src="resources/jquery/jquery-1.12.4.js"></script>  
+ <script src="resources/js/header.js"></script>   
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </head>
 <body>
 	<form action="#" id="headerForm">
 		<input type="hidden" name="mem_num" id="mem_num" value="${sMemNo}">
 	</form>
+	<form action="#" id="headerNotiForm"></form>
 
 	<!-- 메인페이지 용, 너비가 넓음. -->
 	<header>
@@ -19,7 +50,9 @@
 			<div class="top_area">
 				<div class="notices">
 					<div class="icons no"></div>
-					<div class="notice first">암사동 공영주차장 운영개시 안내</div>
+					<div class="swiper-container1">
+				  <div class="swiper-wrapper"></div>
+				</div>
 				</div>
 			</div>
 			<div class="bottom_area1">
