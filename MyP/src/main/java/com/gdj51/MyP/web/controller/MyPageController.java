@@ -172,6 +172,51 @@ public class MyPageController { //no
 		return mav;
 	}
 	
+	//mypageReviewUpdate
+	@RequestMapping(value = "/mypageReviewUpdate")
+	public ModelAndView mypageReviewUpdate(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		System.out.println("mypageReviewUpdate : " + params.toString());
+	
+		//review_num <--넘겨받음
+		HashMap<String, String> data = dao.getMapData("member.getMyReview",params);
+		mav.addObject("data",data);
+		
+		mav.setViewName("mypage/mypageReviewUpdate");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/myReviewAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String myReviewActionAjax(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		int cnt = 0;
+
+		try {
+			switch (gbn) {
+				case "update":
+					cnt = dao.update("member.updateMyreview", params);
+					break;
+				case "delete":
+					cnt = dao.update("member.deleteMyreview", params);
+					break;
+			}
+
+			if (cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
+
+		return mapper.writeValueAsString(model);
+	}
+	
 	// 회원탈퇴
 	@RequestMapping(value = "/withdraw")
 	public ModelAndView withdraw(ModelAndView mav, @RequestParam HashMap<String, String> params) {

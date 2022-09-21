@@ -121,14 +121,14 @@
 	</select>
 	
 	<select id="getMyReview" resultType="hashmap" parameterType="hashmap">
-		SELECT CAR_PARK_NM, PHONE, CAR_PARK_TP_NM, ADDRESS, PAYORFREE_DIV, CON,
+		SELECT CAR_PARK_NM, PHONE, CAR_PARK_TP_NM, ADDRESS, PAYORFREE_DIV, CON,R.CCTV_STAR_SCORE,R.ENV_STAR_SCORE, R.FEE_STAR_SCORE, R.DIS_STAR_SCORE,
 				TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI:SS') AS WEEKDAY_START_TIME, TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI:SS') AS WEEKDAY_END_TIME,
 				TO_CHAR(WEEKEND_START_TIME, 'HH24:MI:SS') AS WEEKEND_START_TIME, TO_CHAR(WEEKEND_END_TIME, 'HH24:MI:SS') AS WEEKEND_END_TIME,  
 				FEE_RATE, TIME_RATE,ADD_FEE, ADD_TIME_RATE
 		FROM CAR_PARK C JOIN REVIEW R
 	    		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
 	    		AND R.DEL = 1 AND R.REVIEW_NUM = #{review_num}
-		WHERE R.MEM_NUM = #{no}
+		WHERE R.MEM_NUM = #{no} 
 	</select>
 	
 	<update id="memUpdate" parameterType="hashmap">
@@ -143,6 +143,11 @@
 		WHERE MEM_NUM = #{no}
 	</update>
 	
+	<update id="deleteMyreview" parameterType="hashmap">
+		UPDATE REVIEW
+		SET DEL = 0
+		WHERE REVIEW_NUM = #{review_num} AND MEM_NUM = #{no} 
+	</update>
 	
 
 	
