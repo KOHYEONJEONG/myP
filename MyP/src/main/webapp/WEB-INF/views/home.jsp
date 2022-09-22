@@ -155,8 +155,7 @@
               <div class="stitle">주간 예보</div>
               <div class="side_bottom">
                   <div class="swiper mySwiper">
-                      <div class="swiper-wrapper">
-                      </div>
+                      <div class="swiper-wrapper"></div>
                       <div class="swiper-button-prev"></div>
                       <div class="swiper-button-next"></div>
                   </div>
