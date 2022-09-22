@@ -240,7 +240,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
    <!--  전화면에서 넘어온 카테고리 번호 -->
  
 </form>
-  <%--<c:import url="/header1"></c:import>--%> 
+  <c:import url="/header1"></c:import>
      <main>
         <div class="main_wrap">
             <div class="side_bar">

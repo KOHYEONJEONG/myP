@@ -39,7 +39,7 @@ $(document).ready(function() {
 	   });
 	   
 	   // 페이징 버튼
-	   $(".paging_area").on("click", "span", function() {
+	   $(".page_nation").on("click", "a", function() {
 	      // 기존 검색상태 유지      
 	      $("#select_b").val($("#oldGbn").val());
 	      $("#searchTxt").val($("#oldTxt").val());
@@ -152,7 +152,7 @@ function drawPaging(pd) {
 </script>
 </head>
 <body>
- <%--  <c:import url="/header1"></c:import> --%>
+ <c:import url="/header1"></c:import>
       <main>
         <div class="main_wrap">
           <div class="side_bar">
