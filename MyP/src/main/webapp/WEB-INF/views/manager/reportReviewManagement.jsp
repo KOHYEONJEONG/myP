@@ -99,6 +99,13 @@ $(document).ready(function() {
 			      }else{
 			      html += "<td>" + "○" + "</td>";	  
 			      }
+			      if(typeof data.RFC == 'undefined'){
+			    	  html += "<td>" + "X" + "</td>";
+					}else{
+						   html += "<td>" + data.RFC + "</td>";
+					}
+			
+			   
 			      html += "</tr>";
 			}
 			
@@ -192,6 +199,7 @@ $(document).ready(function() {
                       <th>조회수</th>
                       <th>신고</th>
                       <th>확인상태</th>
+                      <th>반려사유</th>
                     </tr>
                   </thead>
                   
