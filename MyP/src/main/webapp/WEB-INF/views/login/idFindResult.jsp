@@ -93,12 +93,15 @@ a {
 }
 </style>
 <script type="text/javascript">
-$("#loginBtn").on("click", function(){
-	location.href = "login";
-});
-$("#pwFind").on("click", function(){
-	location.href = "pwFind";
-});
+ $(document).ready(function () {
+	$("#loginBtn").on("click", function(){
+		location.href = "login";
+	});
+	$("#pwFind").on("click", function(){
+		location.href = "pwFind";
+	});
+
+ })
 </script>
 </head>
 <body>

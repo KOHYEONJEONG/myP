@@ -111,7 +111,7 @@
                 	</div>
                     <hr >
                     <div class="btn_wrap">
-                        <input type="button" value="목록" class="btn list">
+                        <input type="button" value="목록" class="btn list" id="listBtn">
                         <input type="button" value="등록" class="btn regi" id="insertBtn">
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 package com.gdj51.MyP.web.controller;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -225,8 +224,10 @@ public class ManagerController {
 		model.put("data", data);
 
 
+		
 		List<HashMap<String, String>> gbn = dao.getList("manager.autority", params);
 		model.put("gbn", gbn);
+		
 		return mapper.writeValueAsString(model);
 	}
 

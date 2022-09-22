@@ -310,6 +310,7 @@ function drawPaging(pd) {
 		$("#searchTxt").val($("#oldTxt").val());
 		
 		$("#dataForm").attr("action", "parkinfodetail");
+		
 		$("#dataForm").submit();
 	});
 	
@@ -366,6 +367,7 @@ function drawPaging(pd) {
                   <option value="4">주유소</option>
                 </select>
                 <form action="#" id="dataForm" method="post">
+                <input type="hidden" name="no" id="no" />
                 <input type="hidden" id="oldGbn" value="0" />
 				<input type="hidden" id="oldText" />
                 <input type="hidden" name="page" id="page" value="1" /> 
@@ -396,17 +398,19 @@ function drawPaging(pd) {
 				<col width="100" />
 				<col width="250" />
 			</colgroup>
+			
                 <thead>
-                 
                 </thead>
+                
                 <tbody>
-                  
                 </tbody>
               </table>
+              
                 <!--페이징-->
                 <div class="page_wrap">
-                      <div class="page_nation"></div>
-                   </div>
+                   <div class="page_nation"></div>
+                </div>
+                
             </div>
           </div>
         </div>
