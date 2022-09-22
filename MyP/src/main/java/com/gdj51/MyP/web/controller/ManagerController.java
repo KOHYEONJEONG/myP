@@ -38,7 +38,7 @@ public class ManagerController {
 		mav.setViewName("manager/categoryManagement");
 		return mav;
 	}
-	
+
 	// 관리자 페이지 카테고리 하위분류명 테이블 action
 	@RequestMapping(value = "/categoryManagementAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
@@ -82,12 +82,12 @@ public class ManagerController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		
+
 		// 페이지 받아오게 되어있음
 		int cnt = dao.getIntData("cate.getCateCnt", params);				
 
 		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
-		
+
 
 		System.out.println("params : " + params.toString());
 
@@ -198,11 +198,11 @@ public class ManagerController {
 
 		model.put("list", list);
 		model.put("pd", pd);
-	
+
 
 		return mapper.writeValueAsString(model);
 	}
-	
+
 	// 관리자 페이지 데이터관리 목록화면
 	@RequestMapping(value = "/autorityPopup")
 	public ModelAndView autorityPopup(ModelAndView mav) {
@@ -210,36 +210,38 @@ public class ManagerController {
 		return mav;
 	}
 
-	
+
 	@RequestMapping(value = "/memDetailAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String memDetailAjax(@RequestParam HashMap<String,String> params) throws Throwable{
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
-		
+
 		System.out.println("(*)memDetailAjax : "+params.toString());
 
 		HashMap<String, String> data = dao.getMapData("member.getMember", params);
 
 		model.put("data", data);
+
+
 		
 		List<HashMap<String, String>> gbn = dao.getList("manager.autority", params);
 		model.put("gbn", gbn);
 		
 		return mapper.writeValueAsString(model);
 	}
-	
-	
+
+
 	@RequestMapping(value = "/autoryUpdateAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String autoryUpdateAjax(ModelAndView mav, 	@RequestParam 	HashMap<String, String> params) throws Throwable {
-		
+
 		System.out.println("(*)autorityUpdate : "+params.toString());
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 		int cnt = 0;
 		cnt = dao.update("manager.autorityUpdate", params);
-		
+
 		if(cnt > 0) {
 			model.put("msg", "success");
 		}else {
@@ -247,7 +249,7 @@ public class ManagerController {
 		}
 		return mapper.writeValueAsString(model);
 	}
-	
+
 
 	// 관리자 페이지 신고관리 목록화면
 	@RequestMapping(value = "/reportReviewManagement")
@@ -256,14 +258,14 @@ public class ManagerController {
 			@RequestParam HashMap<String,String> params,
 			ModelAndView mav) {
 		int page = 1;
-		
+
 		if(params.get("page")!=null && params.get("page")!="") {
-		page = Integer.parseInt(params.get("page"));
+			page = Integer.parseInt(params.get("page"));
 		}
 		mav.addObject("page",page);
-		
+
 		mav.setViewName("manager/reportReviewManagement");
-		
+
 		return mav;
 	}
 	@RequestMapping(value= "/reportReviewAjax",
@@ -272,41 +274,110 @@ public class ManagerController {
 	@ResponseBody
 	public String reportReviewAjax(
 			@RequestParam HashMap<String, String> params)throws Throwable{
-			ObjectMapper mapper = new ObjectMapper();
-			
-			Map<String, Object> model = new HashMap<String,Object>();
-			
-			int cnt = dao.getIntData("reportreview.reportreviewCnt",params);
-			
-			HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
-					cnt,10,5);
-			
-			params.put("start", Integer.toString(pd.get("start")));
-			params.put("end", Integer.toString(pd.get("end")));
-		
-			
-			List<HashMap<String, String>> list = dao.getList("reportreview.List",params);
-			
-			model.put("list",list);
-			model.put("pd",pd);
-			
-			return mapper.writeValueAsString(model);
-		}
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, Object> model = new HashMap<String,Object>();
+
+		int cnt = dao.getIntData("reportreview.reportreviewCnt",params);
+
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
+				cnt,10,5);
+
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+
+
+		List<HashMap<String, String>> list = dao.getList("reportreview.List",params);
+
+		model.put("list",list);
+		model.put("pd",pd);
+
+		return mapper.writeValueAsString(model);
+	}
 	@RequestMapping(value= "/reportReviewDetail")
-	public ModelAndView QnaDetail(@RequestParam HashMap<String, String> params,
+	public ModelAndView reportReviewDetail(@RequestParam HashMap<String, String> params,
 			ModelAndView mav) throws Throwable {
-		
-		if(params.get("no")!=null && params.get("no") != "") {
-			
-		
-		HashMap<String, String>data = dao.getMapData("reportreview.getreportReview",params);
-		
-		mav.addObject("data",data);
-		
-		mav.setViewName("report/reportReviewManagementDetail1");
+
+		System.out.println("reportReviewDetail====>"+params.toString());
+		if(params.get("review_num")!=null && params.get("review_num") != "") {
+			HashMap<String, String>data = dao.getMapData("reportreview.getreportReview",params);
+			mav.addObject("data",data);
+			System.out.println("data===>"+data);
+			mav.setViewName("report/reportReviewManagementDetail1");
+		}else {
+			System.out.println("data===>없음");
+			mav.setViewName("redirect:reportReviewManagement");
+		}
+		return mav;
+	}
+	@RequestMapping(value= "/reportReviewDetail2")
+	public ModelAndView reportReviewDetail2(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
+
+		if(params.get("review_num")!=null && params.get("review_num") != "") {
+			HashMap<String, String>data = dao.getMapData("reportreview.getreportReview",params);
+
+			mav.addObject("data",data);
+
+			mav.setViewName("report/reportReviewManagementDetail2");
 		}else {
 			mav.setViewName("redirect:reportReviewManagement");
 		}
 		return mav;
 	}
+
+	@RequestMapping(value= "/reportReviewaction/{gbn}",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String reportReviewactionAjax(
+			@PathVariable String gbn,
+			@RequestParam HashMap<String,String> params) throws Throwable{
+		
+		System.out.println("reportReviewaction ==>"+params.toString());
+		ObjectMapper mapper = new ObjectMapper();
+		HashMap<String, Object> model = new HashMap<String, Object>();
+
+		int cnt = 0;
+
+		try {
+			switch(gbn) {
+				case "update" :
+					cnt = dao.update("reportreview.update",params);
+					break;
+				} 
+			
+			System.out.println("cnt====>"+cnt);
+			if(cnt>0) {
+				model.put("result", "success");
+			}else {
+				model.put("result", "fail");
+			}
+			System.out.println(model.get("result"));
+		}
+		catch (Exception e) {
+			model.put("result", "error");
+			e.printStackTrace();
+		}
+		return mapper.writeValueAsString(model);
+	}
+	
+	@RequestMapping(value= "/giveReport")
+	public ModelAndView giveReport(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
+		
+		if(params.get("review_num")!=null && params.get("review_num") != "") {
+			/* 멤버 데이터에 경고수 늘어 */
+			dao.update("reportreview.updatereport",params);
+			/* 관리자가 경고 줄때 관리자번호 데이터 넣어짐 */
+			dao.update("reportreview.givereport",params);
+		
+		mav.setViewName("redirect:reportReviewDetail2");
+		}
+		return mav;
+	}
 }
+	
+	
+
+
