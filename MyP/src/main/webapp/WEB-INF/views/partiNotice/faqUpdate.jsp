@@ -86,6 +86,7 @@ $(document).ready(function () {
   <form action="faq" id="backForm" method="post">
       <main>
       <input type="hidden" name="no" value="${param.no}">
+      <input type="hidden" name="no1" value="${param.no1}">
       <input type="hidden" name="page" value="${param.page}" />
 	  <input type="hidden" name="searchGbn" value="${param.searchGbn}"/>
 	  <input type="hidden" name="searchText" value="${param.searchText}"/>
@@ -111,11 +112,11 @@ $(document).ready(function () {
                         <option value="3">이용안내</option>
                       </select>
                     <hr />
-                    <input type="text" class="input_box" id="que" name="que" placeholder="제목을 입력하세요">
+                    <input type="text" class="input_box" id="que" name="que" value="${data.QUE}">
                     <hr />
                     <div class="con">
                         <!--textarea에 id값을 con로 바꿔줌-->
-                         <textarea class="form-control" rows="5" id="con" name="con"></textarea>
+                         <textarea class="form-control" rows="5" id="con" name="con">${data.ANSWER_CON}</textarea>
                     </div>
                     <hr >
                     <div class="btn_wrap">
