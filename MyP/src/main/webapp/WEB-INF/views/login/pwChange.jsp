@@ -10,7 +10,9 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
    	<link rel="stylesheet" href="resources/css/font.css">
+   	<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css">
     <script src="resources/jquery/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="resources/script/common/popup.js"></script>
 	<script src="resources/js/join.js"></script>
 <style>
    .wrap {
@@ -129,52 +131,52 @@ input, select{
 }
 
 #changeBtn{
-    margin-top: 15px;
+   margin-top: 15px;
    height: 60px;
-    border: solid 1px #00af80;
-    text-align: center;
-    background: #00af80;
-    color:white;
-    font-size: 18px; 
+   border: solid 1px #00af80;
+   text-align: center;
+   background: #00af80;
+   color:white;
+   font-size: 18px; 
    box-sizing: border-box;
    border-radius: 5px;
    cursor: pointer;
-    width: 450px;
+   width: 450px;
+   line-height: 60px;
 }
 
 /*비밀번호 확인 일치 유효성 검사*/
 .pwck_input_re_1 {
 	color : green;
 	display : none;
+	font-size: 14px
 }
 .pwck_input_re_2{
 	color : red;
 	display : none;
+	font-size: 14px
 }
 
 </style>
-<script type="text/javascript">
-console.log($("#memNo").val());
-
-</script>
 </head>
 <body>
     <div class="wrap">
    	<h1 class="logo"></h1>
-   <form name="pwChangeform" id="pwChangeform">
+   <form action="#" name="pwChangeform" id="pwChangeform" method="post">
+   		<input type="hidden" name="email" id="email" value="${param.email}"/>
    		<input type="hidden" name="memNo" id="memNo" value="${data.MEM_NUM}"/>
         <div class="title">비밀번호 변경</div>
         <div class="input_box">
            <input type="password" name="pwd" placeholder="새비밀번호" id="pwd" required><br>
         </div> 
-        <span class="" id="pw_ck_status"></span>
+        <span class="" id="pw_ck_status" style="font-size: 14px"></span>
           <div class="input_box">
               <input type="password" id="rePw" placeholder="새비밀번호 재확인"><br>
           </div>  
          <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
 			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
         <div>
-            <button class="sign_up" type="submit" id="changeBtn">변경</button>
+            <div class="sign_up" id="changeBtn">변경</div>
         </div>
     </form>
 </div>

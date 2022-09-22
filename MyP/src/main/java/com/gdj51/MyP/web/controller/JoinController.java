@@ -150,7 +150,7 @@ public class JoinController {
 				params.put("pwd", Utils.encryptAES128(params.get("pwd")));
 				System.out.println("회원가입 param : " + params.toString());
 
-				String email = params.get("email1") + '@' + params.get("email2");
+				String email = params.get("account") + '@' + params.get("domain");
 
 				params.put("email", email);
 

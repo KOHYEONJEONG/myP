@@ -7,6 +7,12 @@ $(document).ready(function () {
 	
    	var send_num = "";
 	
+	   
+   $("#id").keyup(function () {
+      var id = $('#id').val();
+      ckId(id);
+   });
+	
 	
    $('#mail-Check-Btn').click(function() {//인증번호 전송 버튼
 	   const email = $('#account').val()+ '@' + $('#domain').val(); //이메일 주소값 얻어오기
@@ -216,10 +222,10 @@ $(document).ready(function () {
    
    $("#joinBtn").on("click", function() {
 	  
-	   console.log("버튼 id==>"+ckId($("#id_input").val()));
-	   if($.trim($("#id_input").val()) == "" ||!ckId($("#id_input").val())) {
+	   console.log("버튼 id==>"+ckId($("#id").val()));
+	   if($.trim($("#id").val()) == "" ||!ckId($("#id").val())) {
 		   alert("아이디를 형식에 맞게 작성해주세요.", function() {
-			   $("#id_input").focus();
+			   $("#id").focus();
 		   });
 		   
 		   return false;
@@ -259,8 +265,7 @@ $(document).ready(function () {
 		   });
 		   return false;
 	   }
-	   
-	   
+	     
 		var params = $("#joinform").serialize();
 		$.ajax({
 		url: "JAction/insert",
@@ -271,7 +276,17 @@ $(document).ready(function () {
 			console.log(res);
 			console.log("res.msg:"+res.msg);
 			if(res.msg == "success"){
-				location.href = "login";
+				  makePopup({
+			         title : "알림",
+			         contents : "회권가입이 완료되었습니다.",
+			         // draggable : true,
+			         buttons : [{
+			            name : "확인",
+			            func:function() {
+			            	location.href = "login";
+			            }
+			         }]
+				})
 			}else if(res.msg == "fail"){
 				makeAlert("알림", "등록에 실패하였습니다.");
 			}else{
@@ -303,6 +318,13 @@ $(document).ready(function () {
 		   });
 		   return false;
 	   }
+	   
+	   if($.trim($("#pwd").val()) != $.trim($("#rePw").val())) {
+		   alert("비밀번호가 서로 다릅니다.", function() {
+			   $("#pwd").focus();
+		   });
+		   return false;
+	   }
 	      
 		var params = $("#pwChangeform").serialize();
 		$.ajax({
@@ -314,7 +336,18 @@ $(document).ready(function () {
 			console.log(res);
 			console.log("res.msg:"+res.msg);
 			if(res.msg == "success"){
-				makeAlert("알림", "비밀번호가 변경되었습니다.");
+					 makePopup({
+					         title : "알림",
+					         contents : "비밀번호가 변경되었습니다.",
+					         // draggable : true,
+					         buttons : [{
+					            name : "확인",
+					            func:function() {
+					            	location.href = "login";
+					            }
+					         }]
+				})
+		
 			}else if(res.msg == "fail"){
 				makeAlert("알림", "변경에 실패하였습니다.");
 			}else{

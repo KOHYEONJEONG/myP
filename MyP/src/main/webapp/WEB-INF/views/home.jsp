@@ -21,9 +21,9 @@
   <script src="${pageContext.request.contextPath}/resources/js/weather.js"></script><!--추가-->
 <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
    <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
    <script src="${pageContext.request.contextPath}/resources/js/header.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
 </head>
 <body>
@@ -155,8 +155,7 @@
               <div class="stitle">주간 예보</div>
               <div class="side_bottom">
                   <div class="swiper mySwiper">
-                      <div class="swiper-wrapper">
-                      </div>
+                      <div class="swiper-wrapper"></div>
                       <div class="swiper-button-prev"></div>
                       <div class="swiper-button-next"></div>
                   </div>

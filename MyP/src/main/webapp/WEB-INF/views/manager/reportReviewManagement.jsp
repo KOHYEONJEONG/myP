@@ -39,25 +39,33 @@ $(document).ready(function() {
 	   });
 	   
 	   // 페이징 버튼
-	   $(".paging_area").on("click", "span", function() {
-	      // 기존 검색상태 유지      
+	   $(".page_nation").on("click", "a", function() {
+	      // 기존 검색상태 유지   
+	        $("#page").val($(this).attr("page"));
 	      $("#select_b").val($("#oldGbn").val());
 	      $("#searchTxt").val($("#oldTxt").val());
-	      
-	      
-	      $("#page").val($(this).attr("page"));
-	      
+	     
 	      reloadList();
 	   });   
 	   $("tbody").on("click", "tr", function() {
-		      $("#no").val($(this).attr("no"));
+		   	console.log($(this).attr("no"));
+		      $("#review_num").val($(this).attr("no"));
 		      
-		      // 기존 검색상태 유지
-		      $("#select_b").val($("#oldGbn").val());
-		      $("#searchTxt").val($("#oldTxt").val());
-		      
-		      $("#actionForm").attr("action", "reportReviewDetail");
-		      $("#actionForm").submit();
+		     console.log($(this).attr("status"));
+		     if($(this).attr("status")==1){
+		    	 $("#select_b").val($("#oldGbn").val());
+			      $("#searchTxt").val($("#oldTxt").val());
+			      
+			      $("#actionForm").attr("action", "reportReviewDetail2");
+			      $("#actionForm").submit(); 
+		     }else{
+		    	 $("#select_b").val($("#oldGbn").val());
+			      $("#searchTxt").val($("#oldTxt").val());
+			      
+			      $("#actionForm").attr("action", "reportReviewDetail");
+			      $("#actionForm").submit(); 
+		     }
+
 		   });
 		}); // document ready end
 		function reloadList() {
@@ -79,14 +87,25 @@ $(document).ready(function() {
 		function drawList(list) {
 			var html = "";
 			for(var data of list){
-				  html += "<tr no=\"" + data.REVIEW_NUM + "\">";
+				  html += "<tr no=\"" + data.REVIEW_NUM + "\" status=\"" + data.STS_NUM + "\">";
 				  html += "<td>" + data.REVIEW_NUM + "</td>";
 			      html += "<td>" + data.TITLE + "</td>";
 			      html += "<td>" + data.NM + "</td>";
 			      html += "<td>" + data.DT + "</td>";
 			      html += "<td>" + data.HIT + "</td>";
 			      html += "<td>" + data.CNT + "</td>";
-			      html += "<td>" + data.STS_NUM + "</td>";
+			      if(data.STS_NUM == 0){
+			      html += "<td>" + "X" + "</td>";
+			      }else{
+			      html += "<td>" + "○" + "</td>";	  
+			      }
+			      if(typeof data.RFC == 'undefined'){
+			    	  html += "<td>" + "X" + "</td>";
+					}else{
+						   html += "<td>" + data.RFC + "</td>";
+					}
+			
+			   
 			      html += "</tr>";
 			}
 			
@@ -130,7 +149,7 @@ $(document).ready(function() {
 
 </head>
 <body>
-<c:import url="/header1"></c:import>
+ <c:import url="/header1"></c:import> 
       <main>
         <div class="main_wrap">
           <div class="side_bar">
@@ -151,7 +170,7 @@ $(document).ready(function() {
                 <div class="search_box">
                  	<input type="hidden" id="oldGbn" value="0" />
 					<input type="hidden" id="oldTxt" />
-               		<input type="hidden" name="no" id="no" />   
+               		<input type="hidden" name="review_num" id="review_num" />   
       				<input type="hidden" name="page" id="page" value="${page}" />  	
                   <div class="select">
                       <select name="select_b" id="select_b">
@@ -167,7 +186,9 @@ $(document).ready(function() {
                    <div class="search_btn" id="searchbtn">
                     검색
                   </div>
-                </div>
+                </div> <!-- searchBox -->
+                </form>
+                
                 <table>
                   <thead>
                     <tr>
@@ -178,118 +199,16 @@ $(document).ready(function() {
                       <th>조회수</th>
                       <th>신고</th>
                       <th>확인상태</th>
+                      <th>반려사유</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>10</td>
-                      <td>신교 공영 주차장</td>
-                      <td>두린이</td>
-                      <td>2022-06-25</td>
-                      <td>60</td>
-                      <td>57</td>
-                      <td>O</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                  
+                  <tbody>                 
                   </tbody>
                 </table>
                   <!--페이징-->
                   <div class="page_wrap">
                       <div class="page_nation">
-                         <a class="arrow pprev" href="#"></a>
-                         <a class="arrow prev" href="#"></a>
-                         <a href="#" class="active">1</a>
-                         <a href="#">2</a>
-                         <a href="#">3</a>
-                         <a href="#">4</a>
-                         <a href="#">5</a>
-                         <a href="#">6</a>
-                         <a href="#">7</a>
-                         <a href="#">8</a>
-                         <a href="#">9</a>
-                         <a href="#">10</a>
-                         <a class="arrow next" href="#"></a>
-                         <a class="arrow nnext" href="#"></a>
                       </div>
                    </div>
               </div>

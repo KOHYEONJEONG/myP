@@ -195,7 +195,7 @@ height: 100%;
 			</div>
 			
 			<form action="#" id="actionForm" name="actionForm">
-				<input type="hidden" id="no" name="no" value="${param.no}">
+				<input type="hidden" id="no" name="no" value="${sMemNo}">
 				<input type="hidden" id="email" name="email">
 				<div class="right_area">
 					<!-- 여기 -->
