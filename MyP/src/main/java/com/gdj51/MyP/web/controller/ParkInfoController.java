@@ -31,16 +31,13 @@ public class ParkInfoController {
 			ModelAndView mav) {
 		
 		int page = 1;
-
+		
 		if(params.get("page") != null && params.get("page") != "")
 		{
 			page = Integer.parseInt(params.get("page"));
 		}
-
 		
 		mav.addObject("page", page);
-	
-
 		mav.setViewName("parkInfo/pubserviceParkingList");
 		
 		return mav;
@@ -50,14 +47,21 @@ public class ParkInfoController {
 	public ModelAndView parkinfodetail(@RequestParam HashMap<String, String> params,
 			ModelAndView mav) throws Throwable {
 		
-		
+		System.out.println("parkinfodetail ->" + params.toString());
+		if(params.get("no") != null && params.get("no") != "") {
 			
+			dao.update("info.updateInfoHit", params);
 			HashMap<String, String> data
 			= dao.getMapData("info.getinfo", params);
 			
 			mav.addObject("data", data);
 			
 			mav.setViewName("parkInfo/pubserviceParkingListDetail");
+		} else {
+			mav.setViewName("redirect:parkinfo");
+		}
+			
+			
 			
 		
 		
@@ -78,6 +82,7 @@ public class ParkInfoController {
 			
 			System.out.println("params : "+params.toString());
 			
+			//페이지 받아와야하는데..
 			int cnt = dao.getIntData("info.carinfocnt", params);
 			
 			HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
@@ -112,7 +117,7 @@ public class ParkInfoController {
 					cnt = dao.update("info.updateInfo", params);
 				break;
 				case "delete":
-					cnt = dao.update("info.deleteInfo", params);
+					cnt = dao.delete("info.deleteInfo", params);
 				break;
 				}
 				
@@ -129,6 +134,23 @@ public class ParkInfoController {
 			return mapper.writeValueAsString(model);
 		}
 		
-		
+		@RequestMapping(value="parkInfoUpdate")
+		public ModelAndView aTUpdate (@RequestParam HashMap<String, String> params,
+				ModelAndView mav) throws Throwable {
+			if(params.get("no") != null && params.get("no") != "") {
+				HashMap<String, String> data
+				= dao.getMapData("info.getinfo", params);
+				
+				mav.addObject("data", data);
+				
+				mav.setViewName("parkInfo/pubserviceParkingListUpdate");
+				
+			} else {
+				mav.setViewName("redirect:parkinfo");
+			}
+			
+			
+			return mav;
+		}
 
 }
