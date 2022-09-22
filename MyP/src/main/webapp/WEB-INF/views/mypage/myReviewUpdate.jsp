@@ -10,11 +10,13 @@
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script src="resources/js/main.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script> <!-- 별 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css"><!-- 별 -->
+<script type="text/javascript" src="resources/rety/jquery.raty.js"></script><!-- 별 -->
+<link rel="stylesheet" href="resources/rety/jquery.raty.css"><!-- 별 -->
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
+<script type="text/javascript" src="resources/script/common/popup.js"></script>
 <style>
 .rigth_contents {
-	width: 900px;
+	width: 800px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -22,7 +24,7 @@
 }
 
 table {
-	width: 900px;
+	width: 800px;
 	box-sizing: border-box;
 	border: 1px #a39485 solid;
 	font-size: 14px;
@@ -68,10 +70,10 @@ td.money>div {
 }
 
 .btn_wrap1 {
-	    display: flex;
-    justify-content: flex-end;
-    width: 907px;
-    margin-bottom: 10px;
+	display: flex;
+	justify-content: flex-end;
+	width: 800px;
+	margin-bottom: 10px;
 }
 
 .btn {
@@ -85,6 +87,15 @@ td.money>div {
 	text-align: center;
 }
 
+textarea.con{
+	width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    border: 0;
+	resize: none;
+	background-color: #fff;
+}
+
 .update {
 	margin: 0px 8px 0px 0px;
 	background: #FD9A29;
@@ -96,50 +107,60 @@ td.money>div {
 	background: #00af80;
 	border: solid 1px #00af80;
 }
-td.con{
-	background-color: #fff;
-}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#deleteBtn").on("click",function(){
-		action("delete");
+	
+	var starUpdate= [];
+	
+	$('.feeStar, .envStar, .cctvStar, .disStar').raty({ 
+		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images",
+        half : true,
+        hints :  [['bad 1/2', 'bad'], ['poor 1/2', 'poor'], ['regular 1/2', 'regular'], ['good 1/2', 'good'], ['gorgeous 1/2', 'gorgeous']]
+        ,width : 200
 	});
 	
+	$("#updateCancelBtn").on("click",function(){
+		console.log("수정취소");
+		//action("update");
+		history.back();
+	});
+		
 	$("#updateBtn").on("click",function(){
+		
+		$("#cctv_star").val($("#cctvStar input").val());
+		$("#env_star").val($("#envStar input").val());
+		$("#fee_star").val($("#feeStar input").val());
+		$("#dis_star").val($("#disStar input").val());
+		$("#sendCon").val($("#con").val());
+		
 		action("update");
 	});
 });
 
 var msg ={
 		"update" : "수정",
-		"delete" : "삭제",
 	}
 	
 //분류명 테이블의 action
-function action1(flag) {
+function action(flag) {
 	console.log(msg[flag]);
 	
 	var params = $("#actionForm").serialize();
 	
 	$.ajax({
-		url : "myReviewAction/" + flag,
+		url : "myReviewAction/"+flag, 
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
 		success : function(res) { 
 			switch(res.msg){
 			case "success" :
-				// 목록 재조회
 				switch(flag){
-					case "delete" :
-						$("#actionForm").attr("action","mypageReviewBoard");
-						$("#actionForm").submit();
-						break;
 					case "update" :
-						$("#actionForm").attr("action","mypageReviewUpdate");
+						$("#actionForm").attr("action","myReviewDetail");/*리뷰 상세보기 페이지로 이동*/
 						$("#actionForm").submit();
-						break; 
+					break; 
 				}
 				break;
 			case "fail" :
@@ -160,13 +181,19 @@ function action1(flag) {
 <body>
 	<c:import url="/header1"></c:import>
 	<form action="#" id="actionForm">
-		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}"/>
-		<input type="hidden" name="no" id="no" value="${sMemNo}"/>
-		   <!--  전 화면에서 넘어온 페이지 정보 -->
-		   <input type="hidden" name="page" id="page" value="${param.page}"/>
-		   <!--  전 화면에서 넘어온 검색 정보 -->
-		   <input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}"/>
-		   <input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}"/>
+		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}" /> 
+		<input type="hidden" name="no" id="no" value="${sMemNo}" />
+		
+		<input type="hidden" name="page" id="page" value="${param.page}" /><!--  전 화면에서 넘어온 페이지 정보 -->
+		
+		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
+		<input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}" /><!--  전 화면에서 넘어온 검색 정보 -->
+			
+		<input type="hidden" id="cctv_star" name="cctv_star"/>
+		<input type="hidden" id="env_star" name="env_star"/>
+		<input type="hidden" id="dis_star" name="dis_star"/>
+		<input type="hidden" id="fee_star" name="fee_star"/>
+		<input type="hidden" id="sendCon" name="sendCon"/>
 	</form>
 	<main>
 		<div class="main_wrap">
@@ -180,68 +207,45 @@ function action1(flag) {
 			<div class="right_area">
 				<div class="rigth_contents">
 					<div class="btn_wrap1">
-						<div class="btn delete" id="deleteBtn">삭제</div>
-						<div class="btn update" id="updateBtn">수정</div>
+						<div class="btn update cancle" id="updateCancelBtn">상세보기</div>
+						<div class="btn update" id="updateBtn">수정완료</div>
 					</div>
 					<table>
 						<thead>
 							<tr>
-								<th colspan="4">[나의 리뷰]</th>
+								<td colspan="4">[리뷰 수정페이지]</td>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>CCTV별점</td>
 								<td>
-									<input type="hidden" id="ENV_STAR_SCORE" value="${data.CCTV_STAR_SCORE}"/>
-									<div class="cctvStar"></div>
-									<script type="text/javascript">
-										$('.cctvStar').raty({ readOnly: true, score: $("#CCTV_STAR_SCORE").val(), 
-											path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"	
-										});
-									</script>
-									
+									<div class="cctvStar" data-score="${data.CCTV_STAR_SCORE}" id="cctvStar"></div> 
 								</td>
+								
 								<td>환경별점</td>
 								<td>
-									<input type="hidden" id="ENV_STAR_SCORE" value="${data.ENV_STAR_SCORE}"/>
-									<div class="envStar"></div>
-									<script type="text/javascript">
-									$('.envStar').raty({ readOnly: true, score: $("#ENV_STAR_SCORE").val(), 
-										path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"	
-									});
-									</script>
+									<div class="envStar" data-score="${data.ENV_STAR_SCORE}" id="envStar"></div> 
 								</td>
+								
 							</tr>
 							<tr>
 								<td>요금별점</td>
 								<td>
-									<input type="hidden" id="FEE_STAR_SCORE" value="${data.FEE_STAR_SCORE}"/>
-									<div class="feeStar"></div>
-									<script type="text/javascript">
-									$('.feeStar').raty({ readOnly: true, score: $("#FEE_STAR_SCORE").val(), 
-										path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"	
-									});
-									</script>
+									<div class="feeStar" data-score="${data.FEE_STAR_SCORE}" id="feeStar"></div> 
 								</td>
+								
 								<td>할인정보별점</td>
 								<td>
-									<input type="hidden" id="DIS_STAR_SCORE" value="${data.DIS_STAR_SCORE}"/>
-									<div class="disStar"></div>
-									<script type="text/javascript">
-									$('.disStar').raty({ readOnly: true, score: $("#DIS_STAR_SCORE").val(), 
-										path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"	
-									});
-									</script>
+									<div class="disStar" data-score="${data.DIS_STAR_SCORE}" id="disStar"></div> 
 								</td>
 							</tr>
+							
 							<tr>
 								<td>내용</td>
-								<td class="con" colspan="3">
-									<textarea name="con" id="con" class="con">
-										${data.CON}
-									</textarea>
-								</td>
+								<td colspan="3" class="textarea_box">
+									<textarea name="con" id="con" class="con">${data.CON}</textarea>
+							    </td>
 							</tr>
 						</tbody>
 					</table>
