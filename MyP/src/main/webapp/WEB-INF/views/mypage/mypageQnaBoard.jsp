@@ -38,21 +38,22 @@
 	   		$("#oldText").val($("#searchText").val());
 	   		
 	   		reloadList();
-   		});
+  		});
     	
     	//행을 누르면 상세보기로 이동~
    		$("tbody").on("click", "tr", function() {
    		      $("#review_num").val($(this).attr("no"));
-   			  $("#actionForm").attr("action","myReviewDetail");
+   			  $("#actionForm").attr("action","myQnADetail");
    			  $("#actionForm").submit();
    		   });
+    	     
 	});
     
+    
     function reloadList() {
-		//mypageReviewBoard
-		 var params = $("#actionForm").serialize();
+	   var params = $("#actionForm").serialize();
 	   $.ajax({
-		   url : "mypageReviewBoardAjax",
+		   url : "mypageQnaBoardAjax",
 		   type:"POST",
 		   dataType:"json",
 		   data : params, 
@@ -69,19 +70,25 @@
     
     function drawList(list) {
     	var html = "";
+    	var status = "O";
     	for(var data of list){		
-    		html +="<tr no=\""+data.REVIEW_NUM+"\">";
+    		html +="<tr no=\""+data.QNA_NUM+"\">";
     		html +="<td>" + data.NORNK+ "</td>";
-    		html +="<td>" + data.CAR_PARK_NM+ "</td>";
     		html +="<td>" + data.TITLE+ "</td>";
-    		html +="<td>" + data.REG_DT+ "</td>";
+    		
+    		html +="<td>" + data.PRIVATE+ "</td>";//비공개여부
+    		
+    		html +="<td>" + data.REG_DT+ "</td>"; //등록일
+    		if(data.ANSWER_DT == null){//답변이 없으면 
+    			status = "X";//제목 옆에다가 이미지 띄우자
+    		}
     		html +="<td>" + data.HIT+ "</td>";
     		html +="</tr>";
     		//html +="<div class=\"delete_btn\">삭제</div>";
     		//html +="<div class=\"delete_btn\">수정</div><br/>";
     	}
     	
-    	$(".tbody").html(html);
+    	$("tbody").html(html);
 	}
     
     function drawPaging(pd) {
@@ -134,7 +141,7 @@
         <form name="#" id="actionForm" method="post">
 	        <input type="hidden" id="oldGbn" value="0" />
 			<input type="hidden" id="oldText" />
-	        <input type="hidden" id="review_num" name="review_num"/><!-- 해당 글 리뷰 번호 -->
+	        <input type="hidden" id="qna_num" name="qna_num"/><!-- 해당 글 리뷰 번호 -->
 			<input type="hidden" name="page" id="page" value="1" />
 	 		<input type="hidden" name="no" id="no" value="${sMemNo}"/><!-- 나의 no-->
 	       <div class="right_area">
@@ -144,9 +151,8 @@
 	                  <div class="select">
 	                      <select name="searchGbn" id="searchGbn">
 	                        <option value="0">전체</option>
-	                        <option value="1">주차장명</option>
-	                        <option value="2">제목</option>
-	                        <option value="3">내용</option>
+	                        <option value="1">제목</option>
+	                        <option value="2">내용</option>
 	                    </select>
 	                   <!--조건선택-->
 	                  </div>
@@ -159,24 +165,34 @@
 	               </div>
 	               </div>
 	               <table>
+	               	<colgroup>
+	               		<col width="100px">
+	               		<col width="200px">
+	               		<col width="100px">
+	               		<col width="100px">
+	               		<col width="100px">
+	               	</colgroup>	
 	                 <thead>
 	                   <tr>
 	                     <th>번호</th>
-	                     <th>주차장명</th>
 	                     <th>제목</th>
 	                     <th>작성일</th>
+	                     <th>답변일</th>
 	                     <th>조회수</th>
 	                   </tr>
 	                 </thead>
 	                 
-	                 <tbody class="tbody">
+	                 <tbody>
 	                 </tbody>
+	                 
 	               </table>
-	                 <!--페이징-->
-	                 <div class="page_wrap">
-	                     <div class="page_nation">
-	                     </div>
-	                  </div>
+	               
+                 <!--페이징-->
+                 <div class="page_wrap">
+                     <div class="page_nation">
+                     </div>
+                  </div>
+                  
 	             </div>
 	       </div>
        </form> 

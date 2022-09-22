@@ -83,16 +83,16 @@
 				<if test="searchText != null and searchText != ''">
 					<choose>
 						<when test="searchGbn eq 1">
-							AND CAR_PARK_NM LIKE '%' || #{searchText} || '%'
+							AND C.CAR_PARK_NM LIKE '%' || #{searchText}  || '%'
 						</when>
 						<when test="searchGbn eq 2">
-							AND TITLE LIKE '%' || #{searchText} || '%'
+							AND TITLE LIKE '%' || #{searchText}  || '%'
 						</when>
-						<when test="searchGbn eq 2">
+						<when test="searchGbn eq 3">
 							AND CON LIKE '%' || #{searchText} || '%'
 						</when>
-			        </choose>
-		       </if>
+		        	</choose>
+       			</if>
 	    )R
 	    WHERE R.RNK BETWEEN #{start} AND #{end}		
 	</select>
@@ -101,20 +101,17 @@
 		SELECT COUNT(*) AS CNT
 		FROM REVIEW R JOIN CAR_PARK C
 		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-		WHERE DEL = 1 AND MEM_NUM = #{no}
+		WHERE R.DEL = 1 AND R.MEM_NUM = #{no}
 		<if test="searchText != null and searchText != ''">
 			<choose>
 				<when test="searchGbn eq 1">
-					AND ID = #{searchText}
+					AND C.CAR_PARK_NM LIKE '%' || #{searchText}  || '%'
 				</when>
 				<when test="searchGbn eq 2">
-					AND NM = #{searchText}
+					AND R.TITLE LIKE '%' || #{searchText}  || '%'
 				</when>
 				<when test="searchGbn eq 3">
-					AND EMAIL LIKE '%' || #{searchText} || '%'
-				</when>
-				<when test="searchGbn eq 4">
-					AND AT.AUTORITY_NM = #{searchText}
+					AND R.CON LIKE '%' || #{searchText} || '%'
 				</when>
 	        </choose>
        </if>
@@ -149,6 +146,68 @@
 		WHERE REVIEW_NUM = #{review_num} AND MEM_NUM = #{no} 
 	</update>
 	
-
+	<update id="updateMyreview" parameterType="hashmap">
+		UPDATE REVIEW
+		SET CCTV_STAR_SCORE = #{cctv_star} ,
+		    ENV_STAR_SCORE = #{env_star},
+			FEE_STAR_SCORE = #{fee_star},
+			DIS_STAR_SCORE = #{dis_star},
+			CON = #{sendCon}
+		WHERE REVIEW_NUM = #{review_num} AND MEM_NUM = #{no} 
+	</update>
 	
+	<!-- 나의 QnA Board -->
+	<select id="qnaList" resultType="hashmap" parameterType="hashmap">
+		SELECT Q.QNA_NUM, Q.TITLE, Q.PRIVATE, Q.HIT, Q.REG_DT, Q.ANSWER_DT, Q.NORNK
+		FROM(SELECT Q.QNA_NUM, Q.TITLE, Q.CON , Q.PRIVATE, Q.HIT, Q.REG_DT, Q.ANSWER_DT,
+					ROW_NUMBER() OVER(ORDER BY Q.QNA_NUM ASC) AS NORNK, ROW_NUMBER() OVER(ORDER BY  Q.QNA_NUM DESC) AS RNK
+			FROM QNA Q 
+			WHERE MEM_NUM = #{no} AND DEL = 1
+			<if test="searchText != null and searchText != ''">
+						<choose>
+							<when test="searchGbn eq 1">
+								AND TITLE LIKE '%' || #{searchText}  || '%'
+							</when>
+							<when test="searchGbn eq 2">
+								AND CON LIKE '%' || #{searchText} || '%'
+							</when>
+			        	</choose>
+	       			</if>
+		    )Q
+	    WHERE Q.RNK BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="qnaListCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*)
+		FROM QNA Q 
+		WHERE MEM_NUM = #{no} AND DEL = 1
+		<if test="searchText != null and searchText != ''">
+			<choose>
+				<when test="searchGbn eq 1">
+					AND TITLE LIKE '%' || #{searchText}  || '%'
+				</when>
+				<when test="searchGbn eq 2">
+					AND CON LIKE '%' || #{searchText} || '%'
+				</when>
+        	</choose>
+		</if>
+	</select>
+	
+	<select id="getQnaList" resultType="hashmap" parameterType="hashmap">
+		SELECT Q.QNA_NUM, Q.TITLE, Q.CON , Q.PRIVATE, Q.HIT, Q.REG_DT, Q.ANSWER_DT
+		FROM QNA Q 
+		WHERE MEM_NUM = #{no} AND DEL = 1 AND QNA_NUM = #{qna_num}
+	</select>
+	
+	<update id="updateQna" parameterType="hashmap">
+		UPDATE QNA
+		SET TITLE = #{title}, CON = #{con}, PRIVATE = #{private}
+		WHERE MEM_NUM = #{no} AND DEL = 1 AND QNA_NUM = #{qna_num}
+	</update>
+	
+	<update id="deleteQna" parameterType="hashmap">
+		UPDATE QNA
+		SET DEL = 0
+		WHERE MEM_NUM = #{no} AND DEL = 1 AND QNA_NUM = #{qna_num}
+	</update>
 </mapper>
