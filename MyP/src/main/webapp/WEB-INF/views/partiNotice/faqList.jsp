@@ -51,8 +51,8 @@
     line-height: 35px;
     text-align: center;
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 5px;
 }
 
 .btn_wrap1{
@@ -128,6 +128,16 @@
 		reloadList();
     });	
 	
+  	/// 테이블 검색버튼 부분, 엔터키 이벤트 막기
+	$("#actionForm").on("keypress", "input", function(event){
+		if(event.keyCode == 13){ //이벤트 코드가 엔터가들어오면
+		
+		//버튼 이벤트 발생
+		$("#searchBtn").click();
+			return false;
+		}
+	});	 
+  	
 	// 검색 버튼
 	$("#searchBtn").on("click", function() {
 		$("#page").val("1");
@@ -333,9 +343,9 @@ function drawPaging(pd) {
             <div class="side_bar">
                 <div class="title">참여/알림</div>
                 <div class="inner">
-                    <div>공지사항</div>
+                    <div id="notice2">공지사항</div>
                     <div class="on">FAQ</div>
-                    <div>QnA</div>
+                    <div id="qna2">QnA</div>
                 </div> 
             </div>
             <div class="right_area">            

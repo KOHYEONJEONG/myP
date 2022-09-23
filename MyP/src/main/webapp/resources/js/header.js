@@ -94,11 +94,19 @@ $(document).ready(function () {
 		location.href = "notice";
 	})
 	
+	$("#notice2").click(function() {
+		location.href = "notice";
+	})
+	
 	$("#faq").click(function() {
 		location.href = "faq";
 	})
 	
 	$("#qna").click(function() {
+		location.href = "qna";
+	})
+	
+	$("#qna2").click(function() {
 		location.href = "qna";
 	})
 	
