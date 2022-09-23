@@ -262,8 +262,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                   		</c:when>
                   		
                   		<c:when test="${sMemAuto == 1}">
-                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
-                    			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
+                   			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
                   		</c:when>
                   </c:choose> 
                   </div>

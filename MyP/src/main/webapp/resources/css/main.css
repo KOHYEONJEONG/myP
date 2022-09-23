@@ -1562,6 +1562,12 @@ main {
   background-color: #f6f6f6;
   border: 1px solid #ccc;
 }
+.register_wrap .btn.list1 {
+  margin-right: 10px;
+  background-color: #f6f6f6;
+  border: 1px solid #ccc;
+  font: #cccccc;
+}
 .register_wrap .btn.regi {
   border: solid 1px #00af80;
   background-color: #00af80;

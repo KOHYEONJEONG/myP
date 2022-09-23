@@ -259,6 +259,53 @@ public class MyPageController { //no
 		return mapper.writeValueAsString(model);
 	}
 
+	@RequestMapping(value = "/myQnADetail")
+	public ModelAndView myQnADetail(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		HashMap<String, String> data = dao.getMapData("member.getQnaList", params);
+		mav.addObject("data", data);
+		mav.setViewName("mypage/myQnaDetail");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/myQnAUpdate")
+	public ModelAndView myQnAUpdate(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		HashMap<String, String> data = dao.getMapData("member.getQnaList", params);
+		mav.addObject("data", data);
+		mav.setViewName("mypage/myQnaUpdate");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/myQnaAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String myQnaAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		System.out.println();
+		int cnt = 0;
+
+		try {
+			switch (gbn) {
+				case "update":
+					cnt = dao.update("member.updateQna", params);
+					break;
+				case "delete":
+					cnt = dao.update("member.deleteQna", params);
+					break;
+			}
+
+			if (cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
+
+		return mapper.writeValueAsString(model);
+	}
 	
 	// 회원탈퇴
 	@RequestMapping(value = "/withdraw")

@@ -75,6 +75,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	console.log( "page : "+$("#page").val())
+	
 	//검색 구분 설정
 	if("${param.searchGbn}" != "") {
 		$("#searchGbn").val("${param.searchGbn}");
@@ -121,10 +123,10 @@ $(document).ready(function() {
 		if(flag){
 			
 			html += "<tr>"+ +"<\>";
-			html += "<th>"+"관리번호"+"</th>";
 		    html += "<th>"+"주차장명"+"</th>";
 		    html += "<th>"+"유형"+"</th>";
 		    html += "<th>"+"주소"+"</th>";
+		    html += "<th>"+"조회수"+"</th>";
 			html += "</tr>";
 			
 			flag = false;
@@ -134,11 +136,11 @@ $(document).ready(function() {
 		html = "";
 	    
 		for(var data of list) {
-			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
-		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>";
-		    html += "<th>"+data.CAR_PARK_NM+"</th>";
-		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
-		    html += "<th>"+data.ADDRESS+"</th>";
+			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
+		    html += "<th>"+data.CAR_PARK_NM+"</th>"; //주차장명
+		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>"; //노외/노상
+		    html += "<th>"+data.ADDRESS+"</th>"; //주소
+		    html +="<td>" + data.HIT + "</td>"; // 조회수
 		    html += "</tr>";
 		    
 		}
@@ -147,8 +149,6 @@ $(document).ready(function() {
 	
 	function drawPaging1(pd) {
 		var html = "";
-		
-		html +=
 		html += "<a class=\"parrow pprev\" page=\"1\"></a>";
 		// 이전
 		if($("#page").val() == "1"){
@@ -179,12 +179,11 @@ $(document).ready(function() {
 	                                                                     
 	}
 	
-	//카테고리 번호에 맞춰서 리스트 가져온다
 	$(".page_nation").on("click", "a", function() {
 		$("#page").val($(this).attr("page")); 
 	
 		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchText").val($("#oldText").val());
+		$("#searchTxt").val($("#oldTxt").val());
 		
 		reloadList();
 	});
@@ -205,6 +204,8 @@ $(document).ready(function() {
 </head>
 <body>
 <c:import url="/header1"></c:import>
+ <input type="hidden" id="oldGbn" value="${param.searchGbn}">
+ <input type="hidden" id="oldTxt" value="${param.searchTxt}">
     <main>
       <div class="main_wrap">
         <div class="side_bar">
@@ -217,53 +218,43 @@ $(document).ready(function() {
       <div class="right_area">            
           <div class="table_wrap">
           <form action="#" id="dataForm" method="post">
-           <input type="hidden" id="oldGbn" value="0" />
-				<input type="hidden" id="oldText" />
-          <input type="hidden" name="no" id="no" />
-          <input type="hidden" name="page" id="page" value="1"/>
-            <div class="search_box">
-              <div class="select">
-                  <select name="searchGbn" id="searchGbn">
-                    <option value="0">구</option>
-                    <option value="1">강남구</option>
-                    <option value="2">강북구</option>
-                    <option value="3">강서구</option>
-                </select>
-              </div>
-              <div class="search_form">
-                <input type="text" name="searchTxt" id="searchTxt"/>
-              </div>
-              <div class="search_btn" >
-                검색
-              </div>
-            </div>
-            <table>
-              <thead>
-                
-              </thead>
-              <tbody>
-               
-              </tbody>
-            </table>
-              <!--페이징-->
-              <div class="page_wrap">
-                  <div class="page_nation">
-                     <a class="arrow pprev" href="#"></a>
-                     <a class="arrow prev" href="#"></a>
-                     <a href="#" class="active">1</a>
-                     <a href="#">2</a>
-                     <a href="#">3</a>
-                     <a href="#">4</a>
-                     <a href="#">5</a>
-                     <a href="#">6</a>
-                     <a href="#">7</a>
-                     <a href="#">8</a>
-                     <a href="#">9</a>
-                     <a href="#">10</a>
-                     <a class="arrow next" href="#"></a>
-                     <a class="arrow nnext" href="#"></a>
-                  </div>
-               </div>
+	           <div class="search_box">
+	           <input type="hidden" id="oldGbn" value="0"/>
+				  <input type="hidden" id="oldTxt"/>
+		          <input type="hidden" name="no" id="no"/>
+		          <input type="hidden" name="page" id="page" value="${page}"/>
+	           
+	              <div class="select">
+	                  <select name="searchGbn" id="searchGbn">
+	                      <option value="0">전체</option>
+	                      <option value="1">주차장명</option>
+	                      <option value="2">주차장유형</option>
+	                      <option value="3">주소</option>
+	                  </select>
+	              </div>
+	              
+	              <div class="search_form">
+	                <input type="text" name="searchTxt" id="searchTxt" value="${param.serarchTxt}"/>
+	              </div>
+	              
+	              <div class="search_btn" id="search_btn">
+	                검색
+	              </div>
+	            </div>
+	            
+	            <table>
+	              <thead>
+	              </thead>
+	              
+	              <tbody>              
+	              </tbody>
+	            </table>
+	            
+	              <!--페이징-->
+	              <div class="page_wrap">
+	                  <div class="page_nation">
+	                  </div>
+	               </div>
                </form>
           </div>
         </div>

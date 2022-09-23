@@ -14,7 +14,18 @@
 <link rel="stylesheet" href="resources/css/font.css">
 <script src="resources/js/main.js"></script>
 <script src="resources/js/manager.js"></script>
- 
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	//검색구분 유지
+	if("${param.searchGbn}" != ""){ //(*) .jsp파일에 넣어주지 않으면 jsp 값을 절대절대 읽어오지 않아(manager.js에 21번줄부터 25번줄은 절대 넣으면 안돼!)
+		$("#searchGbn").val("${param.searchGbn}");
+	}else{
+		$("#oldGbn").val("0");//없으면 0으로 고정
+	}	
+})
+</script>
 </head>
 <body>
 	<c:import url="/header1"></c:import>
@@ -45,8 +56,8 @@
 							<input type="hidden" name="page" id="page" value="1" />
 							<input type="hidden" id="no" name="no"/>
 							<div class="select">
-								<select name="searchGbn" id="searchGbn" value="0">
-									<option value="0" selected="selected">전체</option>
+								<select name="searchGbn" id="searchGbn">
+									<option value="0">전체</option>
 									<option value="1">아이디</option>
 									<option value="2">작성자</option>
 									<option value="3">이메일</option>

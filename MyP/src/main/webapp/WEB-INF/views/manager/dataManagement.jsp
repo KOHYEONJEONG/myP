@@ -370,7 +370,7 @@ function drawPaging(pd) {
                 <input type="hidden" name="no" id="no" />
                 <input type="hidden" id="oldGbn" value="0" />
 				<input type="hidden" id="oldText" />
-                <input type="hidden" name="page" id="page" value="1" /> 
+                <input type="hidden" name="page" id="page" value="${page}" /> 
                 <div class="select_box">
                 <div class="select">
                     <select name="searchGbn" id="searchGbn">

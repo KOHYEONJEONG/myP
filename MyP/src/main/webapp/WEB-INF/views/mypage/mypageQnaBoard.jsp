@@ -42,7 +42,7 @@
     	
     	//행을 누르면 상세보기로 이동~
    		$("tbody").on("click", "tr", function() {
-   		      $("#review_num").val($(this).attr("no"));
+   		      $("#qna_num").val($(this).attr("no"));
    			  $("#actionForm").attr("action","myQnADetail");
    			  $("#actionForm").submit();
    		   });
@@ -74,18 +74,23 @@
     	for(var data of list){		
     		html +="<tr no=\""+data.QNA_NUM+"\">";
     		html +="<td>" + data.NORNK+ "</td>";
-    		html +="<td>" + data.TITLE+ "</td>";
     		
-    		html +="<td>" + data.PRIVATE+ "</td>";//비공개여부
+    		if(data.PRIVATE == 0){
+   				html +="<td><i class=\"lock\"></i>" + data.TITLE + "</td>";
+   			}else{
+   				html +="<td>" + data.TITLE + "</td>";
+   			}
     		
     		html +="<td>" + data.REG_DT+ "</td>"; //등록일
-    		if(data.ANSWER_DT == null){//답변이 없으면 
-    			status = "X";//제목 옆에다가 이미지 띄우자
-    		}
+    		
+   			if(typeof data.ANSWER_DT == 'undefined'){
+   				html +="<td>" + "답변대기" + "</td>";
+   			}else{
+   				html +="<td>" + "답변완료" + "</td>";
+   			}
+   			
     		html +="<td>" + data.HIT+ "</td>";
     		html +="</tr>";
-    		//html +="<div class=\"delete_btn\">삭제</div>";
-    		//html +="<div class=\"delete_btn\">수정</div><br/>";
     	}
     	
     	$("tbody").html(html);
