@@ -120,6 +120,9 @@ $(document).ready(function() {
 	   
  console.log(${sMemAuto});
  
+ 
+ 
+ 
  $("#listBtn").on("click", function() {
       $("#actionForm").attr("action","qna"); 
       $("#actionForm").submit();
@@ -228,8 +231,7 @@ function action(flag){
    <!-- 전 화면에서 넘어온 검색 정보 -->
    <input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}" />
    <input type="hidden" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
-   <!--  전화면에서 넘어온 카테고리 번호 -->
- 
+   <input type="hidden" name="private" id="private" value="${data.PRIVATE}"/>
 </form>
   <c:import url="/header1"></c:import>
      <main>

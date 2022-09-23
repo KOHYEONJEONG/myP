@@ -206,18 +206,19 @@ function action(flag) {
 		<!--  전 화면에서 넘어온 페이지 정보 -->
 		<input type="hidden" name="page" id="page" value="${param.page}"/>
 		<!--  전 화면에서 넘어온 검색 정보 -->
-		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
-		<input type="hidden" id="searchText" name="searchText" value="${param.searchText}" />
+		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}"/>
+		<input type="hidden" id="searchText" name="searchText" value="${param.searchText}"/>
+		<input type="hidden" name="priv" id="priv" value="${data.PRIVATE}"/>
 	</form>
 	
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
-				<div class="title">주차장 안내</div>
-				<div class="inner">
-					<div class="on">공영 주차장 조회</div>
-				</div>
-			</div>
+	           <div class="title">마이페이지</div>
+	           <div class="inner">
+	               <div class="on">마이페이지</div>
+	           </div> 
+	        </div>
 
 				<div class="right_area">      
 		            <div class="detail_wrap">

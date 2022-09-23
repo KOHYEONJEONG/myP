@@ -292,10 +292,10 @@ public class MyPageController { //no
 		try {
 			switch (gbn) {
 				case "update":
-					cnt = dao.update("member.updateQna", params);
+					cnt = dao.update("qna.update", params);
 					break;
 				case "delete":
-					cnt = dao.update("member.deleteQna", params);
+					cnt = dao.update("qna.delete", params);
 					break;
 			}
 
