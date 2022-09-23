@@ -104,9 +104,10 @@ textarea.con{
 	margin-left: 5px;
 }
 
-.delete {
-	background: #00af80;
-	border: solid 1px #00af80;
+.cancle{
+	margin: 0px 8px 0px 0px;
+	background: #595959;
+	border: solid 1px #595959;
 }
 </style>
 <script type="text/javascript">
@@ -143,6 +144,8 @@ $(document).ready(function() {
 			action("update");
 	      }
 	});
+	
+	check(box);
 });
 
 var msg ={
@@ -187,7 +190,7 @@ function action(flag) {
 function check(box){//비공개 여부
 	if(box.checked){
 		$('#ckval').val("0");
-		console.log($("#ckval").val());
+		console.log("체크여부(0 비공개) : "+$("#ckval").val());
 	}else{
 		console.log("체크안됨")
 	}
@@ -197,27 +200,27 @@ function check(box){//비공개 여부
 <body>
 	<c:import url="/header1"></c:import>
 	<main>
-            <div class="side_bar">
-                <div class="title">참여/알림</div>
-                <div class="inner">
-                    <div>공지사항</div>
-                    <div>FAQ</div>
-                    <div class="on">QnA</div>
-                </div> 
-             </div>
+          <div class="main_wrap">
+	         <div class="side_bar">
+	           <div class="title">마이페이지</div>
+	           <div class="inner">
+	               <div class="on">마이페이지</div>
+	           </div> 
+	        </div>
        		<form action="#" id="actionForm" method="post">
 				<input type="hidden" name="qna_num" id="qna_num" value="${param.qna_num}" /> 
 				<input type="hidden" name="no" id="no" value="${sMemNo}" />
 				<input type="hidden" name="page" id="page" value="${param.page}" /><!--  전 화면에서 넘어온 페이지 정보 -->
 				<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
 				<input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}" /><!--  전 화면에서 넘어온 검색 정보 -->
-            	<input type="hidden" name="ckval" id="ckval"/> <!-- 비공개 클릭(0,1) -->
+            	<input type="hidden" name="ckval" id="ckval" value="1"/> <!-- 비공개 클릭(0,1) -->
                
 	            <div class="right_area">      
                 	<div class="register_wrap">
 	                    <div class="title">QnA </div>
 	                    <hr/>
-	                    <input type="text" class="input_box" placeholder="${data.TITLE}" id="title" name="title"/>
+	                    
+	                    <input type="text" class="input_box" value="${data.TITLE}" id="title" name="title"/>
 	                    <hr/>
 	                    
 	                    <div class="con">
@@ -233,12 +236,13 @@ function check(box){//비공개 여부
 	                    <hr/>
 	                    
 	                    <div class="btn_wrap">
-	                        <input type="button" value="수정취소" class="btn list" id="updateCancelBtn">
+	                        <input type="button" value="수정취소" class="btn cancle" id="updateCancelBtn">
 	                        <input type="button" value="수정완료" class="btn update" id="updateBtn">
                     	</div>
                    	</div>
                 </div>
   			</form>        
+  			</div>
 		</main>
 	<c:import url="/footer"></c:import>
 </body>
