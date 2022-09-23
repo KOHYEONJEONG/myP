@@ -6,11 +6,11 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>MyP</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/font.css">
+	href="resources/css/font.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/join.css?after">
+	href="resources/css/join.css?after">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -22,9 +22,7 @@
 </head>
 <body>
 	<div class="wrap">
-		<h1 class="logo">
-			<a href="/test2/index.html"> </a>
-		</h1>
+		<h1 class="logo" id="logo"></h1>
 		<form action="#" class="was-validated" name="form" id="joinform" method="post">
 			<input type="hidden" name="cert" id="cert" >
 			

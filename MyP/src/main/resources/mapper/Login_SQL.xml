@@ -8,5 +8,11 @@
 		WHERE ID = #{id}
 		AND PW = #{pw}
 	</select>
+	
+	<select id="kakaocheckMem" parameterType="hashmap" resultType="hashmap">
+		SELECT MEM_NUM, NM, AUTORITY_NUM
+		FROM MEMBER
+		WHERE email = #{email}
+	</select>
 
 </mapper>

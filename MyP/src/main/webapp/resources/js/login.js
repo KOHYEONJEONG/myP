@@ -3,6 +3,11 @@ $(document).ready(function() {
 		location.href="join";
 	});
 	
+	// 로고 클릭시 메인화면으로 이동
+	 $("#logo").on("click", function() {
+	  	location.href = "home";		 
+	}); 
+	
 	$("#actionForm").on("keypress", "input", function(event){
 		if(event.keyCode == 13){ //이벤트 코드가 엔터가들어오면
 			//직접함수호출
