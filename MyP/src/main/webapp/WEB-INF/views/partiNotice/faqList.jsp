@@ -343,9 +343,9 @@ function drawPaging(pd) {
             <div class="side_bar">
                 <div class="title">참여/알림</div>
                 <div class="inner">
-                    <div id="notice2">공지사항</div>
+                    <div>공지사항</div>
                     <div class="on">FAQ</div>
-                    <div id="qna2">QnA</div>
+                    <div>QnA</div>
                 </div> 
             </div>
             <div class="right_area">            
