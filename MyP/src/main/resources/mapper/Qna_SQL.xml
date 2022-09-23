@@ -75,27 +75,27 @@
 	
 	
 	<update id="commentinsert" parameterType="hashmap">
-		UPDATE QNA SET ANSWER_MEM = 0,
+		UPDATE QNA SET ANSWER_MEM = #{no},
             ANSWER_CON=#{con},ANSWER_DT=SYSDATE
-            WHERE QNA_NUM = #{no}
+            WHERE QNA_NUM = #{qna_num}
 	</update>
 	
 	<update id="delete" parameterType="hashmap">
 	UPDATE QNA SET DEL =0
-	WHERE QNA_NUM = #{no}
+	WHERE QNA_NUM = #{qna_num}
 	
 	</update>
 	
 	<update id="update" parameterType="hashmap">
 		UPDATE QNA SET TITLE= #{title},REG_DT=SYSDATE,
 		CON=#{con},PRIVATE=#{ckval}
-		WHERE QNA_NUM = #{no}
+		WHERE QNA_NUM = #{qna_num}
 	
 	</update>
 	
 	<update id="updateHit" parameterType="hashmap">
 	UPDATE QNA SET HIT = HIT + 1
-	WHERE QNA_NUM =#{no} AND MEM_NUM != #{memno}
+	WHERE QNA_NUM =#{qna_num} AND MEM_NUM != #{memno}
 	
 	</update>
 	
