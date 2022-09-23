@@ -70,7 +70,6 @@ $(document).ready(function() {
 	              success : function(res) { 
 	  				switch(res.msg){
 	  				case "success":
-	  					
 	  					$("#backForm").submit();
 	  					break;
 	  				case "fail":
@@ -127,7 +126,7 @@ function check(box){//비공개 여부
             	<input type="hidden" name="no" value="${data.QNA_NUM}"/>
             	<input type="hidden" name="answercon" value="${data.ANSWER_CON}"/>
                 <input type="hidden" id="memNo" name="memNo" value="${sMemNo}"/>
-            	<input type="hidden" name="ckval" id="ckval"/>
+            	<input type="hidden" name="ckval" id="ckval" value="1"/> <!-- 기본값 없으면 sql문에서 오류남 -->
                 <div class="register_wrap">
                     <div class="title">
                         QnA
@@ -139,8 +138,8 @@ function check(box){//비공개 여부
                         <option value="">불편사항</option>
                       </select>
                     <hr /> -->
-                    <input type="text" class="input_box" placeholder="${data.TITLE}" id="title" name="title"/>
-                    <hr />
+                    <input type="text" class="input_box" value="${data.TITLE}" id="title" name="title"/>
+                    <hr/>
                    <div class="con">
                      <textarea class="form-control" rows="5" id="con" name="con"> ${data.CON}</textarea>
                 </div>
@@ -150,17 +149,15 @@ function check(box){//비공개 여부
                         <span>비공개</span>
                          <input type="checkbox" id="checkbox" onClick="check(this)"/>
                     </div>
-                    </form>
                     <hr >
                     <div class="btn_wrap">
-                    	
                         <input type="button" value="취소" class="btn list" id="cancelBtn">
                         <input type="button" value="등록" class="btn regi" id="updateBtn">
                     </div>
                 </div>
-                </div>
+	            </form>
+            </div>
         </div>
-</div>
 </main>
 <c:import url="/footer"></c:import>
 
