@@ -77,11 +77,13 @@
 	$("tbody").on("click", "tr", function () {
 		$("#no").val($(this).attr("no"));
 		
+		console.log($("#no").val());
+		
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchText").val($("#oldText").val());
 		
-		$("#searchForm").attr("action", "noticeDetail");
-		$("#searchForm").submit();
+		//$("#searchForm").attr("action", "noticeDetail");
+		//$("#searchForm").submit();
 	})
 	
 	
@@ -195,7 +197,7 @@ function reloadList() {
                   </select>
                 </div>
                 <div class="search_form">
-                  <input type="text" name="searchText" id="searchText" />
+                  <input type="text" name="searchText" id="searchText" value="${param.searchText}" />
                 </div>
                 <div class="search_btn" id="searchBtn">검색</div>
                   </div>

@@ -93,8 +93,9 @@
 	</update>
 	
 	<update id="updateHit" parameterType="hashmap">
-		UPDATE QNA 
-			SET HIT = HIT + 1
-		WHERE QNA_NUM =#{qna_num}
+
+	UPDATE QNA SET HIT = HIT + 1
+	WHERE QNA_NUM =#{no} AND MEM_NUM != #{memno}
+	
 	</update>
 </mapper>

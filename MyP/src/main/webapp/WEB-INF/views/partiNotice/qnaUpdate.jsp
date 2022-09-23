@@ -1,23 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나만의 P</title>
-    <link rel="stylesheet" href="resources/css/main.css">
-    <link rel="stylesheet" href="resources/css/font.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
-    <script src="resources/jquery/jquery-1.12.4.js"></script>
-     <script src="resources/js/main.js"></script>
-     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- 추가, 툴팁관련 -->
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-     <script type="text/javascript" src="resources/script/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="resources/script/common/popup.js"></script>      
+     
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나만의 P</title>
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/font.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/css/common/popup.css" />
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 추가, 툴팁관련 -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript"
+	src="resources/script/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="resources/script/common/popup.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
    // 에디터 연결
