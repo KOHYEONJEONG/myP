@@ -23,7 +23,6 @@
     
 <body>
 	<c:import url="/header1"></c:import>
-
 	<!-- nm, email과 domain을 보내줘야함. -->
           <main class="main1">
             <div class="main_wrap">
