@@ -355,10 +355,18 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                     <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
                     </c:when>
-                    <c:otherwise>
+                     <c:when test="${sMemAuto != 1 and sMemNo eq data.MEM_NUM}">
                      <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
                      <input type="hidden" name="no" value="${data.QNA_NUM}"/>
-                    </c:otherwise>
+                   </c:when>
+                   <c:when test="${sMemAuto != 1 and data.PRIVATE == 0}">
+                     <textarea  class="answer_txt" id="con" name="con" readonly>비공개</textarea>
+                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                   </c:when>
+                   <c:when test="${sMemAuto != 1 and data.PRIVATE == 1}">
+                     <textarea  class="answer_txt" id="con" name="con" readonly>${data.ANSWER_CON}</textarea>
+                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                   </c:when>
                    </c:choose>
                     </form>
                     
