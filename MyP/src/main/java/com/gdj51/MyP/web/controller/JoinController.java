@@ -54,7 +54,25 @@ public class JoinController {
 		} else {
 			return "success";
 		}
+	}
 
+	// 닉네임 중복 체크
+	@RequestMapping(value = "/checkNicknameAjax", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkNicknameAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+
+		logger.info("checkNicknameAjax() 진입");
+
+		// 아이디 중복체크
+		int result = dao.memberCheck("join.nicknameCheck", params);
+
+		logger.info("결과값 : " + result);
+
+		if (result != 0) {
+			return "fail";// 중복 닉네임 존재
+		} else {
+			return "success";
+		}
 	}
 
 	// 이메일 중복 체크 (가입된 이메일인지 체크)

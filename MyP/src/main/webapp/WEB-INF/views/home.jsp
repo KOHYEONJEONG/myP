@@ -640,7 +640,7 @@
 
  
  
-<!-- 챗봇-->
+<!-- 가이드(챗봇 아님)-->
 <div class="chatbot_wrap">
   <img src="${pageContext.request.contextPath}/resources/icons/chatrobot.svg" alt="" class="chatrobot">
   <div class="chatbot">

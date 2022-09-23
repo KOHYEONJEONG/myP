@@ -6,24 +6,176 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyP</title>
-    <link rel="stylesheet" href="resources/css/main.css">
-    <link rel="stylesheet" href="resources/css/mypage.css">
-    <link rel="stylesheet" href="resources/css/font.css">
-<!-- Popup CSS -->
-<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
-    <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/mypage.js"></script>
-    <script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
-	<script type="text/javascript" src="resources/script/common/popup.js"></script> 
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MyP</title>
+	<link rel="stylesheet" href="resources/css/main.css">
+	<link rel="stylesheet" href="resources/css/mypage.css">
+	<link rel="stylesheet" href="resources/css/font.css">
+	<!-- Popup CSS -->
+	<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
+	<!-- Popup JS --> 
+	<script type="text/javascript" src="resources/script/common/popup.js"></script>
+	<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script><!-- 이미지 보내려고(사진 올리려고) -->
 </head>
-    
+
+<script type="text/javascript">
+var defalutImg = false;
+$(document).ready(function() {
+	imgRelod();
+	
+	//사진변경 시 미리보기
+	$(":input[name='vPic']").on("change", function() {
+		if( $(":input[name='vPic']").val() == "") {
+			
+		}else{
+			readURL(this);
+		}
+	});
+	
+	$("#mypage_modify").click(function(){
+		//개인정보 수정하기 버튼
+		console.log("도메인-->"+$("#domain").val());//2mypage.js:7 도메인-->naver.com
+		$("#sendForm").attr("action", "memModify");
+        $("#sendForm").submit();   
+	});
+	
+	//memPwUpdate
+	$("#password_modify").click(function(){
+		//개인정보 수정하기 버튼
+		$("#sendForm").attr("action", "memPwUpdate");
+        $("#sendForm").submit();   
+	});
+	
+	//(*)동적으로 만들었기 때문에 접근은 .my_pic으로 한다음에 x버튼을 찾아가야한다(ajax로 그려줬기에)
+	$(".my_pic").on("click", "#close_i", function(){ 
+		defalutImg = true;//기본이미지라는 체크
+		var html = "";
+		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">"; //기본 이미지로 변경
+		$(".my_pic #imgRelod").html(html);
+		
+		//기존에 있던 db명을 삭제해야한다.
+		$("#img").val("");
+		$("#vPic").val("");
+	});
+	
+	$("#savefile").click(function(){
+		var form = $("#actionForm");
+		form.ajaxForm({
+			   success:function(res){
+			   if(res.result == "SUCCESS"){
+				   if(res.fileName.length > 0){
+					   $("#img").val(res.fileName[0]);//올라간 파일명 보관(서버에서 파일이름 알맞게 바꿔서 보내줌.)
+				   }
+					   
+			   /*글 저장*/
+			   var params = $("#actionForm").serialize();
+			   $.ajax({
+				   url : "memAction/update",
+				   type:"POST",
+				   dataType:"json",
+				   data : params, 
+				   success: function(res){
+						switch (res.msg) {
+						case "success":
+							makeAlert("성공","사진 등록 성공");
+							imgRelod();
+							break;
+						case "fail":
+							makeAlert("알림","사진 등록 실패하였습니다");
+							break;
+						case "error":
+							makeAlert("알림","사진 등록 중 문제가 발생하였습니다");
+							break;
+						}
+				   },
+				   error : function(request, status, error) {
+						console.log(request.responseText);
+				   }//error
+			   });//ajax
+			   
+			}else{
+				makeAlert("알림", "파일 업로드에<br/> 문제가 발생하였습니다.");
+			}
+		},error : function() {//에러시
+			makeAlert("알림", "파일 업로드에<br/> 문제가 발생하였습니다.");
+		}
+		
+		});//ajaxForm
+		form.submit();
+	});
+	
+	$("#btn_memWit").on("click", function(){
+		//회원 탈퇴 버튼
+		$("#sendForm").attr("action", "withdraw");
+        $("#sendForm").submit();  
+	});
+	
+	$("#myReview").on("click", function(){
+		$("#sendForm").attr("action", "mypageReviewBoard");
+        $("#sendForm").submit();  
+	});
+	
+	$("#myQnA").click(function(){
+		$("#sendForm").attr("action", "myQnA");
+        $("#sendForm").submit();   
+	});
+
+});
+
+//사진 영역만 비동기화
+function imgRelod() {
+	var params = $("#headerForm").serialize();
+	$.ajax({
+		url : "memImgAjax",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) {
+			img(res.data);
+			img1Relod();
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); //Ajax End
+}
+
+
+function img(data){
+	var img = data.IMG;
+	var html = "";
+	
+	if(img != null && !img.length == 0){
+		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>"; //x버튼
+		html += "<img class=\"close_i\" id=\"close_i\" src=\"${pageContext.request.contextPath}/resources/icons/close.png\">";    //등록한 이미지
+	}else{
+		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
+	}
+	
+	$(".my_pic #imgRelod").html(html);
+}
+
+//사진 미리보기
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		var html = "";
+		reader.onload = function(e) {
+			html += "<img src="+e.target.result+">";
+			html += "<img class=\"close_i\" id=\"close_i\" src=\"${pageContext.request.contextPath}/resources/icons/close.png\">";//x버튼
+			$('.my_pic #imgRelod').html(html);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+</script>
+   
 <body>
 	<c:import url="/header1"></c:import>
-
 	<!-- nm, email과 domain을 보내줘야함. -->
           <main class="main1">
             <div class="main_wrap">
@@ -42,16 +194,18 @@
 								 <input type="hidden" id="img" name="img"/><!-- 올라갈 파일명 -->                     
 			                       <input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
 			                        <div class="pic_top">
+			                        
 			                            <div id="imgRelod">
-				                       
 			                            </div>
+			                            
 			                            <div class="filebox2">
 			                                <label for="vPic">사진선택</label> <!-- type=file에 id와 같아야함. -->
 			                                <input type="file" name="vPic" id="vPic"/>
 			                                <input type="button" id="savefile" class="savefile" value="저장"/>
 			                            </div>
+			                            
 			                        </div>  
-		                        </form>
+		                        </form><!-- fileUploadAjax -->
                         	</div>
 	                        <form name="#" id="sendForm" method="post">
 	                       		<input type="hidden" name="no" id="no" value="${sMemNo}"/>

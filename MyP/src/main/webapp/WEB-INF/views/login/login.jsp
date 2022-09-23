@@ -37,7 +37,7 @@
       <div id="pwFind">비밀번호 찾기</div>
    </div>
    <hr/>
-       <a id="kakaBtn" class="kakao p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=764066383a16f05dde4e4f4106cfdc9f&redirect_uri=http://localhost:8090/MyP/kakaoLogin&response_type=code">
+     <a id="kakaBtn" class="kakao p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=764066383a16f05dde4e4f4106cfdc9f&redirect_uri=http://localhost:8090/MyP/kakaoLogin&response_type=code">
       <div class="kakao_i"></div>
       <div class="kakao_txt">카카오톡으로 간편로그인 </div>
    </a>

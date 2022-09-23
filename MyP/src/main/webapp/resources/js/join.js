@@ -9,8 +9,13 @@ $(document).ready(function () {
 	
 	   
    $("#id").keyup(function () {
-      var id = $('#id').val();
+      var id = $("#id").val();
       ckId(id);
+   });
+   
+     $("#nickname").keyup(function () {
+      var nickname = $("#nickname").val();
+      ckNickname(nickname);
    });
 	
 	
@@ -403,6 +408,49 @@ $(document).ready(function () {
 	}); //pwFindBtn btn end
 	
 	
+	 $("#kakaoJoinBtn").on("click", function() {
+		
+	   if($.trim($("#nickname").val()) == "") {
+		   alert("닉네임을 입력하세요.", function() {
+			   $("#nickname").focus();
+		   });
+		   return false;
+	   }
+	     
+		var params = $("#KakaoJoinform").serialize();
+		/*$.ajax({
+		url: "JAction/insert",
+		type: "POST",
+		dataType : "json",
+		data: params,
+		success : function(res) {
+			console.log(res);
+			console.log("res.msg:"+res.msg);
+			if(res.msg == "success"){
+				  makePopup({
+			         title : "알림",
+			         contents : "회권가입이 완료되었습니다.",
+			         // draggable : true,
+			         buttons : [{
+			            name : "확인",
+			            func:function() {
+			            	location.href = "login";
+			            }
+			         }]
+				})
+			}else if(res.msg == "fail"){
+				makeAlert("알림", "등록에 실패하였습니다.");
+			}else{
+				makeAlert("알림", "등록 중 문제가 발생하였습니다.");
+			}
+		},
+		error : function(request, status, error) {
+			console.log(request.responseText);
+		}
+		});*///ajax end		 
+	}); // kakaoJoinBtn end
+	
+	
 }); 
 
 /*입력 이메일 형식 유효성 검사*/
@@ -416,7 +464,7 @@ function ckId(id) {
 	var status = $(".id_status");
 	if(!id.match(exp)){
 		console.log("실패");
-		status.html("숫자와 소문자 포함 4~20자 이내로 작성");
+		status.html("숫자와 소문자 포함 4~20자 이내로 작성해 주세요");
 		status.css("color","gray");
 		return false;
 	}else if(id.match(exp)) {
@@ -434,6 +482,42 @@ function ckId(id) {
 				} else {
 					status.html("아이디가 이미 존재하거나 삭제된 아이디입니다.");	
 					status.css("color","red");
+				}		
+			},
+			error : function(request, status, error) {// 실패했을 때 함수 실행
+				console.log(request.responseText);    //실패 상세 내역
+			}
+		});//ajax
+			return true;
+		}	
+	}
+	
+	
+	// nickname 중복성 체크
+	function ckNickname(nickname) {
+	const exp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/;  //2글자 이상 10글자 이하, 영어 또는 숫자 또는 한글로 구성, 한글 초성 및 모음은 허가하지 않음
+	var nm_status = $(".nickname_status");
+	if(!nickname.match(exp)){
+		nm_status.html("닉네임을 2~10자 이내로 작성해 주세요");
+		nm_status.css("color","gray");
+		nm_status.css("display", "inline-block");
+		return false;
+	}else if(nickname.match(exp)){
+		var data = {nickname : nickname};
+		$.ajax({
+			type:"post",
+			url:"checkNicknameAjax",
+			data : data,
+			success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+				// console.log("성공 여부" + result);
+				if(res != 'fail'){
+					nm_status.html("멋진 닉네임이네요!");
+					nm_status.css("color","green");
+					nm_status.css("display", "inline-block");
+				} else {
+					nm_status.html("닉네임이 이미 존재합니다. 다른 닉네임을 사용해주세요.");	
+					nm_status.css("color","red");
+					nm_status.css("display", "inline-block");
 				}		
 			},
 			error : function(request, status, error) {// 실패했을 때 함수 실행

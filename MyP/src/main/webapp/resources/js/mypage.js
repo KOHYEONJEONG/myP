@@ -112,6 +112,7 @@ function imgRelod() {
 
 
 function img(data){
+	console.log(data.IMG);
 	var img = data.IMG;
 	var html = "";
 	
