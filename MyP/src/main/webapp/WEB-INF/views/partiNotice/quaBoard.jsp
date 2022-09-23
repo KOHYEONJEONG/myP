@@ -60,7 +60,7 @@ $(document).ready(function() {
 	   });
 	   
 	   $("tbody").on("click", "tr", function() {
-		      $("#no").val($(this).attr("no"));
+		      $("#qna_num").val($(this).attr("no"));
 		      
 		      // 기존 검색상태 유지
 		      $("#select_b").val($("#oldGbn").val());
@@ -174,9 +174,9 @@ function drawPaging(pd) {
 
 					<form action="#" id="actionForm" method="post">
 						<div class="search_box">
-							<input type="hidden" id="memno" name="memno" value="${sMemNo}"/>
+							<input type="hidden" id="no" name="no" value="${sMemNo}"/>
 							<input type="hidden" id="oldGbn" value="0" /> 
-							<input	type="hidden" id="oldTxt" /> <input type="hidden" name="no"id="no" />
+							<input	type="hidden" id="oldTxt" /> <input type="hidden" name="qna_num"id="qna_num" />
 							 <input type="hidden" name="page" id="page"	value="${page}" />
 							<div class="select">
 								<select name="select_b" id="select_b">
