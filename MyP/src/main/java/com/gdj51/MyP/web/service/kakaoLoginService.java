@@ -64,12 +64,6 @@ public class kakaoLoginService implements IKakaoLoginService {
 			}
 			System.out.println("response body : " + result);
 
-			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-			/*
-			 * JsonParser parser = new JsonParser(); JsonElement element =
-			 * parser.parse(result);
-			 */
-
 			// jackson objectmapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
 			// JSON String -> Map

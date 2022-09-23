@@ -82,8 +82,8 @@
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchText").val($("#oldText").val());
 		
-		//$("#searchForm").attr("action", "noticeDetail");
-		//$("#searchForm").submit();
+		$("#searchForm").attr("action", "noticeDetail");
+		$("#searchForm").submit();
 	})
 	
 	
