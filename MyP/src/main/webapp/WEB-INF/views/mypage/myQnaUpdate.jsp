@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="resources/rety/jquery.raty.css"><!-- 별 -->
 <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
 <script type="text/javascript" src="resources/script/common/popup.js"></script>
+<script type="text/javascript" src="resources/script/ckeditor/ckeditor.js"></script>
 <style>
 .rigth_contents {
 	width: 800px;
@@ -111,30 +112,36 @@ textarea.con{
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	var starUpdate= [];
-	
-	$('.feeStar, .envStar, .cctvStar, .disStar').raty({ 
-		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images",
-        half : true,
-        hints :  [['bad 1/2', 'bad'], ['poor 1/2', 'poor'], ['regular 1/2', 'regular'], ['good 1/2', 'good'], ['gorgeous 1/2', 'gorgeous']]
-        ,width : 200
-	});
+	// 에디터 연결
+	CKEDITOR.replace("con", {
+			resize_enabled: false, // resize_enabled : 크기조절기능 활용여부
+			language : "ko", // 사용언어
+			enterMode: "2", // 엔터키처리방법. 2번이면 <br/>
+			width : "100%", // 숫자일경우 px, 문자열일경우 css크기
+			height : 400
+		});
 	
 	$("#updateCancelBtn").on("click",function(){
-		console.log("수정취소");
-		//action("update");
-		history.back();
+		$("#actionForm").attr("action","myQnADetail");
+		$("#actionForm").submit();
 	});
 		
 	$("#updateBtn").on("click",function(){
 		
-		$("#cctv_star").val($("#cctvStar input").val());
-		$("#env_star").val($("#envStar input").val());
-		$("#fee_star").val($("#feeStar input").val());
-		$("#dis_star").val($("#disStar input").val());
-		$("#sendCon").val($("#con").val());
+		$("#answercon").val("");
+		$("#con").val(CKEDITOR.instances['con'].getData());
 		
-		action("update");
+		if($.trim($("#title").val()) == "") {
+	         makeAlert("알림", "제목을 입력하세요.", function() {
+	            $("#title").focus();
+	         });
+	      } else if($.trim($("#con").val()) == "") {
+	         makeAlert("알림", "내용을 입력하세요.", function() {
+	            $("#con").focus();
+	         });
+	      }else{
+			action("update");
+	      }
 	});
 });
 
@@ -149,7 +156,7 @@ function action(flag) {
 	var params = $("#actionForm").serialize();
 	
 	$.ajax({
-		url : "myReviewAction/"+flag, 
+		url : "QnaAction/update", //형석이가 만든 qna update 사용
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
@@ -158,7 +165,7 @@ function action(flag) {
 			case "success" :
 				switch(flag){
 					case "update" :
-						$("#actionForm").attr("action","myReviewDetail");/*리뷰 상세보기 페이지로 이동*/
+						$("#actionForm").attr("action","myQnADetail");/*리뷰 상세보기 페이지로 이동*/
 						$("#actionForm").submit();
 					break; 
 				}
@@ -176,86 +183,63 @@ function action(flag) {
 		}
 	}); //Ajax End
 } // action Function End
+
+function check(box){//비공개 여부
+	if(box.checked){
+		$('#ckval').val("0");
+		console.log($("#ckval").val());
+	}else{
+		console.log("체크안됨")
+	}
+}
 </script>
 </head>
 <body>
 	<c:import url="/header1"></c:import>
-	<form action="#" id="actionForm">
-		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}" /> 
-		<input type="hidden" name="no" id="no" value="${sMemNo}" />
-		
-		<input type="hidden" name="page" id="page" value="${param.page}" /><!--  전 화면에서 넘어온 페이지 정보 -->
-		
-		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
-		<input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}" /><!--  전 화면에서 넘어온 검색 정보 -->
-			
-		<input type="hidden" id="cctv_star" name="cctv_star"/>
-		<input type="hidden" id="env_star" name="env_star"/>
-		<input type="hidden" id="dis_star" name="dis_star"/>
-		<input type="hidden" id="fee_star" name="fee_star"/>
-		<input type="hidden" id="sendCon" name="sendCon"/>
-	</form>
 	<main>
-		<div class="main_wrap">
-			<div class="side_bar">
-				<div class="title">주차장 안내</div>
-				<div class="inner">
-					<div class="on">공영 주차장 조회</div>
-				</div>
-			</div>
-
-			<div class="right_area">
-				<div class="rigth_contents">
-					<div class="btn_wrap1">
-						<div class="btn update cancle" id="updateCancelBtn">상세보기</div>
-						<div class="btn update" id="updateBtn">수정완료</div>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<td colspan="4">[리뷰 수정페이지]</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>CCTV별점</td>
-								<td>
-									<div class="cctvStar" data-score="${data.CCTV_STAR_SCORE}" id="cctvStar"></div> 
-								</td>
-								
-								<td>환경별점</td>
-								<td>
-									<div class="envStar" data-score="${data.ENV_STAR_SCORE}" id="envStar"></div> 
-								</td>
-								
-							</tr>
-							<tr>
-								<td>요금별점</td>
-								<td>
-									<div class="feeStar" data-score="${data.FEE_STAR_SCORE}" id="feeStar"></div> 
-								</td>
-								
-								<td>할인정보별점</td>
-								<td>
-									<div class="disStar" data-score="${data.DIS_STAR_SCORE}" id="disStar"></div> 
-								</td>
-							</tr>
-							
-							<tr>
-								<td>내용</td>
-								<td colspan="3" class="textarea_box">
-									<textarea name="con" id="con" class="con">${data.CON}</textarea>
-							    </td>
-							</tr>
-						</tbody>
-					</table>
-
-				</div>
-
-			</div>
-
-		</div>
-	</main>
+            <div class="side_bar">
+                <div class="title">참여/알림</div>
+                <div class="inner">
+                    <div>공지사항</div>
+                    <div>FAQ</div>
+                    <div class="on">QnA</div>
+                </div> 
+             </div>
+       		<form action="#" id="actionForm" method="post">
+				<input type="hidden" name="qna_num" id="qna_num" value="${param.qna_num}" /> 
+				<input type="hidden" name="no" id="no" value="${sMemNo}" />
+				<input type="hidden" name="page" id="page" value="${param.page}" /><!--  전 화면에서 넘어온 페이지 정보 -->
+				<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
+				<input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}" /><!--  전 화면에서 넘어온 검색 정보 -->
+            	<input type="hidden" name="ckval" id="ckval"/> <!-- 비공개 클릭(0,1) -->
+               
+	            <div class="right_area">      
+                	<div class="register_wrap">
+	                    <div class="title">QnA </div>
+	                    <hr/>
+	                    <input type="text" class="input_box" placeholder="${data.TITLE}" id="title" name="title"/>
+	                    <hr/>
+	                    
+	                    <div class="con">
+	                     	<textarea class="form-control" rows="5" id="con" name="con"> ${data.CON}</textarea>
+	                	</div>
+	                	
+	                    <hr/>
+	                    <div class="checkbox_box">
+	                        <span>비공개</span>
+                            <input type="checkbox" id="checkbox" onClick="check(this)"/>
+	                    </div>
+	                    
+	                    <hr/>
+	                    
+	                    <div class="btn_wrap">
+	                        <input type="button" value="수정취소" class="btn list" id="updateCancelBtn">
+	                        <input type="button" value="수정완료" class="btn update" id="updateBtn">
+                    	</div>
+                   	</div>
+                </div>
+  			</form>        
+		</main>
 	<c:import url="/footer"></c:import>
 </body>
 </html>

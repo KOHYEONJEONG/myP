@@ -17,20 +17,19 @@
     ON Q.MEM_NUM = M.MEM_NUM
     	WHERE Q.DEL = 1
     <if test="searchTxt != null and searchTxt != ''">
-    <choose>
-    	<when test = "select_b eq 1">
-    		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    	<when test = "select_b eq 2">
-    		AND M.NM LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    </choose>
-    
+	    <choose>
+	    	<when test = "select_b eq 1">
+	    		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
+	    	</when>
+	    	
+	    	<when test = "select_b eq 2">
+	    		AND M.NM LIKE '%' || #{searchTxt} || '%'
+	    	</when>
+	    	
+	    </choose>
     </if>
-    	)Q
-    	WHERE Q.RNUM BETWEEN #{start} AND #{end}
+   	)Q
+   	WHERE Q.RNUM BETWEEN #{start} AND #{end}
    </select>
 			
 	<select id="getqna" resultType="hashmap" parameterType="hashmap">
@@ -55,50 +54,48 @@
     	ON Q.MEM_NUM = M.MEM_NUM
     	WHERE Q.DEL = 1
 		<if test="searchTxt != null and searchTxt != ''">
-    <choose>
-    	<when test = "select_b eq 1">
-    		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    	<when test = "select_b eq 2">
-    		AND M.NM LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    </choose>
-    
+		    <choose>
+		    	<when test = "select_b eq 1">
+		    		AND Q.TITLE LIKE '%' || #{searchTxt} || '%'
+		    	</when>
+		    	
+		    	<when test = "select_b eq 2">
+		    		AND M.NM LIKE '%' || #{searchTxt} || '%'
+		    	</when>
+		    	
+		    </choose>
     </if>
  </select>   
     <insert id="insert" parameterType="hashmap">
-	INSERT INTO QNA(QNA_NUM,MEM_NUM,TITLE,CON,PRIVATE)
-	VALUES(QNA_SEQ.NEXTVAL,#{memNo},#{title},#{con},#{ckval})
+		INSERT INTO QNA(QNA_NUM,MEM_NUM,TITLE,CON,PRIVATE)
+		VALUES(QNA_SEQ.NEXTVAL,#{memNo},#{title},#{con},#{ckval})
 	</insert>
 	
-	
 	<update id="commentinsert" parameterType="hashmap">
-		UPDATE QNA SET ANSWER_MEM = #{no},
-            ANSWER_CON=#{con},ANSWER_DT=SYSDATE
-            WHERE QNA_NUM = #{qna_num}
+		UPDATE QNA 
+			SET ANSWER_MEM = #{no},
+       		ANSWER_CON=#{con},ANSWER_DT=SYSDATE
+        WHERE QNA_NUM = #{qna_num}
 	</update>
 	
 	<update id="delete" parameterType="hashmap">
-	UPDATE QNA SET DEL =0
-	WHERE QNA_NUM = #{qna_num}
-	
+		UPDATE QNA 
+			SET DEL = 0
+		WHERE QNA_NUM = #{qna_num}
 	</update>
 	
 	<update id="update" parameterType="hashmap">
-		UPDATE QNA SET TITLE= #{title},REG_DT=SYSDATE,
-		CON=#{con},PRIVATE=#{ckval}
+		UPDATE QNA 
+			SET TITLE= #{title},
+			REG_DT=SYSDATE,
+			CON = #{con}, PRIVATE = #{ckval}
 		WHERE QNA_NUM = #{qna_num}
-	
 	</update>
 	
 	<update id="updateHit" parameterType="hashmap">
+
 	UPDATE QNA SET HIT = HIT + 1
 	WHERE QNA_NUM =#{qna_num} AND MEM_NUM != #{memno}
 	
 	</update>
-	
-	
-	
 </mapper>

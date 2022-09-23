@@ -21,7 +21,6 @@
     
     <script type="text/javascript">
     $(document).ready(function() {
-    	reloadList();
     	
     	//검색구분 유지
     	if("${param.searchGbn}" != ""){
@@ -30,12 +29,14 @@
     		$("#oldGbn").val("0");//없으면 0으로 고정
     	}
     	
+    	reloadList();
+    	
     	$("#search_btn").on("click", function () {
-	   		 console.log("검색버튼")
+      		 console.log("검색버튼");
 	   		$("#page").val("1");
 	   		//기존 값 새값으로 변경
 	   		$("#oldGbn").val($("#searchGbn").val());
-	   		$("#oldText").val($("#searchText").val());
+	   		$("#oldText").val($("#searchText").val()); 
 	   		
 	   		reloadList();
    		});
@@ -43,9 +44,23 @@
     	//행을 누르면 상세보기로 이동~
    		$("tbody").on("click", "tr", function() {
    		      $("#review_num").val($(this).attr("no"));
+   		      
    			  $("#actionForm").attr("action","myReviewDetail");
    			  $("#actionForm").submit();
-   		   });
+  		   	});
+    	
+   		//페이징버튼
+   		$(".page_nation").on("click", "a", function() {
+   			
+   			//기본 검색상태 유지(검색구분, 검색어 유지하려고)
+   			$("#searchGbn").val($("#oldGbn").val());
+   			$("#searchText").val($("#oldText").val()); 
+   			
+   			//페이지 속성에 값을 서버에 보낸 page id에 담아서 보내기.
+   			$("#page").val($(this).attr("page"));
+   			
+   			reloadList();
+   		})
 	});
     
     function reloadList() {
@@ -81,24 +96,27 @@
     		//html +="<div class=\"delete_btn\">수정</div><br/>";
     	}
     	
-    	$(".tbody").html(html);
+    	$("tbody").html(html);
 	}
     
     function drawPaging(pd) {
       	var html = "";
       	
       	html +=
-      	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+      	html += "<a class=\"parrow pprev\"  page=\""+1+"\"></a>";
       	// 이전
       	if($("#page").val() == "1"){
-      		html += "<a class=\"arrow prev\" page=\"1\"></a>";
+      		html += "<a class=\"arrow prev\"  page=\""+1+"\"></a>";
       	} else{
       		// 문자열을 숫자로 바꾸기위해 *1
       		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
       	}
       	
+    	
+      	
       	for(var i = pd.startP; i <= pd.endP; i++){
       		if($("#page").val() * 1 == i){ // 현재 페이지
+		    	console.log("(리뷰)현재페이지==>"+i);
       			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
       		} else { // 다른 페이지
       			html += "<a page=\"" + i + "\">" + i + "</a>";
@@ -106,7 +124,7 @@
       		
       	}
       	
-      	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+      	if($("#page").val() *1 == pd.maxP){ // 현재페이지가 마지막 페이지라면
       		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
       	} else {
       		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
@@ -122,6 +140,9 @@
 </head>
 <body>
 <c:import url="/header1"></c:import>
+	<input type="hidden" id="oldGbn" value="${param.searchGbn}"> <!-- 기존 검색 유지용 보관 (검색구분)-->
+	<input type="hidden" id="oldText" value="${param.searchText}"> <!-- 기존 검색 유지용 보관 (검색어)-->
+	
    <main>
        <div class="main_wrap">
          <div class="side_bar">
@@ -135,8 +156,9 @@
 	        <input type="hidden" id="oldGbn" value="0" />
 			<input type="hidden" id="oldText" />
 	        <input type="hidden" id="review_num" name="review_num"/><!-- 해당 글 리뷰 번호 -->
-			<input type="hidden" name="page" id="page" value="1" />
+			<input type="hidden" name="page" id="page" value="${page}"/>
 	 		<input type="hidden" name="no" id="no" value="${sMemNo}"/><!-- 나의 no-->
+	       
 	       <div class="right_area">
 	           <div class="table_wrap">
 	               <div class="search_box">
@@ -151,13 +173,15 @@
 	                   <!--조건선택-->
 	                  </div>
 	                  <div class="search_form">
-	                    <input type="text" id="searchText" name="searchText"/>
+	                    <input type="text" id="searchText" name="searchText" value="${param.searchText}"/>
 	                  </div>
 	                  <div class="search_btn" id="search_btn">
 	                    검색
 	                  </div>
 	               </div>
 	               </div>
+	               
+	               <!-- board -->
 	               <table>
 	                 <thead>
 	                   <tr>
@@ -169,9 +193,10 @@
 	                   </tr>
 	                 </thead>
 	                 
-	                 <tbody class="tbody">
+	                 <tbody>
 	                 </tbody>
 	               </table>
+	               
 	                 <!--페이징-->
 	                 <div class="page_wrap">
 	                     <div class="page_nation">

@@ -24,14 +24,16 @@ $(document).ready(function() {
 	}else{
 		$("#oldGbn").val("0");//없으면 0으로 고정
 	}	
+	
 })
+
 </script>
 </head>
 <body>
 	<c:import url="/header1"></c:import>
 	
 	<input type="hidden" id="oldGbn" value="${param.searchGbn}"> <!-- 기존 검색 유지용 보관 (검색구분)-->
-	<input type="hidden" id="oldTxt" value="${param.searchTxt}"> <!-- 기존 검색 유지용 보관 (검색어)-->
+	<input type="hidden" id="oldText" value="${param.searchText}"> <!-- 기존 검색 유지용 보관 (검색어)-->
 	
 	<main>
 		<div class="main_wrap">
@@ -50,10 +52,7 @@ $(document).ready(function() {
 				<form action="#" id="searchForm">
 				  <div class="search_box1">
 						<div class="search_box">
-							<!-- 검색어 유지용 -->
-							<input type="hidden" id="oldGbn" value="0" />
-							<input type="hidden" id="oldText" />
-							<input type="hidden" name="page" id="page" value="1" />
+							<input type="hidden" name="page" id="page" value="${page}"/>
 							<input type="hidden" id="no" name="no"/>
 							<div class="select">
 								<select name="searchGbn" id="searchGbn">
