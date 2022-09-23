@@ -3,15 +3,7 @@
 	var vCk = "";
 	
    	reloadList();
-  	$("#autority_popup").hide();
-  	console.log("체크박스 길이 : "+$("tbody [type='checkbox']").length);
-	
-	//검색구분 유지
-	if("${param.searchGbn}" != ""){
-		$("#searchGbn").val("${param.searchGbn}");
-	}else{
-		$("#oldGbn").val("0");//없으면 0으로 고정
-	}
+  	$("#autority_popup").hide();//팝업창
 	   
 	// 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {

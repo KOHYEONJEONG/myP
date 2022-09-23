@@ -261,9 +261,8 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                     			   <input type="button" value="삭제" class="btn del"  id="deleteBtn">
                   		</c:when>
                   		
-                  		<c:when test="${sMemNo eq 0}">
-                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
-                    			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
+                  		<c:when test="${sMemAuto == 1}">
+                   			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
                   		</c:when>
                   </c:choose> 
                   </div>
@@ -288,7 +287,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                     </div>
                     </c:when>
                     
-                    <c:when test="${sMemNo eq 0}">
+                    <c:when test="${sMemAuto == 1}">
                     <div class="notice">
                         <div class="notice_left">
                             <span class="i"></span>
@@ -352,7 +351,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                     <div class="txt">답변</div>
                     <form action = "#" id="actionForm" method="post">
                    <c:choose>
-                     <c:when test="${sMemNo eq 0}">
+                     <c:when test="${sMemAuto == 1}">
                     <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
                     </c:when>
@@ -369,7 +368,7 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
                 <hr>
                 <div class="btn_wrap">
                 	<c:choose>
-                     <c:when test="${sMemNo eq 0}">
+                     <c:when test="${sMemAuto == 1}">
                     <input type="button" value="목록" class="btn list" id="listBtn">
                       <input type="button" value="등록" class="btn regi" id="insertBtn">
                       </c:when>

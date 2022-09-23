@@ -88,7 +88,7 @@
                                 <img class="myReviewImg" src="resources/icons/reviewmypage.png">
                                 <div class="txt">주차장리뷰</div>
                             </div>
-                            <div class="my_btn1 myQna">
+                            <div class="my_btn1 myQna" id="myQnA">
                                     <img class="qnaImg" src="resources/icons/qna.png">
                                 <div class="txt">
                                     게시글

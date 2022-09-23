@@ -8,8 +8,7 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:property-placeholder
-		location="/WEB-INF/spring/jdbc.properties" />
+	<context:property-placeholder location="/WEB-INF/spring/jdbc.properties" />
 
 	<!-- dataSource : 접속설정객체 -->
 	<bean id="dataSource"
