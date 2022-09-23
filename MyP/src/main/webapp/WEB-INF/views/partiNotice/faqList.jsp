@@ -20,7 +20,7 @@
     <script type="text/javascript" src="resources/script/common/popup.js"></script>
 <style type="text/css">
 .update {
-    margin: 0px 8px 0px 0px;
+    margin: 0px 75px 0px 0px;
     background: #FD9A29;
     border: solid 1px #FD9A29;
 }   
@@ -50,6 +50,9 @@
     box-sizing: border-box;
     line-height: 35px;
     text-align: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .btn_wrap1{
@@ -161,7 +164,6 @@
 	$(".accordion_wrap").on("click", "#updateBtn", function () {
 		$("#no1").val($(this).attr("no1"));
 		
-		
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchTet").val($("#oldTet").val());
 		
@@ -169,46 +171,25 @@
 		$("#actionForm").submit(); 
 	});
 	
-  	/* $(".accordion_wrap").on("click", "#deleteBtn" function () {
+	// 목록의 삭제버튼 클릭시
+	$(".accordion_wrap").on("click", "#deleteBtn", function() {
 		$("#no1").val($(this).attr("no1"));
-		  makePopup({
-		         title : "알림",
-		         contents : "삭제하시겠습니까?",
-		         // draggable : true,
-		         buttons : [{
-		            name : "삭제",
-		            func:function() {
-		            	var params = $("#actionForm").serialize();
-		    			
-		    			$.ajax({
-		    				url : "faqAction/delete",
-		    				type : "POST", 
-		    				dataType: "json", 
-		    				data: params, 
-		    				success : function(res) { 
-		    					switch(res.msg){
-		    					case "success" : 
-		    						location.href ="faq";
-		    						break;
-		    					case "fail" :
-		    						makeAlert("알림" , "삭제에 실패하였습니다.");
-		    						break;
-		    					case "error" :
-		    						makeAlert("알림" , "삭제 중 문제가 발생하였습니다.");
-		    						break;
-		    					}
-		    				},
-		    				error : function(request, status, error) { 
-		    					console.log(request.responseText); 
-		    				}
-		    			});
-		            }
-		         }, {
-		            name : "취소"
-		    }]
+		
+		 makePopup({
+	    	  title : "알림",
+	    	  contents : "삭제 하시겠습니까?",
+	    	  buttons : [{
+	    		  name : "삭제",
+	    		  func : function() {	    			  	
+	    				action("delete"); 
+	    				closePopup(); // 제일 위에 팝업 닫기
+	    		  }
+	    	  }, {
+	    		  name : "취소"
+			}]		  	
 		});
-	});  */
-
+	});		 
+	
 });
   
 var msg ={
@@ -217,6 +198,49 @@ var msg ={
 	"delete" : "삭제",
 }  
 
+function action(flag) {
+	
+	// Javascript Object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수 있다.
+	//							  Java의 Map에서 get, put역할
+	var params = $("#actionForm").serialize();
+	$.ajax({
+		url : "faqAction/" + flag,
+		type : "POST",
+		dataType : "json", 
+		data : params, 
+		success : function(res) { 
+			switch(res.msg) {
+			case "success" :
+				// 내용 초기화
+				$("#con").val("");
+				$("#no1").val("");
+								
+				// 목록 재조회
+				switch(flag) {
+				case "delete" :
+					// 조회 데이터 초기화
+					$("#page").val("1");
+					$("#searchGbn").val("0");
+					$("#searchTet").val("");
+					$("#oldGbn").val("0");
+					$("#oldTet").val("");
+					break;
+				}				
+				reloadList();
+				break;
+			case "fail" :
+				makeAlert("알림", msg[flag] + "에 실패하였습니다.");
+				break;
+			case "error" :
+				makeAlert("알림", msg[flag] + " 중 문제가 발생하였습니다.");
+				break;	
+			}
+		},
+		error : function(request, status, error) {
+			console.log(request.responseText); 
+		}
+	});  // Ajax End
+} // action Function End
 
 function reloadList() {
 	var params = $("#actionForm").serialize();
@@ -236,24 +260,26 @@ function reloadList() {
 }
 
 function drawList(list) {
-	
 	var html = "";
-
+	var cate_num = "";
     html +="<div class=\"accordion_con on\">";                               
     html +="  <div id=\"accordion_con\"> ";                               
-	for(var data of list){	
+	for(var data of list){
+		cate_num = data.CATE_NUM;
+		
 		html +="<h3 no1=\"" + data.FAQ_NUM + "\">" + data.QUE + "</h3>";	
-	html +="    <div class=\"btn_wrap1\">                         ";                               
-	html +="      <p>" + data.ANSWER_CON + "</p>     "; 
-    if("${sMemAuto}" == 1){
-	    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn update\" id=\"updateBtn\">수정</div>";
-	    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
-    }
-    html +="    </div>    ";       	   
+		html +="    <div class=\"btn_wrap1\">                         ";                               
+		html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+	    if("${sMemAuto}" == 1){
+		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn update\" id=\"updateBtn\">수정</div>";
+		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
+	    }
+	    html +="    </div>    ";       	   
 	}                                                                          
     html +="  </div>";                               
     html +="</div>";                               
 	
+	$("#cate_num").val(cate_num);
 	$(".accordion_wrap").html(html);
 	
 	 // 아코디언
@@ -324,6 +350,7 @@ function drawPaging(pd) {
                   <input type="hidden" name="no" id="no" /> 
                   <input type="hidden" name="no1" id="no1" />  
                   <input type="hidden" name="page" id="page" value="${page}" />
+                  <input type="hidden" name="cate_num" id="cate_num"/>
                     <div class="select">
                         <select name="searchGbn" id="searchGbn" >
                           <option value="0">제목</option>

@@ -18,6 +18,16 @@
 <script type="text/javascript">
 $(document).ready(function () {
 		
+		var cate_num = ${param.cate_num};
+		console.log(cate_num);
+	
+		$("#cate_num option").each(function() {
+			console.log($(this).html());
+			if($(this).val() == cate_num){
+				$(this).prop("selected", true); 
+			}
+		});
+	
 		// 에디터 연결
 		// CKEDITOR.replace(아이디, 옵션)
 		CKEDITOR.replace("con", {
