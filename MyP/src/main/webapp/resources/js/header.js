@@ -136,7 +136,6 @@ function notireload() {
 		dataType: "json", 
 		data: params, 
 		success : function(res) { 
-			console.log(res)
 			notidraw(res.list);
 		},
 		error : function(request, status, error) { 
