@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>MyP</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common/popup.css" />
+<link rel="stylesheet" href="resources/css/font.css">
+<link rel="stylesheet" href="resources/css/login.css">
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
-<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script src="resources/js/main.js"></script>
 <script type="text/javascript" src="resources/script/common/popup.js"></script>
 <script src="resources/js/login.js"></script>
 </head>
@@ -36,10 +37,10 @@
       <div id="pwFind">비밀번호 찾기</div>
    </div>
    <hr/>
-   <div class="kakao">
+       <a id="kakaBtn" class="kakao p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=764066383a16f05dde4e4f4106cfdc9f&redirect_uri=http://localhost:8090/MyP/kakaoLogin&response_type=code">
       <div class="kakao_i"></div>
       <div class="kakao_txt">카카오톡으로 간편로그인 </div>
-   </div>
+   </a>
 </div>
 </body>
 </html>
