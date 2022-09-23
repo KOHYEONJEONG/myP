@@ -174,10 +174,10 @@ function drawPaging(pd) {
 
 					<form action="#" id="actionForm" method="post">
 						<div class="search_box">
-							<input type="hidden" id="oldGbn" value="0" /> <input
-								type="hidden" id="oldTxt" /> <input type="hidden" name="no"
-								id="no" /> <input type="hidden" name="page" id="page"
-								value="${page}" />
+							<input type="hidden" id="memno" name="memno" value="${sMemNo}"/>
+							<input type="hidden" id="oldGbn" value="0" /> 
+							<input	type="hidden" id="oldTxt" /> <input type="hidden" name="no"id="no" />
+							 <input type="hidden" name="page" id="page"	value="${page}" />
 							<div class="select">
 								<select name="select_b" id="select_b">
 									<option value="0">전체</option>
