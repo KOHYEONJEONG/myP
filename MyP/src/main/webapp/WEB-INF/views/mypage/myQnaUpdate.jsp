@@ -113,6 +113,10 @@ textarea.con{
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	if("${param.priv}" == 0){ 
+		$("#checkbox").prop("checked", true); 
+	}
+	
 	// 에디터 연결
 	CKEDITOR.replace("con", {
 			resize_enabled: false, // resize_enabled : 크기조절기능 활용여부
