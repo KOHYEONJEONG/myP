@@ -94,7 +94,7 @@ function drawList(list) {
 	var html = "";
 	for(var data of list){
 		html +="<tr no=\"" + data.QNA_NUM  + "\">";
-		html +="<td>" + data.QNA_NUM + "</td>";
+		html +="<td>" + data.NORNK + "</td>";
 		/* 공개 비공개 구분 */
 		if(data.PRIVATE == 0){
 		html +="<td><i class=\"lock\"></i>" + data.TITLE + "</td>";

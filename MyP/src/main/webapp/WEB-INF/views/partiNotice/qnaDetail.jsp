@@ -246,7 +246,7 @@ function action(flag){
             </div>
             <div class="right_area">      
                 <div class="detail_wrap">
-                    <div class="title">QnA</div> 
+                    <div class="title">QnA
 	                    <div class="upbtn">
 		                    <c:choose>
 		                  		<c:when test="${sMemNo eq data.MEM_NUM}">
@@ -259,6 +259,7 @@ function action(flag){
 		                  		</c:when>
 		                  </c:choose> 
 	                  </div>
+	                  </div> 
                      <hr>
                      
                      <c:choose>
@@ -339,6 +340,7 @@ function action(flag){
                     
                     <form action = "#" id="actionForm" method="post">
                     <input type="hidden" name="no" id="no" value="${sMemNo}"/>
+                    <input type="hidden" name="priv" id="priv" value="${data.PRIVATE}"/>
                    <c:choose>
                      <c:when test="${sMemAuto == 1}">
                     <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>

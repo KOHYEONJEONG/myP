@@ -88,7 +88,7 @@ $(document).ready(function() {
 			var html = "";
 			for(var data of list){
 				  html += "<tr no=\"" + data.REVIEW_NUM + "\" status=\"" + data.STS_NUM + "\">";
-				  html += "<td>" + data.REVIEW_NUM + "</td>";
+				  html += "<td>" + data.NORNK + "</td>";
 			      html += "<td>" + data.TITLE + "</td>";
 			      html += "<td>" + data.NM + "</td>";
 			      html += "<td>" + data.DT + "</td>";
