@@ -16,6 +16,8 @@ $(document).ready(function () {
         $("#sendForm").submit();   
 	});
 	
+	
+	
 	$("#savefile").click(function(){
 		if($.trim($("#vPic").val())==""){
 		   makeAlert("알림","사진을 첨부해주세요.", function(){
@@ -72,7 +74,6 @@ $(document).ready(function () {
 	    
 	});
 	
-	
 	$("#btn_memWit").on("click", function(){
 		//회원 탈퇴 버튼
 		$("#sendForm").attr("action", "withdraw");
@@ -80,9 +81,13 @@ $(document).ready(function () {
 	});
 	
 	$("#myReview").on("click", function(){
-		
 		$("#sendForm").attr("action", "mypageReviewBoard");
         $("#sendForm").submit();  
+	});
+	
+	$("#myQnA").click(function(){
+		$("#sendForm").attr("action", "myQnA");
+        $("#sendForm").submit();   
 	});
 	
 });

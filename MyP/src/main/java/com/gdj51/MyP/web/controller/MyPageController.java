@@ -181,7 +181,7 @@ public class MyPageController { //no
 		HashMap<String, String> data = dao.getMapData("member.getMyReview",params);
 		mav.addObject("data",data);
 		
-		mav.setViewName("mypage/mypageReviewUpdate");
+		mav.setViewName("mypage/myReviewUpdate");
 		return mav;
 	}
 	
@@ -192,6 +192,8 @@ public class MyPageController { //no
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
+		System.out.println();
+		
 		int cnt = 0;
 
 		try {
@@ -201,6 +203,94 @@ public class MyPageController { //no
 					break;
 				case "delete":
 					cnt = dao.update("member.deleteMyreview", params);
+					break;
+			}
+
+			if (cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
+
+		return mapper.writeValueAsString(model);
+	}
+	
+	//마이페이지 QnA BOARD
+	@RequestMapping(value = "/myQnA")
+	public ModelAndView myQnA(ModelAndView mav, @RequestParam HashMap<String, String> params) {
+		
+		int page = 1;// 첫페이지로 나타내려고
+
+		if (params.get("page") != null && params.get("page") != "") {
+			page = Integer.parseInt(params.get("page"));
+		}
+		// 페이지 번호
+		mav.addObject("page", page);
+		
+		mav.setViewName("mypage/mypageQnaBoard");
+		return mav;
+	}
+	
+	//마이페이지 - 나의 Qna게시판
+	@RequestMapping(value = "/mypageQnaBoardAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String mypageQnaBoardAjax(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		System.out.println("mypageQnaBoardAjax : " + params.toString());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		// 페이지 받아오게 되어있음
+		int cnt = dao.getIntData("member.qnaListCnt", params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
+
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+
+		List<HashMap<String, String>> list = dao.getList("member.qnaList", params);
+
+		model.put("list", list);
+		model.put("pd", pd);
+
+		return mapper.writeValueAsString(model);
+	}
+
+	@RequestMapping(value = "/myQnADetail")
+	public ModelAndView myQnADetail(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		HashMap<String, String> data = dao.getMapData("member.getQnaList", params);
+		mav.addObject("data", data);
+		mav.setViewName("mypage/myQnaDetail");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/myQnAUpdate")
+	public ModelAndView myQnAUpdate(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+		HashMap<String, String> data = dao.getMapData("member.getQnaList", params);
+		mav.addObject("data", data);
+		mav.setViewName("mypage/myQnaUpdate");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/myQnaAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String myQnaAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		System.out.println();
+		int cnt = 0;
+
+		try {
+			switch (gbn) {
+				case "update":
+					cnt = dao.update("member.updateQna", params);
+					break;
+				case "delete":
+					cnt = dao.update("member.deleteQna", params);
 					break;
 			}
 

@@ -9,7 +9,7 @@ public class ChatbotController {
 
 	@RequestMapping(value = "/chatbotManagement")
 	public ModelAndView chatbotManagement(ModelAndView mav) {
-		mav.setViewName("chatbot/chatbotManagement");
+		mav.setViewName("chatbot/chatbotManagerment");
 		return mav;
 	}
 

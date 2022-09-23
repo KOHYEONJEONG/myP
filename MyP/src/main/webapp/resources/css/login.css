@@ -26,6 +26,7 @@
       top: -80px;
       left: 50%;
       transform: translate(-50%,-50%);
+       cursor: pointer;
 
     }
    a{
@@ -136,7 +137,7 @@ input::placeholder {
    display: flex;
 }
 .kakao_i{
-   background: url(./icons/kakao.png) no-repeat;
+   background: url(../icons/kakao.png) no-repeat;
    width: 40px;
    height: 100%;
     background-size: 90%;
