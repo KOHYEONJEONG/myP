@@ -222,7 +222,7 @@ function action(flag){
 	<c:import url="/testAHeader"></c:import>
 <form action="#" id="action2Form" method="post">
    <input type="hidden" name="gbn" value="delete" />
-   <input type="hidden" name="no" value="${data.QNA_NUM}" />
+   <input type="hidden" name="qna_num" value="${data.QNA_NUM}" />
    <!-- 전 화면에서 넘어온 페이지 정보 -->
    <input type="hidden" name="page" id="page" value="${param.page}" />
    <!-- 전 화면에서 넘어온 검색 정보 -->
@@ -336,23 +336,23 @@ function action(flag){
                     <div class="txt">답변</div>
                     
                     <form action = "#" id="actionForm" method="post">
-	                              
+                    <input type="hidden" name="no" id="no" value="${sMemNo}"/>
                    <c:choose>
                      <c:when test="${sMemAuto == 1}">
                     <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
-                    <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                    <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
                     </c:when>
                      <c:when test="${sMemAuto != 1 and sMemNo eq data.MEM_NUM}">
                      <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
-                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                     <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
                    </c:when>
                    <c:when test="${sMemAuto != 1 and data.PRIVATE == 0}">
                      <textarea  class="answer_txt" id="con" name="con" readonly>비공개</textarea>
-                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                     <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
                    </c:when>
                    <c:when test="${sMemAuto != 1 and data.PRIVATE == 1}">
                      <textarea  class="answer_txt" id="con" name="con" readonly>${data.ANSWER_CON}</textarea>
-                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                     <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
                    </c:when>
                    </c:choose>
                     </form>
