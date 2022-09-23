@@ -45,7 +45,7 @@
     	FROM QNA Q INNER JOIN MEMBER M
     	ON Q.MEM_NUM = M.MEM_NUM
     	WHERE Q.DEL = 1
-    	AND Q.QNA_NUM = #{no}
+    	AND Q.QNA_NUM = #{qna_num}
 </select>
 
 <select id="qnaCnt" parameterType="hashmap" resultType="Integer"><!-- 숫자만 돌려주니깐 -->
@@ -94,6 +94,6 @@
 	
 	<update id="updateHit" parameterType="hashmap">
 		UPDATE QNA SET HIT = HIT + 1
-		WHERE QNA_NUM =#{qna_num} AND MEM_NUM != #{memno}
+		WHERE QNA_NUM =#{qna_num} AND MEM_NUM != #{no}
 	</update>
 </mapper>
