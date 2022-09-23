@@ -123,14 +123,20 @@ textarea.con{
 $(document).ready(function() {
 	
 	console.log("리뷰번호 : "+$("#review_num").val());
+	console.log("페이지번호 : "+ "${param.page}");
+	console.log("검색 : "+ "${param.searchText}");
+	console.log("구분 : "+ "${param.searchGbn}");
 	
+	//별점
 	$('.feeStar, .envStar, .cctvStar, .disStar').raty({ 
 		readOnly: true, 
 		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
 	});
 	
-	$("#listBtn").on("click", function() {
-		history.back();
+	//qna목록
+	$("#listBtn").on("click", function() { 
+	   $("#actionForm").attr("action","mypageReviewBoard");
+	   $("#actionForm").submit();
 	})
 	
 	$("#deleteBtn").on("click",function(){
@@ -203,7 +209,7 @@ function action(flag) {
 <body>
 	<c:import url="/header1"></c:import>
 	
-	<form action="#" id="actionForm">
+	<form action="#" id="actionForm" method="post">
 		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}"/>
 	 	<input type="hidden" name="no" id="no" value="${sMemNo}" />
 		<!--  전 화면에서 넘어온 페이지 정보 -->

@@ -222,7 +222,7 @@ function drawList(list) {
   		
   	}
   	
-  	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+  	if($("#page").val() *1 == pd.maxP){ // 현재페이지가 마지막 페이지라면
   		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
   	} else {
   		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";

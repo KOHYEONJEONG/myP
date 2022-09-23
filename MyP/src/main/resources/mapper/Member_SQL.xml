@@ -202,7 +202,7 @@
 	</select>
 	
 	<select id="getQnaList" resultType="hashmap" parameterType="hashmap">
-		SELECT  Q.MEM_NUM, Q.QNA_NUM, Q.TITLE, Q.CON , Q.PRIVATE, Q.HIT,Q.ANSWER_CON,
+		SELECT  Q.MEM_NUM, Q.QNA_NUM, Q.TITLE, Q.CON , Q.PRIVATE, Q.HIT,Q.ANSWER_CON, Q.PRIVATE,
 				CASE WHEN TO_CHAR(Q.REG_DT, 'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
 								THEN TO_CHAR(Q.REG_DT, 'HH24:MI')
 								ELSE TO_CHAR(Q.REG_DT,'YY.MM.DD')
@@ -215,15 +215,5 @@
 		WHERE MEM_NUM = #{no} AND DEL = 1 AND QNA_NUM = #{qna_num}
 	</select>
 	
-	<update id="updateQna" parameterType="hashmap">
-		UPDATE QNA
-		SET TITLE = #{title}, CON = #{con}, PRIVATE = #{private}
-		WHERE MEM_NUM = #{no} AND DEL = 1 AND QNA_NUM = #{qna_num}
-	</update>
-	
-	<update id="deleteQna" parameterType="hashmap">
-		UPDATE QNA
-		SET DEL = 0
-		WHERE MEM_NUM = #{no} AND DEL = 1 AND QNA_NUM = #{qna_num}
-	</update>
+	<!-- qna 수정, 삭제는 Qna_SQL.xml 사용함. -->
 </mapper>

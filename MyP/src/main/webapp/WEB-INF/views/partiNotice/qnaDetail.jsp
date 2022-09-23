@@ -116,67 +116,61 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
 		src="resources/script/common/popup.js"></script>
 <script type="text/javascript">
    
-   $(document).ready(function() {
+$(document).ready(function() {
 	   
-	   console.log(${sMemAuto});
-	   
-	   $("#listBtn").on("click", function() {
-	         $("#actionForm").attr("action","qna"); 
-	         $("#actionForm").submit();
-	      });
-	   
-	   
-      
-      $("#insertBtn").on("click", function() { 
-          
-          if($.trim($("#con").val())==""){//1.내용이 있는지 먼저 확인하기!!
-             makeAlert("알림", "내용을 입력하세요.", function() {
-                $("#con").focus();
-             });
-          }else{
-        	action("insert");  
-          	}
-          
-  	 	});
-      
-     
+ console.log(${sMemAuto});
+ 
+ 
+ 
+ 
+ $("#listBtn").on("click", function() {
+      $("#actionForm").attr("action","qna"); 
+      $("#actionForm").submit();
+   });
    
-   
-   var mag={
-		      "insert" : "등록",
-		  
-		   }
-         function action(flag){
-        	//con  <들을 웹문자로 변환
-             $("#con").val($("#con").val().replace(/</gi, "&lt;"));
-           	//con dml <들을 웹문자로 변환
-           	      $("#con").val($("#con").val().replace(/>/gi, "&gt;"));
-           	var params = $("#actionForm").serialize();
-           	   $.ajax({
-           		   url : "qnaDetail/"+flag,
-           		 type : "POST",
-                 dataType : "json", 
-                 data : params, 
-                 success : function(res) { 
-                	 switch(res.msg){
-                     case "success":
-                    	 makeAlert("알림", "답변이 등록되었습니다.");
-                      
-                     break;
-                	 
-                     case "fail":
-                         makeAlert("알림", mag[flag] + "에 실패하였습니다.");
-                        break;
-                     case "error":
-                         makeAlert("알림", mag[flag] +" 중 문제가 발생하였습니다.");
-                     break;
-                  }
-               },
-               error : function(request, status, error) {
-                  console.log(request); 
-               }
-            });//ajax End
-   } //action(flag) function End
+   $("#insertBtn").on("click", function() { 
+     if($.trim($("#con").val())==""){//1.내용이 있는지 먼저 확인하기!!
+       	makeAlert("알림", "내용을 입력하세요.", function() {
+         	$("#con").focus();
+    	});
+     }else{
+   		action("insert");  
+   }
+});
+var mag={
+     "insert" : "등록",
+ 
+  }
+function action(flag){
+//con  <들을 웹문자로 변환
+    $("#con").val($("#con").val().replace(/</gi, "&lt;"));
+  	//con dml <들을 웹문자로 변환
+  	      $("#con").val($("#con").val().replace(/>/gi, "&gt;"));
+  	var params = $("#actionForm").serialize();
+  	   $.ajax({
+	  		url : "qnaDetail/"+flag,
+	  		type : "POST",
+	        dataType : "json", 
+	        data : params, 
+	        success : function(res) { 
+	       	 switch(res.msg){
+	            case "success":
+	           	 	makeAlert("알림", "답변이 등록되었습니다.");
+	            break;
+	       	 
+	            case "fail":
+	                makeAlert("알림", mag[flag] + "에 실패하였습니다.");
+	               break;
+	            case "error":
+	                makeAlert("알림", mag[flag] +" 중 문제가 발생하였습니다.");
+	            break;
+	         }
+	      },
+	      error : function(request, status, error) {
+	         console.log(request); 
+	      }
+   });//ajax End
+} //action(flag) function End
    
    $("#deleteBtn").on("click", function () {
        makePopup({
@@ -231,14 +225,13 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
 	<c:import url="/testAHeader"></c:import>
 <form action="#" id="action2Form" method="post">
    <input type="hidden" name="gbn" value="delete" />
-   <input type="hidden" name="no" value="${data.QNA_NUM}" />
+   <input type="hidden" name="qna_num" value="${data.QNA_NUM}" />
    <!-- 전 화면에서 넘어온 페이지 정보 -->
    <input type="hidden" name="page" id="page" value="${param.page}" />
    <!-- 전 화면에서 넘어온 검색 정보 -->
    <input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}" />
    <input type="hidden" name="searchTxt" id="searchTxt" value="${param.searchTxt}" />
-   <!--  전화면에서 넘어온 카테고리 번호 -->
- 
+   <input type="hidden" name="private" id="private" value="${data.PRIVATE}"/>
 </form>
   <c:import url="/header1"></c:import>
      <main>
@@ -253,112 +246,116 @@ src="resources/script/jquery/jquery.slimscroll.js"></script>
             </div>
             <div class="right_area">      
                 <div class="detail_wrap">
-                    <div class="title">QnA
-                    <div class="upbtn">
-                    <c:choose>
-                  		<c:when test="${sMemNo eq data.MEM_NUM}">
-                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
-                    			   <input type="button" value="삭제" class="btn del"  id="deleteBtn">
-                  		</c:when>
-                  		
-                  		<c:when test="${sMemAuto == 1}">
-                   			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
-                  		</c:when>
-                  </c:choose> 
-                  </div>
-                  	</div> 
-                    <hr>
+                    <div class="title">QnA</div> 
+	                    <div class="upbtn">
+		                    <c:choose>
+		                  		<c:when test="${sMemNo eq data.MEM_NUM}">
+		                  				   <input type="button" value="수정" class="btn update" id="updateBtn">
+		                    			   <input type="button" value="삭제" class="btn del"  id="deleteBtn">
+		                  		</c:when>
+		                  		
+		                  		<c:when test="${sMemAuto == 1}">
+		                   			   <input type="button" value="삭제" class="btn del" id="deleteBtn">
+		                  		</c:when>
+		                  </c:choose> 
+	                  </div>
+                     <hr>
+                     
                      <c:choose>
                   		<c:when test="${sMemNo eq data.MEM_NUM  and data.PRIVATE == 0}">
-                    <div class="notice">
-                        <div class="notice_left">
-                            <span class="i"></span>
-                            <span>${data.TITLE}</span>
-                        </div>
-                        <div class="notice_right">
-                            <div>작성일 : ${data.DT}</div>
-                            <div>조회수:${data.HIT}</div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="content">
-                          ${data.CON}
-                       
-                    </div>
-                    </c:when>
-                    
-                    <c:when test="${sMemAuto == 1}">
-                    <div class="notice">
-                        <div class="notice_left">
-                            <span class="i"></span>
-                            <span>${data.TITLE}</span>
-                        </div>
-                        <div class="notice_right">
-                            <div>작성일 : ${data.DT}</div>
-                            <div>조회수:${data.HIT}</div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="content">
-                          ${data.CON}
-                       
-                    </div>
-                    </c:when>
-                    
-                     <c:when test="${data.PRIVATE == 1}">
-                    <div class="notice">
-                        <div class="notice_left">
-                            <span class="i"></span>
-                            <span>${data.TITLE}</span>
-                        </div>
-                        <div class="notice_right">
-                            <div>작성일 : ${data.DT}</div>
-                            <div>조회수:${data.HIT}</div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="content">
-                          ${data.CON}
-                       
-                    </div>
-                    </c:when>
-                    
-                    <c:when test="${data.PRIVATE == 0 }">
-                    
-                    <div class="notice">
-                        <div class="notice_left">
-                            <span class="i"></span>
-                            <span>비공개</span>
-                        </div>
-                        <div class="notice_right">
-                            <div>비공개</div>
-                            <div>비공개</div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="content">
-                          비공개
-                       
-                    </div>
-                    </c:when>
-                      </c:choose>
-                      
-                    
-                    
+	                    <div class="notice">
+	                        <div class="notice_left">
+	                            <span class="i"></span>
+	                            <span>${data.TITLE}</span>
+	                        </div>
+	                        <div class="notice_right">
+	                            <div>작성일 : ${data.DT}</div>
+	                            <div>조회수:${data.HIT}</div>
+	                        </div>
+	                    </div>
+	                    <hr>
+	                    <div class="content">
+	                          ${data.CON}
+	                    </div>
+	                    </c:when>
+	                    
+	                    <c:when test="${sMemAuto == 1}">
+	                    <div class="notice">
+	                        <div class="notice_left">
+	                            <span class="i"></span>
+	                            <span>${data.TITLE}</span>
+	                        </div>
+	                        <div class="notice_right">
+	                            <div>작성일 : ${data.DT}</div>
+	                            <div>조회수:${data.HIT}</div>
+	                        </div>
+	                    </div>
+	                    <hr>
+	                    <div class="content">
+	                          ${data.CON}
+	                       
+	                    </div>
+	                    </c:when>
+	                    
+	                     <c:when test="${data.PRIVATE == 1}">
+	                     		<div class="notice">
+		                        <div class="notice_left">
+		                            <span class="i"></span>
+		                            <span>${data.TITLE}</span>
+		                        </div>
+		                        <div class="notice_right">
+		                            <div>작성일 : ${data.DT}</div>
+		                            <div>조회수:${data.HIT}</div>
+		                        </div>
+		                    </div>
+		                    <hr>
+		                    <div class="content">
+		                          ${data.CON}
+		                       
+		                    </div>
+	                    </c:when>
+	                    
+		                    <c:when test="${data.PRIVATE == 0 }">
+			                    <div class="notice">
+			                        <div class="notice_left">
+			                            <span class="i"></span>
+			                            <span>비공개</span>
+			                        </div>
+			                        <div class="notice_right">
+			                            <div>비공개</div>
+			                            <div>비공개</div>
+			                        </div>
+			                    </div>
+			                    <hr>
+			                    <div class="content">
+			                          비공개
+			                    </div>
+		                    </c:when>
+                     </c:choose>
                  <hr>
                 
                  <div class="answer">
                     <div class="txt">답변</div>
+                    
                     <form action = "#" id="actionForm" method="post">
+                    <input type="hidden" name="no" id="no" value="${sMemNo}"/>
                    <c:choose>
                      <c:when test="${sMemAuto == 1}">
                     <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
-                    <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+                    <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
                     </c:when>
-                    <c:otherwise>
+                     <c:when test="${sMemAuto != 1 and sMemNo eq data.MEM_NUM}">
                      <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
-                     <input type="hidden" name="no" value="${data.QNA_NUM}"/>
-                    </c:otherwise>
+                     <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
+                   </c:when>
+                   <c:when test="${sMemAuto != 1 and data.PRIVATE == 0}">
+                     <textarea  class="answer_txt" id="con" name="con" readonly>비공개</textarea>
+                     <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
+                   </c:when>
+                   <c:when test="${sMemAuto != 1 and data.PRIVATE == 1}">
+                     <textarea  class="answer_txt" id="con" name="con" readonly>${data.ANSWER_CON}</textarea>
+                     <input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
+                   </c:when>
                    </c:choose>
                     </form>
                     

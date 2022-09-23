@@ -111,7 +111,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	console.log("리뷰번호 : "+$("#qna_num").val());
+	console.log("qna번호 : "+$("#qna_num").val());
+	console.log("페이지번호 : "+ "${param.page}");
 	
 	$('.feeStar, .envStar, .cctvStar, .disStar').raty({ 
 		readOnly: true, 
@@ -119,7 +120,8 @@ $(document).ready(function() {
 	});
 	
 	$("#listBtn").on("click", function() {
-		history.back();
+		$("#actionForm").attr("action","myQnA");/*페이지이동*/ 
+		$("#actionForm").submit();
 	})
 	
 	$("#deleteBtn").on("click",function(){
@@ -143,7 +145,7 @@ $(document).ready(function() {
 	
 	$("#updateBtn").on("click", function(){
 		console.log("수정버튼");
-		$("#actionForm").attr("action","mypageReviewUpdate");/*페이지이동*/ 
+		$("#actionForm").attr("action","myQnAUpdate");/*페이지이동*/  
 		$("#actionForm").submit();
 	});
 });
@@ -169,7 +171,11 @@ function action(flag) {
 					// 목록 재조회
 					switch(flag){
 						case "delete" :
-							$("#actionForm").attr("action","mypageReviewBoard");/*삭제 후 목록으로 페이지이동*/
+							$("#page").val("1"); //1 중요!!
+			            	$("#searchGbn").val("0");
+			            	$("#searchText").val("");
+			            	
+							$("#actionForm").attr("action","myQnA");/*삭제 후 목록으로 페이지이동*/
 							$("#actionForm").submit();
 							break;
 					}
@@ -192,24 +198,27 @@ function action(flag) {
 <body>
 	<c:import url="/header1"></c:import>
 	
-	<form action="#" id="actionForm">
-		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}"/>
+	<form action="#" id="actionForm" method="post">
+		<input type="hidden" name="qna_num" id="qna_num" value="${param.qna_num
+		
+		}"/>
 	 	<input type="hidden" name="no" id="no" value="${sMemNo}" />
 		<!--  전 화면에서 넘어온 페이지 정보 -->
-		<input type="hidden" name="page" id="page" value="${param.page}" />
+		<input type="hidden" name="page" id="page" value="${param.page}"/>
 		<!--  전 화면에서 넘어온 검색 정보 -->
-		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
-		<input type="hidden" id="searchText" name="searchText" value="${param.searchText}" />
+		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}"/>
+		<input type="hidden" id="searchText" name="searchText" value="${param.searchText}"/>
+		<input type="hidden" name="priv" id="priv" value="${data.PRIVATE}"/>
 	</form>
 	
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
-				<div class="title">주차장 안내</div>
-				<div class="inner">
-					<div class="on">공영 주차장 조회</div>
-				</div>
-			</div>
+	           <div class="title">마이페이지</div>
+	           <div class="inner">
+	               <div class="on">마이페이지</div>
+	           </div> 
+	        </div>
 
 				<div class="right_area">      
 		            <div class="detail_wrap">
@@ -305,18 +314,16 @@ function action(flag) {
 		            
 		             <div class="answer">
 		                <div class="txt">답변</div>
-		                <form action = "#" id="actionForm" method="post">
-			                <input type="hidden" name="no" value="${data.QNA_NUM}"/>
-			                <c:choose>
-			                 	<c:when test="${sMemAuto == 1}">
-			                <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
-			                </c:when>
-			                <c:otherwise>
-			                 <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
-			                </c:otherwise>
-			               </c:choose>
-		                </form>
-		                
+		                <input type="hidden" name="no" value="${data.QNA_NUM}"/>
+		                <c:choose>
+		                 	<c:when test="${sMemAuto == 1}">
+		                <textarea  class="answer_txt" id="con" name="con" >${data.ANSWER_CON}</textarea>
+		                </c:when>
+		                <c:otherwise>
+		                 <textarea  class="answer_txt" id="con" name="con" readonly >${data.ANSWER_CON}</textarea>
+		                </c:otherwise>
+		               </c:choose>
+	                
 		                <div class="setting"></div> 
 		                <div class="recycle_bin"></div> 
 		            </div>

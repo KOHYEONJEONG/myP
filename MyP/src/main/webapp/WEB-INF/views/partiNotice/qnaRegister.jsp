@@ -143,7 +143,7 @@ function check(box){
             </div>
             <div class="right_area">      
             <form action="#" id="actionForm" method="post">
-            	<input type="hidden" name="ckval" id="ckval"/>
+            	<input type="hidden" name="ckval" id="ckval" value="1"/>
                 <div class="register_wrap">
                     <div class="title">
                         QnA

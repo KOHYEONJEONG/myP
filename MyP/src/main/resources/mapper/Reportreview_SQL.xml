@@ -3,7 +3,10 @@
 <mapper namespace="reportreview">
 
 <select id="reportreviewCnt" parameterType="hashmap" resultType="Integer"><!-- 숫자만 돌려주니깐 -->
-		SELECT  COUNT(*) AS CNT
+		  
+        SELECT COUNT(DISTINCT A.REVIEW_NUM) AS CNT
+        FROM
+        (SELECT  R.REVIEW_NUM
 		FROM REVIEW R INNER JOIN MEMBER M
     	ON R.MEM_NUM = M.MEM_NUM
     	WHERE R.DEL = 1
@@ -20,6 +23,8 @@
     </choose>
     
     </if>
+    )A INNER JOIN REPORT P
+        ON A.REVIEW_NUM = P.REVIEW_NUM
  </select>   
 
 <select id="List" resultType="hashmap">
