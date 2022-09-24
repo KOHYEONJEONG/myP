@@ -29,22 +29,16 @@
 			<div class="title">회원가입</div>
 			<div class="id_input">
 				<input type="text" name="id" placeholder="아이디" id="id" required><br>
-				<br>
 			</div>
-
 			<span class="id_status"></span> 
-
-
 			<div class="pwd_input">
 				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required><br>
-				<br> 
 			</div>
 			
 			<span class="" id="pw_ck_status"></span>
 				
 			<div class="rePw_input">
 				<input type="password" id="rePw" placeholder="비밀번호 재확인"><br>
-				<br> 
 			</div>
 			
 			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
@@ -52,7 +46,6 @@
 			
 			<div class="nm_input">
 				<input type="text" name="nickname" id="nickname" placeholder="닉네임"><br>
-				<br>
 			</div>
 			<div class="df">
 				<div class="input_box2">
@@ -80,8 +73,6 @@
 					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
 				</div>
 				<button class="join_btn" type="button">확인</button>
-				<br>
-				<br>
 			</div>
 
 			<span class="mail-check-warn"></span>

@@ -118,12 +118,13 @@ $(document).ready(function () {
 		location.href = "rankingFeeReasonableBoard";
 	})
    
-	
-	
+		
 	//관리자 페이지
 	$("#managerPage").click(function(){
 		location.href = "memManagement"; //수정해야함.
 	});
+	
+	
 	
 });
 
@@ -147,7 +148,7 @@ function notireload() {
 
  function notidraw(list) {
 		var html = "";
-		
+	
 		for(var data of list){
 			html +="<div class=\"swiper-slide\">" + data.TITLE+ "</div>"
 		}
@@ -158,10 +159,33 @@ function notireload() {
 	const mySwiper = new Swiper('.swiper-container1', {
 		   direction: "vertical",
 		  autoplay: {
-		    delay: 2000,
+		    delay: 3000,
 		    disableOnInteraction: true // 쓸어 넘기거나 버튼 클릭 시 자동 슬라이드 정지.
 		  },
-		  loop: true
+		  loop: true,
+		  on: {
+			click: function(){
+				// activeIndex는 현재 슬라이드 되는 인덱스, 화면상 3개의 리스트가 보이지만
+				// 실제로는 5개로 돌아간다, 그래서 % 3 해
+				var index = this.activeIndex % 3
+				var notiNo = "";
+				// data.NOTICE_NUM 는 가져오는 리스트의 가장 적은 숫자로 가져옴
+				if(index == 1){
+					console.log(data.NOTICE_NUM + 2);
+					notiNo = data.NOTICE_NUM + 2;
+				} else if(index == 2){
+					 console.log(data.NOTICE_NUM + 1);
+					 notiNo = data.NOTICE_NUM + 1;
+				} else {
+					 console.log(data.NOTICE_NUM);
+					 notiNo = data.NOTICE_NUM;
+				}
+				$("#notiNo").val(notiNo);
+				
+				$("#headerNotiForm").attr("action", "noticeDetail");
+				$("#headerNotiForm").submit();
+			}
+		}
 		})
 
 	}

@@ -153,7 +153,7 @@ function drawPaging(pd) {
 </script>
 </head>
 <body>
-	<c:import url="/header1"></c:import>
+<c:import url="/header1"></c:import>
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
@@ -175,7 +175,7 @@ function drawPaging(pd) {
 					<form action="#" id="actionForm" method="post">
 						<div class="search_box">
 							<input type="hidden" name="qna_num" id="qna_num" />
-							<input type="hidden" id="no" name="no" value="${sMemNo}"/>
+						<input type="hidden" id="no" name="no" value="${sMemNo}"/>
 							<input type="hidden" id="oldGbn" value="0" /> 
 							<input	type="hidden" id="oldTxt" /> 
 							 <input type="hidden" name="page" id="page"	value="${page}" />

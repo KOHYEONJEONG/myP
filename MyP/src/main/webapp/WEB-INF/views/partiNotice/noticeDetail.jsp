@@ -192,7 +192,7 @@ $(document).ready(function () {
     <c:import url="/header1"></c:import>
     <main>
  <form action="#" id="backForm" method="post">
-	<input type="hidden" name="no" value="${data.NOTICE_NUM}">
+	<input type="hidden" name="notiNo" value="${data.NOTICE_NUM}">
 	<input type="hidden" name="page" id="page" value="${param.page}" /> <!-- 전 화면에서 넘어온 페이지 정보 -->
 		<!-- 전 화면에서 넘어온 검색 정보 -->
 	<input type="hidden" name="searchGbn" id="searchGbn" value="${param.searchGbn}"/>

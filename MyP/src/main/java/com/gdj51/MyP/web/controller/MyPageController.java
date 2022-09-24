@@ -57,18 +57,18 @@ public class MyPageController { //no
 		return mapper.writeValueAsString(model);// jsp에서 img만 받으면 됌.
 	}
 
-	@RequestMapping(value = "/memModify")
-	public ModelAndView memModify(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session)
+	@RequestMapping(value = "/memInfoUpdate")
+	public ModelAndView memModify(@RequestParam HashMap<String, String> params, ModelAndView mav)
 			throws Throwable {
 		// 개인정보 수정 페이지(no넘어옴)
 		HashMap<String, String> data = dao.getMapData("member.getMember", params);
 		mav.addObject("data", data);
-		mav.setViewName("mypage/mypageModify");
+		mav.setViewName("mypage/mypageInfoUpdate");
 		return mav;
 	}
 
 	@RequestMapping(value = "/memPwUpdate")
-	public ModelAndView memPwUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session)
+	public ModelAndView memPwUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav)
 			throws Throwable {
 		// 비밀번호 수정 페이지(no넘어옴)
 		HashMap<String, String> data = dao.getMapData("member.getMember", params);
@@ -114,12 +114,6 @@ public class MyPageController { //no
 		}
 
 		return mapper.writeValueAsString(model);
-	}
-
-	@RequestMapping(value = "/pwUpdate")
-	public ModelAndView pwUpdate(ModelAndView mav) {
-		mav.setViewName("mypage/mypagePwUpdate");
-		return mav;
 	}
 
 	@RequestMapping(value = "/mypageReviewBoard")

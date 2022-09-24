@@ -118,17 +118,6 @@ input, select{
 .df{
     display: flex;
 }
-.join_btn{
-    width: 100px;
-    height: 60px;
-    background: #FD9A29;
-    border: solid 1px #dadada;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 14px;
-    margin: 5px 0;
-    cursor: pointer;
-}
 
 #changeBtn{
    margin-top: 15px;
@@ -167,13 +156,13 @@ input, select{
    		<input type="hidden" name="memNo" id="memNo" value="${data.MEM_NUM}"/>
         <div class="title">비밀번호 변경</div>
         <div class="input_box">
-           <input type="password" name="pwd" placeholder="새비밀번호" id="pwd" required><br>
+           <input type="password" name="pwd" placeholder="비밀번호" id="pwd" required><br>
         </div> 
         <span class="" id="pw_ck_status" style="font-size: 14px"></span>
           <div class="input_box">
-              <input type="password" id="rePw" placeholder="새비밀번호 재확인"><br>
+              <input type="password" id="rePw" placeholder="비밀번호 재확인"><br>
           </div>  
-         <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
+         	<span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
 			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
         <div>
             <div class="sign_up" id="changeBtn">변경</div>
