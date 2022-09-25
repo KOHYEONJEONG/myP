@@ -39,11 +39,10 @@ $(document).ready(function() {
 					if(res.msg == "success"){
 						location.href = "home"
 					}else{
-						makeAlert("알림", "아이디나 비밀번호가 틀립니다.",function(){
-							$("#id").val("");
-							$("#pw").val("");
-							$("#id").focus();
-						});
+						makeAlert("알림", "아이디나 비밀번호가 틀립니다.");
+						$("#id").val("");
+						$("#pw").val("");
+						$("#id").focus();
 					}
 					
 				},
