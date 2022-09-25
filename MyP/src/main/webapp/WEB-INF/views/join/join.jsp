@@ -7,15 +7,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyP</title>
-<link rel="stylesheet"
-	href="resources/css/font.css">
-<link rel="stylesheet"
-	href="resources/css/join.css?after">
-
+<link rel="stylesheet" href="resources/css/font.css">
+<link rel="stylesheet" href="resources/css/join.css?after">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-	crossorigin="anonymous"></script>
-<!--추가-->
+	crossorigin="anonymous"></script> <!-- jquery사용하면 이 아래에다가 넣기!! -->
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
+<script type="text/javascript" src="resources/script/common/popup.js"></script>
 <script src="resources/js/main.js"></script>
 <script src="resources/js/join.js"></script>
 
@@ -30,23 +28,23 @@
 			<div class="id_input">
 				<input type="text" name="id" placeholder="아이디" id="id" required><br>
 			</div>
-			<span class="id_status"></span> 
+			<span id="id_status"></span> 
 			<div class="pwd_input">
-				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required><br>
+				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required  autocomplete="off"><br>
 			</div>
-			
-			<span class="" id="pw_ck_status"></span>
+			<span id="pw_ck_status"></span>
 				
 			<div class="rePw_input">
-				<input type="password" id="rePw" placeholder="비밀번호 재확인"><br>
+				<input type="password" id="rePw" placeholder="비밀번호 재확인"  autocomplete="off"><br>
 			</div>
-			
-			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
-			<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+			<span id="repw_ck_status"></span>
 			
 			<div class="nm_input">
 				<input type="text" name="nickname" id="nickname" placeholder="닉네임"><br>
 			</div>
+			
+			<span class="nickname_status"></span>
+			
 			<div class="df">
 				<div class="input_box2">
 					<input type="text" name="account" id="account">
