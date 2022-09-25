@@ -40,7 +40,7 @@
                 </div> 
              </div>
              <form action="#" id="infoUpdateForm" method="post">
-				<input type="hidden" name="memNo" id="memNo" value="${data.MEM_NUM}"/>
+				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
 	             <div class="right_area">            
 	                <div class="content_wrap">
 	                    <div class="title">기본정보 수정</div>

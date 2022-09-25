@@ -24,7 +24,7 @@
 	
 	<!-- 비밀번호 일치 여부 체크 --> 
 	<select id="pwdChackAjax" resultType="int" parameterType="hashmap">
-	 	SELECT COUNT(*) FROM MEMBER WHERE WHERE MEM_NUM = #{memNo} AND PW = #{pwd}
+	 	SELECT COUNT(*) FROM MEMBER WHERE MEM_NUM = #{memNo} AND PW = #{pw}
 	</select>
 	
 	<!--  id와 이메일 일치 여부 체크 --> 

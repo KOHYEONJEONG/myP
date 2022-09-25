@@ -386,7 +386,13 @@ $(document).ready(function () {
 					         buttons : [{
 					            name : "확인",
 					            func:function() {
-					            	location.href = "login";
+									const str = window.location.pathname; // 현재 url 경로 ex) /MyP/``Find
+	  								const word = str.split("/")
+	  							 	if(word[2] == 'memPwUpdate'){
+										location.href = "myPage";	
+									} else {
+										location.href = "login";	
+									}
 					            }
 					         }]
 				})

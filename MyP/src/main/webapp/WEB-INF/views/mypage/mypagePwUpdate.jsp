@@ -52,7 +52,7 @@
                 </div> 
              </div>
              <form action="#" id="pwChangeform" method="post">
-				<input type="hidden" name="memNo" id="memNo" value="${data.MEM_NUM}"/>
+				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
 	             <div class="right_area">            
 	                <div class="content_wrap">
 	                    <div class="title">비밀번호 수정</div>

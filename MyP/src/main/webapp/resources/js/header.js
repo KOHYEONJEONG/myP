@@ -159,7 +159,7 @@ function notireload() {
 	const mySwiper = new Swiper('.swiper-container1', {
 		   direction: "vertical",
 		  autoplay: {
-		    delay: 3000,
+		    delay: 5000,
 		    disableOnInteraction: true // 쓸어 넘기거나 버튼 클릭 시 자동 슬라이드 정지.
 		  },
 		  loop: true,

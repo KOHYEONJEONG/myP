@@ -116,26 +116,6 @@ public class JoinController {
 		}
 
 	}
-	
-	// 회원 탈퇴시 비밀번호 일치여부 체크
-	@RequestMapping(value = "/pwdChackAjax", method = RequestMethod.POST)
-	@ResponseBody
-	public String pwdChackAjax(@RequestParam HashMap<String, String> params) throws Throwable {
-
-		logger.info("pwdChackAjax() 진입");
-
-		// 비밀번호 중복체크
-		int result = dao.memberCheck("join.pwdChackAjax", params);
-
-		logger.info("결과값 : " + result);
-
-		if (result == 1) {
-			return "success"; // 비밀번호 일치
-		} else {
-			return "fail";
-		}
-
-	}
 		
 
 	// 해당 메일에 인증번호 이메일 전송 + 인증번호 테이블에 데이터 생성, 회원가입시에 적용
@@ -206,9 +186,9 @@ public class JoinController {
 
 				cnt = dao.update("join.nicknameUpdate", params);
 				
-//				HashMap<String, String> data = dao.getMapData("login.checkNm", params);
-//
-//				session.setAttribute("sMemNm", data.get("NM"));
+				HashMap<String, String> data = dao.getMapData("login.checkNm", params);
+
+				session.setAttribute("sMemNm", data.get("NM"));
 				
 				break;
 

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdj51.MyP.common.service.IPagingService;
+import com.gdj51.MyP.util.Utils;
 import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
@@ -316,6 +317,27 @@ public class MyPageController { //no
 		//회원탈퇴
 		mav.setViewName("mypage/withdraw");
 		return mav;
+	}
+	
+
+	// 회원 탈퇴시 비밀번호 일치여부 체크
+	@RequestMapping(value = "/pwdChackAjax", method = RequestMethod.POST)
+	@ResponseBody
+	public String pwdChackAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		
+		params.put("pw", Utils.encryptAES128(params.get("pwd")));
+
+
+		// 비밀번호 중복체크
+		int result = dao.memberCheck("join.pwdChackAjax", params);
+
+
+		if (result == 1) {
+			return "success"; // 비밀번호 일치
+		} else {
+			return "fail";
+		}
+
 	}
 
 

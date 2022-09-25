@@ -10,6 +10,8 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
    	<link rel="stylesheet" href="resources/css/font.css">
+   	<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
+   	<script type="text/javascript" src="resources/script/common/popup.js"></script>
    	<style type="text/css">
    		.pw_ck_status{
    			padding-left: 125px;
@@ -25,22 +27,60 @@
 	 	  var pwd = $("#pwd").val();
 	 	  ckPwd(pwd);
 	    });
+    	
+	    $("#withdrawBtn").on("click", function(){
+	    	if()
+	    	var params = $("#withdrawForm").serialize();
+			
+	    	$.ajax({
+				url : "memAction/delete",
+				type : "POST", 
+				dataType: "json", 
+				data: params, 
+				success : function(res) { 
+					switch(res.msg){
+					case "success" : 
+						 makePopup({
+					         title : "알림",
+					         contents : "탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.",
+					         // draggable : true,
+					         buttons : [{
+					            name : "확인",
+					            func:function() {
+					            	location.href = "home";
+					            }
+					         }]
+						})
+						break;
+					case "fail" :
+						makeAlert("알림" , "탈퇴에 실패하였습니다.");
+						break;
+					case "error" :
+						makeAlert("알림" , "탈퇴 중 문제가 발생하였습니다.");
+						break;
+					}
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			});
+		});
     
     });
     
-	// nickname 중복성 체크
+	// pwd 중복성 체크
 	function ckPwd(pwd) {
 		var pw_ck_status = $(".pw_ck_status");
-		var memNo = $("#memNo").val();
-		console.log(memNo);
-	
-		var data = {pwd : pwd, memNo : memNo};
+		
+		var params = $("#withdrawForm").serialize();
+		
 		$.ajax({
 			type:"post",
 			url:"pwdChackAjax",
-			data : data,
+			data : params,
 			success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
-				if(res != 'success'){
+				console.log(res);
+				if(res == 'fail'){
 					pw_ck_status.html("비밀번호가 일치하지 않습니다. 다시 확인해주세요");
 					pw_ck_status.css("color","red");
 					pw_ck_status.css("display", "inline-block");
@@ -70,7 +110,7 @@
                     <div class="on">마이페이지</div>
                 </div> 
              </div>
-             <form action="#" id="" method="post">
+             <form action="#" id="withdrawForm" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
              <div class="right_area">
                 <div class="content_wrap">
@@ -97,7 +137,7 @@
                          <span class="pw_ck_status" id="pw_ck_status"></span>
                     </div>
                     <div class="btn_wrap">
-                        <input type="button" value="탈퇴" class="btn update">
+                        <input type="button" value="탈퇴" class="btn update" id="withdrawBtn">
                     </div>
                 </div>
             </div>
