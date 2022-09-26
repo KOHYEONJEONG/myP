@@ -92,7 +92,7 @@ public class PartiNoticeController {
 	@RequestMapping(value = "/noticeDetail")
 	public ModelAndView noticeDetail(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		// 글번호 안 넘어왔을때 처리
-		if (params.get("no") != null && params.get("no") != "") {
+		if (params.get("notiNo") != null && params.get("notiNo") != "") {
 			// 조회수
 			dao.update("noti.updateNoticeHit", params);
 			HashMap<String, String> data = dao.getMapData("noti.getNotice", params);
@@ -106,11 +106,12 @@ public class PartiNoticeController {
 
 		return mav;
 	}
-
+	
+	
 	@RequestMapping(value = "/noticeUpdate")
 	public ModelAndView noticelUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		// 글번호 안 넘어왔을때 처리
-		if (params.get("no") != null && params.get("no") != "") {
+		if (params.get("notiNo") != null && params.get("notiNo") != "") {
 			HashMap<String, String> data = dao.getMapData("noti.getNotice", params);
 
 			mav.addObject("data", data);

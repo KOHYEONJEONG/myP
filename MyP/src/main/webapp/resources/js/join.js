@@ -1,21 +1,26 @@
 $(document).ready(function () {
+   	var send_num = "";
 	
 	// 로고 클릭시 메인화면으로 이동
 	 $("#logo").on("click", function() {
 	  	location.href = "home";		 
 	}); 
-	
-   	var send_num = "";
-	
-	   
-   $("#id").keyup(function () {
-      var id = $("#id").val();
-      ckId(id);
+
+   // id 유효성 및 중복성 체크, id input 밑에 문구 띄어줌
+   $("#id").keyup(function() {
+      ckId(); 
    });
    
-     $("#nickname").keyup(function () {
-      var nickname = $("#nickname").val();
-      ckNickname(nickname);
+   // nickname 유효성 및 중복성 체크, nickname input 밑에 문구 띄어줌
+   $("#nickname").keyup(function() {
+	  var nickname = $("#nickname").val();
+	  ckNickname(nickname);
+   });
+   
+    // password 유효성 password input 밑에 문구 띄어줌
+   $("#pwd").keyup(function() {
+	  var pwd = $("#pwd").val();
+	  ckPwd(pwd);
    });
 	
 	
@@ -26,9 +31,8 @@ $(document).ready(function () {
 	   const checkInput = $('.inj') //인증번호 입력하는 곳
 	   const warnMsg = $(".mail_input_box_warn");
 	   var data = {email : email};
-	   const str = window.location.pathname; // 현재 url 경로 ex) /MyP/idFind
-	   const word = str.split("/")
-	   console.log(word[2]);
+	   const str = window.location.pathname; // 현재 url 경로 ex) /MyP/``Find
+	   const word = str.split("/");//문자열 자르기(반환 배열)
 	   
 	  var id = $('#id').val();
 	  var data1 = {id : id, email : email};
@@ -53,7 +57,6 @@ $(document).ready(function () {
 						   dateType : "json",
 						   data : data,	   
 					   	   success : function(result) {
-					   		   console.log(result.send_num);
 					   		   send_num = result.send_num;
 					   		   warnMsg.html("인증번호가 발송 되었습니다.");
 					   		   warnMsg.css("color","green");
@@ -178,56 +181,24 @@ $(document).ready(function () {
 	    
    });
    
-   $('#pwd').keyup(function () {
-		
-		var number = /([0-9])/;
-        var alphabets = /([a-zA-Z])/;
-        var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
-        
-        //숫자+영문자+특수문자 조합으로 6자리 이상 사용해야 합니다.
-        if($("#pwd").val().length == 0){
-        	$('#pw_ck_status').html("숫자+영문자+특수문자 조합으로 6자리 이상 사용해야 합니다.");
-        	$('#pw_ck_status').removeClass();
-            $('#pw_ck_status').addClass('basic-password');
-        	
-        }else if ($("#pwd").val().length < 6) {
-            $('#pw_ck_status').removeClass();
-            $('#pw_ck_status').addClass('weak-password');
-            $('#pw_ck_status').html("6자리 이상으로 작성하세요.");
-                        
-        } else {
-        	
-            if ($("#pwd").val().match(number) && $("#pwd").val().match(alphabets) && $("#pwd").val().match(special_characters)) {
-                $('#pw_ck_status').removeClass();
-                $('#pw_ck_status').addClass('strong-password');
-                $('#pw_ck_status').html("아주 좋은 비밀번호입니다!");
-            } else {
-                $('#pw_ck_status').removeClass();
-                $('#pw_ck_status').addClass('medium-password');
-                $('#pw_ck_status').html("보안 취약(특수문자,영문 대소문자와 숫자 혼합해주세요.)");
-            }
-        }
-   });
 
    /*비밀번호 확인 일치 유효성 검사*/
    $('#rePw').on("change", function() {
 	   var pwd = $('#pwd').val();
 	   var rePw = $('#rePw').val();
-	   
+	   var repw_status = $('#repw_ck_status');
 	   if(pwd != rePw) {
-		   $('.pwck_input_re_2').show();
-		   $('.pwck_input_re_1').hide();
-		   
+			repw_status.html('비밀번호가 일치하지 않습니다.');
+			repw_status.css("color","red");
 	   } else {
-		   $('.pwck_input_re_2').hide();
-		   $('.pwck_input_re_1').show();
+		   repw_status.html('비밀번호가 일치합니다.');
+		   repw_status.css("color","green");
 	   }
 		   
    });
    
    $("#joinBtn").on("click", function() {
 	  
-	   console.log("버튼 id==>"+ckId($("#id").val()));
 	   if($.trim($("#id").val()) == "" ||!ckId($("#id").val())) {
 		   alert("아이디를 형식에 맞게 작성해주세요.", function() {
 			   $("#id").focus();
@@ -250,8 +221,22 @@ $(document).ready(function () {
 		   return false;
 	   }
 	   
-	   if($.trim($("#nickname").val()) == "") {
-		   alert("닉네임을 입력하세요.", function() {
+	   if($.trim($("#pwd").val()) != $.trim($("#rePw").val())) {
+		   alert("비밀번호가 서로 다릅니다.", function() {
+			   $("#pwd").focus();
+		   });
+		   return false;
+	   }
+	   
+	    if(!ckPwd($("#pwd").val())) {
+		   alert("비밀번호를 형식에 맞게 작성해주세요.", function() {
+			   $("#pwd").focus();
+		   });
+		   return false;
+	   }
+	   
+	   if($.trim($("#nickname").val()) == "" ||!ckNickname($("#nickname").val())) {
+		   alert("닉네임을 형식에 맞게 작성해주세요.", function() {
 			   $("#nickname").focus();
 		   });
 		   return false;
@@ -291,7 +276,7 @@ $(document).ready(function () {
 			            	location.href = "login";
 			            }
 			         }]
-				})
+				});
 			}else if(res.msg == "fail"){
 				makeAlert("알림", "등록에 실패하였습니다.");
 			}else{
@@ -305,6 +290,50 @@ $(document).ready(function () {
 		 
 	}); //join btn end
 	
+	
+		// 마이페이지 닉네임  변경하기
+	   $("#infoUpdateBtn").on("click", function() {
+	     
+	   
+	    if(!ckNickname($("#nickname").val())) {
+		   alert("닉네임을 형식에 맞게 작성해주세요.", function() {
+			   $("#nickname").focus();
+		   });
+		   return false;
+	   }
+	      
+		var params = $("#infoUpdateForm").serialize();
+		$.ajax({
+		url: "JAction/updateNickname",
+		type: "POST",
+		dataType : "json",
+		data: params,
+		success : function(res) {
+			if(res.msg == "success"){
+					 makePopup({
+					         title : "알림",
+					         contents : "닉네임이 변경되었습니다.",
+					         // draggable : true,
+					         buttons : [{
+					            name : "확인",
+					            func:function() {
+					            	location.href = "myPage";
+					            }
+					         }]
+				})
+		
+			}else if(res.msg == "fail"){
+				makeAlert("알림", "변경에 실패하였습니다.");
+			}else{
+				makeAlert("알림", "변경 중 문제가 발생하였습니다.");
+			}
+		},
+		error : function(request, status, error) {
+			console.log(request.responseText);
+		}
+		});//ajax end
+		 
+	}); //join btn end
 	
 	
 		// 비밀번호 변경하기
@@ -330,6 +359,13 @@ $(document).ready(function () {
 		   });
 		   return false;
 	   }
+	   
+	    if(!ckPwd($("#pwd").val())) {
+		   alert("비밀번호를 형식에 맞게 작성해주세요.", function() {
+			   $("#pwd").focus();
+		   });
+		   return false;
+	   }
 	      
 		var params = $("#pwChangeform").serialize();
 		$.ajax({
@@ -338,8 +374,6 @@ $(document).ready(function () {
 		dataType : "json",
 		data: params,
 		success : function(res) {
-			console.log(res);
-			console.log("res.msg:"+res.msg);
 			if(res.msg == "success"){
 					 makePopup({
 					         title : "알림",
@@ -348,7 +382,13 @@ $(document).ready(function () {
 					         buttons : [{
 					            name : "확인",
 					            func:function() {
-					            	location.href = "login";
+									const str = window.location.pathname; // 현재 url 경로 ex) /MyP/``Find
+	  								const word = str.split("/")
+	  							 	if(word[2] == 'memPwUpdate'){
+										location.href = "myPage";	
+									} else {
+										location.href = "login";	
+									}
 					            }
 					         }]
 				})
@@ -451,44 +491,43 @@ $(document).ready(function () {
 	}); // kakaoJoinBtn end
 	
 	
-}); 
+});//document
 
-/*입력 이메일 형식 유효성 검사*/
- function mailFormCheck(email) {
-	 var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-	 return form.test(email);
-}
-
-function ckId(id) {
-	const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{4,20}$/;//문자, 숫자 조합 4~20길이 필수 입력
-	var status = $(".id_status");
-	if(!id.match(exp)){
-		console.log("실패");
-		status.html("숫자와 소문자 포함 4~20자 이내로 작성해 주세요");
-		status.css("color","gray");
-		return false;
-	}else if(id.match(exp)) {
-		console.log("성공");
-		var data = {id : id};
-		$.ajax({
-			type:"post",
-			url:"checkIdAjax",
-			data : data,
-			success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
-				// console.log("성공 여부" + result);
-				if(res != 'fail'){
-					status.html("멋진 아이디네요!");
-					status.css("color","green");
-				} else {
-					status.html("아이디가 이미 존재하거나 삭제된 아이디입니다.");	
-					status.css("color","red");
-				}		
-			},
-			error : function(request, status, error) {// 실패했을 때 함수 실행
-				console.log(request.responseText);    //실패 상세 내역
-			}
-		});//ajax
-			return true;
+	// 입력 이메일 형식 유효성 검사 
+	 function mailFormCheck(email) {
+		 var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		 return form.test(email);
+	}
+	// 아이디 유효성 및 중복성 체크
+	function ckId() {
+		 var id = $("#id").val();
+		const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{4,20}$/;//문자, 숫자 조합 4~20길이 필수 입력
+		var id_status = $("#id_status");
+		if(!id.match(exp)){
+			id_status.html("숫자와 소문자 포함 4~20자 이내로 작성해 주세요");
+			id_status.css("color","gray");
+			return false;
+		}else if(id.match(exp)) {
+			var data = {id : id};
+			$.ajax({
+				type:"post",
+				url:"checkIdAjax",
+				data : data,
+				success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
+					// console.log("성공 여부" + result);
+					if(res != 'fail'){
+						id_status.html("멋진 아이디네요!");
+						id_status.css("color","green");
+					} else {
+						id_status.html("아이디가 이미 존재하거나 삭제된 아이디입니다.");	
+						id_status.css("color","red");
+					}		
+				},
+				error : function(request, status, error) {// 실패했을 때 함수 실행
+					console.log(request.responseText);    //실패 상세 내역
+				}
+			});//ajax
+				return true;
 		}	
 	}
 	
@@ -498,7 +537,7 @@ function ckId(id) {
 	const exp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/;  //2글자 이상 10글자 이하, 영어 또는 숫자 또는 한글로 구성, 한글 초성 및 모음은 허가하지 않음
 	var nm_status = $(".nickname_status");
 	if(!nickname.match(exp)){
-		nm_status.html("닉네임을 2~10자 이내로 작성해 주세요");
+		nm_status.html("닉네임을 2~10자 이내로 작성, 특수문자는 제외해주세요");
 		nm_status.css("color","gray");
 		nm_status.css("display", "inline-block");
 		return false;
@@ -509,7 +548,6 @@ function ckId(id) {
 			url:"checkNicknameAjax",
 			data : data,
 			success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
-				// console.log("성공 여부" + result);
 				if(res != 'fail'){
 					nm_status.html("멋진 닉네임이네요!");
 					nm_status.css("color","green");
@@ -525,5 +563,38 @@ function ckId(id) {
 			}
 		});//ajax
 		return true;
-	}
-}
+	 }
+  }
+
+	// password 유효성 체크
+	function ckPwd(pwd) {
+		 
+			var number = /([0-9])/; 
+	        var alphabets = /([a-zA-Z])/; 
+	        var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/; 
+	        
+	        //숫자+영문자+특수문자 조합으로 6자리 이상 사용해야 합니다.
+	        if($("#pwd").val().length == 0){ 
+	        	$('#pw_ck_status').html("숫자+영문자+특수문자 조합으로 6자리 이상 사용해야 합니다."); 
+	        	$('#pw_ck_status').removeClass(); 
+	            $('#pw_ck_status').addClass('basic-password'); 
+	        	return false; 
+	        }else if ($("#pwd").val().length < 6) { 
+	            $('#pw_ck_status').removeClass(); 
+	            $('#pw_ck_status').addClass('weak-password'); 
+	            $('#pw_ck_status').html("6자리 이상으로 작성하세요."); 
+	            return false;                  
+	        } else { 
+	            if ($("#pwd").val().match(number) && $("#pwd").val().match(alphabets) && $("#pwd").val().match(special_characters)) { 
+	                $('#pw_ck_status').removeClass(); 
+	                $('#pw_ck_status').addClass('strong-password'); 
+	                $('#pw_ck_status').html("아주 좋은 비밀번호입니다!"); 
+	                return true; 
+	            } else { 
+	                $('#pw_ck_status').removeClass(); 
+	                $('#pw_ck_status').addClass('medium-password'); 
+	                $('#pw_ck_status').html("보안 취약(특수문자,영문 대소문자와 숫자 혼합해주세요.)"); 
+	                return false; 
+	            } 
+	        } 
+	} 

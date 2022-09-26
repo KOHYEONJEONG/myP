@@ -8,6 +8,9 @@ public interface IKakaoLoginService {
 
 	public HashMap<String, Object> getUserInfo(String access_Token) throws Throwable;
 
-	HashMap<String, String> getMapData(String sql, HashMap<String, String> params) throws Throwable;
+	public HashMap<String, String> getMapData(String sql, HashMap<String, String> params) throws Throwable;
+
+	public void getLogout(String accessToken) throws Throwable;
+
 
 }

@@ -23,6 +23,7 @@
 
 <script type="text/javascript">
 var defalutImg = false;
+
 $(document).ready(function() {
 	imgRelod();
 	
@@ -35,16 +36,14 @@ $(document).ready(function() {
 		}
 	});
 	
+	//개인정보 수정하기 버튼
 	$("#mypage_modify").click(function(){
-		//개인정보 수정하기 버튼
-		console.log("도메인-->"+$("#domain").val());//2mypage.js:7 도메인-->naver.com
-		$("#sendForm").attr("action", "memModify");
+		$("#sendForm").attr("action", "memInfoUpdate");
         $("#sendForm").submit();   
 	});
 	
-	//memPwUpdate
+	//비밀번호 수정하기 버튼
 	$("#password_modify").click(function(){
-		//개인정보 수정하기 버튼
 		$("#sendForm").attr("action", "memPwUpdate");
         $("#sendForm").submit();   
 	});
@@ -107,7 +106,7 @@ $(document).ready(function() {
 		form.submit();
 	});
 	
-	$("#btn_memWit").on("click", function(){
+	$("#memWitBtn").on("click", function(){
 		//회원 탈퇴 버튼
 		$("#sendForm").attr("action", "withdraw");
         $("#sendForm").submit();  
@@ -176,7 +175,6 @@ function readURL(input) {
    
 <body>
 	<c:import url="/header1"></c:import>
-	<!-- nm, email과 domain을 보내줘야함. -->
           <main class="main1">
             <div class="main_wrap">
               <div class="side_bar">
@@ -194,10 +192,7 @@ function readURL(input) {
 								 <input type="hidden" id="img" name="img"/><!-- 올라갈 파일명 -->                     
 			                       <input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
 			                        <div class="pic_top">
-			                        
-			                            <div id="imgRelod">
-			                            </div>
-			                            
+			                            <div id="imgRelod"></div>			                            
 			                            <div class="filebox2">
 			                                <label for="vPic">사진선택</label> <!-- type=file에 id와 같아야함. -->
 			                                <input type="file" name="vPic" id="vPic"/>
@@ -248,7 +243,7 @@ function readURL(input) {
                                     게시글
                                 </div>
                             </div>
-                            <div class="my_btn1 myResignMembership" id="btn_memWit">
+                            <div class="my_btn1 myResignMembership" id="memWitBtn">
                                 <img class="resignMembershipImg" src="resources/icons/logout.png">
                                 <div class="txt">회원탈퇴</div>
                             </div>
@@ -259,9 +254,5 @@ function readURL(input) {
         </div>
       </main>
 <c:import url="/footer"></c:import>      
-</body>
-
-    
-
 </body>
 </html>

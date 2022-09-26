@@ -22,6 +22,11 @@
 		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email}
 	</select>
 	
+	<!-- 비밀번호 일치 여부 체크 --> 
+	<select id="pwdChackAjax" resultType="int" parameterType="hashmap">
+	 	SELECT COUNT(*) FROM MEMBER WHERE MEM_NUM = #{memNo} AND PW = #{pw}
+	</select>
+	
 	<!--  id와 이메일 일치 여부 체크 --> 
 	<select id="idEmailCheck" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*) FROM MEMBER WHERE ID = #{id} AND EMAIL = #{email}
@@ -36,9 +41,14 @@
 		SELECT MEM_NUM FROM MEMBER WHERE EMAIL = #{email}
 	</select>
 	
-	<insert id="joinUpdate" parameterType="hashmap">
+	<update id="joinUpdate" parameterType="hashmap">
 		UPDATE MEMBER SET PW = #{pwd} WHERE MEM_NUM = #{memNo}
-	</insert>
+	</update>
+	
+	<update id="nicknameUpdate" parameterType="hashmap">
+		UPDATE MEMBER SET NM = #{nickname} WHERE MEM_NUM = #{memNo}
+	</update>
+	
 	
 	<select id="sendNum" resultType="Integer">
 		<!-- 발송번호만 전송 -->
