@@ -3,14 +3,14 @@
 <mapper namespace="guide">
 
 <select id="guideList" parameterType="hashmap" resultType="hashmap">
-	SELECT TOP_CHATBOT_NUM AS TOP_NUM, GUIDE_NUM AS NO, MENU,STEP, ANSWER_CON
+	SELECT TOP_CHATBOT_NUM, GUIDE_NUM, MENU, STEP, ANSWER_CON
 	FROM GUIDE
-	WHERE
+	WHERE DEL = 1
 	<if test="top_num == null and top_num == ''">
-	TOP_CHATBOT_NUM IS NULL;
+	AND TOP_CHATBOT_NUM IS NULL
 	</if> 
 	<if test="top_num != null and top_num != ''">
-	TOP_CHATBOT_NUM  = #{top_num};
+	AND TOP_CHATBOT_NUM  = #{top_num}
 	</if>
 	<!-- 페이징 필요 없음 -->
 </select>
