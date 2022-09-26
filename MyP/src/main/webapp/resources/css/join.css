@@ -88,8 +88,9 @@ a{
 .a{
     width: 7%;
     height: 60px;
-    line-height: 60px;
+    line-height: 67px;
     text-align: center;
+    font-size: 16px;
 }
 .input_box3{
     height: 60px;
@@ -113,7 +114,6 @@ input, select{
 }
 .wrap {
    width: 490px;
-   height: 680px;
    padding: 40px 20px 20px 20px;
    background-color: #f5f6f7;
    position: absolute;
@@ -170,17 +170,20 @@ input::placeholder {
 
 /*유효성 검사 문구*/
 .basic-password{
-	display : block;
 	color : gray;
+	font-size: 14px;
 }
 
 .weak-password{
 	color : red;
+	font-size: 14px;
 }
 
 .strong-password{
 	color : green;
+	font-size: 14px;
 }
 .medium-password{
 	color: blue;
+	font-size: 14px;
 }
