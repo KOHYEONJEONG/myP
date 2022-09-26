@@ -93,7 +93,7 @@
 			</div>
 			<div class="right_area">
 				<div class="table_wrap first">
-					<div id="jstree">
+					<div id="jstree" style="overhead">
 						<ul>
 							<li>사용안내
 								<ul>
