@@ -1952,8 +1952,15 @@ footer li {
   text-align: center;
   box-sizing: border-box;
   padding: 10px 0;
-  margin-top: 40px;
+  margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.response .preparing{ /*준비중..*/
+   text-align: center;
+   margin-top: 15px;
+   font-size: 15px;
+   color: green;
 }
 .chatbot_wrap .footer input {
   width: 120px;
