@@ -14,5 +14,11 @@ public class GuideController {
 		mav.setViewName("manager/guideManagerment");
 		return mav;
 	}
+	
+	@RequestMapping(value = "/guideMain")
+	public ModelAndView guideMain(ModelAndView mav) {
+		mav.setViewName("guide/guide");
+		return mav;
+	}
 
 }
