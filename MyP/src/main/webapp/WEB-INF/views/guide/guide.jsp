@@ -8,24 +8,39 @@
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	var tnum = "";//이전으로 돌아가려고
 	relodeList();
 	
-	$('.contents').on("click",".response input[type='button']",function(){//동적으로 만들었기에 이렇게 접근해야한다.
-		console.log("click");
+	$('.contents').on("click",".footer input[type='button']",function(){//동적으로 만들었기에 이렇게 접근해야한다.
+		//var tNo = $(this).parent().parent().parent().children().eq(2).html();
+		//var tNo = $(this).parent().parent().children().eq(1).children().eq(1).attr("no");
+		//console.log($(this).parent().parent().children().eq(1).children().eq(1).children().eq(0).html());
+		//console.log(tNo);
 		
-		//$(this).attr(cnt)
+		console.log($(".contents:nth-last-child(4)"));//왜 안될까???
 		
-		if($(this).attr("cnt") > 0){
+		if($(this).attr("no")=='-1'){//이전으로
+			//아직 생각중.
+			
+		}else if($(this).attr("no")=='-2'){//처음으로
+			console.log("처음으로");
+			$(".contents").html('');
+			$('#top_num').val('');
+			relodeList();
+		}
+	});
 	
+	$('.contents').on("click",".response input[type='button']",function(){//동적으로 만들었기에 이렇게 접근해야한다.
+	
+		if($(this).attr("cnt") > 0){
 			$('#top_num').val($(this).attr("no"));
 			var answer = "<div class=\"answer\">";
 			answer += "<div class=\"icons\">";
 			answer +="<div class=\"img\"></div>";
 			answer +="</div>";
 			answer +="<div class=\"text_wrap\">";
-			answer +="<div class=\"text_wrap\">";
 			answer +="<div class=\"b\">";
-			answer +="<input type=\"button\" value=\""+$(this).val()+"\"/>";
+			answer +="<input type=\"button\" no=\""+$(this).attr("no")+"\" value=\""+$(this).val()+"\"/>";//이전으로 돌아갈때 사용할 no
 			answer +="</div>";
 			answer +="<div class=\"time\">"+formatAMPM()+"</div>";
 			answer +="</div>";
@@ -33,20 +48,31 @@ $(document).ready(function() {
 			
 			$(".contents").append(answer);		
 			relodeList();
-		
-			if($(this).attr("no") == 25){
-				window.open('qna');//새창에서 띄울려고
-			}else if($(this).attr("no") == 26){
-				window.open('faq');
-			}
+			
 		}else{
-			var reset = "<div class=\"preparing\">준비중...</div>"
-			reset += "<div class=\"footer\">";
-			reset += "<input type=\"button\" value=\"[이전으로]\"/>";
-			reset += "<input type=\"button\" value=\"[처음으로]\"/>";
-			reset += "</div>";
-        
-			$(".contents").append(reset);	
+			
+			if($(this).attr("no") == '25'){
+				window.open('qna');//새창에서 띄울려고
+			}else if($(this).attr("no") == '26'){
+				window.open('faq');
+			}else{
+				var html ="";
+	        	html += "<div class=\"response\">";
+	        	html += "<div class=\"icons\">";
+	        	html += "<div class=\"img\"></div>";
+	        	html += "</div>";
+	        	html += "<div class=\"text_wrap\">";
+	        	html += "<div class=\"text\">준비중인 메뉴입니다. 양해부탁드리겠습니다.</div>";
+	        	html += "<div class=\"time\">"+formatAMPM()+"</div>";
+	        	html += " </div>";
+	        	html += " </div>";
+				html += "<div class=\"footer\">";
+				html += "<input no=\""+ -1 +"\" cnt=\""+0+"\" type=\"button\" value=\"[이전으로]\"/>";
+				html += "<input no=\""+ -2 +"\" cnt=\""+0+"\" type=\"button\" value=\"[처음으로]\"/>";
+				html += "</div>";
+	        
+				$(".contents").append(html);
+			}
 		}
 		
 		
@@ -71,7 +97,6 @@ function relodeList() {
 }
 
 function drawList(list) {
-	console.log("list===>"+list);
 	var html = "<div class=\"response\">";
 	html += "<div class=\"icons\">";
 	html +="<div class=\"img\"></div>";
@@ -112,55 +137,10 @@ function formatAMPM(){//am 2 : 00
 <div class="chatbot_wrap">
   <img src="${pageContext.request.contextPath}/resources/icons/chatrobot.svg" alt="" class="chatrobot">
   <div class="chatbot">
-    <div class="header">나만의 P 챗봇</div>
-    <div class="contents">
-    
-     <!--    <div class="response">
-            <div class="icons">
-                <div class="img"></div>
-            </div>
-            <div class="text_wrap">
-            	기본 멘트
-                <div class="text">안녕하세요<br/>주차장의 모든것을 제공하는 <span class="bold">나만의 P</span> 입니다<br/>문의사항 선택해주세요</div>
-                <div class="b"></div>
-                <div class="time"></div>
-            </div>
-        </div>   -->
-        
-         <!-- 
-        <div class="answer">
-            <div class="icons">
-                <div class="img"></div>
-            </div>
-            <div class="text_wrap">
-            <div class="b">
-                <input type="button" value="정기권"  />
-            </div>
-            <div class="time">오후 2:01</div>
-            </div>
-        </div>
-        <div class="response">
-            <div class="icons">
-                <div class="img"></div>
-            </div>
-            <div class="text_wrap">
-                <div class="text">정기권 관련하여 안내해 드릴게요. <br/> 상세 질문을 선택해 주세요.</div>
-                <div class="b">
-                   <input type="button" value="1. 취소,환불"/>
-                    <input type="button" value="2. 비용문의"  />
-                    <input type="button" value="3. 일일주차장"  />
-                    <input type="button" value="4. 할인방법"  />
-                </div>
-                <div class="time">오후 2:02</div>
-            </div>
-        </div>
-        -->
-          
-    </div>
-<!-- 	<div class="footer">
-	            <input type="button" value="새 질문하기" />
-	        </div>  -->
-</div>
+    <div class="header">나만의 P 가이드</div>
+	    <div class="contents">
+		</div>
+	</div>
 </div>
 </body>
 </html>
