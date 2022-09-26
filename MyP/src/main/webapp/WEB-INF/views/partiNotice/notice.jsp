@@ -77,15 +77,14 @@
 	$("tbody").on("click", "tr", function() {
 		console.log("1");
 		
-		$("#notiNo").val($(this).attr("no"));
-		console.log($("#notiNo").val());
+		$("#notiNo1").val($(this).attr("no"));
 		
 		
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchText").val($("#oldText").val());
 		
-		//$("#searchForm").attr("action", "noticeDetail");
-		//$("#searchForm").submit();
+		$("#searchForm").attr("action", "noticeDetail");
+		$("#searchForm").submit();
 	});
 	
 	
@@ -192,7 +191,7 @@ function reloadList() {
                 <!-- 검색어 유지용 -->
                 <input type="hidden" id="oldGbn" value="0" />
 				<input type="hidden" id="oldText" />
-				<input type="hidden" name="notiNo" id="notiNo" />
+				<input type="hidden" name="notiNo" id="notiNo1" />
 				<input type="hidden" name="page" id="page" value="${page}"/>
                 <div class="select">
                     <select name="searchGbn" id="searchGbn">

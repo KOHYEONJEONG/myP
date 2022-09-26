@@ -37,7 +37,7 @@
 			<div class="rePw_input">
 				<input type="password" id="rePw" placeholder="비밀번호 재확인"  autocomplete="off"><br>
 			</div>
-			<span id="repw_ck_status"></span>
+			<span id="repw_ck_status" style="font-size: 14px"></span>
 			
 			<div class="nm_input">
 				<input type="text" name="nickname" id="nickname" placeholder="닉네임"><br>
@@ -47,16 +47,16 @@
 			
 			<div class="df">
 				<div class="input_box2">
-					<input type="text" name="account" id="account">
+					<input type="text" name="account" id="account" placeholder="이메일">
 				</div>
 				<div class="a">@</div>
 				<div class="input_box2">
 					<select class="form-control" name="domain" id="domain">
-						<option>직접입력</option>
 						<option>naver.com</option>
 						<option>gmail.com</option>
 						<option>hanmail.net</option>
 						<option>daum.net</option>
+						<option>nate.com</option>
 					</select>
 				</div>
 				<button class="join_btn" type="button" id="mail-Check-Btn">
@@ -65,7 +65,7 @@
 				<br>
 				<br>
 			</div>
-			<span class="mail_input_box_warn"></span>
+			<span class="mail_input_box_warn" style="font-size: 14px"></span>
 			<div class="df">
 				<div class="input_box3">
 					<input type="number" name="inj" id="inj" placeholder="인증번호" maxlength="6">
@@ -73,7 +73,7 @@
 				<button class="join_btn" type="button">확인</button>
 			</div>
 
-			<span class="mail-check-warn"></span>
+			<span class="mail-check-warn" style="font-size: 14px"></span>
 
 			<div>
 				<div class="sign_up" id="joinBtn">가입하기</div>
