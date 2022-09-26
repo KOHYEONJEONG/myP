@@ -104,6 +104,12 @@ td.money>div {
 	margin-top: 10px;
 }
 
+.contents_top {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 5px;
+}
+
 .btn_wrap1 {
 	display: flex;
 }
@@ -201,6 +207,10 @@ td.money>div {
 <body>
 	<c:import url="/header1"></c:import>
 	<main>
+		<form action="#" id="dataForm" method="post">
+			<input type="hidden" name="no" value="${data.CAR_PARK_MAG_NUM}" /> 
+			<input type="hidden" name="page" id="page" value="${param.page}" />
+		</form>
 		<div class="main_wrap">
 			<div class="side_bar">
 				<div class="title">주차장 안내</div>
@@ -210,79 +220,81 @@ td.money>div {
 			</div>
 			<div class="right_area1">
 				<div class="rigth_contents1">
-					<h2 class="s_title">주차장 안내</h2>
-					<form action="#" id="dataForm" method="post">
-						<input type="hidden" name="no" value="${data.CAR_PARK_MAG_NUM}" />
-						<input type="hidden" name="page" id="page" value="${param.page}" />
+					<div class="contents_top">
+						<h2 class="s_title">주차장 안내</h2>
 						<c:choose>
 							<c:when test="${sMemNo eq data.MEM_NUM and sMemAuto == 1}">
-								<div class="btn_wrap1">
-									<div class="btn delete" id="deleteBtn">삭제</div>
-									<div class="btn update" id="updateBtn">수정</div>
-									<div class="cmn_btn_ml float_right_btn" id="listBtn">목록</div>
+								<div class="btn_wrap">
+									<div class="btn_wrap1">
+										<div class="btn delete" id="deleteBtn">삭제</div>
+										<div class="btn update" id="updateBtn">수정</div>
+										<div class="cmn_btn_ml float_right_btn" id="listBtn">목록</div>
+									</div>
 								</div>
 							</c:when>
 							<c:when test="${sMemAuto == 1}">
-								<div class="btn_wrap1">
-									<div class="btn update" id="updateBtn">수정</div>
-									<div class="btn delete" id="deleteBtn">삭제</div>
+								<div class="btn_wrap">
+									<div class="btn_wrap1">
+										<div class="btn update" id="updateBtn">수정</div>
+										<div class="btn delete" id="deleteBtn">삭제</div>
+									</div>
 								</div>
 							</c:when>
 						</c:choose>
-						<table>
-							<thead>
-								<tr>
-									<c:set var="gu" value="${fn:split(data.ADDRESS,' ')}" />
-									<!-- 주소 구만 가져오기 -->
-									<th colspan="4">${gu[0]}</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>주차장명</td>
-									<td>${data.CAR_PARK_NM}</td>
-									<td>연락처</td>
-									<td>${data.PHONE}</td>
-								</tr>
-								<tr>
-									<td>노상/노외</td>
-									<td>${data.CAR_PARK_TP_NM}</td>
-									<td>무료/유료</td>
-									<td>${data.PAYORFREE_DIV}</td>
-								</tr>
-								<tr>
-									<td>주소</td>
-									<td colspan="3">${data.ADDRESS}</td>
-								</tr>
-								<tr>
-									<td>운영시간</td>
-									<td class="time">
-										<div>
-											<span>매일</span> <span>${data.WEEKDAY_START_TIME}</span>~ <span>${data.WEEKDAY_END_TIME}</span>
-										</div>
-										<div>
-											<span>공휴일</span> <span>${data.WEEKEND_START_TIME}</span>~ <span>${data.WEEKEND_END_TIME}</span>
-										</div>
-									</td>
-									<td>주차요금</td>
-									<td class="money">
-										<div>
-											<span>기본요금</span> <span>${data.TIME_RATE}분</span><span>${data.FEE_RATE}원</span>
-										</div>
-										<div>
-											<span>추가요금</span> <span>${data.ADD_TIME_RATE}분</span><span>${data.ADD_FEE}원</span>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>방문자데이터</td>
-									<td colspan="3">
-										<canvas id="myChart"></canvas>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<c:set var="gu" value="${fn:split(data.ADDRESS,' ')}" />
+								<!-- 주소 구만 가져오기 -->
+								<th colspan="4">${gu[0]}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>주차장명</td>
+								<td>${data.CAR_PARK_NM}</td>
+								<td>연락처</td>
+								<td>${data.PHONE}</td>
+							</tr>
+							<tr>
+								<td>노상/노외</td>
+								<td>${data.CAR_PARK_TP_NM}</td>
+								<td>무료/유료</td>
+								<td>${data.PAYORFREE_DIV}</td>
+							</tr>
+							<tr>
+								<td>주소</td>
+								<td colspan="3">${data.ADDRESS}</td>
+							</tr>
+							<tr>
+								<td>운영시간</td>
+								<td class="time">
+									<div>
+										<span>매일</span> <span>${data.WEEKDAY_START_TIME}</span>~ <span>${data.WEEKDAY_END_TIME}</span>
+									</div>
+									<div>
+										<span>공휴일</span> <span>${data.WEEKEND_START_TIME}</span>~ <span>${data.WEEKEND_END_TIME}</span>
+									</div>
+								</td>
+								<td>주차요금</td>
+								<td class="money">
+									<div>
+										<span>기본요금</span> <span>${data.TIME_RATE}분</span><span>${data.FEE_RATE}원</span>
+									</div>
+									<div>
+										<span>추가요금</span> <span>${data.ADD_TIME_RATE}분</span><span>${data.ADD_FEE}원</span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>방문자데이터</td>
+								<td colspan="3">
+									<canvas id="myChart"></canvas>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 					<div class="btn_wrap">
 						<div class="btn back" id="listBtn">목록</div>
 					</div>

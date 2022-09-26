@@ -85,7 +85,7 @@
   <c:import url="/header1"></c:import>
     	<form action="noticeDetail" id="backForm" method="post">
       <main>
-    <input type="hidden" name="no" value="${param.no}">
+    <input type="hidden" name="notiNo" value="${param.notiNo}">
 	<input type="hidden" name="page" value="${param.page}" />
 	<input type="hidden" name="searchGbn" value="${param.searchGbn}"/>
 	<input type="hidden" name="searchText" value="${param.searchText}"/>

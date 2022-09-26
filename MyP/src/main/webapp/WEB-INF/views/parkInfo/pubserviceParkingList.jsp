@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyP</title>
-    <link rel="stylesheet" href="resources/css/main.css">
-    <link rel="stylesheet" href="resources/css/font.css">
-    <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
-    <style>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyP</title>
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/font.css">
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
+<style>
 /* .search_form1 {
   width: 200px;
   height: 35px;
@@ -69,8 +69,8 @@
     line-height: 33px;
     cursor: pointer;
 } */
-    </style>
-    <!--  <script src="./jquery/jquery-1.12.4.js"></script>
+</style>
+<!--  <script src="./jquery/jquery-1.12.4.js"></script>
     <script src="./js/main.js"></script>-->
 <script type="text/javascript">
 $(document).ready(function() {
@@ -118,22 +118,6 @@ $(document).ready(function() {
 	
 	function drawListcar1(list) {
 		var html = "";
-		var flag = true;
-		
-		if(flag){
-			
-			html += "<tr>"+ +"<\>";
-		    html += "<th>"+"주차장명"+"</th>";
-		    html += "<th>"+"유형"+"</th>";
-		    html += "<th>"+"주소"+"</th>";
-		    html += "<th>"+"조회수"+"</th>";
-			html += "</tr>";
-			
-			flag = false;
-			$("thead").html(html);
-		}
-		
-		html = "";
 	    
 		for(var data of list) {
 			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
@@ -203,64 +187,67 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-<c:import url="/header1"></c:import>
- <input type="hidden" id="oldGbn" value="${param.searchGbn}">
- <input type="hidden" id="oldTxt" value="${param.searchTxt}">
-    <main>
-      <div class="main_wrap">
-        <div class="side_bar">
-          <div class="title">주차장 안내</div>
-          <div class="inner">
-              <div class="on">공영 주차장 조회</div>
-          </div> 
-      </div>
-      
-      <div class="right_area">            
-          <div class="table_wrap">
-          <form action="#" id="dataForm" method="post">
-	           <div class="search_box">
-	           <input type="hidden" id="oldGbn" value="0"/>
-				  <input type="hidden" id="oldTxt"/>
-		          <input type="hidden" name="no" id="no"/>
-		          <input type="hidden" name="page" id="page" value="${page}"/>
-	           
-	              <div class="select">
-	                  <select name="searchGbn" id="searchGbn">
-	                      <option value="0">전체</option>
-	                      <option value="1">주차장명</option>
-	                      <option value="2">주차장유형</option>
-	                      <option value="3">주소</option>
-	                  </select>
-	              </div>
-	              
-	              <div class="search_form">
-	                <input type="text" name="searchTxt" id="searchTxt" value="${param.serarchTxt}"/>
-	              </div>
-	              
-	              <div class="search_btn" id="search_btn">
-	                검색
-	              </div>
-	            </div>
-	            
-	            <table>
-	              <thead>
-	              </thead>
-	              
-	              <tbody>              
-	              </tbody>
-	            </table>
-	            
-	              <!--페이징-->
-	              <div class="page_wrap">
-	                  <div class="page_nation">
-	                  </div>
-	               </div>
-               </form>
-          </div>
-        </div>
-      </div>
-    </main>
+	<c:import url="/header1"></c:import>
+	<input type="hidden" id="oldGbn" value="${param.searchGbn}">
+	<input type="hidden" id="oldTxt" value="${param.searchTxt}">
+	<main>
+		<div class="main_wrap">
+			<div class="side_bar">
+				<div class="title">주차장 안내</div>
+				<div class="inner">
+					<div class="on">공영 주차장 조회</div>
+				</div>
+			</div>
+
+			<div class="right_area">
+				<div class="table_wrap">
+					<form action="#" id="dataForm" method="post">
+						<div class="search_box">
+							<input type="hidden" id="oldGbn" value="0" /> 
+							<input type="hidden" id="oldTxt" /> <input type="hidden" name="no"id="no" /> 
+							<input type="hidden" name="page" id="page" value="${page}" />
+
+							<div class="select">
+								<select name="searchGbn" id="searchGbn">
+									<option value="0">전체</option>
+									<option value="1">주차장명</option>
+									<option value="2">주차장유형</option>
+									<option value="3">주소</option>
+								</select>
+							</div>
+
+							<div class="search_form">
+								<input type="text" name="searchTxt" id="searchTxt"
+									value="${param.serarchTxt}" />
+							</div>
+
+							<div class="search_btn" id="search_btn">검색</div>
+						</div>
+
+						<table>
+							<thead>
+							 <tr>
+                    		  <th>주차장명</th>
+                    		  <th>유형</th>
+                    		  <th>주소</th>
+                    		  <th>조회수</th>
+                  		     </tr> 
+							</thead>
+
+							<tbody>
+							</tbody>
+						</table>
+
+						<!--페이징-->
+						<div class="page_wrap">
+							<div class="page_nation"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</main>
 	<c:import url="/footer"></c:import>
-      <!-- <script src="./js/main.js"></script> -->
+	<!-- <script src="./js/main.js"></script> -->
 </body>
 </html>

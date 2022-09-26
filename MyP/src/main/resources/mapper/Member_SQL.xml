@@ -134,10 +134,17 @@
 		WHERE MEM_NUM = #{no}
 	</update>
 	
+	<select id="pwcheckMem" parameterType="hashmap" resultType="hashmap">
+		SELECT MEM_NUM, NM, AUTORITY_NUM
+		FROM MEMBER
+		WHERE MEM_NUM= #{memNo}
+		AND PW = #{pw}
+	</select>
+	
 	<update id="memWit" parameterType="hashmap">
 		UPDATE MEMBER 
 		SET WIT_DT = sysdate
-		WHERE MEM_NUM = #{no}
+		WHERE MEM_NUM = #{memNo}
 	</update>
 	
 	<update id="deleteMyreview" parameterType="hashmap">

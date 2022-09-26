@@ -3,6 +3,8 @@ package com.gdj51.MyP.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +116,7 @@ public class JoinController {
 		}
 
 	}
+		
 
 	// 해당 메일에 인증번호 이메일 전송 + 인증번호 테이블에 데이터 생성, 회원가입시에 적용
 	@RequestMapping(value = "/mailSend", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
@@ -156,7 +159,7 @@ public class JoinController {
 	// 가입하기
 	@RequestMapping(value = "/JAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String JAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params) throws Throwable {
+	public String JAction(@PathVariable String gbn, HttpSession session, @RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -179,8 +182,18 @@ public class JoinController {
 
 				cnt = dao.update("join.joinUpdate", params);
 				break;
+			case "updateNickname":
+
+				cnt = dao.update("join.nicknameUpdate", params);
+				
+				HashMap<String, String> data = dao.getMapData("login.checkNm", params);
+
+				session.setAttribute("sMemNm", data.get("NM"));
+				
+				break;
 
 			}
+			
 			if (cnt > 0) {
 				model.put("msg", "success");
 			} else {

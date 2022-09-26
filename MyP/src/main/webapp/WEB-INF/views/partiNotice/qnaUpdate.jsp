@@ -25,6 +25,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
    // 에디터 연결
+	if("${param.priv}" == 0){ 
+		$("#checkbox").prop("checked", true); 
+	}
+   
 	CKEDITOR.replace("con", {
 			resize_enabled: false, // resize_enabled : 크기조절기능 활용여부
 			language : "ko", // 사용언어
@@ -123,10 +127,11 @@ function check(box){//비공개 여부
             </div>
             <div class="right_area">      
             <form action="#" id="actionForm" method="post">
-            	<input type="hidden" name="no" value="${data.QNA_NUM}"/>
+            	<input type="hidden" name="qna_num" value="${data.QNA_NUM}"/>
             	<input type="hidden" name="answercon" value="${data.ANSWER_CON}"/>
-                <input type="hidden" id="memNo" name="memNo" value="${sMemNo}"/>
-            	<input type="hidden" name="ckval" id="ckval" value="1"/> <!-- 기본값 없으면 sql문에서 오류남 -->
+                <input type="hidden" id="no" name="no" value="${sMemNo}"/>
+            	<input type="hidden" name="ckval" id="ckval" value="1"/>
+            	 <!-- 기본값 없으면 sql문에서 오류남 -->
                 <div class="register_wrap">
                     <div class="title">
                         QnA

@@ -37,7 +37,23 @@
           width: 80px;
           height: 80px;
           margin-bottom: 20px;
+          position:relative;
       }
+      
+      #imgRelod{
+      position: relative;
+      }
+      
+      #imgRelod .close_i {
+	    position: absolute;
+	    top: 0;
+	    right: 50px;
+	    width: 15px;
+	    height: 15px;
+	    background-color: #ffffff;
+	    opacity: 0.5;
+	    cursor: pointer;
+	  }
       .pic_top {
           /*사진박스*/
           border: 1px solid #969595;
@@ -193,9 +209,6 @@
 			background-color: #ee800366;		
 		}	
 		
-	  .filebox2 .memImg{
-	  
-	  }
 	  
 	  .row2 .input{
 	  border : 1px solid red;

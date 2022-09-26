@@ -17,6 +17,7 @@
   width: 100%;
   height: 40px;
   overflow: hidden;
+  cursor: pointer;
 
 }
 .swiper-wrapper {
@@ -41,7 +42,9 @@ text-align: left;
 	<form action="#" id="headerForm">
 		<input type="hidden" name="mem_num" id="mem_num" value="${sMemNo}">
 	</form>
-	<form action="#" id="headerNotiForm"></form>
+	<form action="#" id="headerNotiForm">
+		<input type="hidden" name="notiNo" id="notiNo" />
+	</form>
 
 	<!-- 메인페이지 용, 너비가 넓음. -->
 	<header>

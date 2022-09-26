@@ -10,7 +10,6 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
-   	<script src="resources/header/main.js"></script>
      <script src="resources/jquery/jquery-1.12.4.js"></script>
      <script src="resources/js/main.js"></script>
      <script type="text/javascript">
@@ -74,17 +73,21 @@
 		$("#searchForm").submit();
 	}) 
 	
-	$("tbody").on("click", "tr", function () {
-		$("#no").val($(this).attr("no"));
+	
+	$("tbody").on("click", "tr", function() {
+		console.log("1");
 		
-		console.log($("#no").val());
+		$("#notiNo").val($(this).attr("no"));
+		console.log($("#notiNo").val());
+		
 		
 		$("#searchGbn").val($("#oldGbn").val());
 		$("#searchText").val($("#oldText").val());
 		
-		$("#searchForm").attr("action", "noticeDetail");
-		$("#searchForm").submit();
-	})
+		//$("#searchForm").attr("action", "noticeDetail");
+		//$("#searchForm").submit();
+	});
+	
 	
 	
 })
@@ -171,7 +174,7 @@ function reloadList() {
 </script>
 </head>
 <body>
-<c:import url="/header1"></c:import>
+<c:import url="/header1"></c:import> 
       <main>
         <div class="main_wrap">
           <div class="side_bar">
@@ -189,7 +192,7 @@ function reloadList() {
                 <!-- 검색어 유지용 -->
                 <input type="hidden" id="oldGbn" value="0" />
 				<input type="hidden" id="oldText" />
-				<input type="hidden" name="no" id="no" />
+				<input type="hidden" name="notiNo" id="notiNo" />
 				<input type="hidden" name="page" id="page" value="${page}"/>
                 <div class="select">
                     <select name="searchGbn" id="searchGbn">

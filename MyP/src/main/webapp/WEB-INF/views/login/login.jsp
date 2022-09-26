@@ -24,8 +24,9 @@
    <div class="input_box">
       <input type="text" name="id" id="id" maxlength="20"  placeholder="아이디"/>
    </div>
+   <span class="id_status"></span>
    <div class="input_box">
-      <input type="password" name="pw" id="pw"  maxlength="20"  placeholder="비밀번호"/>
+      <input type="password" name="pw" id="pw"  maxlength="20"  placeholder="비밀번호"  autocomplete="off"/>
    </div>
    </form>
    <div  class="loginBtn_wrap">

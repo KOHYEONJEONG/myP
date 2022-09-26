@@ -14,6 +14,12 @@
     <script src="resources/js/main.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	
+	console.log( "page : "+$("#page").val());
+	
+	//처음에 보이는 리스트를 가져온다.
+	reloadList1();
+	
 	//검색 구분 설정
 	if("${param.searchGbn}" != "") {
 		$("#searchGbn").val("${param.searchGbn}");
@@ -39,22 +45,19 @@ $(document).ready(function() {
 		$("#oldTxt").val("");
 		switch($(this).val()) {
 		case "1" :
-			reloadList1();
+			reloadList1(); //주차장
 			break;
 		case "2" :
-			reloadList2();
+			reloadList2(); //맛집
 			break;
 		case "3" :
-			reloadList3();
+			reloadList3(); //문화생활(영화관)
 			break;
 		case "4" :
-			reloadList4();
+			reloadList4(); //주유소
 			break;
 		}
 	});
-	
-	//처음에 보이는 리스트를 가져온다.
-	reloadList1();
 	
 	//검색 버튼
 	$("#search_btn").on("click", function() {
@@ -65,7 +68,6 @@ $(document).ready(function() {
 		
 		reloadList1();
 	});
-	
 	
 	//주차장관련 ajax
 	function reloadList1() {
@@ -78,7 +80,7 @@ $(document).ready(function() {
 			data: params,
 			success: function(res) {
 				drawListcar(res.list1); //리스트 각각 가져와야해서 4개 만들었음.
-				drawPaging(res.pd);
+				drawPaging(res.pd); //페이징은 하나로 써도됨
 			},
 			error : function(request, status, error) {
 				console.log(request.responseText);
@@ -160,11 +162,11 @@ $(document).ready(function() {
 		html = "";
 	    
 		for(var data of list1) {
-			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">";
-		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>";
-		    html += "<th>"+data.CAR_PARK_NM+"</th>";
-		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>";
-		    html += "<th>"+data.ADDRESS+"</th>";
+			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
+		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>"; 
+		    html += "<th>"+data.CAR_PARK_NM+"</th>"; //주차장명
+		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>"; //주차장유형(노상/노외)
+		    html += "<th>"+data.ADDRESS+"</th>"; //주소
 		    html += "</tr>";
 		    
 		}
@@ -193,11 +195,11 @@ $(document).ready(function() {
 	  
 	    
 		for(var data of list2) {
-			html += "<tr no=\""+data.RESTAURANT_NO+"\">";
+			html += "<tr no=\""+data.RESTAURANT_NO+"\">"; //맛집관리번호
 		    html += "<th>"+data.RESTAURANT_NO+"</th>";
-		    html += "<th>"+data.ENT_NM+"</th>";
-		    html += "<th>"+data.PHONE+"</th>";
-		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>";
+		    html += "<th>"+data.ENT_NM+"</th>"; //사업장명
+		    html += "<th>"+data.PHONE+"</th>"; //전화번호
+		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>"; //도로명 주소
 		    html += "</tr>";
 		    
 		}
@@ -224,11 +226,11 @@ $(document).ready(function() {
 		html = "";
 		
 		for(var data of list3) {
-			html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">";
+			html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">"; //영화관관리번호
 		    html += "<th>"+data.CINEMA_MAG_NUM+"</th>";
-		    html += "<th>"+data.ENT_NM+"</th>";
-		    html += "<th>"+data.PHONE+"</th>";
-		    html += "<th>"+data.ROAD_NM+"</th>";
+		    html += "<th>"+data.ENT_NM+"</th>"; //사업장명
+		    html += "<th>"+data.PHONE+"</th>"; //전화번호
+		    html += "<th>"+data.ROAD_NM+"</th>"; //도로명 주소
 		    html += "</tr>";
 		    
 		}
@@ -255,11 +257,11 @@ function drawListgas(list4) {
 		
 	    
 		for(var data of list4) {
-			html += "<tr no=\""+data.GAS_STATION_NUM+"\">";
+			html += "<tr no=\""+data.GAS_STATION_NUM+"\">"; //주유소관리번호
 		    html += "<th>"+data.GAS_STATION_NUM+"</th>";
-		    html += "<th>"+data.GAS_NM+"</th>";
-		    html += "<th>"+data.PHONE+"</th>";
-		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>";
+		    html += "<th>"+data.GAS_NM+"</th>"; //주유소명
+		    html += "<th>"+data.PHONE+"</th>"; //전화번호
+		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>"; //도로명주소
 		    html += "</tr>";
 		    
 		}
@@ -302,7 +304,7 @@ function drawPaging(pd) {
                                                                      
 }
 	
-	//디테일로 이동 코드
+	//디테일로 이동
 	$("tbody").on("click", "tr", function() {
 		$("#no").val($(this).attr("no"));
 		
@@ -319,25 +321,23 @@ function drawPaging(pd) {
 		$("#page").val($(this).attr("page")); 
 	
 		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchText").val($("#oldText").val());
+		$("#searchTxt").val($("#oldTxt").val());
 		
 		switch($("#cateNo").val())  {
-		case "1" :
-			reloadList1();
+		case "1" : 
+			reloadList1(); //주차장
 			break;
 		case "2" :
-			reloadList2();
+			reloadList2(); //맛집
 			break;
 		case "3" :
-			reloadList3();
+			reloadList3(); //문화생활(영화관)
 			break;
 		case "4" :
-			reloadList4();
+			reloadList4(); //주유소
 			break;
 		}
 	});
-	
-	
 });
 </script>
 </head>
@@ -369,8 +369,8 @@ function drawPaging(pd) {
                 <form action="#" id="dataForm" method="post">
                 <input type="hidden" name="no" id="no" />
                 <input type="hidden" id="oldGbn" value="0" />
-				<input type="hidden" id="oldText" />
-                <input type="hidden" name="page" id="page" value="${page}" /> 
+				<input type="hidden" id="oldTxt" />
+                <input type="hidden" name="page" id="page" value="1" /> 
                 <div class="select_box">
                 <div class="select">
                     <select name="searchGbn" id="searchGbn">
@@ -382,7 +382,7 @@ function drawPaging(pd) {
                  <!--조건선택-->
                 </div>
                 <div class="search_form">
-                  <input type="text" name="searchTxt" id="searchTxt" />
+                  <input type="text" name="searchTxt" id="searchTxt"  value="${param.serarchTxt}"/>
                 </div>
                 <div class="search_btn" id="search_btn">
                   검색

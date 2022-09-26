@@ -12,7 +12,13 @@
 	<select id="kakaocheckMem" parameterType="hashmap" resultType="hashmap">
 		SELECT MEM_NUM, NM, AUTORITY_NUM
 		FROM MEMBER
-		WHERE email = #{email}
+		WHERE EMAIL = #{email}
+	</select>
+	
+	<select id="checkNm" parameterType="hashmap" resultType="hashmap">
+		SELECT NM
+		FROM MEMBER
+		WHERE MEM_NUM = #{memNo}
 	</select>
 
 </mapper>

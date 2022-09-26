@@ -10,6 +10,7 @@
     <title>MyP</title>
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script src="resources/js/main.js"></script>  
 </head>
@@ -28,7 +29,7 @@
            </div>
             <div class="right_area">
                   <div class="detail_wrap">
-              <div class="title">챗봇관리</div>
+              <div class="title">가이드관리</div>
               <hr>
               <div class="select_wrap">
                 <select name="" class="select_box">
