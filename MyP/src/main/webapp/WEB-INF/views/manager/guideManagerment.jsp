@@ -25,10 +25,42 @@
 
 
 <style type="text/css">
+.table_wrap .search_box .search_btn {
+    width: 70px;
+    height: 35px;
+    border: 1px solid #e6e6e6;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(229, 229, 229) 100%);
+    font-size: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    line-height: 33px;
+    cursor: pointer;
+    }
+.insert_btn{
+      	width: 70px;
+	    height: 35px;
+	    border: 1px solid #FD9A29;
+	    background: #FD9A29;
+	    color: #fff;
+	    font-size: 20px;
+	    text-align: center;
+	    box-sizing: border-box;
+	    text-align: center;
+	    font-size: 14px;
+	    line-height: 33px;
+	    cursor: pointer;
+	    margin-top: 10px;
+	    float: right;
+    
+       }
 #jstree {
 	width: 400px;
 	height: 500px;
 	border: 1px solid black;
+	overflow:scroll;
 }
 
 .s_title {
@@ -55,6 +87,9 @@
 	left: 30%
 }
 
+.table_wrap.second{
+	left: 75%;
+}
 .table_wrap.second {
 	left: 75%
 }
@@ -75,6 +110,20 @@
 			$('#jstree').jstree('select_node', 'child_node_1');
 			$.jstree.reference('#jstree').select_node('child_node_1');
 		});
+		
+		 $("#plugins4").jstree({
+			    "plugins" : [ "search" ]
+			  });
+			  var to = false;
+			  $('#plugins4_q').keyup(function () {
+			    if(to) { clearTimeout(to); }
+			    to = setTimeout(function () {
+			      var v = $('#plugins4_q').val();
+			      $('#plugins4').jstree(true).search(v);
+			    }, 250);
+			  });
+			  
+		 $('#plugins4').jstree(true).search(text);
 	});//document
 </script>
 </head>
@@ -92,8 +141,13 @@
 				</div>
 			</div>
 			<div class="right_area">
+			
 				<div class="table_wrap first">
-					<div id="jstree" style="overhead">
+				<div id="plugins4">
+				<input type="text" name="searchTxt" id="searchTxt">
+			</div>
+			<div class="search_btn" id="search_btn">검색</div>
+					<div id="jstree">
 						<ul>
 							<li>사용안내
 								<ul>
@@ -175,6 +229,10 @@
 						</ul>
 						<!-- 사용안내 end -->
 					</div>
+				</div>
+				<div class="table_wrap second">
+				<div class="insert_btn" id="insertBtn">추가</div>
+					<textarea></textarea>
 				</div>
 			</div>
 		</div>
