@@ -21,14 +21,51 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
-
-
 <style type="text/css">
+.proton-demo {
+	max-width: 100%;
+	padding: 10px;
+	border-radius: 3px;
+}
+
+.table_wrap .search_box {
+	width: 70px;
+	height: 35px;
+	border: 1px solid #e6e6e6;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(to bottom, rgb(255, 255, 255) 0%,
+		rgb(229, 229, 229) 100%);
+	font-size: 20px;
+	text-align: center;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 14px;
+	line-height: 33px;
+	cursor: pointer;
+}
+
+.insert_btn {
+	width: 70px;
+	height: 35px;
+	border: 1px solid #FD9A29;
+	background: #FD9A29;
+	color: #fff;
+	font-size: 20px;
+	text-align: center;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 14px;
+	line-height: 33px;
+	cursor: pointer;
+	margin-top: 10px;
+	float: right;
+}
+
 #jstree {
-	width: 400px;
-	height: 500px;
+	width: 300px;
+	height: 450px;
 	border: 1px solid black;
+	overflow: scroll;
 }
 
 .s_title {
@@ -56,26 +93,54 @@
 }
 
 .table_wrap.second {
-	left: 75%
+	left: 75%;
+}
+
+#plugins4_q {
+	width: 292px;
+	height: 20px;
+	margin-bottom: 15px;
+	display: block;
+	padding: 4px;
+	border-radius: 2px;
+	border: 1px solid black;
 }
 </style>
-
 <script type="text/javascript">
-	$(document).ready(function() {
-		// 6 create an instance when the DOM is ready
+$(function() {
+	/*검색*/
+	$("#jstree").jstree({
+	    "plugins" : [ "search" ]
+	  });
+	  var to = false;
+	  $('#plugins4_q').keyup(function () {
+	    if(to) { clearTimeout(to); }
+	    to = setTimeout(function () {
+	      var v = $('#plugins4_q').val();
+	      $('#jstree').jstree(true).search(v);
+	    }, 250);
+	  });
+	  
+	  /*ajax
+	  $('#jstree').jstree({
+			'core' : {
+			'data' : {
+				'url' : function(node) {
+					return node.id === '#' ?
+					'ajax_roots.json' :
+						'ajax_children.json';
+				},
+				'data' : function(node) {
+					return { 'id' : node.id};
+				
+			
+				}
+			}
+		});
+			*/
 
-		$('#jstree').jstree();
-		// 7 bind to events triggered on the tree
-		$('#jstree').on("changed.jstree", function(e, data) {
-			console.log(data.selected);
-		});
-		// 8 interact with the tree - either way is OK
-		$('button').on('click', function() {
-			$('#jstree').jstree(true).select_node('child_node_1');
-			$('#jstree').jstree('select_node', 'child_node_1');
-			$.jstree.reference('#jstree').select_node('child_node_1');
-		});
-	});//document
+			
+	  });
 </script>
 </head>
 <body>
@@ -93,13 +158,15 @@
 			</div>
 			<div class="right_area">
 				<div class="table_wrap first">
-					<div id="jstree" style="overhead">
+					<input type="text" id="plugins4_q" class="input"
+						placeholder="카테고리 검색">
+					<div id="jstree">
 						<ul>
 							<li>사용안내
 								<ul>
 									<li>주차장검색
 										<ul>
-											<li>주차장안내</li>
+											<li></li>
 										</ul> <!-- 주차장안내 end -->
 									</li>
 									<li>리뷰작성</li>
@@ -176,8 +243,18 @@
 						<!-- 사용안내 end -->
 					</div>
 				</div>
+
+				<div class="table_wrap second">
+
+					<div class="insert_btn" id="insertBtn">추가</div>
+					<textarea></textarea>
+
+				</div>
 			</div>
+
+
 		</div>
+
 	</main>
 
 	<c:import url="/footer"></c:import>

@@ -49,7 +49,8 @@ $(document).ready(function () {
 		         success : function(res) {//성공했을 때 결과를 res에 받고 함수 실행
 		         	if(res == 'fail'){
 		            	warnMsg.html("아이디와 이메일이 일치하지 않습니다. 다시 확인 부탁드립니다.");   
-		                warnMsg.css("color","red");           
+		                warnMsg.css("color","red"); 
+		                //warnMsg.css("font-size", "14px");          
 		            } else {
 					   $.ajax({
 						   type : 'get',
@@ -60,6 +61,7 @@ $(document).ready(function () {
 					   		   send_num = result.send_num;
 					   		   warnMsg.html("인증번호가 발송 되었습니다.");
 					   		   warnMsg.css("color","green");
+					   		  // warnMsg.css("font-size", "14px"); 
 					   	   }
 					   }); //end ajax
 		            }
@@ -83,6 +85,7 @@ $(document).ready(function () {
 					if(res == 'fail'){
 		            	warnMsg.html("가입되지 않은 이메일 입니다. 다시 확인 부탁드립니다.");   
 		                warnMsg.css("color","red");
+		                //warnMsg.css("font-size", "14px");
 		                warnMsg.show();
 		            } else {
 					//이메일
@@ -96,6 +99,7 @@ $(document).ready(function () {
 					   		   send_num = result.send_num;
 					   		   warnMsg.html("인증번호가 발송 되었습니다.");
 					   		   warnMsg.css("color","green");
+					   			//warnMsg.css("font-size", "14px"); 
 					   		   warnMsg.show();
 					   	   }
 					   }); //end ajax
@@ -506,6 +510,7 @@ $(document).ready(function () {
 		if(!id.match(exp)){
 			id_status.html("숫자와 소문자 포함 4~20자 이내로 작성해 주세요");
 			id_status.css("color","gray");
+			id_status.css("font-size", "14px");
 			return false;
 		}else if(id.match(exp)) {
 			var data = {id : id};
@@ -518,9 +523,11 @@ $(document).ready(function () {
 					if(res != 'fail'){
 						id_status.html("멋진 아이디네요!");
 						id_status.css("color","green");
+						id_status.css("font-size", "14px");
 					} else {
 						id_status.html("아이디가 이미 존재하거나 삭제된 아이디입니다.");	
 						id_status.css("color","red");
+						id_status.css("font-size", "14px");
 					}		
 				},
 				error : function(request, status, error) {// 실패했을 때 함수 실행
@@ -552,10 +559,12 @@ $(document).ready(function () {
 					nm_status.html("멋진 닉네임이네요!");
 					nm_status.css("color","green");
 					nm_status.css("display", "inline-block");
+					nm_status.css("font-size", "14px");
 				} else {
 					nm_status.html("닉네임이 이미 존재합니다. 다른 닉네임을 사용해주세요.");	
 					nm_status.css("color","red");
 					nm_status.css("display", "inline-block");
+					nm_status.css("font-size", "14px");
 				}		
 			},
 			error : function(request, status, error) {// 실패했을 때 함수 실행

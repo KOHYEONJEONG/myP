@@ -158,10 +158,11 @@ input, select{
             <div class="a">@</div> 
             <div class="input_box2">
                 <select class="form-control" name="domain" id="domain">
-                    <option>직접입력</option>
                     <option>naver.com</option>
-                    <option>gmail.com</option>
-                    <option>hanmail.net</option>
+					<option>gmail.com</option>
+					<option>hanmail.net</option>
+					<option>daum.net</option>
+					<option>nate.com</option>
                 </select>
             </div>
             <button class="join_btn" type="button" id="mail-Check-Btn">인증번호<br/>전송</button>
