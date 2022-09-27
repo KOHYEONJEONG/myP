@@ -23,8 +23,10 @@ public class GuideController {
 	public IACDao dao;
 	
 	@RequestMapping(value = "/guideManagement")
-	public ModelAndView chatbotManagement(ModelAndView mav) {
+	public ModelAndView guideManagement(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
 		mav.setViewName("manager/guideManagerment");
+		
 		return mav;
 	}
 	
@@ -33,6 +35,7 @@ public class GuideController {
 		mav.setViewName("guide/guide");
 		return mav;
 	}
+	
 	
 	@RequestMapping(value="/GuideListAjax",
 			method = RequestMethod.POST,
@@ -54,6 +57,8 @@ public class GuideController {
 
 		return mapper.writeValueAsString(model);
 	}
+	
+
 
 
 }
