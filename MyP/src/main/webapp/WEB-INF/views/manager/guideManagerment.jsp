@@ -144,11 +144,18 @@ function reloadeGuideList() {
 				data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU});// 현재 no, 상위 no, menu
 			}
 			
-			console.log(data);
+			//console.log(data);
 			
 			$('#jstree').jstree({ 'core' : { 'data' : data }, //데이터 넣어주기
 			 	"plugins" : [ "search" ] //검색
-			 }); 
+			 }).on('changed.jstree', function (e, data) {
+			    var i, j, r = [];
+			    for(i = 0, j = data.selected.length; i < j; i++) {
+			      r.push(data.instance.get_node(data.selected[i]).text);
+			    }
+			    $('#event_result').html('Selected: ' + r.join(', '));
+		  	}); 
+
 			
 			
 		},
@@ -172,6 +179,7 @@ function reloadeGuideList() {
 		<div class="main_wrap">
 			<div class="side_bar">
 				<div class="title">관리자페이지</div>
+			<div id="event_result"></div>
 				<div class="inner">
 					<div onclick="location.href='memManagement'">회원관리</div>
 					<div class="on">가이드관리</div>
