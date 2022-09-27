@@ -727,7 +727,7 @@ function reloadList() {
             <div class="title">관리자페이지</div>
             <div class="inner">
                 <div>회원관리</div>
-                <div>챗봇관리</div>
+                <div>가이드관리</div>
                 <div>데이터관리</div>
                 <div>신고리뷰관리</div>
                 <div class="on">카테고리관리</div>
