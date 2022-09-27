@@ -116,7 +116,8 @@
 				dataType: "json",
 				data: params,
 				success : function(res){
-					drawList(res.list);
+					console.log(res);
+					draw2List(res.list);
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
@@ -129,7 +130,8 @@
 
  });
   
- function drawList(list){
+ function draw2List(list){
+	 console.log("aaaa");
 	 var html = "";
 	 for(var data of list){
 		  /* html += "<div class=\"box\">";
@@ -146,7 +148,7 @@
          html += "</div>";
          html += "</div>";
 	 }
-	 
+	 console.log(html);
 	 $('.result_area2').html(html);
  } 
   
