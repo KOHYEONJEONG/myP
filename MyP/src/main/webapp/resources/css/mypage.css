@@ -224,4 +224,34 @@
 	    font-size: 15px;
 	    outline: 0;
 	}
-	 
+	
+ol,ul{
+  	list-style: none;
+
+  }
+  
+  li {
+  	list-style: none;
+  	padding : 15px 5px;
+  	margin: 0px;
+  	
+  }  
+
+      .container{
+         display:flex;
+         justify-content: center;
+         align-items: center;
+         height:100vh;
+         margin:0;
+      }
+      #ac{
+         width: 200px;
+      }
+      #ac li a{
+         display:block;
+         width: 100%;
+         text-align: center;
+         height:50px;
+         line-height: 50px;
+         border-bottom:1px solid #cccccc;
+      }

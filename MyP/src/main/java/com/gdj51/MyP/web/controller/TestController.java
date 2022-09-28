@@ -7,5 +7,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TestController {
 
-	
+	@RequestMapping(value="/sidebar") 
+		public ModelAndView sidebar(ModelAndView mav) {
+			mav.setViewName("include/sidebar");
+			return mav;
+		
+	}
 }

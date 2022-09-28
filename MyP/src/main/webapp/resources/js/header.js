@@ -117,8 +117,33 @@ $(document).ready(function () {
 	$("#fee2").click(function() {
 		location.href = "rankingFeeReasonableBoard";
 	})
-   
-		
+    $("#basicinfo").click(function() {
+		location.href = "memInfoUpdate";
+	})
+	 $("#basicinfo2").click(function() {
+		location.href = "memInfoUpdate";
+	})
+	$("#pwupdate").click(function() {
+		location.href = "memPwUpdate";
+	})
+	$("#parkreview").click(function() {
+		location.href = "mypageReviewBoard";
+	})
+	$("#parkreview2").click(function() {
+		location.href = "mypageReviewBoard";
+	})
+	$("#post").click(function() {
+		location.href = "myQnA";
+	})
+	$("#post2").click(function() {
+		location.href = "myQnA";
+	})
+	$("#withdrawal").click(function() {
+		location.href = "withdraw";
+	})
+	$("#withdrawal2").click(function() {
+		location.href = "withdraw";
+	})	
 	//관리자 페이지
 	$("#managerPage").click(function(){
 		location.href = "memManagement"; //수정해야함.
