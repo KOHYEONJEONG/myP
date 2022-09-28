@@ -18,7 +18,7 @@
 $(document).ready(function() {
 	$.ajax({
 		
-		url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/50/", 
+		url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/10/", 
 		type :"GET", 
 		dataType :"xml", 
 		success : function(xml) { 
@@ -59,25 +59,23 @@ $(document).ready(function() {
 				})
 				$(".result_area").html(html);
 				
-				 $.ajax({
+ 				 $.ajax({
 		         type:"post",
 		         url:"trafficAccidentList", 
 		         dataType : "json",
 		         success : function(res) {
 		        	 console.log(res.list);
-		        	 console.log(res.list[1].ACC_TYPE);
+		        	 console.log(res.list[0].ACC_TYPE);
 		        	 console.log(res.list.length);
-		        	 for(var i=0; i< res.list.length; i++){
-		        	      if($(".accident_title").hasClass(res.list[i].ACC_TYPE)) {
-		        	         $(".accident_title").html(res.list[i].ACC_TYPE_NM)
-		        	   }
-		        	 }
+		        	   for(var i=0; i < res.list.length; i++){
+		        	         $("." + res.list[i].ACC_TYPE).html(res.list[i].ACC_TYPE_NM)
+		        	 }  
 		         },
 		         error : function(request, status, error) {// 실패했을 때 함수 실행
 			            console.log(request.responseText);    //실패 상세 내역
 			         }
 		         
-		      }); //ajax	      
+		      }); //ajax	       
 				
 			}
 		},
