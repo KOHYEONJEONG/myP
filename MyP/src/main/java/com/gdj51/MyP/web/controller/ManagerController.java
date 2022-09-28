@@ -376,6 +376,33 @@ public class ManagerController {
 		}
 		return mav;
 	}
+	
+	//가이드 관리자 페이지
+	@RequestMapping(value = "/guideManagement")
+	public ModelAndView guideManagement(@RequestParam HashMap<String, String> params,
+			ModelAndView mav) throws Throwable {
+		mav.setViewName("manager/guideManagerment");
+		
+		return mav;
+	}
+	
+	//가이드 List Ajax - jsTree에 반영하고픔.
+	@RequestMapping(value= "/managerGuideAjax",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String managerGuideAjax(
+			@RequestParam HashMap<String, String> params)throws Throwable{
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, Object> model = new HashMap<String,Object>();
+
+		List<HashMap<String, String>> list = dao.getList("manager.manGuideList");
+
+		model.put("list",list);
+		
+		return mapper.writeValueAsString(model);
+	}
 }
 	
 	

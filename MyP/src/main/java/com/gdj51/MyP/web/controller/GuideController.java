@@ -22,17 +22,13 @@ public class GuideController {
 	@Autowired
 	public IACDao dao;
 	
-	@RequestMapping(value = "/guideManagement")
-	public ModelAndView chatbotManagement(ModelAndView mav) {
-		mav.setViewName("manager/guideManagerment");
-		return mav;
-	}
 	
 	@RequestMapping(value = "/guideMain")
 	public ModelAndView guideMain(ModelAndView mav) {
 		mav.setViewName("guide/guide");
 		return mav;
 	}
+	
 	
 	@RequestMapping(value="/GuideListAjax",
 			method = RequestMethod.POST,
@@ -54,6 +50,8 @@ public class GuideController {
 
 		return mapper.writeValueAsString(model);
 	}
+	
+
 
 
 }
