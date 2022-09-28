@@ -386,6 +386,8 @@ public class ManagerController {
 		return mav;
 	}
 	
+	
+	
 	//가이드 List Ajax - jsTree에 반영하고픔.
 	@RequestMapping(value= "/managerGuideAjax",
 			method = RequestMethod.POST,
@@ -401,6 +403,60 @@ public class ManagerController {
 
 		model.put("list",list);
 		
+		return mapper.writeValueAsString(model);
+	}
+	
+	//managerSelectAjax
+	@RequestMapping(value = "/managerSelectAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String managerSelectAjax(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+
+		System.out.println("(*)managerSelectAjax : "+params.toString());
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+	
+		HashMap<String, String> data =  dao.getMapData("manager.getGuide",params);
+		model.put("data", data);
+	
+		return mapper.writeValueAsString(model);
+	}
+	
+	//managerGuideAction
+	@RequestMapping(value = "/managerGuideAction/{flag}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String managerGuideActionAjax(ModelAndView mav, @PathVariable String flag, @RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		int cnt = 0;
+
+		try {
+			switch (flag) {
+			case "menuInsert"://메뉴등록
+				cnt = dao.update("manager.insertMenu", params);
+				break;
+			case "conUpdate"://내용수정
+				cnt = dao.update("manager.updateCon", params);
+				break;
+			case "menuUpdate"://메뉴이름 수정
+				cnt = dao.update("manager.updateMenu", params);
+				break;
+			case "menuDelete"://삭제
+				cnt = dao.delete("manager.deleteMenu", params);
+				break;
+			}
+
+			if(cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
 		return mapper.writeValueAsString(model);
 	}
 }
