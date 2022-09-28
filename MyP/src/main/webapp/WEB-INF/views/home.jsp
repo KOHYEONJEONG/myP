@@ -25,6 +25,7 @@
    <script src="${pageContext.request.contextPath}/resources/js/header.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rety/jquery.raty.css">
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
 <c:import url="/header"></c:import>
