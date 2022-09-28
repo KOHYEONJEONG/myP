@@ -22,13 +22,6 @@ public class GuideController {
 	@Autowired
 	public IACDao dao;
 	
-	@RequestMapping(value = "/guideManagement")
-	public ModelAndView guideManagement(@RequestParam HashMap<String, String> params,
-			ModelAndView mav) throws Throwable {
-		mav.setViewName("manager/guideManagerment");
-		
-		return mav;
-	}
 	
 	@RequestMapping(value = "/guideMain")
 	public ModelAndView guideMain(ModelAndView mav) {
