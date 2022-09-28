@@ -94,4 +94,13 @@
 		= HIT + 1
 		WHERE CAR_PARK_MAG_NUM = #{no}
 	</update>
+	
+	
+	<select id="chartList" resultType="hashmap" parameterType="hashmap">
+		SELECT TO_CHAR(TIME, 'HH24:MI:SS') AS TIMES, TO_CHAR(TIME, 'DAY') AS DAY, ROUND(AVG(ENTRANCE), 1) AS ENTRANCE, 
+		ROUND(AVG(EXIT), 1) AS EXIT FROM CAR_USE 
+		WHERE CAR_PARK_MAG_NUM = #{no} AND TO_CHAR(TIME, 'YYYY-MM-DD') 
+		BETWEEN '2021-07-01' AND '2021-09-28' GROUP BY TO_CHAR(TIME, 'HH24:MI:SS'), TO_CHAR(TIME, 'DAY') HAVING  TO_CHAR(TIME, 'DAY') = #{week}
+		ORDER BY TO_CHAR(TIME, 'DAY') ASC
+	</select>
 </mapper>

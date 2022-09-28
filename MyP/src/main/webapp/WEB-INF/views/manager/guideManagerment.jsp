@@ -108,52 +108,84 @@
 </style>
 <script type="text/javascript">
 $(function() {
-	/*검색*/
-	$("#jstree").jstree({
-	    "plugins" : [ "search" ]
-	  });
-	  var to = false;
-	  $('#plugins4_q').keyup(function () {
-	    if(to) { clearTimeout(to); }
-	    to = setTimeout(function () {
-	      var v = $('#plugins4_q').val();
-	      $('#jstree').jstree(true).search(v);
-	    }, 250);
-	  });
-	  
-	  /*ajax
-	  $('#jstree').jstree({
-			'core' : {
-			'data' : {
-				'url' : function(node) {
-					return node.id === '#' ?
-					'ajax_roots.json' :
-						'ajax_children.json';
-				},
-				'data' : function(node) {
-					return { 'id' : node.id};
-				
-			
+
+  var to = false;
+  $('#plugins4_q').keyup(function () {
+    if(to) { clearTimeout(to); }
+    to = setTimeout(function () {
+      var v = $('#plugins4_q').val();
+      $('#jstree').jstree(true).search(v);
+    }, 250);
+  });
+  
+  //ajax
+  reloadeGuideList();
+  
+
+  });//function()
+  
+function reloadeGuideList() {
+	var params = $("#managerGuideForm").serialize();
+	$.ajax({
+		url : "managerGuideAjax",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) {
+//			console.log(res.list);
+
+			//jsTree Api 가져와서 사용 : 무조건 jsTree 사이트 참고하고 참고해야해!!!(기본 충실)
+			var data = new Array();//array를 사용하여 list를 담아주기!~
+			for(var item of res.list) {
+				var tcn = "#";//jsTree 사이트에서 맨처음 부모에는 #을 넣어줬기에 똑같이 해줬음
+				if(typeof(item.TOP_CHATBOT_NUM) != "undefined") {
+					tcn = item.TOP_CHATBOT_NUM;
 				}
+				data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU});// 현재 no, 상위 no, menu
 			}
-		});
-			*/
+			
+			//console.log(data);
+			
+			$('#jstree').jstree({ 'core' : { 'data' : data }, //데이터 넣어주기
+			 	"plugins" : [ "search" ] //검색
+			 }).on('changed.jstree', function (e, data) {
+			    var i, j, r = [];
+			    for(i = 0, j = data.selected.length; i < j; i++) {
+			      r.push(data.instance.get_node(data.selected[i]).text);
+			    }
+			    $('#event_result').html('Selected: ' + r.join(', '));
+		  	}); 
 
 			
-	  });
+			
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); //Ajax End
+} 	  
 </script>
 </head>
 <body>
 	<c:import url="/header1"></c:import>
+	
+	<form action="#" id="managerGuideForm" method="post">
+		<!-- 클릭하면 해당 글에 CON 보이게 하려고-->
+		<input type="hidden" id="guide_num" name="guide_num"/>
+		<input type="hidden" id="con" name="con"/>
+	</form>
+	
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
 				<div class="title">관리자페이지</div>
+			<div id="event_result"></div>
 				<div class="inner">
-					<div>회원관리</div>
+					<div onclick="location.href='memManagement'">회원관리</div>
 					<div class="on">가이드관리</div>
 					<div>데이터관리</div>
 					<div>신고리뷰관리</div>
+					<div>카테고리관리</div>
 				</div>
 			</div>
 			<div class="right_area">
@@ -161,86 +193,6 @@ $(function() {
 					<input type="text" id="plugins4_q" class="input"
 						placeholder="카테고리 검색">
 					<div id="jstree">
-						<ul>
-							<li>사용안내
-								<ul>
-									<li>주차장검색
-										<ul>
-											<li></li>
-										</ul> <!-- 주차장안내 end -->
-									</li>
-									<li>리뷰작성</li>
-									<li>랭킹
-										<ul>
-											<li>랭킹페이지</li>
-										</ul> <!-- 랭킹 end -->
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<!-- 사용안내 end -->
-						<ul>
-							<li>정기권
-								<ul>
-									<li>정기권 이용기간 안내</li>
-									<li>유의사항/발급제한 안내</li>
-									<li>정기권 변경안내
-										<ul>
-											<li>단순변경(개인)</li>
-											<li>단순변경(사업자)</li>
-											<li>사고 및 수리로 인한 변경</li>
-											<li>폐차/매매/렌트가 계약만료 변경</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<!-- 정기권 end -->
-						<ul>
-							<li>요금감면
-								<ul>
-									<li>국가유공자/독립유공자
-										<ul>
-											<li>감면요건 안내</li>
-											<li>증빙서류 안내</li>
-										</ul>
-									</li>
-									<li>경차환승/저공해환승
-										<ul>
-											<li>경차/저공해차량 기준안내</li>
-											<li>환승이용 방법안내</li>
-										</ul>
-									</li>
-									<li>환승
-										<ul>
-											<li>환승용 방법 안내</li>
-											<li>정기권 환승 안내</li>
-										</ul>
-									</li>
-									<li>경차/저공해자동차</li>
-									<li>전기자동차 충전시</li>
-									<li>다둥이 행복카드 소지자</li>
-									<li>한부모가족</li>
-									<li>5.18 민주유공자</li>
-									<li>보훈보상대상자</li>
-									<li>성실납세자 차량</li>
-									<li>참전유공자</li>
-								</ul>
-							</li>
-						</ul>
-						<!-- 사용안내 end -->
-						<ul>
-							<li>기타문의
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-							</li>
-						</ul>
-						<!-- 사용안내 end -->
 					</div>
 				</div>
 

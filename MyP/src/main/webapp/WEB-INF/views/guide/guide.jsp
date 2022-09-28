@@ -104,7 +104,6 @@ function reGuideList() {
 	}); //Ajax End
 }
 
-var flag= false;
 function drawList(list) {
 	
 	var oldNum = $("#oldNum").val();

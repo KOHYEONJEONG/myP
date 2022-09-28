@@ -17,12 +17,17 @@
 <script type="text/javascript"
 	src="resources/script/jquery/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="resources/css/font.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<!-- <script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+	
 <script type="text/javascript" src="resources/script/common/popup.js"></script>
 <style>
 table {
-	width: 900px;
+	width: 800px;
 	box-sizing: border-box;
 	border: 1px #a39485 solid;
 	font-size: 14px;
@@ -73,9 +78,9 @@ td.money>div {
 }
 
 .rigth_contents1 {
-	width: 900px;
+	width: 800px;
 	position: absolute;
-	top: 230px;
+	top: 200px;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -141,10 +146,136 @@ td.money>div {
 	background-color: #f6f6f6;
 	color: #000;
 }
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 360px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+.box_wrap {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+.week_box{
+    width: 38px;
+    height: 38px;
+    line-height: 34px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.week_box:last-child {
+	margin-right: 0px;
+}
+.week_box.on {
+	background: #f5f5f5;
+}
+
+.i {
+	background: url(resources/icons/excl_mark.png) no-repeat;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+     display: none;
+     margin: 5px auto 0;
+}
+
+.i:hover .tooltip-text {
+  display: block;
+}
+
+.tooltip-text {
+	 display: none; 
+  position: absolute;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 0.8em;
+  color: white;
+  background: deeppink;
+  z-index: 10;
+}
+
+.last_tr{
+	display: none;
+
+}
+
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
+var entrance = [];
+var exit = [];
+
+
+
+$(document).ready(function() {
+			
+		var d = new Date();
+		
+		var week1 = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일')
+		$("#week").val(week1[d.getDay()]);
+		
+		
+		$('.box_wrap .week_box').each(function () {
+			if($(this).attr('name') == $("#week").val()){
+				 $(this).addClass('on');
+			}
+	    })
+		
+		chartload();
+		
+		$(".box_wrap").on("click", '.week_box', function() {
+			$(this).addClass("on");
+			$(this).siblings().removeClass("on");
+			$("#week").val($(this).attr('name'));
+			chartload();
+		});
+		
+		
 		$("#listBtn").on("click", function() {
 			$("#dataForm").attr("action", "parkinfo");
 			$("#dataForm").submit();
@@ -199,9 +330,93 @@ td.money>div {
 
 				} ]
 			});
-		});
+		}); // deleteBtn End
+		
+}) // document End
+	
+function chartload() {
+	var params = $("#parkinfoForm").serialize();
+	
+	$.ajax({
+		url : "chartList",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) { 
+			
+			// 방문자 데이터 있는 주차장만 tr 보여줌
+			if(res.list.length != 0){
+				$(".last_tr").show();
+				$(".i").show();
+				$(".text").hide();
+			}
 
-	})
+			 // entrance 배열
+			 for(var i =0; i< res.list.length; i++){
+	                if(res.list[i].ENTRANCE == null){
+	                    entrance[i] = 0;  
+	            }else{
+	            		entrance[i] = res.list[i].ENTRANCE;
+	                }   
+	            }
+			 // exit 배열 
+			 for(var i =0; i< res.list.length; i++){
+	                if(res.list[i].EXIT == null){
+	                	exit[i] = 0;  
+	            }else{
+	            		exit[i] = res.list[i].EXIT;
+	                }   
+	            }
+		
+			 chartdraw();
+			 
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); 
+	
+}
+	
+function chartdraw() {
+
+	
+	Highcharts.chart('chartsContainer', {
+	
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: '시간별 입, 출차 대수'
+	    },
+	    xAxis: {
+	        categories: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', 
+	        	'16', '17', '18', '19', '20', '21', '22', '23']
+	    },
+	    yAxis: {
+	        title: {
+	            text: ''
+	        }
+	    },
+	    plotOptions: {
+	        line: {
+	            dataLabels: {
+	                enabled: true // 라인에 수치표시 여부
+	            },
+	            enableMouseTracking: false
+	        }
+	    },
+	    series: [{
+	        name: '입차',
+	        data: entrance
+	    }, {
+	        name: '출자',
+	        data: exit
+	    }]
+	});	
+}
+
+
 </script>
 </head>
 <body>
@@ -210,6 +425,11 @@ td.money>div {
 		<form action="#" id="dataForm" method="post">
 			<input type="hidden" name="no" value="${data.CAR_PARK_MAG_NUM}" /> 
 			<input type="hidden" name="page" id="page" value="${param.page}" />
+		</form>
+		<form action="#" id="parkinfoForm">
+			<input type="hidden" name="day" value="" />
+			<input type="hidden" name="no" id="no" value="${data.CAR_PARK_MAG_NUM}" /> 
+			<input type="hidden" name="week" id="week" value="" /> 
 		</form>
 		<div class="main_wrap">
 			<div class="side_bar">
@@ -288,10 +508,25 @@ td.money>div {
 								</td>
 							</tr>
 							<tr>
-								<td>방문자데이터</td>
-								<td colspan="3">
-									<canvas id="myChart"></canvas>
+								<td>방문자데이터 <div class="i"><span class="tooltip-text">2021-07-01일~ 2021-09-28일 기준, <br/> 3개월의 시간별 입, 출자 대수 평균입니다.</span><div></td>
+								<td colspan="3" class="last_tr">
+									<form action="#" id="parkinfoForm">
+										<input type="hidden" name="day" value="" />
+										<input type="hidden" name="no" id="no" value="${data.CAR_PARK_MAG_NUM}" /> 
+										<input type="hidden" name="week" id="week" value="" /> 
+									</form>
+									 <div id="chartsContainer"></div>
+									 <div class="box_wrap">
+										<div class="week_box" name="월요일">월</div>
+										<div class="week_box" name="화요일">화</div>
+										<div class="week_box" name="수요일">수</div>
+										<div class="week_box" name="목요일">목</div>
+										<div class="week_box" name="금요일">금</div>
+										<div class="week_box" name="토요일">토</div>
+										<div class="week_box" name="일요일">일</div>
+									</div>
 								</td>
+								<td colspan="3" class="text" style="background: #fff">데이터를 준비중입니다.</td>
 							</tr>
 						</tbody>
 					</table>
@@ -303,55 +538,5 @@ td.money>div {
 		</div>
 	</main>
 	<c:import url="/footer"></c:import>
-	<script type="text/javascript">
-		var context = document.getElementById('myChart').getContext('2d');
-		var myChart = new Chart(context,
-				{
-					type : 'line', // 차트의 형태
-					data : { // 차트에 들어갈 데이터
-						labels : [
-						//x 축
-						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-								'11', '12', '13', '14', '15', '16', '17', '18',
-								'19', '20', '21', '22', '23', '24' ],
-						datasets : [ { //데이터
-							label : '시간도 인기도', //차트 제목
-							fill : false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-							data : [ 0, 0, 0, 3, 5, 6, 10, 15, 25, 30, 20, 20,
-									15, 15, 20, 20, 20, 15, 14, 12, 10, 8, 5,
-									3, 0 //x축 label에 대응되는 데이터 값
-							],
-							backgroundColor : [
-							//색상
-							'rgba(255, 99, 132, 0.2)',
-									'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 206, 86, 0.2)',
-									'rgba(75, 192, 192, 0.2)',
-									'rgba(153, 102, 255, 0.2)',
-									'rgba(255, 159, 64, 0.2)' ],
-							borderColor : [
-							//경계선 색상
-							'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)',
-									'rgba(255, 206, 86, 1)',
-									'rgba(75, 192, 192, 1)',
-									'rgba(153, 102, 255, 1)',
-									'rgba(255, 159, 64, 1)' ],
-							borderWidth : 1, //경계선 굵기
-
-						} ]
-					},
-					options : {
-						scales : {
-							yAxes : [ {
-								ticks : {
-									beginAtZero : true,
-									steps : 10,
-									max : 50
-								}
-							} ]
-						}
-					}
-				});
-	</script>
 </body>
 </html>

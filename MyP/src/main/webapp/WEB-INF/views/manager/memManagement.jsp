@@ -41,7 +41,7 @@ $(document).ready(function() {
 				<div class="title">관리자페이지</div>
 				<div class="inner">
 					<div class="on">회원관리</div>
-					<div>챗봇관리</div>
+					<div >가이드관리</div>
 					<div>데이터관리</div>
 					<div>신고리뷰관리</div>
 					<div>카테고리관리</div>
