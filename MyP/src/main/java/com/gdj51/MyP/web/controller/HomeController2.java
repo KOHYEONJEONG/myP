@@ -31,9 +31,15 @@ public class HomeController2 {
 			
 			Map<String, Object> model = new HashMap<String,Object>();
 			
-	List<HashMap<String, String>> list = iACDao.getList("home.List",params);
+			List<HashMap<String, String>> list = iACDao.getList("home.List",params);
+			
+			int cnt = iACDao.getIntData("home.SearchCnt",params);
+			
+			
 			
 			model.put("list",list);
+			model.put("cnt",cnt);
+			
 			
 			return mapper.writeValueAsString(model);
 	

@@ -49,10 +49,31 @@
 	.left_section .result_area2 .box .pay {
   color: #e06666;
   font-weight: bold;
+  font-size: 12px;
+}
+	.left_section .result_area2 .box .detail {
+  color: #4285f4;
+  font-weight: bold;
+  font-size: 12px;
+}  
+  .left_section .result_area2 .result_box {
+    height: 40px;
+    background: #fff;
+    text-align: right;
+    line-height: 40px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding-right: 20px;
+    font-size: 14px;
+}
 
 </style>
   <script src="resources/jquery/jquery-1.12.4.js"></script>
   <script type="text/javascript">
+ 
+  var logx = [];
+  var logy = [];
+  var title = [];
   $(document).ready(function() {
 	  var area0 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	  var area1 = ["전체","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
@@ -117,7 +138,11 @@
 				data: params,
 				success : function(res){
 					console.log(res);
-					draw2List(res.list);
+					console.log(res.cnt);
+					searchList(res.list);
+					mapList(res.list);
+					console.log(res.list.length);
+					
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
@@ -130,27 +155,85 @@
 
  });
   
- function draw2List(list){
+
+    
+  
+ function searchList(list){
 	 console.log("aaaa");
 	 var html = "";
+	 html += "<div class=\"result_box\">" +list.length+ "</div>";
 	 for(var data of list){
 		  /* html += "<div class=\"box\">";
 		 html +="  <div class=\"accident_title\">"+ data.CAR_PARK_NM  +"</div>";
 		 html += "  <div class=\"accident_period\"> " + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</div>";
 		 html += "</div>"; */
+		
 		 html += "<div class=\"box\">";
          html += "<div class=\"close_i\"></div>";
          html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
          html += "<div class=\"parking_info\">";
          html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
-          html += "<span class=\"pay\">유료</span>";
+         html += "<span class=\"pay\">유료</span>";
          html += "<span class=\"detail\">상세보기</span>"; 
          html += "</div>";
          html += "</div>";
 	 }
 	 console.log(html);
+	console.log(list.length);
 	 $('.result_area2').html(html);
  } 
+ 
+ function mapList(list){
+	 
+	 var positions = new Array();
+	 var points = new Array();
+	 for(var data of list) {
+		 positions.push({
+			title: data.CAR_PARK_NM,
+			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
+		 });
+		 
+		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
+	 }
+
+		// 마커 이미지의 이미지 주소입니다
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		    
+		for (var i = 0; i < positions.length; i ++) {
+		    
+		    // 마커 이미지의 이미지 크기 입니다
+		    var imageSize = new kakao.maps.Size(24, 35); 
+		    
+		    // 마커 이미지를 생성합니다    
+		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		    
+		    // 마커를 생성합니다
+		    var marker = new kakao.maps.Marker({
+		        map: map, // 마커를 표시할 지도
+		        position: positions[i].latlng, // 마커를 표시할 위치
+		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+		        image : markerImage // 마커 이미지 
+		    });
+		}
+
+		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		var bounds = new kakao.maps.LatLngBounds();    
+
+		var i, marker;
+		for (i = 0; i < points.length; i++) {
+		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+		  
+		    
+		    // LatLngBounds 객체에 좌표를 추가합니다
+		    bounds.extend(points[i]);
+		}
+		
+		map.setBounds(bounds);
+
+ 	}
+ 
+ 
+
   
   </script>
 </head>
@@ -894,44 +977,7 @@
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 //마커를 표시할 위치와 title 객체 배열입니다 
-var positions = [
-    {
-        title: '카카오', 
-        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-    },
-    {
-        title: '생태연못', 
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-    },
-    {
-        title: '텃밭', 
-        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-    },
-    {
-        title: '근린공원',
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-    }
-];
 
-// 마커 이미지의 이미지 주소입니다
-var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-    
-for (var i = 0; i < positions.length; i ++) {
-    
-    // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new kakao.maps.Size(24, 35); 
-    
-    // 마커 이미지를 생성합니다    
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-    
-    // 마커를 생성합니다
-    var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: positions[i].latlng, // 마커를 표시할 위치
-        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image : markerImage // 마커 이미지 
-    });
-}
   </script>
   
 
