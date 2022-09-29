@@ -27,7 +27,7 @@
 	text-align: left;
   font-size: 16px;
   background: #fff;
-  heigth: 40px;
+  height: 40px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;

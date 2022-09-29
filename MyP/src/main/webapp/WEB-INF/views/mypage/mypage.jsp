@@ -33,8 +33,9 @@ var defalutImg = false;
 
 $(document).ready(function() {
 	imgRelod();
+
 	
-	$('.menu1').click(function(){
+	  $('.menu1').click(function(){
 	      $('.menu2').slideUp();
 	      if ($(this).children('.menu2').is(':hidden')){
 	         $(this).children('.menu2').slideDown();
@@ -42,6 +43,7 @@ $(document).ready(function() {
 	         $(this).children('.menu2').slideUp();
 	      }
 	   });
+	  
 	//사진변경 시 미리보기
 	$(":input[name='vPic']").on("change", function() {
 		if( $(":input[name='vPic']").val() == "") {
@@ -207,18 +209,20 @@ function readURL(input) {
 			<div class="side_bar">
 				<div class="title">마이페이지</div>
 				<div class="inner">
-					<div id="on">    
+				<div class="container">    
 					<ul id="ac">
          <li class="menu1">
-            <a href="#">마이페이지</a>
+         	<div class="mmenu">
+            	마이페이지 
+            </div>
             <ul class="menu2">
-               <li id="sidebar_mypage_modify">
+               <li id="sidebar_mypage_modify" class="submenu1">
                기본정보 수정하기</li>
-               <li id="sidebar_password_modify">
+               <li id="sidebar_password_modify" class="submenu1">
                비밀번호 수정하기</li>
-               <li id="parkreview2">주차장 리뷰</li>
-               <li id="post2">게시글</li>
-               <li id="withdrawal2">회원탈퇴</li>
+               <li id="parkreview2" class="submenu1">주차장 리뷰</li>
+               <li id="post2" class="submenu1">게시글</li>
+               <li id="withdrawal2" class="submenu1">회원탈퇴</li>
             </ul>
          </li>
          

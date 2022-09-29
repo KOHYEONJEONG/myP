@@ -78,15 +78,6 @@ text-align: left;
 									<li id="system"><a>시스템 좋은 주차장</a></li>
 									<li id="fee"><a>요금 합리적인 주차장</a></li>
 								</ul></li>
-							<li><a href="">마이페이지</a>
-                          	<ul class="sub_menu l160">
-                          		<li id="basicinfo"><a>기본정보 수정하기</a></li>
-                          		<li id="pwupdate"><a>비밀번호 수정하기</a></li>
-                          		<li id="parkreview"><a>주차장리뷰</a></li>
-                          		<li id="post"><a>게시글</a></li>
-                          		<li id="withdrawal"><a>회원탈퇴</a></li>
-                          	</ul>
-                          	</li>
 						</ul>
 					</nav>
 					<c:choose>

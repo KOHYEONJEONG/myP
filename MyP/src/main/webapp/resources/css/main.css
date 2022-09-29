@@ -817,8 +817,8 @@ main {
 .main_wrap .side_bar .inner div:last-child, .main_wrap1 .side_bar .inner div:last-child {
   border-bottom: 1px solid #ccc;
 }
-.main_wrap .side_bar .inner > div:active, .main_wrap .side_bar .inner > div:hover, .main_wrap1 .side_bar .inner > div:active, .main_wrap1 .side_bar .inner > div:hover {
-  background: #fff url(../icons/arrow.png) no-repeat right center;
+.main_wrap .side_bar .inner > div:active, .main_wrap .side_bar, .main_wrap1 .side_bar .inner > div:active, .main_wrap1 .side_bar .inner > div:hover {
+  /*background: #fff url(../icons/arrow.png) no-repeat right center;*/
   background-position: 95%;
   cursor: pointer;
   color: #ee8003;
