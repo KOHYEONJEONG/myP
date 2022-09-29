@@ -14,5 +14,12 @@ public class TestController {
 		mav.setViewName("home1");
 		return mav;
 	}
+	
+	@RequestMapping(value="/sidebar") 
+	public ModelAndView sidebar(ModelAndView mav) {
+		mav.setViewName("include/sidebar");
+		return mav;
+	
+}
 
 }

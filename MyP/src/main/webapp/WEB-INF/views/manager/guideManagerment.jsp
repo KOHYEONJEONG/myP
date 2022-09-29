@@ -185,6 +185,7 @@
 }
 </style>
 <script type="text/javascript">
+var vparent = "";
 $(function() {
   var menu = "";
   //ajax
@@ -247,9 +248,19 @@ function action(flag){
 	        data : params, 
 	        success : function(res) { 
 	       	 switch(res.msg){
+	       	 
+	       	   //guide_num
 	            case "success":
-	            	console.log("성공");
+	            	switch (flag) {
+	            	case "menuInsert":
+	            		break;
+					case "menuDelete":
+						console.log("삭제 성공");
+					break;
+					}
+	            	
 	            break;
+	            
 	            case "fail":
 	                makeAlert("알림", msg[flag] + "에 실패하였습니다.");
 	               break;
@@ -315,6 +326,7 @@ function reloadeGuideList() {
 			  ]
 			 }).on('changed.jstree', function (e, data) { //오ㅑ 여기서 오류가 터질까????(삭제시)
 			    var i, j, r = [];
+			 
 			    for(i = 0, j = data.selected.length; i < j; i++) {
 			    	console.log(data.instance.get_node(data.selected[i]));
 			    	$("#guide_num").val(data.instance.get_node(data.selected[i]).id);//선택한 guide_num
@@ -351,9 +363,7 @@ function node_create() {
 	}
 	
 	$("#top_num").val(ref.get_node(sel).original.parent);
-	console.log("부모 : "+ $("#top_num").val());
-	
-	//action("menuInsert");
+	action("menuInsert");
 	
 };
 function node_rename() {
@@ -380,14 +390,14 @@ function node_delete() {
 	var ref = $("#jstree").jstree(true);
 	var sel = ref.get_selected();
 	
-	console.log(ref.get_node(sel).original.cnt);
+	console.log(ref.get_node(sel).original.parent);
+	vparent =ref.get_node(sel).original.parent;
 	if(!sel.length) { return false; }
-	//ref.delete_node(sel);
 	if(ref.get_node(sel).original.cnt > 0){
 		makeAlert("알림", "하위 메뉴가"+ref.get_node(sel).original.cnt+ "개 있어 삭제 못함.");
 	}else{
-		action("menuDelete");
-		reloadeGuideList();
+		ref.delete_node(sel);//위치 중요
+		action("menuDelete");//삭제(리로드 필요없음) 
 	}
 	
 };

@@ -1,24 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>   
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- jstl의 functions : el tag 추가 옵션 -->
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>MyP</title>
-	<link rel="stylesheet" href="resources/css/main.css">
-	<link rel="stylesheet" href="resources/css/mypage.css">
-	<link rel="stylesheet" href="resources/css/font.css">
-	<!-- Popup CSS -->
-	<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
-	<!-- Popup JS --> 
-	<script type="text/javascript" src="resources/script/common/popup.js"></script>
-	<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script><!-- 이미지 보내려고(사진 올리려고) -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyP</title>
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/mypage.css">
+<link rel="stylesheet" href="resources/css/font.css">
+<!-- Popup CSS -->
+<link rel="stylesheet" type="text/css"
+	href="resources/css/common/popup.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
+<!--추가-->
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- Popup JS -->
+<script type="text/javascript" src="resources/script/common/popup.js"></script>
+<script type="text/javascript"
+	src="resources/script/jquery/jquery.form.js"></script>
+<!-- 이미지 보내려고(사진 올리려고) -->
 </head>
 
 <script type="text/javascript">
@@ -26,7 +33,17 @@ var defalutImg = false;
 
 $(document).ready(function() {
 	imgRelod();
+
 	
+	  $('.menu1').click(function(){
+	      $('.menu2').slideUp();
+	      if ($(this).children('.menu2').is(':hidden')){
+	         $(this).children('.menu2').slideDown();
+	      } else{
+	         $(this).children('.menu2').slideUp();
+	      }
+	   });
+	  
 	//사진변경 시 미리보기
 	$(":input[name='vPic']").on("change", function() {
 		if( $(":input[name='vPic']").val() == "") {
@@ -42,8 +59,20 @@ $(document).ready(function() {
         $("#sendForm").submit();   
 	});
 	
+	//사이드바 개인정보 수정하기로 이동
+	$("#sidebar_mypage_modify").click(function(){
+		$("#sendForm").attr("action", "memInfoUpdate");
+        $("#sendForm").submit();   
+	});
+	
 	//비밀번호 수정하기 버튼
 	$("#password_modify").click(function(){
+		$("#sendForm").attr("action", "memPwUpdate");
+        $("#sendForm").submit();   
+	});
+	
+	//사이드바 비밀번호 수정하기로 이동
+	$("#sidebar_password_modify").click(function(){
 		$("#sendForm").attr("action", "memPwUpdate");
         $("#sendForm").submit();   
 	});
@@ -172,87 +201,111 @@ function readURL(input) {
 }
 
 </script>
-   
+
 <body>
 	<c:import url="/header1"></c:import>
-          <main class="main1">
-            <div class="main_wrap">
-              <div class="side_bar">
-                <div class="title">마이페이지</div>
-                <div class="inner">
-                    <div class="on">마이페이지</div>
-                </div> 
-             </div>
-            <div class="right_area">
-                <div class="bg">
-                    <h2>MYPAGE</h2>
-                    	<div class="mypage_top">
-                    		<div class="my_pic">
-								<form action="fileUploadAjax" id="actionForm" method="post" enctype="multipart/form-data">
-								 <input type="hidden" id="img" name="img"/><!-- 올라갈 파일명 -->                     
-			                       <input type="hidden" name="no" id="no" value="${data.MEM_NUM}"/>
-			                        <div class="pic_top">
-			                            <div id="imgRelod"></div>			                            
-			                            <div class="filebox2">
-			                                <label for="vPic">사진선택</label> <!-- type=file에 id와 같아야함. -->
-			                                <input type="file" name="vPic" id="vPic"/>
-			                                <input type="button" id="savefile" class="savefile" value="저장"/>
-			                            </div>
-			                            
-			                        </div>  
-		                        </form><!-- fileUploadAjax -->
-                        	</div>
-	                        <form name="#" id="sendForm" method="post">
-	                       		<input type="hidden" name="no" id="no" value="${sMemNo}"/>
-	                       		<input type="hidden" name="nm" id="nm" value="${data.NM}">
-	                       	</form> 	
-                       	
-                            <div class="my_info">
-                                <div class="info_first">
-                                    <div>아이디</div>
-                                    <div>${data.ID}</div>
-                                    <div>닉네임</div>
-                                    <div>${data.NM}</div>
-                                </div>
-                                <div class="info_second">
-                                    <div>경고수</div>
-                                    <div>${data.WARNING}</div>
-                                    <div>이메일</div>
-                                    <div>${data.EMAIL}</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                              
-                    <!--하단 버튼's-->
-                    <div class="mypage_bottom">
-                        <!--bottom1-->
-                        <div class="bottom1" style="text-align: center;">
-                            <input type="button" class="my_btn info" id="mypage_modify" value="기본정보 수정하기">
-                            <input type="button" class="my_btn password" id="password_modify"  value="비밀번호 수정하기">
-                        </div>
-                        <!--bottom2-->
-                        <div class="bottom2">
-                            <div class="my_btn1 myReview" id="myReview">
-                                <img class="myReviewImg" src="resources/icons/reviewmypage.png">
-                                <div class="txt">주차장리뷰</div>
-                            </div>
-                            <div class="my_btn1 myQna" id="myQnA">
-                                    <img class="qnaImg" src="resources/icons/qna.png">
-                                <div class="txt">
-                                    게시글
-                                </div>
-                            </div>
-                            <div class="my_btn1 myResignMembership" id="memWitBtn">
-                                <img class="resignMembershipImg" src="resources/icons/logout.png">
-                                <div class="txt">회원탈퇴</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+	<main class="main1">
+		<div class="main_wrap">
+			<div class="side_bar">
+				<div class="title">마이페이지</div>
+				<div class="inner">
+				<div class="container">    
+					<ul id="ac">
+         <li class="menu1">
+         	<div class="mmenu">
+            	마이페이지 
             </div>
-        </div>
-      </main>
-<c:import url="/footer"></c:import>      
+            <ul class="menu2">
+               <li id="sidebar_mypage_modify" class="submenu1">
+               기본정보 수정하기</li>
+               <li id="sidebar_password_modify" class="submenu1">
+               비밀번호 수정하기</li>
+               <li id="parkreview2" class="submenu1">주차장 리뷰</li>
+               <li id="post2" class="submenu1">게시글</li>
+               <li id="withdrawal2" class="submenu1">회원탈퇴</li>
+            </ul>
+         </li>
+         
+      </ul>      
+					 </div>
+
+					
+				</div>
+			</div>
+			<div class="right_area">
+				<div class="bg">
+					<h2>MYPAGE</h2>
+					<div class="mypage_top">
+						<div class="my_pic">
+							<form action="fileUploadAjax" id="actionForm" method="post"
+								enctype="multipart/form-data">
+								<input type="hidden" id="img" name="img" />
+								<!-- 올라갈 파일명 -->
+								<input type="hidden" name="no" id="no" value="${data.MEM_NUM}" />
+								<div class="pic_top">
+									<div id="imgRelod"></div>
+									<div class="filebox2">
+										<label for="vPic">사진선택</label>
+										<!-- type=file에 id와 같아야함. -->
+										<input type="file" name="vPic" id="vPic" /> <input
+											type="button" id="savefile" class="savefile" value="저장" />
+									</div>
+
+								</div>
+							</form>
+							<!-- fileUploadAjax -->
+						</div>
+						<form name="#" id="sendForm" method="post">
+							<input type="hidden" name="no" id="no" value="${sMemNo}" /> <input
+								type="hidden" name="nm" id="nm" value="${data.NM}">
+						</form>
+
+						<div class="my_info">
+							<div class="info_first">
+								<div>아이디</div>
+								<div>${data.ID}</div>
+								<div>닉네임</div>
+								<div>${data.NM}</div>
+							</div>
+							<div class="info_second">
+								<div>경고수</div>
+								<div>${data.WARNING}</div>
+								<div>이메일</div>
+								<div>${data.EMAIL}</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!--하단 버튼's-->
+					<div class="mypage_bottom">
+						<!--bottom1-->
+						<div class="bottom1" style="text-align: center;">
+							<input type="button" class="my_btn info" id="mypage_modify"
+								value="기본정보 수정하기"> <input type="button"
+								class="my_btn password" id="password_modify" value="비밀번호 수정하기">
+						</div>
+						<!--bottom2-->
+						<div class="bottom2">
+							<div class="my_btn1 myReview" id="myReview">
+								<img class="myReviewImg" src="resources/icons/reviewmypage.png">
+								<div class="txt">주차장리뷰</div>
+							</div>
+							<div class="my_btn1 myQna" id="myQnA">
+								<img class="qnaImg" src="resources/icons/qna.png">
+								<div class="txt">게시글</div>
+							</div>
+							<div class="my_btn1 myResignMembership" id="memWitBtn">
+								<img class="resignMembershipImg"
+									src="resources/icons/logout.png">
+								<div class="txt">회원탈퇴</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<c:import url="/footer"></c:import>
 </body>
 </html>
