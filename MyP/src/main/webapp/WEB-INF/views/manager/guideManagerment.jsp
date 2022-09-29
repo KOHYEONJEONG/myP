@@ -333,8 +333,10 @@ function reloadeGuideList() {
 				data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU, cnt:item.CNT, type:"default"});// 현재 no, 상위 no, 명칭 , 개수
 			}
 			
-			//chaged.jstree 지우기로 함.
-			
+			//삭제와 생성할때 오류가 엄청났다... 행결방안 이렇다.
+			//reloade할때만다 chaged.jstree를 주었는데 이걸 지우고 -> documnet.ready안에 넣어주기로 했다.
+			//==> (왜? 삭제하거나, 새로 생성할때 자꾸 감지를 하여 on~~jstree 오류가 계속 생성됐다. 계속 클릭하고 있는곳을 감지했기때문이다.)
+			//그래서 따로 data를 만든 다음에 아래 두줄처럼 데이터를 별도로 준후 새로고침함수 주기.(만들어놓고 refresh()주기.)
 			$('#jstree').jstree(true).settings.core.data = data;
 			$('#jstree').jstree(true).refresh();//새로고침
 			

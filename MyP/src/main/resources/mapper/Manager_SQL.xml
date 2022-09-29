@@ -52,7 +52,7 @@
 			
 			<otherwise>
 			INSERT INTO GUIDE(GUIDE_NUM, MEM_NUM, MENU, TOP_CHATBOT_NUM, DEL, STEP)
-			VALUES(GUIDE_SEQ.NEXTVAL, #{sno}, #{menu}, #{top_num}, 1, 1 )
+			VALUES(GUIDE_SEQ.NEXTVAL, #{sno}, #{menu}, #{top_num}, 1, (SELECT STEP FROM GUIDE where GUIDE_NUM = #{top_num} )+1 )
 			</otherwise>
 		</choose>
 	</insert>
