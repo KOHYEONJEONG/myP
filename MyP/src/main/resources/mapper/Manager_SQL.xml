@@ -35,4 +35,34 @@
 	                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM 
 	WHERE DEL = 1
 	</select>
+	
+	<select id="getGuide" resultType="hashmap" parameterType="hashmap">
+	SELECT GUIDE_NUM, ANSWER_CON , TOP_CHATBOT_NUM, MENU
+	FROM GUIDE 
+	WHERE DEL = 1 AND GUIDE_NUM = #{guide_num}
+	</select>
+	
+	<insert id="insertMenu" parameterType="hashmap">
+		INSERT INTO GUIDE(GUIDE_NUM, MEM_NUM, MENU, TOP_CHATBOT_NUM, DEL, STEP)
+		VALUES(GUIDE_SEQ.NEXTVAL, #{sno},#{menu}, #{top_num}, 1, 1 )
+	</insert>
+	
+	<update id="updateCon" parameterType="hashmap">
+		UPDATE GUIDE
+		SET ANSWER_CON = #{con}
+		WHERE GUIDE_NUM = #{guide_num}
+	</update>
+	
+	<update id="updateMenu" parameterType="hashmap">
+		UPDATE GUIDE
+		SET MENU = #{menu}
+		WHERE GUIDE_NUM = #{guide_num}
+	</update>
+	
+	<update id="deleteMenu" parameterType="hashmap">
+		UPDATE GUIDE
+		SET DEL = 0
+		WHERE GUIDE_NUM = #{guide_num}
+	</update>
+	
 </mapper>
