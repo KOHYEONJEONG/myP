@@ -8,6 +8,7 @@
             text-align: center;
             font-size: 12px;
             background: #fcfcfc;
+            height: 70px;
 
             /* Center slide text vertically */
             display: -webkit-box;
@@ -24,11 +25,15 @@
             align-items: center;
         }
 
-        .swiper-slide img {
+        .mySwiper .swiper-slide img {
             display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        
+        .mySwiper .swiper-wrapper .day {
+        	margin-top: 5px;
         }
 
         /* .swiper-button-prev {
@@ -43,7 +48,7 @@
             left: 0px;
         }
 
-
+		
         .swiper-button-prev::after {
             display: none;
         }
