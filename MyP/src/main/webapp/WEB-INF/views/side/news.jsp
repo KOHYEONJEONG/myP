@@ -11,10 +11,11 @@
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
     <link rel="stylesheet" href="resources/rety/jquery.raty.css">
-    <script src="resources/jquery/jquery.xml2json.js"></script>
+    <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
     <script src="resources/jquery/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function() {
 	var area0 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	var area1 = ["전체","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
@@ -69,9 +70,8 @@ $(document).ready(function() {
 		}
 	});		
 	
-	
-
-	
+	$("#search_i").on("click", function() {
+		
 	$.ajax({
 		
 		url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/15/", 
@@ -79,9 +79,11 @@ $(document).ready(function() {
 		dataType :"xml", 
 		success : function(xml) { 
 			console.log(xml);
-
 			
+			var logx = [];
+			var logy = [];
 			var xmlData = $(xml).find("row");
+			console.log(xmlData);
 			var listLength = xmlData.length;
 			
 			console.log(listLength);
@@ -89,7 +91,10 @@ $(document).ready(function() {
 			if(listLength > 0) {
 				var html = "";
 				
-
+				for($(this).find("grs80tm_x").text() $(this).find("grs80tm_y").text()) {
+					
+				}			
+				
 				
 				html += "<div class=\"result_box\"></div>"; 
 				
@@ -120,9 +125,10 @@ $(document).ready(function() {
 		            
 				})
 				
-				   	
-				    
+				
 				$(".result_area").html(html);
+				
+				
 				
  				 $.ajax({
 		         type:"post",
@@ -136,7 +142,7 @@ $(document).ready(function() {
 		        	         $("." + res.list[i].ACC_TYPE).html(res.list[i].ACC_TYPE_NM)
 		        	 }  
 		        	   
-		        	  $(".result_box").html("검색결과:" + res.list.length + "건");
+		        	  $(".result_box").html("검색결과:" + listLength + "건");
 		         },
 		         error : function(request, status, error) {// 실패했을 때 함수 실행
 			            console.log(request.responseText);    //실패 상세 내역
@@ -149,8 +155,68 @@ $(document).ready(function() {
 		error : function(request, status, error) { // 실패했을 때 함수 실행
 			console.log(request.responseText); // 실패 상세 내역
 		}
+		
 	});
+});	
+
+	
+	
+	
+	
+	
+	
+	
+	
 });
+
+function newsList(xmlData){
+	 
+	var positions = new Array();
+	var points = new Array();
+	for(var data of list) {
+		positions.push({
+			title: $(this).find("acc_info").text(),
+			latlng:new kakao.maps.LatLng($(this).find("grs80tm_x").text(), $(this).find("grs80tm_y").text())
+		 });
+		 
+		 points.push(new kakao.maps.LatLng($(this).find("grs80tm_x").text(), $(this).find("grs80tm_y").text()));
+	 }
+
+		// 마커 이미지의 이미지 주소입니다
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		    
+		for (var i = 0; i < positions.length; i ++) {
+		    
+		    // 마커 이미지의 이미지 크기 입니다
+		    var imageSize = new kakao.maps.Size(24, 35); 
+		    
+		    // 마커 이미지를 생성합니다    
+		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		    
+		    // 마커를 생성합니다
+		    var marker = new kakao.maps.Marker({
+		        map: map, // 마커를 표시할 지도
+		        position: positions[i].latlng, // 마커를 표시할 위치
+		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+		        image : markerImage // 마커 이미지 
+		    });
+		}
+
+		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		var bounds = new kakao.maps.LatLngBounds();    
+
+		var i, marker;
+		for (i = 0; i < points.length; i++) {
+		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+		  
+		    
+		    // LatLngBounds 객체에 좌표를 추가합니다
+		    bounds.extend(points[i]);
+		}
+		
+		map.setBounds(bounds);
+
+	}
 </script>
 </head>
 <body>
@@ -180,7 +246,7 @@ $(document).ready(function() {
             </div>
             <div class="box_bottom">
               <input type="text" class="search_txt" placeholder="검색어를 입력하세요" />
-              <div class="search_i"></div>
+              <div class="search_i" id= "search_i"></div>
             </div>
           </div>
           </form>
@@ -196,5 +262,16 @@ $(document).ready(function() {
     </div>
   </main>
 <c:import url="/footer"></c:import>
+
+<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	mapOption = { 
+	 center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	    level: 3 // 지도의 확대 레벨
+	};
+	
+	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+</script>
+
 </body>
 </html>

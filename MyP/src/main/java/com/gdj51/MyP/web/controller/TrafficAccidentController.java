@@ -49,7 +49,7 @@ public class TrafficAccidentController {
 		
 		return mapper.writeValueAsString(model);
 	}
-	
+		
 	public static void main(String[] args) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); 
 		/*URL*/
