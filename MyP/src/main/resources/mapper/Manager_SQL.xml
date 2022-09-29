@@ -31,6 +31,7 @@
 	SELECT G.GUIDE_NUM, G.ANSWER_CON , G.TOP_CHATBOT_NUM, G.MENU, NVL(A.CNT,0) AS CNT
 	FROM GUIDE G LEFT OUTER JOIN(SELECT TOP_CHATBOT_NUM, COUNT(TOP_CHATBOT_NUM) AS CNT  
 	                             FROM GUIDE
+	                             WHERE DEL = 1
 	                             GROUP BY TOP_CHATBOT_NUM)A <!-- 가공한 테이블 : cnt만 가져오기 위해서 -->
 	                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM 
 	WHERE DEL = 1
@@ -43,8 +44,17 @@
 	</select>
 	
 	<insert id="insertMenu" parameterType="hashmap">
-		INSERT INTO GUIDE(GUIDE_NUM, MEM_NUM, MENU, TOP_CHATBOT_NUM, DEL, STEP)
-		VALUES(GUIDE_SEQ.NEXTVAL, #{sno},#{menu}, #{top_num}, 1, 1 )
+		<choose>
+			<when test="top_num eq '' or top_num eq null ">
+			INSERT INTO GUIDE(GUIDE_NUM, MEM_NUM, MENU, DEL, STEP)
+			VALUES(GUIDE_SEQ.NEXTVAL, #{sno},#{menu}, 1, 1 )
+			</when>
+			
+			<otherwise>
+			INSERT INTO GUIDE(GUIDE_NUM, MEM_NUM, MENU, TOP_CHATBOT_NUM, DEL, STEP)
+			VALUES(GUIDE_SEQ.NEXTVAL, #{sno}, #{menu}, #{top_num}, 1, 1 )
+			</otherwise>
+		</choose>
 	</insert>
 	
 	<update id="updateCon" parameterType="hashmap">

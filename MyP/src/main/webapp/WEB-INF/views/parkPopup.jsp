@@ -6,107 +6,107 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
   <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-        }
+     html,
+     body {
+         margin: 0;
+         padding: 0;
+     }
 
 
-        .bg {
-            margin-left: 5PX;
-            display: inline-block;
-            vertical-align: top;
-            width: 250px;
-            height: 200px;
-            background-color: #fff;
-            /*hegiht/2*/
-            /*width/2*/
-            padding: 0 20px;
-            border: 1px solid black;
-            position: relative;
-        }
+     .bg {
+         margin-left: 5PX;
+         display: inline-block;
+         vertical-align: top;
+         width: 250px;
+         height: 200px;
+         background-color: #fff;
+         /*hegiht/2*/
+         /*width/2*/
+         padding: 0 20px;
+         border: 1px solid black;
+         position: relative;
+     }
 
-        .x {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            vertical-align: top;
-            padding-right: 5px;
-            padding-top: 5px;
-        }
+     .x {
+         position: absolute;
+         top: 0px;
+         right: 0px;
+         vertical-align: top;
+         padding-right: 5px;
+         padding-top: 5px;
+     }
 
-        img {
-            width: 20px;
-            height: 20px;
-        }
+     img {
+         width: 20px;
+         height: 20px;
+     }
 
-        input {
-            border: 0;
-            background: transparent;
-            width: 100%;
-        }
+     input {
+         border: 0;
+         background: transparent;
+         width: 100%;
+     }
 
-        .parkName {
-            margin-top: 20px;
-            width: 200px;
-            height: 20px;
-            font-size: 14px;
-            font-weight: 700;
-        }
+     .parkName {
+         margin-top: 20px;
+         width: 200px;
+         height: 20px;
+         font-size: 14px;
+         font-weight: 700;
+     }
 
-        .reviewBox,.middleBox,.parkName, .buttonBox {
-            display: flex;
-            padding: 5px 5px 5px 0;
+     .reviewBox,.middleBox,.parkName, .buttonBox {
+         display: flex;
+         padding: 5px 5px 5px 0;
 
-        }
+     }
 
-        .reviewBox>div,.middleBox>div, .parkName{
-            padding: 5px;
-        }
+     .reviewBox>div,.middleBox>div, .parkName{
+         padding: 5px;
+     }
 
-        .payBox {
-            width: 70px;
-        }
+     .payBox {
+         width: 70px;
+     }
 
-        .pay {
-            font-weight: 700;
-            color: red;
-            text-align: center;
-        }
+     .pay {
+         font-weight: 700;
+         color: red;
+         text-align: center;
+     }
 
-        .viewDetail {
-            font-weight: 700;
-            color: blue;
-        }
+     .viewDetail {
+         font-weight: 700;
+         color: blue;
+     }
 
-        .boomarkBox,
-        .shareBox {
-            padding: 5px 10px;
-            border: 1px solid #595959;
-        }
+     .boomarkBox,
+     .shareBox {
+         padding: 5px 10px;
+         border: 1px solid #595959;
+     }
 
-        .compareBox {
-            /*요금비교 상자*/
-            margin-left: 10px;
-            width: 200px;
-        }
+     .compareBox {
+         /*요금비교 상자*/
+         margin-left: 10px;
+         width: 200px;
+     }
 
-        .compareBoxBtn {
-            /*요금비교*/
-            width: 100%;
-            height: 100%;
-        }
+     .compareBoxBtn {
+         /*요금비교*/
+         width: 100%;
+         height: 100%;
+     }
 
-        input:focus {
-            outline: 0;
-        }
+     input:focus {
+         outline: 0;
+     }
 
 
-        a {
-            text-decoration: none;
-        }
-    </style>
+     a {
+         text-decoration: none;
+     }
+ </style>
 </head>
 <body>
     <div class="bg">

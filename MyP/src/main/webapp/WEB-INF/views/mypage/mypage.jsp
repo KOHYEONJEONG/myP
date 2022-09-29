@@ -30,18 +30,29 @@
 
 <script type="text/javascript">
 var defalutImg = false;
+var rotate = 0;
 
 $(document).ready(function() {
 	imgRelod();
 
+	  $("#mmenu").click(function() {
+		 //$("#myArrow").css("transform","rotate(270deg)");
+		 
+		 rotate += 180;
+		 $("#myArrow").css({'transform': 'rotate('+rotate+'deg)'});
+	  });
 	
 	  $('.menu1').click(function(){
 	      $('.menu2').slideUp();
 	      if ($(this).children('.menu2').is(':hidden')){
 	         $(this).children('.menu2').slideDown();
+	         $(".menu1").show();
 	      } else{
 	         $(this).children('.menu2').slideUp();
 	      }
+	      
+	      
+	      
 	   });
 	  
 	//사진변경 시 미리보기
@@ -208,12 +219,14 @@ function readURL(input) {
 		<div class="main_wrap">
 			<div class="side_bar">
 				<div class="title">마이페이지</div>
-				<div class="inner">
+				<div class="inner" >
 				<div class="container">    
 					<ul id="ac">
          <li class="menu1">
-         	<div class="mmenu">
+         	<div class="mmenu" style="border : 0; padding:10px 5px;" id="mmenu">
             	마이페이지 
+            	 <%-- <img src="${pageContext.request.contextPath}/resources/icons/arrow.png" alt="" id="arrow"> --%>  
+            	 <img id="myArrow" src="resources/icons/wing1.png">
             </div>
             <ul class="menu2">
                <li id="sidebar_mypage_modify" class="submenu1">

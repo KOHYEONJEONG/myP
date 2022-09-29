@@ -38,6 +38,7 @@ img {
 	height: 80px;
 	margin-bottom: 20px;
 	position: relative;
+	border : 0;
 }
 
 #imgRelod {
@@ -274,12 +275,18 @@ ol,ul,li{list-style: none;}
       #ac .menu2 a:hover{
          background-color:rgba(0, 0, 0, 0.500);
       }
-
 	  .mmenu{
-	    background: #fff url(../icons/arrow.png) no-repeat right center;
 		background-position: 95%;
 		font-weight: bold;
 	  }
+	  
+	  .mmenu img{
+        width: 16px;
+	    height: 16px;
+	    margin: 3px;
+	  }
+	  
+	  
 	  .submenu1{
 		padding: 10px;
 		color: black;
