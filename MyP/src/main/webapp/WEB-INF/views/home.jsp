@@ -223,7 +223,7 @@
 	 }
 
 		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "resources/icons/park_marker.png"; 
+		var imageSrc = "resources/icons/park_marker4.png"; 
 		    
 		for (var i = 0; i < positions.length; i ++) {
 		    
@@ -910,7 +910,7 @@
 <!-- 리뷰 팝업 -->
 <div id="review_popup">
   <div class="close_i">
-      <img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
+      <img src="resources/icons/close.png" alt="">
   </div>
   <div class="popup_top">
       <div class="txt_title">제목</div>
