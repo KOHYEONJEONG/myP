@@ -21,6 +21,7 @@ $(document).ready(function() {
 		if($(this).attr("back")=='-2'){//처음으로
 			console.log("처음으로");
 			$(".contents").html('');
+			$("#oldAcon").val('');
 			$('#top_num').val('');
 			flag= false
 			reGuideList();

@@ -121,9 +121,9 @@ $(document).ready(function() {
 	    
 		for(var data of list) {
 			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
-		    html += "<th>"+data.CAR_PARK_NM+"</th>"; //주차장명
-		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>"; //노외/노상
-		    html += "<th>"+data.ADDRESS+"</th>"; //주소
+		    html += "<td>"+data.CAR_PARK_NM+"</td>"; //주차장명
+		    html += "<td>"+data.CAR_PARK_TP_NM+"</td>"; //노외/노상
+		    html += "<td>"+data.ADDRESS+"</td>"; //주소
 		    html +="<td>" + data.HIT + "</td>"; // 조회수
 		    html += "</tr>";
 		    

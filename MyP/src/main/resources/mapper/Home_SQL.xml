@@ -7,4 +7,11 @@
 	FROM CAR_PARK
 	WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
 	</select>
+	
+	
+	<select id="SearchCnt" parameterType="hashmap" resultType="Integer">
+	SELECT COUNT(*) CNT
+	FROM CAR_PARK
+	WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
+	</select>
 </mapper>

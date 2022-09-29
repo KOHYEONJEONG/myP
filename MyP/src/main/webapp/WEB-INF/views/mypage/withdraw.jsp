@@ -29,7 +29,6 @@
 	    });
     	
 	    $("#withdrawBtn").on("click", function(){
-	    	if()
 	    	var params = $("#withdrawForm").serialize();
 			
 	    	$.ajax({
@@ -84,10 +83,12 @@
 					pw_ck_status.html("비밀번호가 일치하지 않습니다. 다시 확인해주세요");
 					pw_ck_status.css("color","red");
 					pw_ck_status.css("display", "inline-block");
+					pw_ck_status.css("font-size", "14px");
 				} else {
 					pw_ck_status.html("비밀번호가 일치합니다");
 					pw_ck_status.css("color","green");
 					pw_ck_status.css("display", "inline-block");
+					pw_ck_status.css("font-size", "14px");
 				}
 			},
 			error : function(request, status, error) {// 실패했을 때 함수 실행

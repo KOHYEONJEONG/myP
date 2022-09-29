@@ -7,12 +7,14 @@
 		FROM MEMBER
 		WHERE ID = #{id}
 		AND PW = #{pw}
+		AND WIT_DT IS NULL
 	</select>
 	
 	<select id="kakaocheckMem" parameterType="hashmap" resultType="hashmap">
 		SELECT MEM_NUM, NM, AUTORITY_NUM
 		FROM MEMBER
 		WHERE EMAIL = #{email}
+		AND WIT_DT = null
 	</select>
 	
 	<select id="checkNm" parameterType="hashmap" resultType="hashmap">

@@ -27,13 +27,11 @@ public class ParkInfoController {
 	public IPagingService ips;
 
 	@RequestMapping(value = "/parkinfo")
-	public ModelAndView parkinfo(@RequestParam HashMap<String, String> params, 
-			ModelAndView mav) {
+	public ModelAndView parkinfo(@RequestParam HashMap<String, String> params, ModelAndView mav) {
 
 		int page = 1;
 
-		if(params.get("page") != null && params.get("page") != "")
-		{
+		if (params.get("page") != null && params.get("page") != "") {
 			page = Integer.parseInt(params.get("page"));
 		}
 
@@ -44,15 +42,14 @@ public class ParkInfoController {
 	}
 
 	@RequestMapping(value = "/parkinfodetail")
-	public ModelAndView parkinfodetail(@RequestParam HashMap<String, String> params,
-			ModelAndView mav) throws Throwable {
+	public ModelAndView parkinfodetail(@RequestParam HashMap<String, String> params, ModelAndView mav)
+			throws Throwable {
 
 		System.out.println("parkinfodetail ->" + params.toString());
-		if(params.get("no") != null && params.get("no") != "") {
+		if (params.get("no") != null && params.get("no") != "") {
 
 			dao.update("info.updateInfoHit", params);
-			HashMap<String, String> data
-			= dao.getMapData("info.getinfo", params);
+			HashMap<String, String> data = dao.getMapData("info.getinfo", params);
 
 			mav.addObject("data", data);
 
@@ -61,28 +58,19 @@ public class ParkInfoController {
 			mav.setViewName("redirect:parkinfo");
 		}
 
-
-
-
-
-
 		return mav;
 	}
 
-	//관리자 페이지 데이터관리 리스트화면
-	@RequestMapping(value="/parkinfoList", 
-			method = RequestMethod.POST, 
-			produces = "text/json;charset=UTF-8")
+	// 관리자 페이지 데이터관리 리스트화면
+	@RequestMapping(value = "/parkinfoList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String parkinfoAjax(
-			@RequestParam HashMap<String, String> params,
-			ModelAndView mav) throws Throwable {
+	public String parkinfoAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		System.out.println("params : "+params.toString());
+		System.out.println("params : " + params.toString());
 
-		//페이지 받아와야하는데..
+		// 페이지 받아와야하는데..
 		int cnt = dao.getIntData("info.carinfocnt", params);
 
 		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);
@@ -98,12 +86,9 @@ public class ParkInfoController {
 		return mapper.writeValueAsString(model);
 	}
 
-	@RequestMapping(value="/INFOAction/{gbn}",
-			method = RequestMethod.POST,
-			produces = "text/json;charset=UTF-8")
+	@RequestMapping(value = "/INFOAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String INFOAction(@PathVariable String gbn,
-			@RequestParam HashMap<String, String> params) throws Throwable {
+	public String INFOAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params) throws Throwable {
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -121,7 +106,7 @@ public class ParkInfoController {
 				break;
 			}
 
-			if(cnt > 0) {
+			if (cnt > 0) {
 				model.put("msg", "success");
 			} else {
 				model.put("msg", "fail");
@@ -134,12 +119,10 @@ public class ParkInfoController {
 		return mapper.writeValueAsString(model);
 	}
 
-	@RequestMapping(value="parkInfoUpdate")
-	public ModelAndView aTUpdate (@RequestParam HashMap<String, String> params,
-			ModelAndView mav) throws Throwable {
-		if(params.get("no") != null && params.get("no") != "") {
-			HashMap<String, String> data
-			= dao.getMapData("info.getinfo", params);
+	@RequestMapping(value = "parkInfoUpdate")
+	public ModelAndView aTUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		if (params.get("no") != null && params.get("no") != "") {
+			HashMap<String, String> data = dao.getMapData("info.getinfo", params);
 
 			mav.addObject("data", data);
 
@@ -149,8 +132,20 @@ public class ParkInfoController {
 			mav.setViewName("redirect:parkinfo");
 		}
 
-
 		return mav;
+	}
+
+	@RequestMapping(value = "/chartList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String chartList(@RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		List<HashMap<String, String>> list = dao.getList("info.chartList", params);
+
+		model.put("list", list);
+
+		return mapper.writeValueAsString(model);
 	}
 
 }
