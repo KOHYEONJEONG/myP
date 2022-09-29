@@ -56,19 +56,19 @@
 }
 
 .autority_popup {
-  width: 500px;
-  height: 330px;
-  position: absolute;
-  background-color: #C4E2F2;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  padding: 40px 20px 0 20px;
-  border: 1px solid #000;
-  box-sizing: border-box;
-  border-radius: 15px;
-  font-family: "TmoneyRoundWindRegular";  
+     width: 508px;
+    height: 339px;
+    position: absolute;
+    background-color: #fff5ea;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    padding: 35px 23px 0 31px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    /* border-radius: 15px; */
+    font-family: "TmoneyRoundWindRegular";
 }
 .popup{
     display: flex;
@@ -134,7 +134,7 @@
     box-sizing: border-box;
     text-align: center;
     line-height: 35px;
-    margin: 0 auto;
+    margin: 19px auto;
     cursor: pointer;
 }
 

@@ -445,16 +445,7 @@ function reloadSelect() {
 	
 	<main>
 		<div class="main_wrap">
-			<div class="side_bar">
-				<div class="title">관리자페이지</div>
-				<div class="inner">
-					<div onclick="location.href='memManagement'">회원관리</div>
-					<div class="on">가이드관리</div>
-					<div>데이터관리</div>
-					<div>신고리뷰관리</div>
-					<div>카테고리관리</div>
-				</div>
-			</div>
+			<c:import url="/sidebar"></c:import>
 			<div class="right_area">
 				<div class="table_wrap first">
 					<div id="event_result"></div>
