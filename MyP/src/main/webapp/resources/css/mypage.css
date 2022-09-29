@@ -11,7 +11,7 @@ table {
 }
 
 td, th {
-	border: 1px solid #000;
+	/*border: 1px solid #000;*/
 	height: 30px;
 	text-align: center;
 }
@@ -258,7 +258,7 @@ ol,ul,li{list-style: none;}
       }
 
       #ac .menu1 a{
-      
+      	
          background-color: #000;
          color:#fff;
       }
@@ -276,6 +276,7 @@ ol,ul,li{list-style: none;}
          background-color:rgba(0, 0, 0, 0.500);
       }
 	  .mmenu{
+	  	margin-left: 20px;
 		background-position: 95%;
 		font-weight: bold;
 	  }

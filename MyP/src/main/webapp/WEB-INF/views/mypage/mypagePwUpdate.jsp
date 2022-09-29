@@ -46,10 +46,7 @@
       <main class="main1">
         <div class="main_wrap">
             <div class="side_bar">
-                <div class="title">마이페이지</div>
-                <div class="inner">
-                    <div class="on">마이페이지</div>
-                </div> 
+                <c:import url="/mypagesidebar"></c:import> 
              </div>
              <form action="#" id="pwChangeform" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>

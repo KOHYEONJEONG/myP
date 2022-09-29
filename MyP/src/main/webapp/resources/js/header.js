@@ -132,6 +132,18 @@ $(document).ready(function () {
 	$("#parkreview2").click(function() {
 		location.href = "mypageReviewBoard";
 	})
+	$("#infoupdate").click(function() {
+		location.href = "memInfoUpdate";
+	})
+	$("#infoupdate2").click(function() {
+		location.href = "memInfoUpdate";
+	})
+	$("#pwupdate").click(function() {
+		location.href = "memPwUpdate";
+	})
+	$("#pwupdate2").click(function() {
+		location.href = "memPwUpdate";
+	})
 	$("#post").click(function() {
 		location.href = "myQnA";
 	})
