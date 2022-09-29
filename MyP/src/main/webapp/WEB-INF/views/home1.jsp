@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"> <!-- 여기 있어야함 -->
   <link rel="stylesheet" href="resources/css/swiper.css"> <!--추가-->
   <link rel="stylesheet" href="resources/css/weather.css"> <!--추가--> 
+  <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
@@ -25,6 +26,8 @@
    <script src="resources/js/header.js"></script>
   <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="resources/rety/jquery.raty.css">
+   <script type="text/javascript" 
+		src="resources/script/common/popup.js"></script>
 <style>
   .result_area2 {
   width: 100%;
@@ -45,6 +48,7 @@
     position: relative;
     cursor: pointer;
     overflow: hidden;
+    font-size: 17px;
 }
 	.left_section .result_area2 .box .pay {
   color: #e06666;
@@ -73,14 +77,110 @@
 
 
 
+
+
 .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap {position:relative;width:100%;height:350px;}
 #category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
-#category li {float:left;list-style: none;width:100px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
-#category li.on {background: #eee;}
+#category li {font-size: 16px;float:left;list-style: none;width:100px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+#category li.on {background: #ffe6e6;}
 #category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
 #category li:last-child{margin-right:0;border-right:0;}
 #category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+
+		
+        .bg {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            position: relative;
+        }
+
+        .bg img {
+            width: 20px;
+            height: 20px;
+        }
+
+      /*   input {
+            border: 0;
+            background: transparent;
+            width: 100%;
+        }
+ */
+        .bg .title {
+            width: 200px;
+            height: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .reviewBox,.middleBox,.parkName, .buttonBox {
+            display: flex;
+            padding: 5px 0px 0px 0;
+            font-size: 14px;
+
+        }
+
+        .reviewBox>div,.middleBox>div, .parkName{
+            padding: 5px;
+        }
+        
+        .phone, .address {
+         	font-size: 12px;
+         	margin-bottom: 3px;
+        }
+        .phone{
+        	color: #028f69;
+        }
+
+        .payBox {
+            width: 70px;
+        }
+
+        .pay {
+            font-weight: 700;
+            color: red;
+            text-align: center;
+        }
+
+        .viewDetail {
+            font-weight: 700;
+            color: blue;
+        }
+
+        .bookmarkBox,
+        .shareBox {
+            padding: 5px 10px;
+            border: 1px solid #595959;
+        }
+        
+        .bookmarkBox {
+         border-right: 0px;
+         }
+
+        .compareBox {
+            /*요금비교 상자*/
+            margin-left: 10px;
+            width: 200px;
+            font-size: 12px;
+        }
+
+        .compareBoxBtn {
+            /*요금비교*/
+            width: 100%;
+            height: 100%;
+            line-height: 12px;
+        }
+
+        input:focus {
+            outline: 0;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
 
 
 </style>
@@ -146,6 +246,7 @@
 		   }
 		  });
 
+		  
 		$("#search_i").on("click", function(){
 			var params = $("#actionForm").serialize();
 			$.ajax({
@@ -154,11 +255,8 @@
 				dataType: "json",
 				data: params,
 				success : function(res){
-					console.log(res);
-					console.log(res.cnt);
 					searchList(res.list);
 					mapList(res.list);
-					console.log(res.list.length);
 					
 				},
 				error : function(request, status, error) { 
@@ -169,8 +267,11 @@
 			
 		});
 		
-		// 카테고리별 지도에 마커
+		// 문화생활 카테고리 지도에 마커
 		$("#culture").on("click", function(){
+			$(this).addClass('on');
+			$(this).siblings().removeClass('on');
+			
 			var params = $("#actionForm").serialize();
 			$.ajax({
 				url : "cultureAjax",
@@ -178,24 +279,26 @@
 				dataType: "json",
 				data: params,
 				success : function(res){
-					console.log(res);
-					console.log("문화생활");
-					console.log(res.list);
-					mapList1(res.list);
-					
-					
-
-					
+					// 구, 동 선택 안될시 팝업
+					if($("#sido1").val() == "전체" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
+						makePopup({
+					         title : "알림",
+					         contents : "구 또는 동을 선택해주세요",
+					         buttons : [{
+					            name : "확인",
+					         }]
+						});
+					} else {
+						cultureList(res.list);
+					}
+						
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
 				}
 			})
-			
-			
+	
 		});
-		
-
  });
   
 
@@ -240,7 +343,7 @@
 	 }
 
 		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		var imageSrc = "re"; 
 		    
 		for (var i = 0; i < positions.length; i ++) {
 		    
@@ -275,13 +378,19 @@
 
  	}
  
-function mapList1(list){
-	 
+ 
+// 문화생활 카테고리 지도에 마커 function
+function cultureList(list){
+	
 	 var positions = new Array();
 	 var points = new Array();
+	 
 	 for(var data of list) {
 		 positions.push({
 			title: data.CUL_LIFE,
+			phone: data.PHONE,
+			address: data.ADDRESS,
+			homepage: data.HOMEPAGE,
 			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
 		 });
 		 
@@ -289,10 +398,11 @@ function mapList1(list){
 	 }
 
 		// 마커 이미지의 이미지 주소입니다
-		//var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-		    
+		// 없으면 기본 마커, 파란색
+		// var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+			    
 		for (var i = 0; i < positions.length; i ++) {
-		    
+	      	    
 		    // 마커 이미지의 이미지 크기 입니다
 		    //var imageSize = new kakao.maps.Size(24, 35); 
 		    
@@ -307,23 +417,46 @@ function mapList1(list){
 		       // image : markerImage // 마커 이미지 
 		        clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다, 마커 클릭시 팝업창 뜨게 추가
 		    });
+			    
+		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
+		    	iwContent += "<div class=\"phone\">" + positions[i].phone +"</div>";
+		    	iwContent += "<div class=\"address\">" + positions[i].address +"</div>";
+		    	iwContent += "<div class=\"buttonBox\">";
+		    	iwContent += "<div class=\"bookmarkBox\">";
+		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"compareBox\">";
+		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "</div>"
+		    	iwContent += "</div>"
+		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    	iwRemoveable = true; 
+		    
+		    
+		 // 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				content : iwContent,
+			    removable : iwRemoveable
+			
+			});  
+		 
+		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+	     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+	     (function(marker, infowindow) {
+	    	 // 마커에 클릭이벤트를 등록합니다
+			 kakao.maps.event.addListener(marker, 'click', function() {
+				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+				  $("img[alt='close']").click();
+			       // 마커 위에 인포윈도우를 표시합니다
+			       infowindow.open(map, marker);  
+			 });
+
+	     })(marker, infowindow);		 
+	
 		}
-		
-		// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-		var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-		    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-		// 인포윈도우를 생성합니다
-		var infowindow = new kakao.maps.InfoWindow({
-		    content : iwContent,
-		    removable : iwRemoveable
-		});
-
-		// 마커에 클릭이벤트를 등록합니다
-		kakao.maps.event.addListener(marker, 'click', function() {
-		      // 마커 위에 인포윈도우를 표시합니다
-		      infowindow.open(map, marker);  
-		});
 
 		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 		var bounds = new kakao.maps.LatLngBounds();    
