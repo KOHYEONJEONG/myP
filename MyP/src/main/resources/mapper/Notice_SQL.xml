@@ -33,31 +33,34 @@
 	<select id="getNoticeList" parameterType="hashmap" resultType="hashmap">        
     	SELECT S.NOTICE_NUM, S.MEM_NUM, S.TITLE, S.HIT, S.REG_DT, S.NORNK
 		FROM( SELECT NOTICE_NUM, MEM_NUM, TITLE, HIT, TO_CHAR(REG_DT, 'YYYY-MM-DD') AS REG_DT, ROW_NUMBER() OVER(ORDER BY NOTICE_NUM DESC) AS RNK, ROW_NUMBER() OVER(ORDER BY NOTICE_NUM ASC) AS NORNK
-		FROM NOTICE
-		WHERE DEL = 1
-	     <if test="searchText != null and searchText != ''"> <!-- 검색어가 있다면 -->
-			<choose>
-				<when test="searchGbn == 0"> <!-- 제목 -->
-					AND TITLE LIKE '%' || #{searchText} || '%'
-				</when>
-			</choose>
-		</if>
-	      ) S 
+			  FROM NOTICE
+			  WHERE DEL = 1
+		     <if test="searchText != null and searchText != ''"> <!-- 검색어가 있다면 -->
+				<choose>
+					<when test="searchGbn == 0"> <!-- 제목 -->
+						AND TITLE LIKE '%' || #{searchText} || '%'
+					</when>
+				</choose>
+			</if>
+		) S 
 		WHERE S.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<!-- 헤더 공지사항 슬라이드  -->
 	<select id="hgetNoticeList" parameterType="hashmap" resultType="hashmap">        
     	SELECT S.NOTICE_NUM, S.MEM_NUM, S.TITLE, S.HIT, S.REG_DT, S.NORNK
-		FROM( SELECT NOTICE_NUM, MEM_NUM, TITLE, HIT, TO_CHAR(REG_DT, 'YYYY-MM-DD') AS REG_DT, ROW_NUMBER() OVER(ORDER BY NOTICE_NUM DESC) AS RNK, ROW_NUMBER() OVER(ORDER BY NOTICE_NUM ASC) AS NORNK
-		FROM NOTICE
-		WHERE DEL = 1
-	      ) S
+		FROM( SELECT NOTICE_NUM, MEM_NUM, TITLE, HIT, TO_CHAR(REG_DT, 'YYYY-MM-DD') AS REG_DT,
+					 ROW_NUMBER() OVER(ORDER BY NOTICE_NUM DESC) AS RNK,
+					 ROW_NUMBER() OVER(ORDER BY NOTICE_NUM ASC) AS NORNK
+				FROM NOTICE
+				WHERE DEL = 1
+	     ) S
 	     WHERE S.RNK BETWEEN 1 AND 3
 	</select>
 	
 	<update id="updateNoticeHit" parameterType="hashmap">
-		UPDATE  NOTICE SET HIT = HIT + 1
+		UPDATE  NOTICE
+		SET HIT = HIT + 1
 		WHERE NOTICE_NUM = #{notiNo}
 	</update>
 	

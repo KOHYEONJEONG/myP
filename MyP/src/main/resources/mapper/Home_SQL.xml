@@ -2,21 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="home">
 	<select id="List" resultType="hashmap" parameterType="hashmap">
-		SELECT TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME 
-,  TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME, CAR_PARK_NM,PAYORFREE_DIV,LOCX,LOCY
-	FROM CAR_PARK
-	WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
+		SELECT TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME,
+               TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,
+               CAR_PARK_NM,PAYORFREE_DIV, LOCX, LOCY
+		FROM CAR_PARK
+		WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	
 	<select id="SearchCnt" parameterType="hashmap" resultType="Integer">
-	SELECT COUNT(*) CNT
-	FROM CAR_PARK
-	WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
+		SELECT COUNT(*) CNT
+		FROM CAR_PARK
+		WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	<select id="CultureList" resultType="hashmap" parameterType="hashmap">
 		SELECT CUL_LIFE, ADDRESS, PHONE, HOMEPAGE, LOCX, LOCY FROM CULTURAL_LIFE
-    	WHERE ADDRESS LIKE '%' || #{sido1} || '%' AND ADDRESS LIKE'%'|| #{gugun1} || '%' AND CUL_LIFE LIKE '%' || #{search_txt} || '%'
+    	WHERE ADDRESS LIKE '%' || #{sido1} || '%' 
+    	AND ADDRESS LIKE'%'|| #{gugun1} || '%' 
+    	AND CUL_LIFE LIKE '%' || #{search_txt} || '%'
 	</select>
 </mapper>

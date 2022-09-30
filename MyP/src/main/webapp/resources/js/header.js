@@ -42,7 +42,10 @@ $(document).ready(function () {
 		location.href = "myPage";
 	});
 		
-		
+	//관리자 페이지
+	$("#managerPage").click(function(){
+		location.href = "memManagement"; //수정해야함.
+	});	
     // header
     //서브메뉴 다운
     $('.main_menu > li').hover(function () {
@@ -94,11 +97,23 @@ $(document).ready(function () {
 		location.href = "notice";
 	})
 	
+	$("#notice2").click(function() {
+		location.href = "notice";
+	})
+	
 	$("#faq").click(function() {
 		location.href = "faq";
 	})
 	
+	$("#faq2").click(function() {
+		location.href = "faq";
+	})
+	
 	$("#qna").click(function() {
+		location.href = "qna";
+	})
+	
+	$("#qna2").click(function() {
 		location.href = "qna";
 	})
 	
@@ -157,11 +172,28 @@ $(document).ready(function () {
 		location.href = "withdraw";
 	})	
 	//관리자 페이지
-	$("#managerPage").click(function(){
+	/*$("#managerPage").click(function(){
 		location.href = "memManagement"; //수정해야함.
-	});
-	
-	
+	});*/
+/*	$("#managerPage").click(function() {
+		location.href = "memManagement";
+	})	
+	$("#managerPage2").click(function() {
+		location.href = "memManagement";
+	})
+	$("#report").click(function() {
+		location.href = "reportReviewManagement";
+	})	
+	$("#report2").click(function() {
+		location.href = "reportReviewManagement";
+	})	
+	$("#data").click(function() {
+		location.href = "dataManagement";
+	})	
+	$("#data2").click(function() {
+		location.href = "dataManagement";
+	})		
+	*/
 	
 });
 

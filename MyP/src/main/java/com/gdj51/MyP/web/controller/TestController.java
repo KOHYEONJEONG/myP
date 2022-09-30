@@ -15,11 +15,21 @@ public class TestController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/mypagesidebar") 
-	public ModelAndView mypagesidebar(ModelAndView mav) {
+	@RequestMapping(value="/sidebar") 
+	public ModelAndView sidebar(ModelAndView mav) {
+		mav.setViewName("include/sidebar");
+		return mav;
+  }
+	
+	@RequestMapping(value="/mypageSidebar") 
+	public ModelAndView mypageSidebar(ModelAndView mav) {
 		mav.setViewName("include/mypage_sidebar");
 		return mav;
-	
   }
 
+	@RequestMapping(value="/partiNoticeSidebar") 
+	public ModelAndView partiNoticeSidebar(ModelAndView mav) {
+		mav.setViewName("include/partiNotice_sidebar");
+		return mav;
+  }	
 }

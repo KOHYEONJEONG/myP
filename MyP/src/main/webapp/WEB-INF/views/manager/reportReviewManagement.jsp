@@ -152,7 +152,11 @@ $(document).ready(function() {
  <c:import url="/header1"></c:import> 
       <main>
         <div class="main_wrap">
-         <c:import url="/sidebar"></c:import>
+        
+         <c:import url="/sidebar">
+         	<c:param name="link" value="reportReviewManagement"></c:param>
+         </c:import>
+         
         <div class="right_area">
             <div class="table_wrap">
             <input type="hidden" id="oldGbn" value="${param.select_b}" />
