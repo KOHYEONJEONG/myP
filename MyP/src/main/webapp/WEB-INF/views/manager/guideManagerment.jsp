@@ -445,7 +445,9 @@ function reloadSelect() {
 	
 	<main>
 		<div class="main_wrap">
-			<c:import url="/sidebar"></c:import>
+			<c:import url="/sidebar">
+				<c:param name="link" value="guideManagement"></c:param>
+			</c:import>
 			<div class="right_area">
 				<div class="table_wrap first">
 					<div id="event_result"></div>

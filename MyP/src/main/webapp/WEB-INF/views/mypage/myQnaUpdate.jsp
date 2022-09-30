@@ -206,9 +206,7 @@ function check(box){//비공개 여부
 	<c:import url="/header1"></c:import>
 	<main>
           <div class="main_wrap">
-	         <div class="side_bar">
-	           <c:import url="/mypagesidebar"></c:import>  
-	        </div>
+	           <c:import url="/mypageSidebar"></c:import>  
        		<form action="#" id="actionForm" method="post">
 				<input type="hidden" name="qna_num" id="qna_num" value="${param.qna_num}" /> 
 				<input type="hidden" name="no" id="no" value="${sMemNo}" />

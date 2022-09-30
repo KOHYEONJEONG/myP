@@ -723,7 +723,9 @@ function reloadList() {
   
       <main>
         <div class="main_wrap">
-          <c:import url="/sidebar"></c:import>
+          <c:import url="/sidebar">
+          	 <c:param name="link" value="categoryManagement"></c:param>
+          </c:import>
         <div class="right_area">
             <div class="table_wrap first">
        		<!-- 페이징 때 기존 검색 내용 유지용 -->

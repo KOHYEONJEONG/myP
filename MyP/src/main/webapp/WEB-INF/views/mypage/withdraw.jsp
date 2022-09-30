@@ -118,9 +118,7 @@
 <c:import url="/header1"></c:import>
     <main class="main1">
         <div class="main_wrap">
-            <div class="side_bar">
-                <c:import url="/mypagesidebar"></c:import> 
-             </div>
+                <c:import url="/mypageSidebar"></c:import> 
              <form action="#" id="withdrawForm" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
              <div class="right_area">
