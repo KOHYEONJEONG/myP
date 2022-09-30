@@ -29,7 +29,7 @@ var rotate = 0;
 });
 </script> 
 <body>
-
+	<div class="side_bar">
 	<div class="title">마이페이지</div>
 	<div class="inner">
 		<div class="container">
@@ -43,7 +43,7 @@ var rotate = 0;
 					</div>
 					<ul class="menu2">
 						<li id="infoupdate2" class="submenu1">기본정보 수정하기</li>
-						<li id="memPwUpdate2" class="submenu1">비밀번호 수정하기</li>
+						<li id="pwupdate2" class="submenu1">비밀번호 수정하기</li>
 						<li id="parkreview2" class="submenu1">주차장 리뷰</li>
 						<li id="post2" class="submenu1">게시글</li>
 						<li id="withdrawal2" class="submenu1">회원탈퇴</li>
@@ -53,7 +53,7 @@ var rotate = 0;
 			</ul>
 			     
 		</div>
-
+</div>
 
 	</div>
 

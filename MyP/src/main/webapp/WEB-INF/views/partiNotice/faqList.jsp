@@ -240,14 +240,7 @@ function drawPaging(pd) {
 <!-- 페이징 때 기존 검색 내용 유지용 --> 
       <main>
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">참여/알림</div>
-                <div class="inner">
-                    <div>공지사항</div>
-                    <div class="on">FAQ</div>
-                    <div>QnA</div>
-                </div> 
-            </div>
+            <c:import url="partiNoticeSidebar"></c:import>
             <div class="right_area">            
                 <div class="table_wrap">
                 

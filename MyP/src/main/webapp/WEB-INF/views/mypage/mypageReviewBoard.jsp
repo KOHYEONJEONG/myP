@@ -145,9 +145,7 @@
 	
    <main>
        <div class="main_wrap">
-         <div class="side_bar">
-           <c:import url="/mypagesidebar"></c:import> 
-        </div>
+           <c:import url="/mypageSidebar"></c:import> 
         
         <form name="#" id="actionForm" method="post">
 	        <input type="hidden" id="oldGbn" value="0" />

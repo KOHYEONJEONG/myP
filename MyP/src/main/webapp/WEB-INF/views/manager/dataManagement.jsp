@@ -348,17 +348,9 @@ function drawPaging(pd) {
  
      <main>
         <div class="main_wrap">
-          <%--  <c:import url="/managersidebar"></c:import>--%>
-          <div class="side_bar">
-            <div class="title">관리자페이지</div>
-            <div class="inner">
-              <div>회원관리</div>
-              <div>가이드관리</div>
-              <div class="on">데이터관리</div>
-              <div>신고리뷰관리</div>
-              <div>카테고리관리</div>
-          </div> 
-        </div>
+			<c:import url="/sidebar">
+				<c:param name="link" value="dataManagement"></c:param>
+			</c:import>          
         <div class="right_area">     
             <div class="table_wrap">
               <div class="search_box1">
