@@ -11,20 +11,32 @@
     
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
     <script src="resources/jquery/jquery-1.12.4.js"></script>
      <script src="resources/js/main.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <!-- <link rel="stylesheet" href="resources/demos/style.css"> -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="resources/script/common/popup.js"></script>
 <style type="text/css">
 .update {
+    margin: 0px 75px 0px 0px;
+    background: #FD9A29;
+    border: solid 1px #FD9A29;
+}   
+
+.finish {
     margin: 0px 8px 0px 0px;
     background: #FD9A29;
     border: solid 1px #FD9A29;
-}    
+} 
 
 .delete {
+    background: #00af80;
+    border: solid 1px #00af80;
+}
+
+.cancel {
     background: #00af80;
     border: solid 1px #00af80;
 }
@@ -38,6 +50,9 @@
     box-sizing: border-box;
     line-height: 35px;
     text-align: center;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }
 
 .btn_wrap1{
@@ -45,6 +60,10 @@
 }
 </style>
 <script type="text/javascript">
+
+	var oldQue; // 기존 제목 담는 변수
+	var oldCon; // 기존 내용 담는 변수
+
   $(document).ready(function () {
 	//검색 구분 설정
 	if("${param.searchGbn}" != "") {
@@ -53,9 +72,6 @@
 		$("#oldGbn").val("0");
 	}
 	
-	// 목록 조회
-	reloadList();
-
 	// 카테고리 설정
 	if("${param.no}" != "") {
 		$("#no").val("${param.no}");
@@ -110,10 +126,18 @@
 		$("#oldTxt").val("");
 		// 목록 재조회
 		reloadList();
-    });
+    });	
 	
-	
-	
+  	/// 테이블 검색버튼 부분, 엔터키 이벤트 막기
+	$("#actionForm").on("keypress", "input", function(event){
+		if(event.keyCode == 13){ //이벤트 코드가 엔터가들어오면
+		
+		//버튼 이벤트 발생
+		$("#searchBtn").click();
+			return false;
+		}
+	});	 
+  	
 	// 검색 버튼
 	$("#searchBtn").on("click", function() {
 		$("#page").val("1");
@@ -145,14 +169,88 @@
       $("#actionForm").attr("action", "FaqInsert");
       $("#actionForm").submit();      
    });
-   
-	// 업데이트 버튼
-    $("#updateBtn").on("click", function () {
-		$("#backForm").attr("action","faqUpdate");
-		$("#backForm").submit();
+	
+	// 수정버튼 클릭
+	$(".accordion_wrap").on("click", "#updateBtn", function () {
+		$("#no1").val($(this).attr("no1"));
+		
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTet").val($("#oldTet").val());
+		
+	 	$("#actionForm").attr("action", "faqUpdate");
+		$("#actionForm").submit(); 
 	});
+	
+	// 목록의 삭제버튼 클릭시
+	$(".accordion_wrap").on("click", "#deleteBtn", function() {
+		$("#no1").val($(this).attr("no1"));
+		
+		 makePopup({
+	    	  title : "알림",
+	    	  contents : "삭제 하시겠습니까?",
+	    	  buttons : [{
+	    		  name : "삭제",
+	    		  func : function() {	    			  	
+	    				action("delete"); 
+	    				closePopup(); // 제일 위에 팝업 닫기
+	    		  }
+	    	  }, {
+	    		  name : "취소"
+			}]		  	
+		});
+	});		 
+	
 });
+  
+var msg ={
+	"insert" : "등록",
+	"update" : "수정",
+	"delete" : "삭제",
+}  
 
+function action(flag) {
+	
+	// Javascript Object에서의 [] : 해당 키값으로 내용을 불러오거나 넣을 수 있다.
+	//							  Java의 Map에서 get, put역할
+	var params = $("#actionForm").serialize();
+	$.ajax({
+		url : "faqAction/" + flag,
+		type : "POST",
+		dataType : "json", 
+		data : params, 
+		success : function(res) { 
+			switch(res.msg) {
+			case "success" :
+				// 내용 초기화
+				$("#con").val("");
+				$("#no1").val("");
+								
+				// 목록 재조회
+				switch(flag) {
+				case "delete" :
+					// 조회 데이터 초기화
+					$("#page").val("1");
+					$("#searchGbn").val("0");
+					$("#searchTet").val("");
+					$("#oldGbn").val("0");
+					$("#oldTet").val("");
+					break;
+				}				
+				reloadList();
+				break;
+			case "fail" :
+				makeAlert("알림", msg[flag] + "에 실패하였습니다.");
+				break;
+			case "error" :
+				makeAlert("알림", msg[flag] + " 중 문제가 발생하였습니다.");
+				break;	
+			}
+		},
+		error : function(request, status, error) {
+			console.log(request.responseText); 
+		}
+	});  // Ajax End
+} // action Function End
 
 function reloadList() {
 	var params = $("#actionForm").serialize();
@@ -172,24 +270,26 @@ function reloadList() {
 }
 
 function drawList(list) {
-	
 	var html = "";
-
+	var cate_num = "";
     html +="<div class=\"accordion_con on\">";                               
     html +="  <div id=\"accordion_con\"> ";                               
-	for(var data of list){				                                                         
-    html +="    <h3>" + data.QUE + "</h3>     ";
-	html +="    <div class=\"btn_wrap1\">                         ";                               
-	html +="      <p>" + data.ANSWER_CON + "</p>     "; 
-    if("${sMemAuto}" == 1){
-	    html +="<div class=\"btn update\" id=\"updateBtn\">수정</div>";
-	    html +="<div class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
-    }
-    html +="    </div>    ";       	   
+	for(var data of list){
+		cate_num = data.CATE_NUM;
+		
+		html +="<h3 no1=\"" + data.FAQ_NUM + "\">" + data.QUE + "</h3>";	
+		html +="    <div class=\"btn_wrap1\">                         ";                               
+		html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+	    if("${sMemAuto}" == 1){
+		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn update\" id=\"updateBtn\">수정</div>";
+		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
+	    }
+	    html +="    </div>    ";       	   
 	}                                                                          
     html +="  </div>";                               
     html +="</div>";                               
 	
+	$("#cate_num").val(cate_num);
 	$(".accordion_wrap").html(html);
 	
 	 // 아코디언
@@ -240,7 +340,7 @@ function drawPaging(pd) {
 <!-- 페이징 때 기존 검색 내용 유지용 --> 
       <main>
         <div class="main_wrap">
-            <c:import url="partiNoticeSidebar"></c:import>
+            <c:import url="/partiNoticeSidebar"></c:import>
             <div class="right_area">            
                 <div class="table_wrap">
                 
@@ -250,8 +350,10 @@ function drawPaging(pd) {
                   <div class="search_box">
                   <input type="hidden" id="oldGbn" value="0" />
 				  <input type="hidden" id="oldTxt" />
-                  <input type="hidden" name="no" id="no" />   
+                  <input type="hidden" name="no" id="no" /> 
+                  <input type="hidden" name="no1" id="no1" />  
                   <input type="hidden" name="page" id="page" value="${page}" />
+                  <input type="hidden" name="cate_num" id="cate_num"/>
                     <div class="select">
                         <select name="searchGbn" id="searchGbn" >
                           <option value="0">제목</option>

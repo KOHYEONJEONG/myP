@@ -239,14 +239,14 @@ public class PartiNoticeController {
 	@RequestMapping(value = "/faqUpdate")
 	public ModelAndView faqUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		// 글번호 안 넘어왔을때 처리
-		if (params.get("no") != null && params.get("no") != "") {
-			HashMap<String, String> data = dao.getMapData("faq.updateFaq", params);
+		if (params.get("no1") != null && params.get("no1") != "") {
+			HashMap<String, String> data = dao.getMapData("faq.getFaq", params);
 
 			mav.addObject("data", data);
 
 			mav.setViewName("partiNotice/faqUpdate");
 		} else {
-			mav.setViewName("redirect:faqList");
+			mav.setViewName("redirect:faq");
 		}
 
 		return mav;
