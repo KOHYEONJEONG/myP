@@ -58,19 +58,26 @@ public class MyPageController { // no
 	}
 
 	@RequestMapping(value = "/memInfoUpdate")
-	public ModelAndView memModify(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+	public ModelAndView memModify(HttpSession session,@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		// 개인정보 수정 페이지(no넘어옴)
-		HashMap<String, String> data = dao.getMapData("member.getMember", params);
-		mav.addObject("data", data);
+		/*
+		 * String no = String.valueOf(session.getAttribute("sMemNo"));// toString() x
+		 * params.put("no", no); 
+		 * HashMap<String, String> data = dao.getMapData("member.getMember", params);
+		 * mav.addObject("data", data);
+		 */
 		mav.setViewName("mypage/mypageInfoUpdate");
 		return mav;
 	}
 
 	@RequestMapping(value = "/memPwUpdate")
-	public ModelAndView memPwUpdate(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+	public ModelAndView memPwUpdate(HttpSession session,@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		// 비밀번호 수정 페이지(no넘어옴)
-		HashMap<String, String> data = dao.getMapData("member.getMember", params);
-		mav.addObject("data", data);
+		//String no = String.valueOf(session.getAttribute("sMemNo"));// toString() x
+		//params.put("no", no);
+		
+		//HashMap<String, String> data = dao.getMapData("member.getMember", params);
+		//mav.addObject("data", data);
 		mav.setViewName("mypage/mypagePwUpdate");// no만 받으면 됌.
 		return mav;
 	}

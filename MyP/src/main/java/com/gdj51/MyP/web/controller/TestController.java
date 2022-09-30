@@ -15,9 +15,9 @@ public class TestController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/sidebar") 
-	public ModelAndView sidebar(ModelAndView mav) {
-		mav.setViewName("include/sidebar");
+	@RequestMapping(value="/mypagesidebar") 
+	public ModelAndView mypagesidebar(ModelAndView mav) {
+		mav.setViewName("include/mypage_sidebar");
 		return mav;
 	
   }

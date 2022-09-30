@@ -222,10 +222,7 @@ function action(flag) {
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
-				<div class="title">주차장 안내</div>
-				<div class="inner">
-					<div class="on">공영 주차장 조회</div>
-				</div>
+				<c:import url="/mypagesidebar"></c:import> 
 			</div>
 
 			<div class="right_area">
