@@ -4,11 +4,10 @@
 
 	<!-- 주차장 데이터 리스트 -->
 	<select id="carinfoList" resultType="hashmap" parameterType="hashmap">
-		SELECT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM, C.CAR_PARK_TP_NM, C.ADDRESS,
-		C.HIT
+		SELECT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM, C.CAR_PARK_TP_NM, C.ADDRESS, C.HIT
 		FROM(SELECT CAR_PARK_MAG_NUM,CAR_PARK_NM,ADDRESS, HIT,
-		ROW_NUMBER() OVER(ORDER BY CAR_PARK_MAG_NUM DESC) AS RNK,
-		CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
+						ROW_NUMBER() OVER(ORDER BY CAR_PARK_MAG_NUM DESC) AS RNK,
+						CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
 		FROM CAR_PARK
 		WHERE 1 = 1
 		<if test="searchTxt != null and searchTxt != ''">
@@ -55,52 +54,56 @@
 
 	<select id="getinfo" parameterType="hashmap" resultType="hashmap">
 		SELECT CAR_PARK_MAG_NUM,CAR_PARK_NM, PHONE, ADDRESS, HIT,
-		TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI:SS') AS WEEKDAY_START_TIME,
-		TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI:SS') AS WEEKDAY_END_TIME,
-		TO_CHAR(WEEKEND_START_TIME, 'HH24:MI:SS') AS WEEKEND_START_TIME,
-		TO_CHAR(WEEKEND_END_TIME, 'HH24:MI:SS') AS WEEKEND_END_TIME,FEE_RATE,
-		TIME_RATE,ADD_FEE, ADD_TIME_RATE,
-		CASE PAYORFREE_DIV WHEN '1' THEN '유료' ELSE '무료' END AS PAYORFREE_DIV,
-		CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
+				TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI:SS') AS WEEKDAY_START_TIME,
+				TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI:SS') AS WEEKDAY_END_TIME,
+				TO_CHAR(WEEKEND_START_TIME, 'HH24:MI:SS') AS WEEKEND_START_TIME,
+				TO_CHAR(WEEKEND_END_TIME, 'HH24:MI:SS') AS WEEKEND_END_TIME,FEE_RATE,
+				TIME_RATE,ADD_FEE, ADD_TIME_RATE,
+				CASE PAYORFREE_DIV WHEN '1' THEN '유료' ELSE '무료' END AS PAYORFREE_DIV,
+				CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
 		FROM CAR_PARK
 		WHERE CAR_PARK_MAG_NUM = #{no}
 	</select>
 
 	<update id="updateInfo" parameterType="hashmap">
-		UPDATE CAR_PARK SET
-		CAR_PARK_NM = #{parknm},
-		PHONE = #{phone},
-		ADDRESS = #{add},
-		PAYORFREE_DIV = #{div},
-		CAR_PARK_TP_NM = #{tpnm},
-		WEEKDAY_START_TIME = TO_DATE(#{wkdaystart}, 'HH24:MI:SS'), <!-- 오라클 12시간 기준이라서 HH말고 HH24 써야된다. -->
-		WEEKDAY_END_TIME = TO_DATE(#{wkdayend}, 'HH24:MI:SS'),
-		WEEKEND_START_TIME = TO_DATE(#{wkendstart}, 'HH24:MI:SS'),
-		WEEKEND_END_TIME = TO_DATE(#{wkendend}, 'HH24:MI:SS'),
-		FEE_RATE = #{fee},
-		TIME_RATE = #{time},
-		ADD_TIME_RATE = #{addtime},
-		ADD_FEE = #{addfee}
+		UPDATE CAR_PARK 
+			SET CAR_PARK_NM = #{parknm},
+				PHONE = #{phone},
+				ADDRESS = #{add},
+				PAYORFREE_DIV = #{div},
+				CAR_PARK_TP_NM = #{tpnm},
+				WEEKDAY_START_TIME = TO_DATE(#{wkdaystart}, 'HH24:MI:SS'), <!-- 오라클 12시간 기준이라서 HH말고 HH24 써야된다. -->
+				WEEKDAY_END_TIME = TO_DATE(#{wkdayend}, 'HH24:MI:SS'),
+				WEEKEND_START_TIME = TO_DATE(#{wkendstart}, 'HH24:MI:SS'),
+				WEEKEND_END_TIME = TO_DATE(#{wkendend}, 'HH24:MI:SS'),
+				FEE_RATE = #{fee},
+				TIME_RATE = #{time},
+				ADD_TIME_RATE = #{addtime},
+				ADD_FEE = #{addfee}
 		WHERE CAR_PARK_MAG_NUM = #{no}
 	</update>
 
 	<delete id="deleteInfo" parameterType="hashmap">
-		DELETE FROM CAR_PARK
+		DELETE 
+		FROM CAR_PARK
 		WHERE CAR_PARK_MAG_NUM = #{no}
 	</delete>
 
 	<update id="updateInfoHit" parameterType="hashmap">
-		UPDATE CAR_PARK SET HIT
-		= HIT + 1
+		UPDATE CAR_PARK 
+		SET HIT = HIT + 1
 		WHERE CAR_PARK_MAG_NUM = #{no}
 	</update>
 	
 	
 	<select id="chartList" resultType="hashmap" parameterType="hashmap">
-		SELECT TO_CHAR(TIME, 'HH24:MI:SS') AS TIMES, TO_CHAR(TIME, 'DAY') AS DAY, ROUND(AVG(ENTRANCE), 1) AS ENTRANCE, 
-		ROUND(AVG(EXIT), 1) AS EXIT FROM CAR_USE 
+		SELECT TO_CHAR(TIME, 'HH24:MI:SS') AS TIMES, TO_CHAR(TIME, 'DAY') AS DAY,
+				ROUND(AVG(ENTRANCE), 1) AS ENTRANCE, 
+				ROUND(AVG(EXIT), 1) AS EXIT 
+		FROM CAR_USE 
 		WHERE CAR_PARK_MAG_NUM = #{no} AND TO_CHAR(TIME, 'YYYY-MM-DD') 
-		BETWEEN '2021-07-01' AND '2021-09-28' GROUP BY TO_CHAR(TIME, 'HH24:MI:SS'), TO_CHAR(TIME, 'DAY') HAVING  TO_CHAR(TIME, 'DAY') = #{week}
+				BETWEEN '2021-07-01' AND '2021-09-28' GROUP BY TO_CHAR(TIME, 'HH24:MI:SS'), TO_CHAR(TIME, 'DAY') 
+		HAVING  TO_CHAR(TIME, 'DAY') = #{week}
 		ORDER BY TO_CHAR(TIME, 'DAY') ASC
 	</select>
 </mapper>

@@ -2,100 +2,97 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reportreview">
 
-<select id="reportreviewCnt" parameterType="hashmap" resultType="Integer"><!-- 숫자만 돌려주니깐 -->
-		  
-        SELECT COUNT(DISTINCT A.REVIEW_NUM) AS CNT
-        FROM
-        (SELECT  R.REVIEW_NUM
-		FROM REVIEW R INNER JOIN MEMBER M
-    	ON R.MEM_NUM = M.MEM_NUM
-    	WHERE R.DEL = 1
+	<select id="reportreviewCnt" parameterType="hashmap" resultType="Integer"><!-- 숫자만 돌려주니깐 -->
+	    SELECT COUNT(DISTINCT A.REVIEW_NUM) AS CNT
+	    FROM(SELECT  R.REVIEW_NUM
+	 		 FROM REVIEW R INNER JOIN MEMBER M
+		                           ON R.MEM_NUM = M.MEM_NUM
+		     WHERE R.DEL = 1
 		<if test="searchTxt != null and searchTxt != ''">
-    <choose>
-    	<when test = "select_b eq 1">
-    		AND R.TITLE LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    	<when test = "select_b eq 2">
-    		AND M.NM LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    </choose>
-    
-    </if>
-    )A INNER JOIN REPORT P
-        ON A.REVIEW_NUM = P.REVIEW_NUM
-</select>   
+		    <choose>
+		    	<when test = "select_b eq 1">
+		    		AND R.TITLE LIKE '%' || #{searchTxt} || '%'
+		    	</when>
+		    	
+		    	<when test = "select_b eq 2">
+		    		AND M.NM LIKE '%' || #{searchTxt} || '%'
+		    	</when>
+		    	
+		    </choose>
+		</if>
+		)A INNER JOIN REPORT P
+		           ON A.REVIEW_NUM = P.REVIEW_NUM
+	</select>   
 
-<select id="List" resultType="hashmap">
-	 SELECT S.REVIEW_NUM, S.TITLE,S.NM,S.DT,S.HIT,S.STS_NUM,S.RFC,S.CNT,S.NORNK from
-(SELECT A.REVIEW_NUM, A.TITLE, A.NM, A.DT,A.RFC,
-   A.HIT, A.STS_NUM, M.CNT, ROW_NUMBER() OVER(ORDER BY A.REVIEW_NUM DESC) AS RUNM ,ROW_NUMBER() OVER(ORDER BY A.REVIEW_NUM DESC) AS NORNK
-   FROM(
-   SELECT R.REVIEW_NUM,R.TITLE,M.NM,R.RFC,
-   R.HIT,R.STS_NUM, CASE WHEN TO_CHAR(R.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
-   THEN TO_CHAR(R.REG_DT, 'HH24:MI')
-   ELSE TO_CHAR(R.REG_DT, 'YY.MM.DD')
-   END AS DT
-   FROM REVIEW R INNER JOIN MEMBER M
-   ON R.MEM_NUM = M.MEM_NUM
-   WHERE R.DEL =1
-	<if test="searchTxt != null and searchTxt != ''">
-    <choose>
-    	<when test = "select_b eq 1">
-    		AND R.TITLE LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    	<when test = "select_b eq 2">
-    		AND M.NM LIKE '%' || #{searchTxt} || '%'
-    	</when>
-    	
-    </choose>
-    
-    </if>
-    )A INNER JOIN (SELECT REVIEW_NUM, COUNT(*) AS CNT 
-   	FROM REPORT  GROUP BY REVIEW_NUM) 
-	M ON A.REVIEW_NUM = M.REVIEW_NUM)S
-	WHERE S.RUNM BETWEEN #{start} AND #{end}
-</select>
-
-<select id="getreportReview" resultType="hashmap" parameterType="hashmap">
+	<select id="List" resultType="hashmap">
+		 SELECT S.REVIEW_NUM, S.TITLE,S.NM,S.DT,S.HIT,S.STS_NUM,S.RFC,S.CNT,S.NORNK
+		  FROM(SELECT A.REVIEW_NUM, A.TITLE, A.NM, A.DT,A.RFC,
+		  			  A.HIT, A.STS_NUM, M.CNT,
+		  			  ROW_NUMBER() OVER(ORDER BY A.REVIEW_NUM DESC) AS RUNM ,ROW_NUMBER() OVER(ORDER BY A.REVIEW_NUM DESC) AS NORNK
+		  		FROM(SELECT R.REVIEW_NUM,R.TITLE,M.NM,R.RFC,R.HIT,R.STS_NUM, 
+		  					CASE WHEN TO_CHAR(R.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
+						    THEN TO_CHAR(R.REG_DT, 'HH24:MI')
+						    ELSE TO_CHAR(R.REG_DT, 'YY.MM.DD')
+						    END AS DT
+		  			 FROM REVIEW R INNER JOIN MEMBER M
+		  								   ON R.MEM_NUM = M.MEM_NUM
+		  			 WHERE R.DEL =1
+					<if test="searchTxt != null and searchTxt != ''">
+					    <choose>
+					    	<when test = "select_b eq 1">
+					    		AND R.TITLE LIKE '%' || #{searchTxt} || '%'
+					    	</when>
+					    	
+					    	<when test = "select_b eq 2">
+					    		AND M.NM LIKE '%' || #{searchTxt} || '%'
+					    	</when>
+					    </choose>
+				     </if>
+	    )A INNER JOIN(SELECT REVIEW_NUM, COUNT(*) AS CNT 
+	   				   FROM REPORT
+	   				   GROUP BY REVIEW_NUM)M 
+	   			   ON A.REVIEW_NUM = M.REVIEW_NUM)S
+		WHERE S.RUNM BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="getreportReview" resultType="hashmap" parameterType="hashmap">
 		SELECT A.REVIEW_NUM,A.MEM_NUM, A.TITLE, A.NM, A.DT,A.CON,A.SYSTEM,A.SYSTEM2,A.RFC,
-	A.HIT, A.STS_NUM,A.REPORT_MEM, M.CNT
-	FROM(
-	SELECT R.REVIEW_NUM,R.MEM_NUM,R.TITLE,M.NM,R.CON,(R.CCTV_STAR_SCORE + R.ENV_STAR_SCORE) / 2 AS SYSTEM,
-	(R.FEE_STAR_SCORE + R.DIS_STAR_SCORE) / 2 AS SYSTEM2,R.STS_NUM,R.RFC,R.REPORT_MEM,
-	R.HIT, CASE WHEN TO_CHAR(R.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
-	    	THEN TO_CHAR(R.REG_DT, 'HH24:MI')
-	    	ELSE TO_CHAR(R.REG_DT, 'YY.MM.DD')
-	END AS DT,
-	ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNUM
-		FROM REVIEW R INNER JOIN MEMBER M
-	ON R.MEM_NUM = M.MEM_NUM
-	WHERE R.DEL =1)A INNER JOIN (SELECT REVIEW_NUM, COUNT(*) AS CNT 
-	FROM REPORT  GROUP BY REVIEW_NUM) 
-	M ON A.REVIEW_NUM = M.REVIEW_NUM
-	WHERE A.REVIEW_NUM = #{review_num}
-</select>
-
+				   A.HIT, A.STS_NUM,A.REPORT_MEM, M.CNT
+		FROM(SELECT R.REVIEW_NUM,R.MEM_NUM,R.TITLE,M.NM,R.CON,(R.CCTV_STAR_SCORE + R.ENV_STAR_SCORE) / 2 AS SYSTEM,
+					(R.FEE_STAR_SCORE + R.DIS_STAR_SCORE) / 2 AS SYSTEM2,R.STS_NUM,R.RFC,R.REPORT_MEM,
+					R.HIT, CASE WHEN TO_CHAR(R.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
+		    			   THEN TO_CHAR(R.REG_DT, 'HH24:MI')
+		    			   ELSE TO_CHAR(R.REG_DT, 'YY.MM.DD')
+						   END AS DT,
+					ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNUM
+			FROM REVIEW R INNER JOIN MEMBER M
+								  ON R.MEM_NUM = M.MEM_NUM
+			WHERE R.DEL =1)A INNER JOIN(SELECT REVIEW_NUM, COUNT(*) AS CNT 
+									 	FROM REPORT
+									 	GROUP BY REVIEW_NUM
+									 	)M
+							         ON A.REVIEW_NUM = M.REVIEW_NUM
+	   WHERE A.REVIEW_NUM = #{review_num}
+	</select>
+	
 	<update id="update" parameterType="hashmap">
 		UPDATE REVIEW SET 
 		STS_NUM=1, RFC=#{feed}
 		WHERE REVIEW_NUM = #{review_num}
 	</update>
-
-
-<update id="updatereport" parameterType="hashmap">
+	
+	
+	<update id="updatereport" parameterType="hashmap">
 		UPDATE REVIEW SET 
 		REPORT_MEM=#{memno},STS_NUM=1
 		WHERE REVIEW_NUM = #{review_num}
 	</update>
-	
-	
-<update id="givereport" parameterType="hashmap">
+		
+		
+	<update id="givereport" parameterType="hashmap">
 		UPDATE MEMBER SET 
 		WARNING = WARNING + 1
 		WHERE MEM_NUM = #{memnum}
 	</update>	
-
+	
 </mapper>

@@ -3,30 +3,32 @@
 <mapper namespace="rank">
 	<select id="getSysRankList" parameterType="hashmap" resultType="hashmap">
 		SELECT B.CAR_PARK_NM, B.ADDRESS, B.SYSTEM, B.RNK 
-			   FROM (SELECT A.CAR_PARK_NM, A.ADDRESS, A.SYSTEM,
-       		   ROW_NUMBER() OVER(ORDER BY A.SYSTEM DESC) AS RNK 
-		FROM (SELECT C.CAR_PARK_NM, C.ADDRESS, (R.CCTV_STAR_SCORE + R.ENV_STAR_SCORE) / 2 AS SYSTEM
+			   FROM(SELECT A.CAR_PARK_NM, A.ADDRESS, A.SYSTEM,
+       		   				ROW_NUMBER() OVER(ORDER BY A.SYSTEM DESC) AS RNK 
+		FROM(SELECT C.CAR_PARK_NM, C.ADDRESS, (R.CCTV_STAR_SCORE + R.ENV_STAR_SCORE) / 2 AS SYSTEM
       		  FROM CAR_PARK C INNER JOIN REVIEW R 
-      	 	  ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM
-      	 	  AND DEL = 1) A) B   
+      	 	                          ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM
+      	 	                          AND DEL = 1) A
+      	) B   
 		WHERE B.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="getFeeRankList" parameterType="hashmap" resultType="hashmap">
 		SELECT B.CAR_PARK_NM, B.ADDRESS, B.SYSTEM, B.RNK 
 			   FROM (SELECT A.CAR_PARK_NM, A.ADDRESS, A.SYSTEM,
-       		   ROW_NUMBER() OVER(ORDER BY A.SYSTEM DESC) AS RNK 
+       		   				ROW_NUMBER() OVER(ORDER BY A.SYSTEM DESC) AS RNK 
 		FROM (SELECT C.CAR_PARK_NM, C.ADDRESS, (R.FEE_STAR_SCORE + R.DIS_STAR_SCORE) / 2 AS SYSTEM
       		  FROM CAR_PARK C INNER JOIN REVIEW R 
-      		  ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM
-      		  AND DEL = 1) A) B   
+      		  						  ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM
+      		 						  AND DEL = 1)A
+      	) B   
 		WHERE B.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="getRankCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM CAR_PARK C INNER JOIN REVIEW R
-		ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM
+		                        ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM
 		WHERE DEL = 1
 	</select>
 

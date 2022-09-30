@@ -1,102 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="datamanager">
-
 	
 	<!-- 주차장 데이터 리스트 -->
 	<select id="cardataList" resultType="hashmap" parameterType="hashmap">
-	SELECT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM, C.CAR_PARK_TP_NM, C.ADDRESS
-	FROM(SELECT CAR_PARK_MAG_NUM,CAR_PARK_NM,ADDRESS,
-	ROW_NUMBER() OVER(ORDER BY CAR_PARK_MAG_NUM DESC) AS RNK,
-	CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
-	FROM CAR_PARK
-	WHERE 1 = 1
-	<if test="searchTxt != null and searchTxt != ''">
-            <choose>
-               <when test="searchGbn == 1">
-                  and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
-               </when>
-               
-               <when test="searchGbn == 2">
-                  and CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END LIKE '%' || #{searchTxt} || '%'
-               </when>
-               
-               <when test="searchGbn == 3">
-                  and ADDRESS LIKE '%' || #{searchTxt} || '%'
-               </when>
-            </choose>
-         </if>
-	) C
-	WHERE C.RNK BETWEEN #{start} AND #{end}
+		SELECT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM, C.CAR_PARK_TP_NM, C.ADDRESS
+		FROM(SELECT CAR_PARK_MAG_NUM,CAR_PARK_NM,ADDRESS,
+			 		ROW_NUMBER() OVER(ORDER BY CAR_PARK_MAG_NUM DESC) AS RNK,
+					CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END AS CAR_PARK_TP_NM
+			 FROM CAR_PARK
+			 WHERE 1 = 1
+			<if test="searchTxt != null and searchTxt != ''">
+		            <choose>
+		               <when test="searchGbn == 1">
+		                  and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
+		               </when>
+		               
+		               <when test="searchGbn == 2">
+		                  and CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END LIKE '%' || #{searchTxt} || '%'
+		               </when>
+		               
+		               <when test="searchGbn == 3">
+		                  and ADDRESS LIKE '%' || #{searchTxt} || '%'
+		               </when>
+		            </choose>
+		         </if>
+			) C
+		WHERE C.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="cardatacnt" parameterType="hashmap" resultType="Integer">
-	SELECT COUNT(*) AS CNT
-	FROM CAR_PARK
-	WHERE 1=1
-	<if test="searchTxt != null and searchTxt != ''">
-            <choose>
-               <when test="searchGbn == 1">
-                  and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
-               </when>
-               
-               <when test="searchGbn == 2">
-                  and CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END LIKE '%' || #{searchTxt} || '%'
-               </when>
-               
-               <when test="searchGbn == 3">
-                  and ADDRESS LIKE '%' || #{searchTxt} || '%'
-               </when>
-            </choose>
+		SELECT COUNT(*) AS CNT
+		FROM CAR_PARK
+		WHERE 1=1
+		<if test="searchTxt != null and searchTxt != ''">
+	            <choose>
+	               <when test="searchGbn == 1">
+	                  and CAR_PARK_NM LIKE '%' || #{searchTxt} || '%'
+	               </when>
+	               
+	               <when test="searchGbn == 2">
+	                  and CASE CAR_PARK_TP_NM WHEN 1 THEN '노상' ELSE '노외' END LIKE '%' || #{searchTxt} || '%'
+	               </when>
+	               
+	               <when test="searchGbn == 3">
+	                  and ADDRESS LIKE '%' || #{searchTxt} || '%'
+	               </when>
+	            </choose>
          </if>
 	</select>
 	
 	<select id="gasdatacnt" parameterType="hashmap" resultType="Integer">
-	SELECT COUNT(*) AS CNT
-	FROM GAS_STATION
-	WHERE 1=1
+		SELECT COUNT(*) AS CNT
+		FROM GAS_STATION
+		WHERE 1=1
 	</select>
 
 <!-- 주유소 데이터 리스트  -->
 	<select id="gasdataList" resultType="hashmap" parameterType="hashmap">
-	SELECT G.GAS_STATION_NUM, G.GAS_NM, G.ROAD_NM_ADDRESS, G.PHONE
-	FROM(SELECT GAS_STATION_NUM, GAS_NM, ROAD_NM_ADDRESS, PHONE,
-	ROW_NUMBER() OVER (ORDER BY GAS_STATION_NUM DESC) AS RNK
-	FROM GAS_STATION
-	WHERE 1 = 1
-	)G
-	WHERE G.RNK BETWEEN #{start} AND #{end}
+		SELECT G.GAS_STATION_NUM, G.GAS_NM, G.ROAD_NM_ADDRESS, G.PHONE
+		FROM(SELECT GAS_STATION_NUM, GAS_NM, ROAD_NM_ADDRESS, PHONE,
+					ROW_NUMBER() OVER (ORDER BY GAS_STATION_NUM DESC) AS RNK
+			 FROM GAS_STATION
+			 WHERE 1 = 1
+		)G
+		WHERE G.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="fooddataList" resultType="hashmap" parameterType="hashmap">
-	SELECT F.RESTAURANT_NO, F.ENT_NM, F.PHONE, F.ROAD_NM_ADDRESS
-	FROM(SELECT RESTAURANT_NO, ENT_NM, PHONE, ROAD_NM_ADDRESS,
-	ROW_NUMBER() OVER (ORDER BY RESTAURANT_NO DESC) AS RNK
-	FROM RESTAURANT
-	WHERE 1 = 1
-	) F
-	WHERE F.RNK BETWEEN #{start} AND #{end}
+		SELECT F.RESTAURANT_NO, F.ENT_NM, F.PHONE, F.ROAD_NM_ADDRESS
+		FROM(SELECT RESTAURANT_NO, ENT_NM, PHONE, ROAD_NM_ADDRESS,
+					ROW_NUMBER() OVER (ORDER BY RESTAURANT_NO DESC) AS RNK
+			FROM RESTAURANT
+			WHERE 1 = 1
+		) F
+		WHERE F.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="fooddatacnt" parameterType="hashmap" resultType="Integer">
-	SELECT COUNT(*) AS CNT
-	FROM RESTAURANT
-	WHERE 1=1
+		SELECT COUNT(*) AS CNT
+		FROM RESTAURANT
+		WHERE 1=1
 	</select>
 	
 	<select id="culturedataList" parameterType="hashmap" resultType="hashmap">
-	SELECT C.CINEMA_MAG_NUM, C.ENT_NM, C.ROAD_NM, C.PHONE
-	FROM(SELECT CINEMA_MAG_NUM, ENT_NM, ROAD_NM, PHONE,
-	ROW_NUMBER() OVER (ORDER BY CINEMA_MAG_NUM DESC) AS RNK
-	FROM CINEMA
-	WHERE 1 = 1
-	) C
-	WHERE C.RNK BETWEEN #{start} AND #{end}
+		SELECT C.CINEMA_MAG_NUM, C.ENT_NM, C.ROAD_NM, C.PHONE
+		FROM(SELECT CINEMA_MAG_NUM, ENT_NM, ROAD_NM, PHONE,
+					ROW_NUMBER() OVER (ORDER BY CINEMA_MAG_NUM DESC) AS RNK
+			 FROM CINEMA
+			 WHERE 1 = 1
+		) C
+		WHERE C.RNK BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="culturedatacnt" parameterType="hashmap" resultType="Integer">
-	SELECT COUNT(*) AS CNT
-	FROM CINEMA
-	WHERE 1=1
+		SELECT COUNT(*) AS CNT
+		FROM CINEMA
+		WHERE 1=1
 	</select>
 </mapper>
