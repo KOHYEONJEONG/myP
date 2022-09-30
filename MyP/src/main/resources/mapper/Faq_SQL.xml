@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="faq">
-	<select id="getFaqList" parameterType="hashmap"
-		resultType="hashmap">
+	<select id="getFaqList" parameterType="hashmap" resultType="hashmap">
 		SELECT A.FAQ_NUM, A.CATE_NUM, A.MEM_NUM, A.QUE, A.ANSWER_CON, A.RNK
 		FROM (SELECT F.FAQ_NUM, F.CATE_NUM, F.MEM_NUM, F.QUE, F.ANSWER_CON,
-		ROW_NUMBER() OVER(ORDER BY F.FAQ_NUM) AS RNK
-		FROM FAQ F INNER JOIN CATEGORY C
-		ON F.CATE_NUM = C.CATE_NUM
-		WHERE F.DEL = 1 AND C.DEL = 1
-		AND F.CATE_NUM = #{no}
-		<if test="faq_num == 1">
+             ROW_NUMBER() OVER(ORDER BY F.FAQ_NUM) AS RNK 
+             FROM FAQ F INNER JOIN CATEGORY C
+             ON F.CATE_NUM = C.CATE_NUM
+             WHERE F.DEL = 1 AND C.DEL = 1
+             AND F.CATE_NUM = #{no}
 			<if test="searchTxt != null and searchTxt != ''">
 				<choose>
 					<when test="searchGbn eq 0">
@@ -19,79 +17,27 @@
 					<when test="searchGbn eq 1">
 						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
 					</when>
-				</choose>
+				</choose>		
 			</if>
-		</if>
-		<if test="faq_num == 2">
-			<if test="searchTxt != null and searchTxt != ''">
-				<choose>
-					<when test="searchGbn eq 0">
-						AND QUE LIKE '%' || #{searchTxt} || '%'
-					</when>
-					<when test="searchGbn eq 1">
-						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
-					</when>
-				</choose>
-			</if>
-		</if>
-		<if test="faq_num == 3">
-			<if test="searchTxt != null and searchTxt != ''">
-				<choose>
-					<when test="searchGbn eq 0">
-						AND QUE LIKE '%' || #{searchTxt} || '%'
-					</when>
-					<when test="searchGbn eq 1">
-						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
-					</when>
-				</choose>
-			</if>
-		</if>
-		) A
-		WHERE A.RNK BETWEEN #{start} AND #{end}
+			) A
+			WHERE A.RNK BETWEEN #{start} AND #{end} 
 	</select>
-
-	<select id="getFaqCnt" parameterType="hashmap"
-		resultType="Integer">
+	
+	<select id="getFaqCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM FAQ F INNER JOIN CATEGORY C
-		                   ON F.CATE_NUM = C.CATE_NUM
+						   ON F.CATE_NUM = C.CATE_NUM
 		WHERE F.DEL = 1 AND C.DEL = 1
 		AND F.CATE_NUM = #{no}
-		<if test="faq_num == 1">
-			<if test="searchTxt != null and searchTxt != ''">
-				<choose>
-					<when test="searchGbn eq 0">
-						AND QUE LIKE '%' || #{searchTxt} || '%'
-					</when>
-					<when test="searchGbn eq 1">
-						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
-					</when>
-				</choose>
-			</if>
-		</if>
-		<if test="faq_num == 2">
-			<if test="searchTxt != null and searchTxt != ''">
-				<choose>
-					<when test="searchGbn eq 0">
-						AND QUE LIKE '%' || #{searchTxt} || '%'
-					</when>
-					<when test="searchGbn eq 1">
-						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
-					</when>
-				</choose>
-			</if>
-		</if>
-		<if test="faq_num == 3">
-			<if test="searchTxt != null and searchTxt != ''">
-				<choose>
-					<when test="searchGbn eq 0">
-						AND QUE LIKE '%' || #{searchTxt} || '%'
-					</when>
-					<when test="searchGbn eq 1">
-						AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
-					</when>
-				</choose>
-			</if>
+		<if test="searchTxt != null and searchTxt != ''">
+			<choose>
+				<when test="searchGbn eq 0">
+					AND QUE LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 1">
+					AND ANSWER_CON LIKE '%' || #{searchTxt} || '%'
+				</when>
+			</choose>		
 		</if>
 	</select>
 
@@ -101,16 +47,22 @@
 	</insert>
 
 	<update id="deleteFaq" parameterType="hashmap">
-		UPDATE FAQ 
-		SET DEL = 0
-		WHERE FAQ_NUM = #{no}
-	</update>
-
+		UPDATE FAQ SET DEL = 0
+		WHERE FAQ_NUM = #{no1}
+	</update> 
+	
 	<update id="updateFaq" parameterType="hashmap">
-		UPDATE FAQ 
-		SET CATE_NUM = #{cate_num},
-			QUE = #{que},
-			ANSWER_CON = #{con}
-		WHERE FAQ_NUM = 7
+		UPDATE FAQ SET CATE_NUM = #{cate_num},
+		               QUE = #{que},
+		               ANSWER_CON = #{con}
+		               WHERE FAQ_NUM = #{no1}
 	</update>
+	
+	<select id="getFaq" parameterType="hashmap"  resultType="hashmap">
+		SELECT FAQ_NUM, CATE_NUM, MEM_NUM, QUE, ANSWER_CON,
+       			TO_CHAR(REG_DT, 'YYYY-MM-DD') AS REG_DT
+       			FROM FAQ 
+       			WHERE DEL = 1
+       			AND FAQ_NUM = #{no1}
+	</select>
 </mapper>
