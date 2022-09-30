@@ -197,9 +197,22 @@ function readURL(input) {
 			<div class="side_bar">
 				<c:import url="/mypagesidebar"></c:import>
 			</div>
-			<div class="right_area">
+			<div class="right_area" >
 				<div class="bg">
-					<h2>MYPAGE</h2>
+					
+					<c:choose>
+						<c:when test="${sMemAuto eq 1}">
+							<%-- 관리자 권한 --%>
+							<div>
+								<img src="resources/icons/crown.png">
+							</div>
+							<span style="font-size: 18px; font-weight: 700;">관리자님의 MYPAGE</span>
+						</c:when>
+						<c:otherwise>
+							<h2 style="font-size: 18px">MYPAGE</h2>
+						</c:otherwise>
+					</c:choose>
+					
 					<div class="mypage_top">
 						<div class="my_pic">
 							<form action="fileUploadAjax" id="actionForm" method="post"

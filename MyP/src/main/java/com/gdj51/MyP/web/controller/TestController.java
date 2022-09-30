@@ -20,6 +20,6 @@ public class TestController {
 		mav.setViewName("include/mypage_sidebar");
 		return mav;
 	
-}
+  }
 
 }

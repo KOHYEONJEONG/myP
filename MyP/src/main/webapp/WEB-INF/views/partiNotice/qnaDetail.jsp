@@ -72,13 +72,16 @@
         .answer_txt{
             width: 700px;
             background-color: #ffffff;
-            border: solid 1px #595959;
-            border-radius: 10px;
+            /* border: solid 1px #595959;
+            border-radius: 10px; */
             margin-right: 20px;
             outline-color: #000;
             padding: 10px;
             box-sizing: border-box;
             font-size:14px;
+            border: 0px;
+    		outline: solid 1px;
+    		resize: none;
         }
         .btn_wrap{
             display: flex;
