@@ -50,7 +50,7 @@
     overflow: hidden;
     font-size: 17px;
 }
-	.left_section .result_area2 .box .pay {
+.left_section .result_area2 .box .pay {
   color: #e06666;
   font-weight: bold;
   font-size: 12px;
@@ -75,18 +75,56 @@
 	filter: invert(1);
 }
 
-
-
-
-
-.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap {position:relative;width:100%;height:350px;}
-#category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
-#category li {font-size: 16px;float:left;list-style: none;width:100px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
-#category li.on {background: #ffe6e6;}
-#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
-#category li:last-child{margin-right:0;border-right:0;}
-#category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.map_wrap, .map_wrap * {
+	margin:0; 
+	padding:0;
+	font-family:'Malgun Gothic',dotum,'돋움',sans-serif;
+	font-size:12px;
+}
+.map_wrap {
+	position:relative;
+	width:100%;
+	height:350px;
+}
+#category {
+	position:absolute;
+	top:10px;
+	left:10px;
+	border-radius: 5px;
+	border:1px solid #909090;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+	background: #fff;
+	overflow: hidden;
+	z-index: 2;
+}
+#category li {
+	font-size: 16px;
+	float:left;
+	list-style: none;
+	width:100px;
+	border-right:1px solid #acacac;
+	padding:6px 0;
+	text-align: center;
+	cursor: pointer;
+}
+#category li.on {
+	background: #ffe6e6;
+}
+#category li:hover {
+	background: #ffe6e6;
+	border-left:1px solid #acacac;
+	margin-left: -1px;
+}
+#category li:last-child{
+	margin-right:0;
+	border-right:0;
+}
+#category li span {
+	display: block;
+	margin:0 auto 3px;
+	width:27px;
+	height: 28px;
+}
 
 		
         .bg {
@@ -107,80 +145,81 @@
             width: 100%;
         }
  */
-        .bg .title {
-            width: 200px;
-            height: 20px;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
+ 
+ /* 팝업CSS */
+  .bg .title {
+      width: 200px;
+      height: 20px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 3px;
+  }
 
-        .reviewBox,.middleBox,.parkName, .buttonBox {
-            display: flex;
-            padding: 5px 0px 0px 0;
-            font-size: 14px;
+  .reviewBox,.middleBox,.parkName, .buttonBox {
+      display: flex;
+      padding: 5px 0px 0px 0;
+      font-size: 14px;
+  }
 
-        }
+  .reviewBox>div,.middleBox>div, .parkName{
+      padding: 5px;
+  }
+  
+  .phone, .address {
+   	font-size: 12px;
+   	margin-bottom: 3px;
+  }
+  .phone{
+  	color: #028f69;
+  }
 
-        .reviewBox>div,.middleBox>div, .parkName{
-            padding: 5px;
-        }
-        
-        .phone, .address {
-         	font-size: 12px;
-         	margin-bottom: 3px;
-        }
-        .phone{
-        	color: #028f69;
-        }
+  .payBox {
+      width: 70px;
+  }
 
-        .payBox {
-            width: 70px;
-        }
+  .pay {
+      font-weight: 700;
+      color: red;
+      text-align: center;
+  }
 
-        .pay {
-            font-weight: 700;
-            color: red;
-            text-align: center;
-        }
+  .viewDetail {
+      font-weight: 700;
+      color: blue;
+  }
 
-        .viewDetail {
-            font-weight: 700;
-            color: blue;
-        }
+  .bookmarkBox,
+  .shareBox {
+      padding: 5px 10px;
+      border: 1px solid #595959;
+  }
+  
+  .bookmarkBox {
+   border-right: 0px;
+   }
 
-        .bookmarkBox,
-        .shareBox {
-            padding: 5px 10px;
-            border: 1px solid #595959;
-        }
-        
-        .bookmarkBox {
-         border-right: 0px;
-         }
+  .compareBox {
+      /*요금비교 상자*/
+      margin-left: 10px;
+      width: 200px;
+      font-size: 12px;
+  }
 
-        .compareBox {
-            /*요금비교 상자*/
-            margin-left: 10px;
-            width: 200px;
-            font-size: 12px;
-        }
+  .compareBoxBtn {
+      /*요금비교*/
+      width: 100%;
+      height: 100%;
+      line-height: 12px;
+  }
 
-        .compareBoxBtn {
-            /*요금비교*/
-            width: 100%;
-            height: 100%;
-            line-height: 12px;
-        }
-
-        input:focus {
-            outline: 0;
-        }
+  input:focus {
+      outline: 0;
+  }
 
 
-        a {
-            text-decoration: none;
-        }
+  a {
+      text-decoration: none;
+  }
 
 
 </style>
@@ -269,8 +308,6 @@
 		
 		// 문화생활 카테고리 지도에 마커
 		$("#culture").on("click", function(){
-			$(this).addClass('on');
-			$(this).siblings().removeClass('on');
 			
 			var params = $("#actionForm").serialize();
 			$.ajax({
@@ -290,6 +327,43 @@
 						});
 					} else {
 						cultureList(res.list);
+						$(this).addClass('on');
+						$(this).siblings().removeClass('on');
+					}
+						
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			})
+	
+		});
+		
+		//  주유소 카테고리 지도에 마커
+		$("#gasStation").on("click", function(){
+			
+			var params = $("#actionForm").serialize();
+			$.ajax({
+				url : "gasStationAjax",
+				type : "POST",
+				dataType: "json",
+				data: params,
+				success : function(res){
+					// 구, 동 선택 안될시 팝업
+					if($("#sido1").val() == "전체" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
+						makePopup({
+					         title : "알림",
+					         contents : "구 또는 동을 선택해주세요",
+					         buttons : [{
+					            name : "확인",
+					         }]
+						});
+					} else {
+						console.log(res);
+						console.log(res.list);
+						gasStationList(res.list);
+						$(this).addClass('on');
+						$(this).siblings().removeClass('on');
 					}
 						
 				},
@@ -399,23 +473,23 @@ function cultureList(list){
 
 		// 마커 이미지의 이미지 주소입니다
 		// 없으면 기본 마커, 파란색
-		// var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 			    
 		for (var i = 0; i < positions.length; i ++) {
 	      	    
 		    // 마커 이미지의 이미지 크기 입니다
-		    //var imageSize = new kakao.maps.Size(24, 35); 
+		   var imageSize = new kakao.maps.Size(24, 35); 
 		    
 		    // 마커 이미지를 생성합니다    
-		    //var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
 		    
 		    // 마커를 생성합니다
 		    var marker = new kakao.maps.Marker({
 		        map: map, // 마커를 표시할 지도
 		        position: positions[i].latlng, // 마커를 표시할 위치
 		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		       // image : markerImage // 마커 이미지 
-		        clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다, 마커 클릭시 팝업창 뜨게 추가
+		       image : markerImage // 마커 이미지 
+		        //clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다, 마커 클릭시 팝업창 뜨게 추가
 		    });
 			    
 		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
@@ -430,10 +504,10 @@ function cultureList(list){
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"compareBox\">";
 		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
-		    	iwContent += "</div>"
-		    	iwContent += "</div>"
+		    	iwContent += "</div>";
+		    	iwContent += "</div>";
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-		    	iwRemoveable = true; 
+		    	iwRemoveable = true; // 인포윈도우의 X버튼
 		    
 		    
 		 // 인포윈도우를 생성합니다
@@ -472,7 +546,84 @@ function cultureList(list){
 		map.setBounds(bounds);
 
  	}
+ 	
+ 	
 
+//주유소 카테고리 지도에 마커 function
+function gasStationList(list){
+	
+	// let으로 해야함! 스코프 문제가 있나봐
+	 for (let i = 0; i < list.length; i ++) {
+		 
+			
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+			
+			
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch(list[i].PARCEL_NUM, function(result, status) {
+				
+				  // 정상적으로 검색이 완료됐으면 
+		 	    if (status === kakao.maps.services.Status.OK) { 
+
+			     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			     
+			     // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+			     
+			        var iwContent = "<div class=\"bg\"><div class=\"title\">" +  list[i].GAS_NM +"</div>";
+					     	iwContent += "<div class=\"phone\">" + list[i].PHONE +"</div>";
+					    	iwContent += "<div class=\"address\">" + list[i].PARCEL_NUM +"</div>"; 
+					    	iwContent += "<div class=\"buttonBox\">";
+					    	iwContent += "<div class=\"bookmarkBox\">";
+					    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+					    	iwContent += "</div>";
+					    	iwContent += "<div class=\"shareBox\">";
+					    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+					    	iwContent += "</div>";
+					    	iwContent += "<div class=\"compareBox\">";
+					    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+					    	iwContent += "</div>";
+					    	iwContent += "</div>";
+					    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+					    	iwRemoveable = true; // 인포윈도우의 X버튼
+					    
+					    
+						   // 인포윈도우를 생성합니다
+							var infowindow = new kakao.maps.InfoWindow({
+								content : iwContent,
+							    removable : iwRemoveable
+							
+							});  
+						 
+							 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+						     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+						     (function(marker, infowindow) {
+						    	 // 마커에 클릭이벤트를 등록합니다
+								 kakao.maps.event.addListener(marker, 'click', function() {
+									 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+									  $("img[alt='close']").click();
+								       // 마커 위에 인포윈도우를 표시합니다
+								       infowindow.open(map, marker);  
+								 });
+					
+						     })(marker, infowindow);		 
+					
+					      
+
+					        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					        map.setCenter(coords);
+					      			     
+		 	    }
+	
+			}); 	     			 
+	}
+	 
+}
+			 
   </script>
 </head>
 <body>
@@ -1090,7 +1241,7 @@ function cultureList(list){
             <img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00032.png">
             음식점
         </li>       
-        <li id=""> 
+        <li id="gasStation"> 
            	<img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00078.png">
             주유소
         </li>  

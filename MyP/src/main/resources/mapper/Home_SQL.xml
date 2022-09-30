@@ -22,4 +22,11 @@
     	AND ADDRESS LIKE'%'|| #{gugun1} || '%' 
     	AND CUL_LIFE LIKE '%' || #{search_txt} || '%'
 	</select>
+	
+	<select id="GasStationList" resultType="hashmap" parameterType="hashmap">
+		SELECT GAS_STATION_NUM, GAS_NM, PARCEL_NUM, PHONE FROM GAS_STATION
+		WHERE PARCEL_NUM LIKE '%' || #{sido1} || '%' 
+    	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%' 
+    	AND GAS_STATION_NUM LIKE '%' || #{search_txt} || '%'
+	</select>
 </mapper>
