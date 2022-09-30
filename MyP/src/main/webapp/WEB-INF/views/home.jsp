@@ -45,6 +45,7 @@
     position: relative;
     cursor: pointer;
     overflow: hidden;
+    font-size: 17px;
 }
 	.left_section .result_area2 .box .pay {
   color: #e06666;
@@ -93,7 +94,6 @@
 .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 .placeinfo .tel {color:#0f7833;}
 .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
-
 
 </style>
   <script src="resources/jquery/jquery-1.12.4.js"></script>
@@ -223,7 +223,7 @@
 	 }
 
 		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		var imageSrc = "resources/icons/park_marker4.png"; 
 		    
 		for (var i = 0; i < positions.length; i ++) {
 		    
@@ -910,7 +910,7 @@
 <!-- 리뷰 팝업 -->
 <div id="review_popup">
   <div class="close_i">
-      <img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
+      <img src="resources/icons/close.png" alt="">
   </div>
   <div class="popup_top">
       <div class="txt_title">제목</div>
@@ -1018,7 +1018,8 @@
  
  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
  mapOption = { 
-  center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		 //33.450701, 126.570667 
+  center: new kakao.maps.LatLng(37.586769, 126.974779), // 지도의 중심좌표
      level: 3 // 지도의 확대 레벨
  };
 

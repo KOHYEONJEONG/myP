@@ -37,18 +37,11 @@ $(document).ready(function() {
 	
 	<main>
 		<div class="main_wrap">
-			<div class="side_bar">
-				<div class="title">관리자페이지</div>
-				<div class="inner">
-					<div class="on">회원관리</div>
-					<div onclick="location.href='guideManagement'">가이드관리</div>
-					<div>데이터관리</div>
-					<div>신고리뷰관리</div>
-					<div>카테고리관리</div>
-				</div>
-			</div>
+			<c:import url="/sidebar">
+				<c:param name="link" value="memManagement"></c:param>
+			</c:import>
 			<div class="right_area">
-				<div class="table_wrap">
+				<div class="table_wrap" style="top:435px;">
 				<form action="#" id="searchForm">
 				  <div class="search_box1">
 						<div class="search_box">

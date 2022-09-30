@@ -8,6 +8,7 @@
 <title>MyP</title>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/font.css">
+<link rel="stylesheet" href="resources/css/mypage.css">
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script src="resources/js/main.js"></script>
 <script type="text/javascript" src="resources/rety/jquery.raty.js"></script><!-- 별 -->
@@ -205,12 +206,7 @@ function check(box){//비공개 여부
 	<c:import url="/header1"></c:import>
 	<main>
           <div class="main_wrap">
-	         <div class="side_bar">
-	           <div class="title">마이페이지</div>
-	           <div class="inner">
-	               <div class="on">마이페이지</div>
-	           </div> 
-	        </div>
+	           <c:import url="/mypageSidebar"></c:import>  
        		<form action="#" id="actionForm" method="post">
 				<input type="hidden" name="qna_num" id="qna_num" value="${param.qna_num}" /> 
 				<input type="hidden" name="no" id="no" value="${sMemNo}" />

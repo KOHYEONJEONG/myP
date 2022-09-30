@@ -33,12 +33,7 @@
     <c:import url="/header1"></c:import>
       <main class="main1">
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">마이페이지</div>
-                <div class="inner">
-                    <div class="on">마이페이지</div>
-                </div> 
-             </div>
+                <c:import url="/mypageSidebar"></c:import>
              <form action="#" id="infoUpdateForm" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
 	             <div class="right_area">            
@@ -49,7 +44,7 @@
 	                        <div class="row1">
 	                            <div class="box_title">닉네임</div>
 	                            <div class="input">
-	                                <input type="text" name="nickname" id="nickname"/>
+	                                <input type="text" name="nickname" id="nickname" value="${sMemNm}"/>
 	                            </div>
 	                        </div>
 	                        <span class="nickname_status"></span>

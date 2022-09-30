@@ -152,16 +152,11 @@ $(document).ready(function() {
  <c:import url="/header1"></c:import> 
       <main>
         <div class="main_wrap">
-          <div class="side_bar">
-            <div class="title">관리자페이지</div>
-            <div class="inner">
-                <div>회원관리</div>
-                <div>가이드관리</div>
-                <div>데이터관리</div>
-                <div class="on">신고리뷰관리</div>
-                <div>카테고리관리</div>
-            </div> 
-         </div>
+        
+         <c:import url="/sidebar">
+         	<c:param name="link" value="reportReviewManagement"></c:param>
+         </c:import>
+         
         <div class="right_area">
             <div class="table_wrap">
             <input type="hidden" id="oldGbn" value="${param.select_b}" />

@@ -145,12 +145,7 @@
 	
    <main>
        <div class="main_wrap">
-         <div class="side_bar">
-           <div class="title">마이페이지</div>
-           <div class="inner">
-               <div class="on">마이페이지</div>
-           </div> 
-        </div>
+           <c:import url="/mypageSidebar"></c:import> 
         
         <form name="#" id="actionForm" method="post">
 	        <input type="hidden" id="oldGbn" value="0" />

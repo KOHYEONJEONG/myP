@@ -32,7 +32,7 @@
 	FROM GUIDE G LEFT OUTER JOIN(SELECT TOP_CHATBOT_NUM, COUNT(TOP_CHATBOT_NUM) AS CNT  
 	                             FROM GUIDE
 	                             WHERE DEL = 1
-	                             GROUP BY TOP_CHATBOT_NUM)A <!-- 가공한 테이블 : cnt만 가져오기 위해서 -->
+	                             GROUP BY TOP_CHATBOT_NUM)A <!-- (*ㄴ)가공한 테이블 : cnt만 가져오기 위해서 -->
 	                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM 
 	WHERE DEL = 1
 	</select>
@@ -52,7 +52,7 @@
 			
 			<otherwise>
 			INSERT INTO GUIDE(GUIDE_NUM, MEM_NUM, MENU, TOP_CHATBOT_NUM, DEL, STEP)
-			VALUES(GUIDE_SEQ.NEXTVAL, #{sno}, #{menu}, #{top_num}, 1, 1 )
+			VALUES(GUIDE_SEQ.NEXTVAL, #{sno}, #{menu}, #{top_num}, 1, (SELECT STEP FROM GUIDE where GUIDE_NUM = #{top_num} )+1 ) <!-- INSERT 서브쿼리 사용했음. -->
 			</otherwise>
 		</choose>
 	</insert>

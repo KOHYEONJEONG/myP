@@ -801,14 +801,14 @@ main {
   border-right: 1px solid #ccc;
   height: calc(100% - 180px);
 }
-.main_wrap .side_bar .inner .on, .main_wrap1 .side_bar .inner .on {
+.main_wrap .side_bar .inner .on, .main_wrap1 .side_bar .inner .on{
   background: #fff url(../icons/arrow.png) no-repeat right center;
   background-position: 95%;
   cursor: pointer;
   color: #ee8003;
   font-weight: bold;
 }
-.main_wrap .side_bar .inner div, .main_wrap1 .side_bar .inner div {
+.main_wrap .side_bar .inner div, .main_wrap1 .side_bar .inner div .on {
   padding: 25px 20px;
   border-top: 1px solid #ccc;
   box-sizing: border-box;
@@ -821,7 +821,7 @@ main {
   /*background: #fff url(../icons/arrow.png) no-repeat right center;*/
   background-position: 95%;
   cursor: pointer;
-  color: #ee8003;
+ /* color: #ee8003;*/
 }
 
 .right_area .rigth_contents {
@@ -1628,7 +1628,7 @@ main {
   width: 710px;
   height: 100px;
   background-color: #ffffff;
-  border: solid 1px #595959;
+  /* border: solid 1px #595959; */
   border-radius: 10px;
   outline-color: #000;
   padding: 10px;
@@ -1672,11 +1672,20 @@ main {
   border: 1px solid #ccc;
   /* background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); */
 }
-.detail_wrap .btn.regi, .detail_wrap .btn.del {
+ .detail_wrap .btn.del {
   border: solid 1px #00af80;
   background-color: #00af80;
   color: #fff;
 }
+
+.detail_wrap .btn.regi{
+  border:1px solid #FD9A29; 
+  background-color: #FD9A29; 
+  color: #fff;
+}
+
+
+
 .detail_wrap .btn.update {
   border: solid 1px #FD9A29;
   background-color: #FD9A29;

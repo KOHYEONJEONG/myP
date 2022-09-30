@@ -137,12 +137,8 @@
 	<input type="hidden" id="oldText" value="${param.searchText}"> <!-- 기존 검색 유지용 보관 (검색어)-->
    <main>
        <div class="main_wrap">
-         <div class="side_bar">
-           <div class="title">마이페이지</div>
-           <div class="inner">
-               <div class="on">마이페이지</div>
-           </div> 
-        </div>
+        
+           <c:import url="/mypageSidebar"></c:import> 
         
         <form name="#" id="actionForm" method="post">
 	        <input type="hidden" id="qna_num" name="qna_num"/><!-- 해당 글 리뷰 번호 -->

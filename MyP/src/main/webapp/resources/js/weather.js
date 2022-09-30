@@ -70,12 +70,12 @@ $(document).ready(function(){
             }else{
                 var bottomHtml = '<div class="swiper-slide">' + 
                     '<div class="weather">'+
-                    '<div>'+day+'</div>'+
                     '<div>'+wiconUrl+'</div>'+
                     '<div>' +
                     '<span class="blue">' + Math.round(cMin)+"°" + '</span>' +
                     '<span>' + "/" + '</span>' +
                     '<span class="red">' + Math.round(cMax)+"°"+'</span>'+
+                    '<div class="day">'+day+'</div>'+
                     '</div>' +
                     '</div>' +
                 '</div>';

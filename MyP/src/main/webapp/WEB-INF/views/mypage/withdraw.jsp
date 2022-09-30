@@ -64,6 +64,19 @@
 				}
 			});
 		});
+	    
+	  //사이드바 개인정보 수정하기로 이동
+		$("#sidebar_mypage_modify").click(function(){
+			$("#withdrawForm").attr("action", "memInfoUpdate");
+	        $("#withdrawForm").submit();   
+		});
+		
+		//사이드바 비밀번호 수정하기로 이동
+		$("#sidebar_password_modify").click(function(){
+			$("#withdrawForm").attr("action", "memPwUpdate");
+	        $("#withdrawForm").submit();   
+		});
+		
     
     });
     
@@ -105,12 +118,7 @@
 <c:import url="/header1"></c:import>
     <main class="main1">
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">마이페이지</div>
-                <div class="inner">
-                    <div class="on">마이페이지</div>
-                </div> 
-             </div>
+                <c:import url="/mypageSidebar"></c:import> 
              <form action="#" id="withdrawForm" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
              <div class="right_area">

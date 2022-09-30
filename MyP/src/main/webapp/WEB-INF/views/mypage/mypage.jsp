@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyP</title>
 <link rel="stylesheet" href="resources/css/main.css">
-<link rel="stylesheet" href="resources/css/mypage.css">
+
 <link rel="stylesheet" href="resources/css/font.css">
 <!-- Popup CSS -->
 <link rel="stylesheet" type="text/css"
@@ -30,20 +30,8 @@
 
 <script type="text/javascript">
 var defalutImg = false;
-
 $(document).ready(function() {
 	imgRelod();
-
-	
-	  $('.menu1').click(function(){
-	      $('.menu2').slideUp();
-	      if ($(this).children('.menu2').is(':hidden')){
-	         $(this).children('.menu2').slideDown();
-	      } else{
-	         $(this).children('.menu2').slideUp();
-	      }
-	   });
-	  
 	//사진변경 시 미리보기
 	$(":input[name='vPic']").on("change", function() {
 		if( $(":input[name='vPic']").val() == "") {
@@ -206,35 +194,25 @@ function readURL(input) {
 	<c:import url="/header1"></c:import>
 	<main class="main1">
 		<div class="main_wrap">
-			<div class="side_bar">
-				<div class="title">마이페이지</div>
-				<div class="inner">
-				<div class="container">    
-					<ul id="ac">
-         <li class="menu1">
-         	<div class="mmenu">
-            	마이페이지 
-            </div>
-            <ul class="menu2">
-               <li id="sidebar_mypage_modify" class="submenu1">
-               기본정보 수정하기</li>
-               <li id="sidebar_password_modify" class="submenu1">
-               비밀번호 수정하기</li>
-               <li id="parkreview2" class="submenu1">주차장 리뷰</li>
-               <li id="post2" class="submenu1">게시글</li>
-               <li id="withdrawal2" class="submenu1">회원탈퇴</li>
-            </ul>
-         </li>
-         
-      </ul>      
-					 </div>
-
-					
-				</div>
-			</div>
-			<div class="right_area">
+				<c:import url="/mypageSidebar"></c:import>
+			<div class="right_area" >
 				<div class="bg">
-					<h2>MYPAGE</h2>
+					
+					<c:choose>
+						<c:when test="${sMemAuto eq 1}">
+							<%-- 관리자 권한 --%>
+							<div>
+								<img src="resources/icons/crown.png" style="width: 60px; height: 60px;
+								
+								">
+							</div>
+							<span style="font-size: 18px; font-weight: 700;">관리자님의 MYPAGE</span>
+						</c:when>
+						<c:otherwise>
+							<h2 style="font-size: 18px">MYPAGE</h2>
+						</c:otherwise>
+					</c:choose>
+					
 					<div class="mypage_top">
 						<div class="my_pic">
 							<form action="fileUploadAjax" id="actionForm" method="post"
