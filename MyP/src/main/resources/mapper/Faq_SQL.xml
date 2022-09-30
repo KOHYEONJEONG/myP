@@ -25,12 +25,10 @@
 	
 	<select id="getFaqCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
-		ROW_NUMBER() OVER(ORDER BY F.FAQ_NUM) AS RNK
 		FROM FAQ F INNER JOIN CATEGORY C
-		ON F.CATE_NUM = C.CATE_NUM
+						   ON F.CATE_NUM = C.CATE_NUM
 		WHERE F.DEL = 1 AND C.DEL = 1
 		AND F.CATE_NUM = #{no}
-
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
 				<when test="searchGbn eq 0">
@@ -41,9 +39,6 @@
 				</when>
 			</choose>		
 		</if>
-
-		) A
-		WHERE A.RNK BETWEEN #{start} AND #{end}
 	</select>
 
 	<insert id="insertFaq" parameterType="hashmap">
