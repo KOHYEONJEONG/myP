@@ -222,25 +222,24 @@ function readURL(input) {
 				<div class="inner" >
 				<div class="container">    
 					<ul id="ac">
-         <li class="menu1">
-         	<div class="mmenu" style="border : 0; padding:10px 5px;" id="mmenu">
-            	마이페이지 
-            	 <%-- <img src="${pageContext.request.contextPath}/resources/icons/arrow.png" alt="" id="arrow"> --%>  
-            	 <img id="myArrow" src="resources/icons/wing1.png">
-            </div>
-            <ul class="menu2">
-               <li id="sidebar_mypage_modify" class="submenu1">
-               기본정보 수정하기</li>
-               <li id="sidebar_password_modify" class="submenu1">
-               비밀번호 수정하기</li>
-               <li id="parkreview2" class="submenu1">주차장 리뷰</li>
-               <li id="post2" class="submenu1">게시글</li>
-               <li id="withdrawal2" class="submenu1">회원탈퇴</li>
-            </ul>
-         </li>
-         
-      </ul>      
-					 </div>
+					         <li class="menu1">
+					         	<div class="mmenu" style="border : 0; padding:10px 5px;" id="mmenu">
+					            	마이페이지 
+					            	 <%-- <img src="${pageContext.request.contextPath}/resources/icons/arrow.png" alt="" id="arrow"> --%>  
+					            	 <img id="myArrow" src="resources/icons/wing1.png">
+					            </div>
+					            
+					            <ul class="menu2">
+					               <li id="sidebar_mypage_modify" class="submenu1">기본정보 수정하기</li>
+					               <li id="sidebar_password_modify" class="submenu1">비밀번호 수정하기</li>
+					               <li id="parkreview2" class="submenu1">주차장 리뷰</li>
+					               <li id="post2" class="submenu1">게시글</li>
+					               <li id="withdrawal2" class="submenu1">회원탈퇴</li>
+					            </ul>
+				         	</li>
+					         
+				      </ul>      
+				 </div>
 
 					
 				</div>
@@ -252,7 +251,9 @@ function readURL(input) {
 						<c:when test="${sMemAuto eq 1}">
 							<%-- 관리자 권한 --%>
 							<div>
-								<img src="resources/icons/crown.png">
+								<img src="resources/icons/crown.png" style="width: 60px; height: 60px;
+								
+								">
 							</div>
 							<span style="font-size: 18px; font-weight: 700;">관리자님의 MYPAGE</span>
 						</c:when>
