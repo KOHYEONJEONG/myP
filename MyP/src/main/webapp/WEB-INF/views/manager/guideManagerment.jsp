@@ -224,21 +224,21 @@ $(document).ready(function() {
 		}
 	});
 	
-  var menu = "";
   //ajax
   reloadeGuideList();
   
   var to = false;
-  $('#plugins4_q').keyup(function () { //검색
+  $('#plugins4_q').keyup(function () { //jstree 플러그 검색
     if(to) { clearTimeout(to); }
     to = setTimeout(function () {
       var v = $('#plugins4_q').val();
       $('#jstree').jstree(true).search(v);
     }, 250);
   });
+  
 
   $("#update_btn").on("click", function() {//내용수정
-	//con  <들을 웹문자로 변환
+	//con <들을 웹문자로 변환
     $("#conText").val($("#conText").val().replace(/</gi, "&lt;"));
   	//con dml <들을 웹문자로 변환
     $("#conText").val($("#conText").val().replace(/>/gi, "&gt;"));
@@ -264,9 +264,7 @@ $(document).ready(function() {
 	  $('#jstree').jstree("deselect_all");
   })
   
- 
-  
-  });//function()
+});
  
 var msg ={
 	"menuInsert" : "메뉴 등록",
@@ -354,11 +352,11 @@ function node_create() { //제일 오래 걸렸음... 리로드를 해줘야한�
 
 	//console.log(" v sel => "+sel);//선택한 id
 	
-	/* if(!sel.length) { return false; } */
+	/* if(!sel.length) { return false; } <-- 맨 바깥 폴더를 만들기 위해서는 주석 처리해야한다.*/
 	
-	tno = sel;
+	tno = sel;//id
 	
-	if(sel == "undefined" || sel == null || sel == ""){
+	if(sel == "undefined" || sel == null || sel == ""){// 맨 바깥 폴더는 부모ID가 없겠지?? 그렇기에 #을 넣어줌,(tno는 디비에 null넣으면 오류나서 ''이렇게 처리해줬음.)
 		sel = '#';
 		tno = '';
 	}
@@ -366,7 +364,7 @@ function node_create() { //제일 오래 걸렸음... 리로드를 해줘야한�
 	sel = ref.create_node(sel, {"type":"default"}); //true, false 반환
 	
 	if(sel) {
-		ref.edit(sel, null, function(node) {
+		ref.edit(sel, null, function(node) {//엔터누르면 바로 실행되게(callback 함수 사용해야 함.)
 			$("#top_num").val(tno);
 			$("#menu").val(node.text);
 			action("menuInsert"); 
@@ -382,7 +380,7 @@ function node_rename() {
 	
 	sel = sel[0];
 	
-	//(*)callBack 함수 사용해야함 : 엔터를 누르면 바로 작동되게. 그렇기에 사용해야 했음.
+	//(*)callBack 함수 사용해야함 : 엔터를 누르면 바로 작동되게. 그렇기에 사용해야 했음.(이걸 안쓰면 엔터를 두번 눌러야함.(기본으로 설정된 엔터와, 디비에 넣기위한 엔터.. 그래서 한번만으로 모두 가능하게 하려고))
 	//그전에 jsTree 사이트와, 해외 구글링해서 callBack 사용법 찾아봤음.
 	ref.edit(sel, null, function(node) {
 		//console.log(node.text);
@@ -415,11 +413,13 @@ function reloadSelect() {
 		type : "POST", 
 		dataType: "json", 
 		data: params, 
-		success : function(res) {
+		success : function(res) { //res.data.ANSWER_CON : 답변내용
 			if(res.data.ANSWER_CON != "undefined" && res.data.ANSWER_CON != null ){ //undefined가 아니면 null도 아니여야한다.(&& <-- 중요, ||로 하면 안됨.)
 				$("#conText").val(res.data.ANSWER_CON);
 			}else{
 				$("#conText").val('');
+				//아래 주석은 그냥 보고 지나가면 됌.
+				//만약 textarea태그에 기능을 넣어주려면
 				//html()을 사용하면 안되고, val()를 사용하자.(근데 안쓸거임)
 				//jquery가 알아서 엔티티를 교체해준다.(근데 안쓸거임)
 			}
@@ -449,35 +449,28 @@ function reloadSelect() {
 			<div class="right_area">
 				<div class="table_wrap first">
 					<div id="event_result"></div>
-					
-						<!-- <button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
-						<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
-						<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button> -->
 						
 						<button type="button" class="btn btn-success btn-sm" id="btn_create"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
 						<button type="button" class="btn btn-warning btn-sm" id="btn_rename"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
 						<button type="button" class="btn btn-danger btn-sm" id="btn_delete"><i class="glyphicon glyphicon-remove"></i> Delete</button>
 						<button type="button" class="btn btn-uncheck btn-sm" id="btn_unCheck"><i class="glyphicon glyphicon-remove"></i>Uncheck</button>
-					<div id="jstree">
-					</div>
+						
+						<div id="jstree"></div> <!-- 스크립트로 동적으로해서 데이터를 넣어줌 -->
 					
-					<input type="text" id="plugins4_q" class="input"
-						placeholder="카테고리 검색">
+					<input type="text" id="plugins4_q" class="input" placeholder="카테고리 검색">
 				</div>
 
 				<div class="table_wrap second">
-					<!-- <div class="insert_btn btn btn-sm" id="insert_btn">추가</div> -->
 					<div class="update_btn btn btn-sm" id="update_btn">수정</div>
 					<textarea name="conText" id="conText" placeholder="답변내용을 입력해주세요."></textarea>
-					
 				</div>
 			</div>
-
 
 		</div>
 
 	</main>
 
 	<c:import url="/footer"></c:import>
+	
 </body>
 </html>
