@@ -15,9 +15,9 @@ public class TestController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/sidebar") 
+	@RequestMapping(value="/managerSidebar") 
 	public ModelAndView sidebar(ModelAndView mav) {
-		mav.setViewName("include/sidebar");
+		mav.setViewName("include/manager_sidebar");
 		return mav;
   }
 	
@@ -30,6 +30,12 @@ public class TestController {
 	@RequestMapping(value="/partiNoticeSidebar") 
 	public ModelAndView partiNoticeSidebar(ModelAndView mav) {
 		mav.setViewName("include/partiNotice_sidebar");
+		return mav;
+  }	
+	
+	@RequestMapping(value="/rankingSidebar") 
+	public ModelAndView rankingSidebar(ModelAndView mav) {
+		mav.setViewName("include/ranking_sidebar");
 		return mav;
   }	
 }

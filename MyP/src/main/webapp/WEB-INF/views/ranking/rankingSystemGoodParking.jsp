@@ -153,13 +153,9 @@ function drawPaging(pd) {
 <c:import url="/header1"></c:import>
       <main>
         <div class="main_wrap">
-          <div class="side_bar">
-            <div class="title">랭킹</div>
-            <div class="inner">
-                <div class="on">시스템 좋은 주차장</div>
-                <div id="fee2">요금 합리적인 주차장</div>
-            </div> 
-        </div>
+          <c:import url="/rankingSidebar">
+				<c:param name="link" value="rankingSystemGoodParking"></c:param>
+			</c:import> 
         <div class="right_area">
         <form action="#" id="searchForm">
 			<!-- 검색어 유지용 -->

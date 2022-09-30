@@ -723,7 +723,7 @@ function reloadList() {
   
       <main>
         <div class="main_wrap">
-          <c:import url="/sidebar">
+          <c:import url="/managerSidebar">
           	 <c:param name="link" value="categoryManagement"></c:param>
           </c:import>
         <div class="right_area">

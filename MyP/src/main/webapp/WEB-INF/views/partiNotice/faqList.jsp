@@ -176,18 +176,18 @@ function drawList(list) {
 	var html = "";
 
     html +="<div class=\"accordion_con on\">";                               
-    html +="  <div id=\"accordion_con\"> ";                               
+    html +="<div id=\"accordion_con\">";                               
 	for(var data of list){				                                                         
-    html +="    <h3>" + data.QUE + "</h3>     ";
-	html +="    <div class=\"btn_wrap1\">                         ";                               
-	html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+    html +="<h3>" + data.QUE + "</h3>";
+	html +="<div class=\"btn_wrap1\">";                               
+	html +="<p>" + data.ANSWER_CON + "</p>"; 
     if("${sMemAuto}" == 1){
 	    html +="<div class=\"btn update\" id=\"updateBtn\">수정</div>";
 	    html +="<div class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
     }
-    html +="    </div>    ";       	   
+    html +="</div>";       	   
 	}                                                                          
-    html +="  </div>";                               
+    html +="</div>";                               
     html +="</div>";                               
 	
 	$(".accordion_wrap").html(html);
@@ -240,7 +240,9 @@ function drawPaging(pd) {
 <!-- 페이징 때 기존 검색 내용 유지용 --> 
       <main>
         <div class="main_wrap">
-            <c:import url="/partiNoticeSidebar"></c:import>
+            <c:import url="/partiNoticeSidebar">
+          	<c:param name="link" value="faq"></c:param>
+          </c:import>
             <div class="right_area">            
                 <div class="table_wrap">
                 
