@@ -13,7 +13,8 @@
  	}	 
   </style>
   <script type="text/javascript">
-  $(document).ready(function name() {
+  $(document).ready(function() {
+	  
 	  $(".side_bar #inner div").each(function() { //해당 페이지에 가서도 class on을 유지하려고
 		  if("${param.link}" == $(this).attr("link")){ 
 			  $(this).addClass("on");

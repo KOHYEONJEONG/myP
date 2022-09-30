@@ -28,7 +28,8 @@
 	
 	<select id="getMemberCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
-		FROM MEMBER M INNER JOIN AUTORITY AT ON M.autority_num = AT.autority_num
+		FROM MEMBER M INNER JOIN AUTORITY AT 
+							  ON M.autority_num = AT.autority_num
 		WHERE WIT_DT IS NULL
 		<if test="searchText != null and searchText != ''">
 			<choose>
@@ -63,7 +64,8 @@
 									THEN TO_CHAR(REG_DT, 'HH24:MI')
 									ELSE TO_CHAR(REG_DT,'YY.MM.DD')
 									END AS REG_DT
-			FROM MEMBER M INNER JOIN AUTORITY AT ON M.autority_num = AT.autority_num
+			FROM MEMBER M INNER JOIN AUTORITY AT 
+			    				  ON M.autority_num = AT.autority_num
 			WHERE WIT_DT IS NULL
 			AND MEM_NUM = #{no}
 	</select>
@@ -78,7 +80,7 @@
 									END AS REG_DT,
 		 			ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM ASC) AS NORNK, ROW_NUMBER() OVER(ORDER BY R.REVIEW_NUM DESC) AS RNK
 				FROM REVIEW R JOIN CAR_PARK C
-				ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+				                ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
 				WHERE DEL = 1 AND MEM_NUM = #{no}
 				<if test="searchText != null and searchText != ''">
 					<choose>
@@ -100,7 +102,7 @@
 	<select id="getMyReviewCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM REVIEW R JOIN CAR_PARK C
-		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+		                ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
 		WHERE R.DEL = 1 AND R.MEM_NUM = #{no}
 		<if test="searchText != null and searchText != ''">
 			<choose>
@@ -123,8 +125,8 @@
 				TO_CHAR(WEEKEND_START_TIME, 'HH24:MI:SS') AS WEEKEND_START_TIME, TO_CHAR(WEEKEND_END_TIME, 'HH24:MI:SS') AS WEEKEND_END_TIME,  
 				FEE_RATE, TIME_RATE,ADD_FEE, ADD_TIME_RATE
 		FROM CAR_PARK C JOIN REVIEW R
-	    		ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-	    		AND R.DEL = 1 AND R.REVIEW_NUM = #{review_num}
+				    	  ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+				    	  AND R.DEL = 1 AND R.REVIEW_NUM = #{review_num}
 		WHERE R.MEM_NUM = #{no} 
 	</select>
 	
@@ -176,18 +178,18 @@
 									ELSE TO_CHAR(Q.ANSWER_DT,'YY.MM.DD')
 									END AS ANSWER_DT,				
 					ROW_NUMBER() OVER(ORDER BY Q.QNA_NUM ASC) AS NORNK, ROW_NUMBER() OVER(ORDER BY  Q.QNA_NUM DESC) AS RNK
-			FROM QNA Q 
-			WHERE MEM_NUM = #{no} AND DEL = 1
+			 FROM QNA Q 
+			 WHERE MEM_NUM = #{no} AND DEL = 1
 			<if test="searchText != null and searchText != ''">
-						<choose>
-							<when test="searchGbn eq 1">
-								AND TITLE LIKE '%' || #{searchText}  || '%'
-							</when>
-							<when test="searchGbn eq 2">
-								AND CON LIKE '%' || #{searchText} || '%'
-							</when>
-			        	</choose>
-	       			</if>
+				<choose>
+					<when test="searchGbn eq 1">
+						AND TITLE LIKE '%' || #{searchText}  || '%'
+					</when>
+					<when test="searchGbn eq 2">
+						AND CON LIKE '%' || #{searchText} || '%'
+					</when>
+	        	</choose>
+	       	</if>
 		    )Q
 	    WHERE Q.RNK BETWEEN #{start} AND #{end}
 	</select>

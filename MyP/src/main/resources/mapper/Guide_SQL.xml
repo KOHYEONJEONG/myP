@@ -2,22 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="guide">
 
-<select id="guideList" parameterType="hashmap" resultType="hashmap">
-	<!-- (*)Inner join사용 안하는 이유는 지금 top_chatbot_num이라는 기준값이 있고 이 값으로 그룹핑을하게되면 값이 없는 애들은 Join할 때 빠지기 때문에 -->
-	SELECT G.GUIDE_NUM, G.ANSWER_CON , G.TOP_CHATBOT_NUM, G.MENU, NVL(A.CNT,0) AS CNT
-	FROM GUIDE G LEFT OUTER JOIN(SELECT TOP_CHATBOT_NUM, COUNT(TOP_CHATBOT_NUM) AS CNT  
-	                             FROM GUIDE
-	                             GROUP BY TOP_CHATBOT_NUM)A <!-- 가공한 테이블 : cnt만 가져오기 위해서 -->
-	                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM <!-- JOIN 이랑 줄을 맞춰 ON을 적으면 훨씬 보기 편해~ -->
-	WHERE DEL = 1
-	<if test="top_num == null or top_num == ''">
-	AND G.TOP_CHATBOT_NUM IS NULL
-	</if> 
-	<if test="top_num != null and top_num != ''">
-	AND G.TOP_CHATBOT_NUM = #{top_num}
-	</if>
-	<!-- 페이징 필요 없음 -->
-</select>
+	<select id="guideList" parameterType="hashmap" resultType="hashmap">
+		<!-- (*)Inner join사용 안하는 이유는 지금 top_chatbot_num이라는 기준값이 있고 이 값으로 그룹핑을하게되면 값이 없는 애들은 Join할 때 빠지기 때문에 -->
+		SELECT G.GUIDE_NUM, G.ANSWER_CON , G.TOP_CHATBOT_NUM, G.MENU, NVL(A.CNT,0) AS CNT
+		FROM GUIDE G LEFT OUTER JOIN(SELECT TOP_CHATBOT_NUM, COUNT(TOP_CHATBOT_NUM) AS CNT  
+		                             FROM GUIDE
+		                             GROUP BY TOP_CHATBOT_NUM)A <!-- 가공한 테이블 : cnt만 가져오기 위해서 -->
+		                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM <!-- JOIN 이랑 줄을 맞춰 ON을 적으면 훨씬 보기 편해~ -->
+		WHERE DEL = 1
+		<if test="top_num == null or top_num == ''">
+		AND G.TOP_CHATBOT_NUM IS NULL
+		</if> 
+		<if test="top_num != null and top_num != ''">
+		AND G.TOP_CHATBOT_NUM = #{top_num}
+		</if>
+		<!-- 페이징 필요 없음 -->
+	</select>
 
 
 

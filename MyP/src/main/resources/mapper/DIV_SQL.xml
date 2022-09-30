@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="div">
- <insert id="insertDiv" parameterType="hashmap">
+
+ 	<insert id="insertDiv" parameterType="hashmap">
 		INSERT INTO CATEGORY_DIV(DIV_NUM, DIV_NM) VALUES (CATEDIV_SEQ.NEXTVAL, #{divNm})
 	</insert>
+	
 	<update id="updateDiv" parameterType="hashmap">
 	 	UPDATE CATEGORY_DIV SET DIV_NM = #{divNm}
 		WHERE DIV_NUM = #{divNum}
 	</update>
+	
 	<update id="deleteDiv" parameterType="hashmap">
 		UPDATE CATEGORY_DIV SET DEL = 0
 		WHERE DIV_NUM = #{divNum}
 	</update>
+	
 	<select id="getDivCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM CATEGORY_DIV
@@ -24,15 +28,17 @@
 				</choose>
 			</if>
 	</select>
+	
 	<select id="getDivList" parameterType="hashmap" resultType="hashmap">
 		SELECT S.DIV_NUM, S.DIV_NM, S.RNK, S.CCNT
-		FROM( SELECT CD.DIV_NUM, CD.DIV_NM, ROW_NUMBER() OVER(ORDER BY CD.DIV_NUM DESC, CD.DIV_NM DESC) AS RNK,
+		FROM( SELECT CD.DIV_NUM, CD.DIV_NM,
+					 ROW_NUMBER() OVER(ORDER BY CD.DIV_NUM DESC, CD.DIV_NM DESC) AS RNK,
                      NVL(C.CNT, 0) AS CCNT
-		FROM CATEGORY_DIV CD LEFT OUTER JOIN (SELECT DIV_NUM, COUNT(*) AS CNT
-                                              FROM CATEGORY
-                                              WHERE DEL = 1
-                                              GROUP BY DIV_NUM) C
-                                          ON CD.DIV_NUM = C.DIV_NUM
+		FROM CATEGORY_DIV CD LEFT OUTER JOIN(SELECT DIV_NUM, COUNT(*) AS CNT
+                                             FROM CATEGORY
+                                             WHERE DEL = 1
+                                             GROUP BY DIV_NUM) C
+                                            ON CD.DIV_NUM = C.DIV_NUM
 		WHERE CD.DEL = 1
          <if test="searchText1 != null and searchText1 != ''">
 				<choose>
