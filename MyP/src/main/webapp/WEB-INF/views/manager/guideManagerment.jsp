@@ -185,7 +185,45 @@
 }
 </style>
 <script type="text/javascript">
-$(function() {
+$(document).ready(function() {
+	$('#jstree').jstree({ 'core' : {  
+			"animation" : 0,
+			"check_callback" : true
+		},
+		"types" : {
+			"#" : {
+				"max_children" : 1,
+				"max_depth" : 4,
+				"valid_children" : ["root"]
+			},
+			"root" : {
+				"icon" : "/static/3.3.12/assets/images/tree_icon.png",
+				"valid_children" : ["default"]
+			},
+			"default" : {
+				"valid_children" : ["default","file"]
+			},
+			"file" : {
+				"icon" : "glyphicon glyphicon-file",
+				"valid_children" : []
+			}
+		},
+		"plugins" : [
+			"search"
+		]
+	}).on('select_node.jstree', function (e, data) { 
+		var i, j, r = [];
+		
+		for(i = 0, j = data.selected.length; i < j; i++) {
+			console.log(data.instance.get_node(data.selected[i]));
+			$("#guide_num").val(data.instance.get_node(data.selected[i]).id);//선택한 guide_num
+				
+			if($("#guide_num").val() != null || $("#guide_num").val() != "undefined"){
+				reloadSelect();//선택한 메뉴에 '답변내용' 출력하려고
+			}
+		}
+	});
+	
   var menu = "";
   //ajax
   reloadeGuideList();
@@ -239,6 +277,7 @@ var msg ={
   
 function action(flag){
   	var params = $("#managerGuideForm").serialize();
+  	console.log(params);
   	
   	   $.ajax({
 	  		url : "managerGuideAction/"+flag,
@@ -247,9 +286,20 @@ function action(flag){
 	        data : params, 
 	        success : function(res) { 
 	       	 switch(res.msg){
+	       	 
+	       	   //guide_num
 	            case "success":
-	            	console.log("성공");
+	            	switch (flag) {
+	            	case "menuInsert":
+	            		reloadeGuideList();
+	            		break;
+					case "menuDelete":
+						reloadeGuideList();
+					break;
+					}
+	            	
 	            break;
+	            
 	            case "fail":
 	                makeAlert("알림", msg[flag] + "에 실패하였습니다.");
 	               break;
@@ -271,8 +321,6 @@ function reloadeGuideList() {
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log(res.list);
-
 			//jsTree Api 가져와서 사용 : 무조건 jsTree 사이트 참고하고 참고해야해!!!(기본 충실)
 			var data = new Array();//array를 사용하여 list를 담아주기!~
 			for(var item of res.list) {
@@ -281,52 +329,16 @@ function reloadeGuideList() {
 					tcn = item.TOP_CHATBOT_NUM;
 				}
 				
-				//
-				data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU, cnt:item.CNT, type:"default"});// 현재 no, 상위 no, menu
+				//list에 데이터 넣기
+				data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU, cnt:item.CNT, type:"default"});// 현재 no, 상위 no, 명칭 , 개수
 			}
 			
-			console.log(data);
-			
-			$('#jstree').jstree({ 'core' : {  
-				"animation" : 0,
-			    "check_callback" : true,
-			    'data' : data  //비동기화로 가져온 데이터 넣어주기
-			    },
-			  "types" : {
-			    "#" : {
-			      "max_children" : 1,
-			      "max_depth" : 4,
-			      "valid_children" : ["root"]
-			    },
-			    "root" : {
-			      "icon" : "/static/3.3.12/assets/images/tree_icon.png",
-			      "valid_children" : ["default"]
-			    },
-			    "default" : {
-			      "valid_children" : ["default","file"]
-			    },
-			    "file" : {
-			      "icon" : "glyphicon glyphicon-file",
-			      "valid_children" : []
-			    }
-			  },
-			  "plugins" : [
-				  "search"
-			  ]
-			 }).on('changed.jstree', function (e, data) { //오ㅑ 여기서 오류가 터질까????(삭제시)
-			    var i, j, r = [];
-			    for(i = 0, j = data.selected.length; i < j; i++) {
-			    	console.log(data.instance.get_node(data.selected[i]));
-			    	$("#guide_num").val(data.instance.get_node(data.selected[i]).id);//선택한 guide_num
-			    	
-				    	if($("#guide_num").val() != null || $("#guide_num").val() != "undefined"){
-					    	reloadSelect();//선택한 메뉴에 '답변내용' 출력하려고
-				    	}
-			    	
- 				    }
-		  	}); 
-
-			
+			//삭제와 생성할때 오류가 엄청났다... 행결방안 이렇다.
+			//reloade할때만다 chaged.jstree를 주었는데 이걸 지우고 -> documnet.ready안에 넣어주기로 했다.
+			//==> (왜? 삭제하거나, 새로 생성할때 자꾸 감지를 하여 on~~jstree 오류가 계속 생성됐다. 계속 클릭하고 있는곳을 감지했기때문이다.)
+			//그래서 따로 data를 만든 다음에 아래 두줄처럼 데이터를 별도로 준후 새로고침함수 주기.(만들어놓고 refresh()주기.)
+			$('#jstree').jstree(true).settings.core.data = data;
+			$('#jstree').jstree(true).refresh();//새로고침
 			
 		},
 		error : function(request, status, error) { 
@@ -335,32 +347,36 @@ function reloadeGuideList() {
 	}); //Ajax End
 } 	  
   
-function node_create() {
-	var ref = $("#jstree").jstree(true);
-	var sel = ref.get_selected();//id
-	//if(!sel.length) { return false; } <-- 아무것도 선택 안했을 때 작동 안하겠다 인데 나는 큰 밖았 폴더도 만들고 싶어서!!! 해제함.
-	sel = sel[0];
-	if(sel == "undefined" || sel == null){
+function node_create() { //제일 오래 걸렸음... 리로드를 해줘야한다.
+	
+	var ref = $('#jstree').jstree(true), sel = ref.get_selected();
+	var tno = "";//밑에 sel값을 바꿔주니까 id값을 담아주려고 만들었다.
+
+	//console.log(" v sel => "+sel);//선택한 id
+	
+	/* if(!sel.length) { return false; } */
+	
+	tno = sel;
+	
+	if(sel == "undefined" || sel == null || sel == ""){
 		sel = '#';
+		tno = '';
 	}
-	sel = ref.create_node(sel, {"type":"file"});
 	
-	console.log(sel);
+	sel = ref.create_node(sel, {"type":"default"}); //true, false 반환
+	
 	if(sel) {
-		ref.edit(sel);
+		ref.edit(sel, null, function(node) {
+			$("#top_num").val(tno);
+			$("#menu").val(node.text);
+			action("menuInsert"); 
+		});
 	}
-	
-	$("#top_num").val(ref.get_node(sel).original.parent);
-	console.log("부모 : "+ $("#top_num").val());
-	
-	//action("menuInsert");
 	
 };
 function node_rename() {
 	var ref = $("#jstree").jstree(true);
 	var sel = ref.get_selected();
-	
-	console.log(ref.get_selected());
 	
 	if(!sel.length) { return false; }
 	
@@ -380,14 +396,15 @@ function node_delete() {
 	var ref = $("#jstree").jstree(true);
 	var sel = ref.get_selected();
 	
-	console.log(ref.get_node(sel).original.cnt);
-	if(!sel.length) { return false; }
-	//ref.delete_node(sel);
+	//console.log(ref.get_node(sel).original.parent);
+	
+	if(!sel.length) { return false; } //선택한 값이 없으면 삭제 안됨.
+	
 	if(ref.get_node(sel).original.cnt > 0){
 		makeAlert("알림", "하위 메뉴가"+ref.get_node(sel).original.cnt+ "개 있어 삭제 못함.");
 	}else{
-		action("menuDelete");
-		reloadeGuideList();
+		ref.delete_node(sel);//위치 중요
+		action("menuDelete");//삭제(리로드 필요없음) 
 	}
 	
 };
@@ -399,7 +416,6 @@ function reloadSelect() {
 		dataType: "json", 
 		data: params, 
 		success : function(res) {
-			console.log(res.data);
 			if(res.data.ANSWER_CON != "undefined" && res.data.ANSWER_CON != null ){ //undefined가 아니면 null도 아니여야한다.(&& <-- 중요, ||로 하면 안됨.)
 				$("#conText").val(res.data.ANSWER_CON);
 			}else{
@@ -423,22 +439,13 @@ function reloadSelect() {
 		<input type="hidden" id="guide_num" name="guide_num"/>
 		<input type="hidden" id="con" name="con"/>
 		<input type="hidden" id="menu" name="menu"/>
-		<input type="hidden" id="top_num" name="top_num" value=""/>
+		<input type="hidden" id="top_num" name="top_num"/>
 		<input type="hidden" id="sno" name="sno" value="${sMemNo}"/> <!-- 답변내용 책임자 -->
 	</form>
 	
 	<main>
 		<div class="main_wrap">
-			<div class="side_bar">
-				<div class="title">관리자페이지</div>
-				<div class="inner">
-					<div onclick="location.href='memManagement'">회원관리</div>
-					<div class="on">가이드관리</div>
-					<div>데이터관리</div>
-					<div>신고리뷰관리</div>
-					<div>카테고리관리</div>
-				</div>
-			</div>
+			<c:import url="/sidebar"></c:import>
 			<div class="right_area">
 				<div class="table_wrap first">
 					<div id="event_result"></div>

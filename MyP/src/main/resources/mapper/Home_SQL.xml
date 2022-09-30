@@ -14,4 +14,9 @@
 	FROM CAR_PARK
 	WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
 	</select>
+	
+	<select id="CultureList" resultType="hashmap" parameterType="hashmap">
+		SELECT CUL_LIFE, ADDRESS, PHONE, HOMEPAGE, LOCX, LOCY FROM CULTURAL_LIFE
+    	WHERE ADDRESS LIKE '%' || #{sido1} || '%' AND ADDRESS LIKE'%'|| #{gugun1} || '%' AND CUL_LIFE LIKE '%' || #{search_txt} || '%'
+	</select>
 </mapper>

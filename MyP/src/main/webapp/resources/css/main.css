@@ -817,8 +817,8 @@ main {
 .main_wrap .side_bar .inner div:last-child, .main_wrap1 .side_bar .inner div:last-child {
   border-bottom: 1px solid #ccc;
 }
-.main_wrap .side_bar .inner > div:active, .main_wrap .side_bar .inner > div:hover, .main_wrap1 .side_bar .inner > div:active, .main_wrap1 .side_bar .inner > div:hover {
-  background: #fff url(../icons/arrow.png) no-repeat right center;
+.main_wrap .side_bar .inner > div:active, .main_wrap .side_bar, .main_wrap1 .side_bar .inner > div:active, .main_wrap1 .side_bar .inner > div:hover {
+  /*background: #fff url(../icons/arrow.png) no-repeat right center;*/
   background-position: 95%;
   cursor: pointer;
   color: #ee8003;
@@ -1628,7 +1628,7 @@ main {
   width: 710px;
   height: 100px;
   background-color: #ffffff;
-  border: solid 1px #595959;
+  /* border: solid 1px #595959; */
   border-radius: 10px;
   outline-color: #000;
   padding: 10px;
@@ -1672,11 +1672,20 @@ main {
   border: 1px solid #ccc;
   /* background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); */
 }
-.detail_wrap .btn.regi, .detail_wrap .btn.del {
+ .detail_wrap .btn.del {
   border: solid 1px #00af80;
   background-color: #00af80;
   color: #fff;
 }
+
+.detail_wrap .btn.regi{
+  border:1px solid #FD9A29; 
+  background-color: #FD9A29; 
+  color: #fff;
+}
+
+
+
 .detail_wrap .btn.update {
   border: solid 1px #FD9A29;
   background-color: #FD9A29;

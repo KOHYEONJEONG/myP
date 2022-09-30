@@ -75,13 +75,16 @@
         .answer_txt{
             width: 700px;
             background-color: #ffffff;
-            border: solid 1px #595959;
-            border-radius: 10px;
+            /* border: solid 1px #595959;
+            border-radius: 10px; */
             margin-right: 20px;
             outline-color: #000;
             padding: 10px;
             box-sizing: border-box;
             font-size:14px;
+            border: 0px;
+    		outline: solid 1px;
+    		resize: none;
         }
         .btn_wrap{
             display: flex;
@@ -214,10 +217,7 @@ function action(flag) {
 	<main>
 		<div class="main_wrap">
 			<div class="side_bar">
-	           <div class="title">마이페이지</div>
-	           <div class="inner">
-	               <div class="on">마이페이지</div>
-	           </div> 
+	           <c:import url="/mypagesidebar"></c:import> 
 	        </div>
 
 				<div class="right_area">      

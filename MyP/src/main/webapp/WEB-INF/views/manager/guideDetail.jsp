@@ -18,15 +18,7 @@
  <c:import url="/header1"></c:import>
       <main>
          <div class="main_wrap">
-            <div class="side_bar">
-              <div class="title">관리자페이지</div>
-              <div class="inner">
-                <div><a href="/manager_page1.html">회원관리</a></div>
-                <div class="on"><a href="/manager_page2.html">챗봇관리</a></div>
-                <div><a href="/manager_page3.html">데이터관리</a></div>
-                <div><a href="/manager_page4.html">신고 리뷰관리</a></div>
-            </div> 
-           </div>
+            <c:import url="/sidebar"></c:import>
             <div class="right_area">
                   <div class="detail_wrap">
               <div class="title">가이드관리</div>

@@ -348,6 +348,7 @@ function drawPaging(pd) {
  
      <main>
         <div class="main_wrap">
+          <%--  <c:import url="/managersidebar"></c:import>--%>
           <div class="side_bar">
             <div class="title">관리자페이지</div>
             <div class="inner">

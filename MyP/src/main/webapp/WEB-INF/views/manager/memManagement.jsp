@@ -37,7 +37,7 @@ $(document).ready(function() {
 	
 	<main>
 		<div class="main_wrap">
-			<div class="side_bar">
+			<!-- <div class="side_bar">
 				<div class="title">관리자페이지</div>
 				<div class="inner">
 					<div class="on">회원관리</div>
@@ -46,7 +46,8 @@ $(document).ready(function() {
 					<div>신고리뷰관리</div>
 					<div>카테고리관리</div>
 				</div>
-			</div>
+			</div> -->
+			<c:import url="/sidebar"></c:import>
 			<div class="right_area">
 				<div class="table_wrap">
 				<form action="#" id="searchForm">
