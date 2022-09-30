@@ -89,14 +89,7 @@ $(document).ready(function () {
 	  <input type="hidden" name="searchText" value="${param.searchText}"/>
 	  <input type="hidden" name="mem_num" value="${sMemNo}"/>
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">참여/알림</div>
-                <div class="inner">
-                    <div>공지사항</div>
-                    <div class="on">FAQ</div>
-                    <div>QnA</div>
-                </div> 
-            </div>
+           <c:import url="/partiNoticeSidebar"></c:import>
             <div class="right_area">      
                 <div class="register_wrap">
                     <div class="title">

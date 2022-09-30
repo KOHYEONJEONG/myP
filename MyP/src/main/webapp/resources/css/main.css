@@ -801,14 +801,14 @@ main {
   border-right: 1px solid #ccc;
   height: calc(100% - 180px);
 }
-.main_wrap .side_bar .inner .on, .main_wrap1 .side_bar .inner .on {
+.main_wrap .side_bar .inner .on, .main_wrap1 .side_bar .inner .on{
   background: #fff url(../icons/arrow.png) no-repeat right center;
   background-position: 95%;
   cursor: pointer;
   color: #ee8003;
   font-weight: bold;
 }
-.main_wrap .side_bar .inner div, .main_wrap1 .side_bar .inner div {
+.main_wrap .side_bar .inner div, .main_wrap1 .side_bar .inner div .on {
   padding: 25px 20px;
   border-top: 1px solid #ccc;
   box-sizing: border-box;
@@ -821,7 +821,7 @@ main {
   /*background: #fff url(../icons/arrow.png) no-repeat right center;*/
   background-position: 95%;
   cursor: pointer;
-  color: #ee8003;
+ /* color: #ee8003;*/
 }
 
 .right_area .rigth_contents {

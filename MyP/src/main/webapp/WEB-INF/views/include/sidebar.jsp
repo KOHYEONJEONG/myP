@@ -25,9 +25,6 @@
 	 $("#inner").on("click","div", function() {
 		  location.href= $(this).attr("link");//컨틀롤러 매핑, 이동하려고  
 	});
-	
-	
-	
 });
   </script>
 </head>
