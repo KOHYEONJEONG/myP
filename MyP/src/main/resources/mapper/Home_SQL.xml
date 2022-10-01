@@ -29,4 +29,11 @@
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%' 
     	AND GAS_STATION_NUM LIKE '%' || #{search_txt} || '%'
 	</select>
+	
+	<select id="RestaurantList" resultType="hashmap" parameterType="hashmap">
+		SELECT RESTAURANT_NO, ENT_NM, PARCEL_NUM, PHONE FROM RESTAURANT
+		WHERE PARCEL_NUM LIKE '%' || #{sido1} || '%'
+    	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
+    	AND ENT_NM LIKE '%' || #{search_txt} || '%'
+	</select>
 </mapper>
