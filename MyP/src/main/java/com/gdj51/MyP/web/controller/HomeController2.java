@@ -82,4 +82,19 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
+	
+	@RequestMapping(value = "/cinemaAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String cinemaAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		List<HashMap<String, String>> list = iACDao.getList("home.CinemaList", params);
+
+		model.put("list", list);
+
+		return mapper.writeValueAsString(model);
+
+	}
 }
