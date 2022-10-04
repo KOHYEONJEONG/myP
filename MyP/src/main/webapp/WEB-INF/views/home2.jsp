@@ -6,25 +6,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyP</title>
-  <link rel="stylesheet" href="resources/css/main.css">
-  <link rel="stylesheet" href="resources/css/popup.css">
-  <link rel="stylesheet" href="resources/css/font.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"> <!-- 여기 있어야함 -->
-  <link rel="stylesheet" href="resources/css/swiper.css"> <!--추가-->
-  <link rel="stylesheet" href="resources/css/weather.css"> <!--추가--> 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
-  <script src="resources/js/weather.js"></script><!--추가-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyP</title>
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/popup.css">
+<link rel="stylesheet" href="resources/css/font.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"> <!-- 여기 있어야함 -->
+<link rel="stylesheet" href="resources/css/swiper.css"> <!--추가-->
+<link rel="stylesheet" href="resources/css/weather.css"> <!--추가--> 
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
+<script src="resources/js/weather.js"></script><!--추가-->
 <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-   <script src="resources/js/main.js"></script>
-   <script src="resources/js/header.js"></script>
-  <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
-  <link rel="stylesheet" href="resources/rety/jquery.raty.css">
+<script src="resources/js/main.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
+<link rel="stylesheet" href="resources/rety/jquery.raty.css">
 <style>
   .result_area2 {
   width: 100%;
@@ -239,7 +238,6 @@
             text-decoration: none;
         }
 </style>
-  <script src="resources/jquery/jquery-1.12.4.js"></script>
   <script type="text/javascript">
  
   var logx = [];
@@ -298,10 +296,6 @@
 		    });
 		   }
 		  });
-		  
-		  
-		 
-		  
 
 		$("#search_i").on("click", function(){
 			var params = $("#actionForm").serialize();
@@ -323,16 +317,9 @@
 				}
 			})
 			
-			
 		});
 		
-		
-		
-		$("")
  });
-  
-
-    
   
  function searchList(list){
 	 console.log("aaaa");
@@ -370,6 +357,7 @@
 		 	endtime: data.ENDTIME,
 		 	review: data.CNT,
 		 	starscore: data.AVG,
+		 	payorfree_div:data.PAYORFREE_DIV,//유,무료
 		 	carparknum: data.CAR_PARK_MAG_NUM
 		 });
 		 
@@ -407,8 +395,8 @@
 		    	 iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
 		    	}
 		    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
-		    	iwContent += "<span class=\"pay\">유료</span>";
-		    	iwContent += "<span class=\"detail\">상세보기</span>"; 
+		    	iwContent += "<span class=\"pay\">"+positions[i].payorfree_div+"</span>";
+		    	iwContent += "<span class=\"detail\" onclick=\"goDetail("+positions[i].carparknum+")\">상세보기</span>"; 
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
 		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
@@ -417,7 +405,8 @@
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"compareBox\">";
-		    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"feeCom("+positions[i].carparknum+","+positions[i].starttime+","+positions[i].endtime+","+positions[i].title+")\">요금비교</button>";//인자값을 넣을 땐 형식) "+인자값+"
+//		    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"feeCom("+positions[i].carparknum+",\'"+positions[i].starttime+"\',\'"+positions[i].endtime+"\', \'"+positions[i].title+"\')\">요금비교</button>";//인자값을 넣을 땐 형식) "+인자값+"
+		    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"feeCom("+positions[i].carparknum+",\'"+positions[i].starttime+"\',\'"+positions[i].endtime+"\', \'"+ positions[i].payorfree_div +"\', \'"+positions[i].title+"\')\">요금비교</button>";
 		    	iwContent += "</div>"
 		    	iwContent += "</div>"
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -438,7 +427,7 @@
 			 kakao.maps.event.addListener(marker, 'click', function() {
 				 
 				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
-				  $("img[alt='close']").click();
+				  $("img[alt='close']").click();//개발자도구에서 x버튼의 속성에 접근한것.
 			       // 마커 위에 인포윈도우를 표시합니다
 			       infowindow.open(map, marker);
 			       
@@ -466,14 +455,30 @@
 
  	}
  
- function feeCom(e,e1,e2,e3) {
-	 console.log(e, e1, e2, e3);
-	 //feeComArray.push({title: '민속의집 공영주차장(구)', latlng: qa, starttime: '00:00', endtime: '00:00', review: 0});
+function goDetail(car_num){
+	console.log("상세보기 클릭 => "+car_num);
+ 	//잘 넘어오면 상세보기 페이지로 이동하자.
+ 	$("#car_num").val(car_num);
+ 	
+ 
 }
+ 
+function feeCom(car_num,starttime,endtime,payorfree_div,title) {//요금비교하려고 배열에 담았다.
+ 	//1370100 '00:00' '00:00','유료','강일동공영주차장(구)'
+	feeComArray.push({car_num: car_num, starttime: starttime, endtime: endtime, payorfree_div:payorfree_div, title: title});
+}
+ 
+ 
   </script>
 </head>
 <body>
 <c:import url="/header"></c:import>
+
+<form action="#" id="goForm" method="post">
+<!-- 상세보기 페이지로 이동하려고 -->
+	<input type="hidden" id="car_num" name="car_num">
+</form>
+
   <main class="main1">
     <div class="left_area">
       <div class="icon_bar">
@@ -802,27 +807,7 @@
             <input type="button" class="bottom_btn" value="요금 비교" />
           </div>
         </div>
-        <!-- <div class="bookmark_wrap">
-          <div class="title">즐겨찾기</div>
-          <div class="result_area">
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">주차장</div>
-            </div>
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">맛집</div>
-            </div>
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">문화생활</div>
-            </div>
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">주유소</div>
-            </div>
-          </div>
-        </div> -->
+      
         <div class="bookmark_wrap">
           <div class="title p40">주차장</div>
           <div class="result_area">
@@ -1157,19 +1142,7 @@
                 <div class="starstar"></div>
             </div>
         </div>
-        <script type="text/javascript">
-          $(function() {
-              $('.starstar').raty({
-  //                score: 3,
-                  path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images",
-                  half : true,
-                  hints :  [['bad 1/2', 'bad'], ['poor 1/2', 'poor'], ['regular 1/2', 'regular'], ['good 1/2', 'good'], ['gorgeous 1/2', 'gorgeous']]
-                  ,width : 200
-                  ,click: function(score, evt) {//선택한 별점수가
-                  }
-              });
-          });
-      </script>
+ <!-- 빼버림 star script -->
       </div><!--star_wrap-->
   </div>
     <div class="popup_content">
