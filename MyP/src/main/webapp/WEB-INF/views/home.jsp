@@ -178,6 +178,14 @@
         .phone{
         	color: #028f69;
         }
+        
+         .phone2, .address {
+         	font-size: 12px;
+         	margin-bottom: 3px;
+        }
+        .phone2{
+        	color: #028f69;
+        }
 
         .payBox {
             width: 70px;
@@ -188,7 +196,11 @@
             color: red;
             text-align: center;
         }
-
+		.detail {
+            font-weight: 700;
+            color: blue;
+            text-align: center;
+        }
         .viewDetail {
             font-weight: 700;
             color: blue;
@@ -285,6 +297,10 @@
 		    });
 		   }
 		  });
+		  
+		  
+		 
+		  
 
 		$("#search_i").on("click", function(){
 			var params = $("#actionForm").serialize();
@@ -309,7 +325,9 @@
 			
 		});
 		
-
+		
+		
+		$("")
  });
   
 
@@ -346,13 +364,17 @@
 	 for(var data of list) {
 		 positions.push({
 			title: data.CAR_PARK_NM,
-			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
-		 	/* starttime: data.STARTTIME */
-		 	/* endtime: data.ENDTIME */
+			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY),
+		 	starttime: data.STARTTIME,
+		 	endtime: data.ENDTIME,
+		 	review: data.CNT,
+		 	starscore: data.AVG,
+		 	carparknum: data.CAR_PARK_MAG_NUM
 		 });
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
+	 console.log(positions);
 
 		// 마커 이미지의 이미지 주소입니다
 		var imageSrc = "resources/icons/park_marker4.png"; 
@@ -375,8 +397,16 @@
 		    });
 		    
 		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
-		    	iwContent += "<div class=\"phone\">" + positions[i].title +"</div>";
-		    	iwContent += "<div class=\"address\">"+ positions[i].title + "</div>";
+		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />"; 
+		    	if(positions[i].starscore == 0){
+		    		iwContent += "<div class=\"phone\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
+		    	}else {
+		    	
+		    	 iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
+		    	}
+		    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
+		    	iwContent += "<span class=\"pay\">유료</span>";
+		    	iwContent += "<span class=\"detail\">상세보기</span>"; 
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
 		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
@@ -404,10 +434,13 @@
 	     (function(marker, infowindow) {
 	    	 // 마커에 클릭이벤트를 등록합니다
 			 kakao.maps.event.addListener(marker, 'click', function() {
+				 
 				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
 				  $("img[alt='close']").click();
 			       // 마커 위에 인포윈도우를 표시합니다
-			       infowindow.open(map, marker);  
+			       infowindow.open(map, marker);
+			       
+			      
 			 });
 
 	     })(marker, infowindow);		 

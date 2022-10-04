@@ -341,7 +341,9 @@ function drawPaging(pd) {
 <!-- 페이징 때 기존 검색 내용 유지용 --> 
       <main>
         <div class="main_wrap">
-            <c:import url="/partiNoticeSidebar"></c:import>
+            <c:import url="/partiNoticeSidebar">
+            	<c:param name="link" value="faq"></c:param>
+            </c:import>
             <div class="right_area">            
                 <div class="table_wrap">
                 
