@@ -274,16 +274,32 @@ function drawList(list) {
 	var cate_num = "";
 	
     html +="<div class=\"accordion_con on\">";                               
+<<<<<<< HEAD
+    html +="  <div id=\"accordion_con\"> ";                               
+	for(var data of list){
+		cate_num = data.CATE_NUM;
+		
+		html +="<h3 no1=\"" + data.FAQ_NUM + "\">" + data.QUE + "</h3>";	
+		html +="    <div class=\"btn_wrap1\">                         ";                               
+		html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+=======
     html +="<div id=\"accordion_con\">";      
     
 	for(var data of list){				                                                         
     html +="<h3>" + data.QUE + "</h3>";
 	html +="<div class=\"btn_wrap1\">";                               
 	html +="<p>" + data.ANSWER_CON + "</p>"; 
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 	    if("${sMemAuto}" == 1){
 		    html +="<div class=\"btn update\" id=\"updateBtn\">수정</div>";
 		    html +="<div class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
 	    }
+<<<<<<< HEAD
+	    html +="    </div>    ";       	   
+	}                                                                          
+    html +="  </div>";                               
+    html +="</div>";                               
+=======
 	    html +="</div>";       	   
 		for(var data of list){
 			cate_num = data.CATE_NUM;
@@ -299,6 +315,7 @@ function drawList(list) {
 		}                                                                          
 	    html +="</div>";                               
 	    html +="</div>";                               
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 	
 		$("#cate_num").val(cate_num);
 		$(".accordion_wrap").html(html);
@@ -351,9 +368,7 @@ function drawPaging(pd) {
 <!-- 페이징 때 기존 검색 내용 유지용 --> 
       <main>
         <div class="main_wrap">
-            <c:import url="/partiNoticeSidebar">
-          	<c:param name="link" value="faq"></c:param>
-          </c:import>
+            <c:import url="/partiNoticeSidebar"></c:import>
             <div class="right_area">            
                 <div class="table_wrap">
                 
