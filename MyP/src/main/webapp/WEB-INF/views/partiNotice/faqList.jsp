@@ -169,6 +169,7 @@
       $("#actionForm").attr("action", "FaqInsert");
       $("#actionForm").submit();      
    });
+<<<<<<< HEAD
    
    // 수정버튼 클릭
    $(".accordion_wrap").on("click", "#updateBtn", function () {
@@ -200,6 +201,39 @@
       });
    });       
    
+=======
+	
+	// 수정버튼 클릭
+	$(".accordion_wrap").on("click", "#updateBtn", function () {
+		$("#no1").val($(this).attr("no1"));
+		
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTet").val($("#oldTet").val());
+		
+	 	$("#actionForm").attr("action", "faqUpdate");
+		$("#actionForm").submit(); 
+	});
+	
+	// 목록의 삭제버튼 클릭시
+	$(".accordion_wrap").on("click", "#deleteBtn", function() {
+		$("#no1").val($(this).attr("no1"));
+		
+		 makePopup({
+	    	  title : "알림",
+	    	  contents : "삭제 하시겠습니까?",
+	    	  buttons : [{
+	    		  name : "삭제",
+	    		  func : function() {	    			  	
+	    				action("delete"); 
+	    				closePopup(); // 제일 위에 팝업 닫기
+	    		  }
+	    	  }, {
+	    		  name : "취소"
+			}]		  	
+		});
+	});		 
+	
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 });
   
 var msg ={
@@ -270,10 +304,16 @@ function reloadList() {
 }
 
 function drawList(list) {
+<<<<<<< HEAD
    var html = "";
    var cate_num = "";
+=======
+	var html = "";
+	var cate_num = "";
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
     html +="<div class=\"accordion_con on\">";                               
     html +="  <div id=\"accordion_con\"> ";                               
+<<<<<<< HEAD
    for(var data of list){
       cate_num = data.CATE_NUM;
       
@@ -286,8 +326,23 @@ function drawList(list) {
        }
        html +="    </div>    ";             
    }                                                                          
+=======
+	for(var data of list){
+		cate_num = data.CATE_NUM;
+		
+		html +="<h3 no1=\"" + data.FAQ_NUM + "\">" + data.QUE + "</h3>";	
+		html +="    <div class=\"btn_wrap1\">                         ";                               
+		html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+	    if("${sMemAuto}" == 1){
+		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn update\" id=\"updateBtn\">수정</div>";
+		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
+	    }
+	    html +="    </div>    ";       	   
+	}                                                                          
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
     html +="  </div>";                               
     html +="</div>";                               
+<<<<<<< HEAD
    
    $("#cate_num").val(cate_num);
    $(".accordion_wrap").html(html);
@@ -297,10 +352,22 @@ function drawList(list) {
     $("#accordion_con").accordion({
        collapsible: true
    });
+=======
+	
+	$("#cate_num").val(cate_num);
+	$(".accordion_wrap").html(html);
+	
+	
+	 // 아코디언
+	 $("#accordion_con").accordion({
+	    collapsible: true
+	});
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 }
 
 
 function drawPaging(pd) {
+<<<<<<< HEAD
    var html = "";
    
    html +=
@@ -331,6 +398,38 @@ function drawPaging(pd) {
    html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
    
    $(".page_nation").html(html);
+=======
+	var html = "";
+	
+	html +=
+	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+	// 이전
+	if($("#page").val() == "1"){
+		html += "<a class=\"arrow prev\" page=\"1\"></a>";
+	} else{
+		// 문자열을 숫자로 바꾸기위해 *1
+		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
+	}
+	
+	for(var i = pd.startP; i <= pd.endP; i++){
+		if($("#page").val() * 1 == i){ // 현재 페이지
+			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+		} else { // 다른 페이지
+			html += "<a page=\"" + i + "\">" + i + "</a>";
+		}
+		
+	}
+	
+	if($("#page").val() *1 == pd.endP){ // 현재페이지가 마지막 페이지라면
+		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+	} else {
+		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+	}
+	
+	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+	
+	$(".page_nation").html(html);
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
                                                                    
 }    
 </script>
