@@ -98,17 +98,12 @@ $(document).ready(function () {
 	<c:import url="/header1"></c:import>
 	<main class="main1">
 			<form action="#" id="backForm" method="post">
-		
+		</form>
 		<div class="main_wrap">
-			<div class="side_bar">
-				<div class="title">관리자페이지</div>
-				<div class="inner">
-					<div>회원관리</div>
-					<div>챗봇관리</div>
-					<div>데이터관리</div>
-					<div>신고 리뷰관리</div>
-				</div>
-			</div>
+			<c:import url="/managerSidebar">
+				<c:param name="link" value="reportReviewManagement"></c:param>
+			</c:import> 
+			
 			<div class="right_area">
 				<table class="table1">
 					<thead>
@@ -156,11 +151,13 @@ $(document).ready(function () {
 					</c:choose>
 					</tbody>
 				</table>
+				
 				<div class="btn_wrap1">
 					<input type="button" value="목록" class="btn list" id="listBtn">
 				</div>
 			</div>
 		</div>
+		
 	</main>
 	<c:import url="/footer"></c:import>
 	<script src="./js/main.js"></script>

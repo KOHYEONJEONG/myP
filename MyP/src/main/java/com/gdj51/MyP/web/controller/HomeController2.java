@@ -31,9 +31,15 @@ public class HomeController2 {
 
 		int cnt = iACDao.getIntData("home.SearchCnt", params);
 
+		/*
+		 * List<HashMap<String, String>> popuplist = iACDao.getList("home.parkPopup",
+		 * params);
+		 */
+		
+		
 		model.put("list", list);
 		model.put("cnt", cnt);
-
+		/* model.put("popuplist", popuplist); */
 		return mapper.writeValueAsString(model);
 
 	}
