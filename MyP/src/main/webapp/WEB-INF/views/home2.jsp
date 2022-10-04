@@ -245,6 +245,7 @@
   var logx = [];
   var logy = [];
   var title = [];
+  var feeComArray  = [];//추가 khj
   $(document).ready(function() {
 	  var area0 = ["구","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	  var area1 = ["동","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
@@ -393,6 +394,7 @@
 		        position: positions[i].latlng, // 마커를 표시할 위치
 		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 		        image : markerImage, // 마커 이미지 
+		        
 		        clickable: true
 		    });
 		    
@@ -415,7 +417,7 @@
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"compareBox\">";
-		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"feeCom("+positions[i].carparknum+","+positions[i].starttime+","+positions[i].endtime+","+positions[i].title+")\">요금비교</button>";//인자값을 넣을 땐 형식) "+인자값+"
 		    	iwContent += "</div>"
 		    	iwContent += "</div>"
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -463,6 +465,11 @@
 		map.setBounds(bounds);
 
  	}
+ 
+ function feeCom(e,e1,e2,e3) {
+	 console.log(e, e1, e2, e3);
+	 //feeComArray.push({title: '민속의집 공영주차장(구)', latlng: qa, starttime: '00:00', endtime: '00:00', review: 0});
+}
   </script>
 </head>
 <body>

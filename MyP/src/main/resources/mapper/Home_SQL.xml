@@ -2,11 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="home">
 	<select id="List" resultType="hashmap" parameterType="hashmap">
-		SELECT TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME,
+<!-- 		SELECT TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME,
                TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,
-               CAR_PARK_NM,PAYORFREE_DIV, LOCX, LOCY
+               CAR_PARK_NM,PAYORFREE_DIV, LOCX, LOCY,CAR_PARK_MAG_NUM
 		FROM CAR_PARK
-		WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
+		WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%' -->
+	SELECT TO_CHAR(A.WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME,
+               TO_CHAR(A.WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,
+               A.CAR_PARK_MAG_NUM, A.CAR_PARK_NM, A.PAYORFREE_DIV, A.LOCX, A.LOCY ,NVL(B.REVIEW_NUM,0)AS REVIEW, NVL(B.AVG_R,0)AS AVG, NVL(B.CNT,0)AS CNT
+    FROM CAR_PARK A LEFT OUTER JOIN (SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG_R , NVL(C.CNT,0) AS CNT
+    FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
+    FROM REVIEW
+    GROUP BY CAR_PARK_MAG_NUM)C
+    ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+    GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)B
+    ON A.CAR_PARK_MAG_NUM = B.CAR_PARK_MAG_NUM
+    WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	
@@ -39,28 +50,32 @@
 	
 	<!-- 지도 위 주차장 팝업 (차 번호, 별점 평균(각회원 별점들을 평균낸 후 마지막에 리뷰개수를 나누었음), 총 리뷰 개수) -->
 	<select id="parkPopup" resultType="hashmap" parameterType="hashmap">
-		SELECT N.CAR_PARK_NM, ROUND(A.TOTAL/A.CNT) AS STAR , A.CNT 
-		FROM(
-		    SELECT A.CAR_PARK_MAG_NUM, SUM(A.AVG_R) AS TOTAL, A.CNT
-		    FROM(
-		        SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG_R , NVL(C.CNT,0) AS CNT
-		        FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
-		                                       FROM REVIEW
-		                                       GROUP BY CAR_PARK_MAG_NUM)C
-		                                    ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-		        GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)A
-		    WHERE CAR_PARK_MAG_NUM = #{car_num}
-		    GROUP BY A.CAR_PARK_MAG_NUM ,A.CNT)A LEFT OUTER JOIN(SELECT DISTINCT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM 
-		                                                         FROM CAR_PARK C LEFT OUTER JOIN REVIEW R
-		                                                                                      ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM  
-		                                                         )N
-		                                                      ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM
+<!-- 	SELECT N.CAR_PARK_NM,N.STARTTIME, ROUND(A.TOTAL/A.CNT) ,N.ENDTIME, A.CNT,N.PAYORFREE_DIV, N.LOCX, N.LOCY
+FROM(
+SELECT A.CAR_PARK_MAG_NUM, SUM(A.AVG_R) AS TOTAL, A.CNT
+FROM(
+SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG_R , NVL(C.CNT,0) AS CNT
+FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
+                               FROM REVIEW
+                               GROUP BY CAR_PARK_MAG_NUM)C
+                            ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)A
+WHERE CAR_PARK_MAG_NUM = #{test}
+GROUP BY A.CAR_PARK_MAG_NUM ,A.CNT)A LEFT OUTER JOIN (SELECT DISTINCT C.CAR_PARK_MAG_NUM, C.CAR_PARK_NM ,TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME
+,TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,C.PAYORFREE_DIV, C.LOCX, C.LOCY
+FROM CAR_PARK C 
+LEFT OUTER JOIN REVIEW R
+ON C.CAR_PARK_MAG_NUM = R.CAR_PARK_MAG_NUM  
+)N
+ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	</select>
 	
 	<select id="CinemaList" resultType="hashmap" parameterType="hashmap">
 	    SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, PHONE FROM(
 		SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, NVL(PHONE, ' ') AS PHONE, 
         ROW_NUMBER() OVER (PARTITION BY PARCEL_NUM ORDER BY CINEMA_MAG_NUM DESC) AS RANK 
-        FROM CINEMA) WHERE RANK = '1'
+        FROM CINEMA) WHERE RANK = '1' AND PARCEL_NUM LIKE '%' || #{sido1} || '%'
+    	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
+    	AND ENT_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 </mapper>
