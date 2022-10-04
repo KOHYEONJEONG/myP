@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -102,5 +103,38 @@ public class HomeController2 {
 
 		return mapper.writeValueAsString(model);
 
+	}
+	
+	@RequestMapping(value = "/cultureBookmarkAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String noticeAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		int cnt = 0;
+		System.out.println(params);
+
+		try {
+			switch (gbn) {
+			case "insert":
+				cnt = iACDao.insert("bookmark.insertCultrue", params);
+				break;
+			case "delete":
+				cnt = iACDao.delete("bookmark.deleteCultrue", params);
+				break;
+			}
+
+			if (cnt > 0) {
+				model.put("msg", "success");
+			} else {
+				model.put("msg", "fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("msg", "error");
+		}
+
+		return mapper.writeValueAsString(model);
 	}
 }

@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="CultureList" resultType="hashmap" parameterType="hashmap">
-		SELECT CUL_LIFE, ADDRESS, PHONE, HOMEPAGE, LOCX, LOCY FROM CULTURAL_LIFE
+		SELECT CUL_LIFE_NUM, CUL_LIFE, ADDRESS, PHONE, LOCX, LOCY FROM CULTURAL_LIFE
     	WHERE ADDRESS LIKE '%' || #{sido1} || '%' 
     	AND ADDRESS LIKE'%'|| #{gugun1} || '%' 
     	AND CUL_LIFE LIKE '%' || #{search_txt} || '%'

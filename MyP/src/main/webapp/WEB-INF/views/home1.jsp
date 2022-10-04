@@ -197,6 +197,7 @@
   .shareBox {
       padding: 5px 10px;
       border: 1px solid #595959;
+      cursor: pointer;
   }
   
   .bookmarkBox {
@@ -448,6 +449,81 @@
 			})
 	
 		});
+		
+		
+		$("body").on("click", ".bookmarkBox", function() {
+			// 로그인 안된상태,
+			if($("#mem_num").val() == ""){ // 헤더에서 세션정보 가지고 있음
+			
+			
+			} else { // 로그인 상태
+				
+				$("#send_mem_num").val($("#mem_num").val());
+			
+				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
+					
+				 	var params = $("#cultureForm").serialize();
+					$.ajax({
+						url : "cultureBookmarkAction/insert",
+						type : "POST",
+						dataType: "json",
+						data: params,
+						success : function(res) { 
+							switch(res.msg){
+							case "success" : 
+								// 별이미지 변경하기, 북마크 된 상태 이미지로
+								//$(this).children("img").attr("src", "resources/icons/star1.svg")
+								// 북마크 리스트 로드
+								
+								break;
+							case "fail" :							
+								break;
+							case "error" :							
+								break;
+							}
+						},
+						error : function(request, status, error) { 
+							console.log(request.responseText); 
+						}
+					}) 
+				} else {
+					
+					var params = $("#cultureForm").serialize();
+					$.ajax({
+						url : "cultureBookmarkAction/delete",
+						type : "POST",
+						dataType: "json",
+						data: params,
+						success : function(res) { 
+							switch(res.msg){
+							case "success" : 
+								// 별이미지 변경하기, 북마크 안 된 상태 이미지로
+								//$(this).children("img").attr("src", "resources/icons/bookmark.png")
+								// 북마크 리스트 로드
+								
+								break;
+							case "fail" :
+								
+								break;
+							case "error" :
+								
+								break;
+							}
+						},
+						error : function(request, status, error) { 
+							console.log(request.responseText); 
+						}
+					}) 
+					
+				}
+				
+			}
+			
+		});
+		
+		
+		
+		
  });
   
 
@@ -539,7 +615,7 @@ function cultureList(list){
 			title: data.CUL_LIFE,
 			phone: data.PHONE,
 			address: data.ADDRESS,
-			homepage: data.HOMEPAGE,
+			cultureNum: data.CUL_LIFE_NUM,
 			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
 		 });
 		 
@@ -574,13 +650,17 @@ function cultureList(list){
 		       image : markerImage // 마커 이미지 
 		        //clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다, 마커 클릭시 팝업창 뜨게 추가
 		    });
-			    
-		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
+			   
+		    var iwContent = "<form action=\"#\" id=\"cultureForm\" method=\"post\">";
+		    	iwContent += "<input type=\"hidden\" id=\"cultureNum\" name=\"cultureNum\" value="+ positions[i].cultureNum +" />";
+		    	iwContent += "<input type=\"hidden\" id=\"send_mem_num\" name=\"memNum\" />";
+		    	iwContent += "</form>";
+		    	iwContent += "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
 		    	iwContent += "<div class=\"phone\">" + positions[i].phone +"</div>";
 		    	iwContent += "<div class=\"address\">" + positions[i].address +"</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
-		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "<img src=\"resources/icons/star1.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -682,7 +762,7 @@ function gasStationList(list){
 			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
 			    	iwContent += "<div class=\"buttonBox\">";
 			    	iwContent += "<div class=\"bookmarkBox\">";
-			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -951,7 +1031,7 @@ function restaurantList(list){
         <div class="icons sixth"></div>
         <div class="icons end"></div>
       </div>
-        <form action="#" id="actionForm" method="post">
+       <form action="#" id="actionForm" method="post">
       <div class="left_section">
         <div class="search_warp on">
           <div class="search_box">
