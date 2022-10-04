@@ -198,9 +198,9 @@
 	    		  name : "취소"
 			}]		  	
 		});
-	});		 
+	});		 //$(".accordion_wrap")
 	
-});
+});//document
   
 var msg ={
 	"insert" : "등록",
@@ -272,7 +272,9 @@ function reloadList() {
 function drawList(list) {
 	var html = "";
 	var cate_num = "";
+	
     html +="<div class=\"accordion_con on\">";                               
+<<<<<<< HEAD
     html +="  <div id=\"accordion_con\"> ";                               
 	for(var data of list){
 		cate_num = data.CATE_NUM;
@@ -280,24 +282,51 @@ function drawList(list) {
 		html +="<h3 no1=\"" + data.FAQ_NUM + "\">" + data.QUE + "</h3>";	
 		html +="    <div class=\"btn_wrap1\">                         ";                               
 		html +="      <p>" + data.ANSWER_CON + "</p>     "; 
+=======
+    html +="<div id=\"accordion_con\">";      
+    
+	for(var data of list){				                                                         
+    html +="<h3>" + data.QUE + "</h3>";
+	html +="<div class=\"btn_wrap1\">";                               
+	html +="<p>" + data.ANSWER_CON + "</p>"; 
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 	    if("${sMemAuto}" == 1){
-		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn update\" id=\"updateBtn\">수정</div>";
-		    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
+		    html +="<div class=\"btn update\" id=\"updateBtn\">수정</div>";
+		    html +="<div class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
 	    }
+<<<<<<< HEAD
 	    html +="    </div>    ";       	   
 	}                                                                          
     html +="  </div>";                               
     html +="</div>";                               
+=======
+	    html +="</div>";       	   
+		for(var data of list){
+			cate_num = data.CATE_NUM;
+			
+			html +="<h3 no1=\"" + data.FAQ_NUM + "\">" + data.QUE + "</h3>";	
+			html +="<div class=\"btn_wrap1\">                         ";                               
+			html +="<p>" + data.ANSWER_CON + "</p>"; 
+		    if("${sMemAuto}" == 1){
+			    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn update\" id=\"updateBtn\">수정</div>";
+			    html +="<div no1=\"" + data.FAQ_NUM + "\" class=\"btn delete\" id=\"deleteBtn\">삭제</div>";
+		    }
+		    html +="</div>";       	   
+		}                                                                          
+	    html +="</div>";                               
+	    html +="</div>";                               
+>>>>>>> branch 'main' of https://github.com/KOHYEONJEONG/myP.git
 	
-	$("#cate_num").val(cate_num);
-	$(".accordion_wrap").html(html);
+		$("#cate_num").val(cate_num);
+		$(".accordion_wrap").html(html);
+	
+	}//이 중괄호가 빠져서 오류남.(들여쓰기 하시면 더 보기 좋아요.)
 	
 	 // 아코디언
 	 $("#accordion_con").accordion({
 	    collapsible: true
 	});
-}
-
+}	 
 
 function drawPaging(pd) {
 	var html = "";
@@ -327,11 +356,10 @@ function drawPaging(pd) {
 		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
 	}
 	
-	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+		html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
 	
-	$(".page_nation").html(html);
-                                                                   
-}    
+		$(".page_nation").html(html);
+}                                              
 </script>
 
 </head>
