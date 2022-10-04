@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="resources/css/font.css">
     <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
     <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script type="text/javascript" src="resources/js/proj4js-combined.min.js"></script>
+    <script type="text/javascript" src="resources/js/proj4.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	var area0 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
@@ -74,7 +74,7 @@ $(document).ready(function() {
 		
 	$.ajax({
 		
-		url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/15/", 
+		url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/20/", 
 		type :"GET", 
 		dataType :"xml", 
 		success : function(xml) { 
@@ -112,50 +112,48 @@ $(document).ready(function() {
 					
 					var etime1 = $(this).find("exp_clr_time").text().substring(0, 2);
 					var etime2 = $(this).find("exp_clr_time").text().substring(2, 4);					
-					
-					//116~129 테스트 해본다고 추가했습니다..(뭔가 안되는 거 같아 지우셔도 될 거 같아요..)
-				   Proj4js.defs["EPSG:5179"] = "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"; 
-				   Proj4js.defs["EPSG:4326"] = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"; 
-				   var s_srs = new Proj4js.Proj("EPSG:5179"); 
-				   var t_srs = new Proj4js.Proj("EPSG:4326");
-				   var x=$(this).find("grs80tm_x").text(); //5179 좌표계 x
-				   var y=$(this).find("grs80tm_y").text(); //5179 좌표계 y
-				   var pt = new Proj4js.Point(x,y); //포인트 생성
-				   var result =Proj4js.transform(s_srs, t_srs, pt); //좌표계 변경 
-				   
-				   console.log("위도&경도 : "+result); //경도, 위도;
-				   var lat = result.y;  //위도 경도  순서가 바뀌어서 출력된다.
-				   var lng = result.x;  //위도 경도  순서가 바뀌어서 출력된다.
-				   console.log(lng);
+				
+				   //https://www.osgeo.kr/17  <-- 한국 주요 좌표계 EPSG코드 및 proj4 인자 정리(*중부원점(Bessel): 서울 등 중부지역)
+				   //https://yganalyst.github.io/spatial_analysis/spatial_analysis_3/ <--좌표가 정확히 안맞는 문제를 해결(+towgs84=0,0,0,0,0,0,0)
+				   const grs80 = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=0,0,0,0,0,0,0";
+				   const wgs84 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
+
+				   console.log(($(this).find("grs80tm_x").text() * 1).toFixed(1)); 
+				   const p = proj4(grs80, wgs84, [($(this).find("grs80tm_x").text() * 1).toFixed(1) * 1, ($(this).find("grs80tm_y").text() * 1).toFixed(1) * 1]);				 
+
+				   console.log(p); 
 
 					html += "<div class=\"box\">";
 		            html += "<div class=\"accident_title " + $(this).find("acc_type").text() + "\"></div>";
 		            html += "<div class=\"accident_period\">"+ sdate1 +" "+ sdate2 +" "+ sdate3 +" "+"/"+" "+ stime1 +" "+":"+" "+ stime2 +" "+"~"+" "+ edate1 +" "+ edate2 +" "+ edate3 +" "+"/"+" "+ etime1 +" "+":"+" "+ etime2 +"</div>";
-		            html += "<div class=\"accident_info\">"+ $(this).find("acc_info").text() +"</div>";
-					//html += "<input type=\"hidden\" id=\"grs80tm_x\" name=\"grs80tm_x\" value="+ $(this).find("grs80tm_x").text() +" />";
-					//html += "<input type=\"hidden\" id=\"grs80tm_y\" name=\"grs80tm_y\" value="+ $(this).find("grs80tm_y").text() +" />";					
-					html += "<input type=\"hidden\" id=\"grs80tm_x\" name=\"grs80tm_x\" value="+ lng +" />";
-					html += "<input type=\"hidden\" id=\"grs80tm_y\" name=\"grs80tm_y\" value="+ lat +" />";					
+		            html += "<div class=\"accident_info\">"+ $(this).find("acc_info").text() +"</div>";	
+					//html += "<input type=\"hidden\" id=\"grs80tm_x\" name=\"grs80tm_x\" value="+ p[1] +" />";
+					//html += "<input type=\"hidden\" id=\"grs80tm_y\" name=\"grs80tm_y\" value="+ p[0] +" />"; 					
 		            html += "</div>	";					
 		            
 		 			positions.push({
 		 				title: $(this).find("acc_info").text(),
-		 				latlng:new kakao.maps.LatLng(lat, lng) //여기도 수정했음.  $(this).find("grs80tm_x").text()
+		 				latlng:new kakao.maps.LatLng(p[1], p[0]) //경도, 위도
 		 			});
 		 			 
-		 			 points.push(new kakao.maps.LatLng(lat, lng));//여기도 수정했음. $(this).find("grs80tm_y").text()
+		 			 points.push(new kakao.maps.LatLng(p[1], p[0]));//경도, 위도
 				})
 				
 	 			// 마커 이미지의 이미지 주소입니다
-	 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+	 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
 	 			    
-	 			for (var i = 0; i < positions.length; i ++) {
+	 			 for (var i = 0; i < positions.length; i ++) {
 	 			    
-	 			    // 마커 이미지의 이미지 크기 입니다
-	 			    var imageSize = new kakao.maps.Size(24, 35); 
-	 			    
-	 			    // 마커 이미지를 생성합니다    
-	 			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+	 			   // 마커 이미지의 이미지 크기 입니다
+				   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+				   imgOptions =  {
+				        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+				        spriteOrigin : new kakao.maps.Point(0, 790), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+				        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+				    }
+    
+				    // 마커 이미지를 생성합니다    
+				    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
 	 			    
 	 			    // 마커를 생성합니다
 	 			    var marker = new kakao.maps.Marker({
@@ -164,7 +162,8 @@ $(document).ready(function() {
 	 			        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 	 			        image : markerImage // 마커 이미지 
 	 			    });
-	 			}
+	 			} 
+
 
 	 			// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 	 			var bounds = new kakao.maps.LatLngBounds();    
@@ -178,7 +177,7 @@ $(document).ready(function() {
 	 			    bounds.extend(points[i]);
 	 			}
 	 			
-	 			map.setBounds(bounds);
+	 			map.setBounds(bounds); 
 				
 				$(".result_area").html(html);
 				
