@@ -61,6 +61,8 @@
 	    SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, PHONE FROM(
 		SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, NVL(PHONE, ' ') AS PHONE, 
         ROW_NUMBER() OVER (PARTITION BY PARCEL_NUM ORDER BY CINEMA_MAG_NUM DESC) AS RANK 
-        FROM CINEMA) WHERE RANK = '1'
+        FROM CINEMA) WHERE RANK = '1' AND PARCEL_NUM LIKE '%' || #{sido1} || '%'
+    	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
+    	AND ENT_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 </mapper>
