@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,15 +25,14 @@ $(document).ready(function name() {
 });
 </script>
 </head>
-
 <body>
 <div class="side_bar">
                 <div class="title">참여/알림</div>
                 <div class="inner" id="inner">
-                    <div link="notice">공지사항</div>
-                    <div link="faq">FAQ</div>
-                    <div link="qna">QnA</div>
+                    <div link="rankingSystemGoodParking">시스템 좋은 주차장</div>
+                    <div link="rankingFeeReasonableBoard">요금 합리적인 주차장</div>
                 </div> 
             </div>
+</body>
 </body>
 </html>

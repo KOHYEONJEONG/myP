@@ -89,111 +89,77 @@ $(document).ready(function () {
 		location.href = "home";
 	})
     
-    $("#parkinfo").click(function() {
-		location.href = "parkinfo";
+    $("#parkinfo").click(function() { //주차장조회
+		location.href = "parkinfo"; 
 	})
 	
-	$("#notice").click(function() {
+	$("#notice").click(function() { //공지사항
 		location.href = "notice";
 	})
 	
-	$("#notice2").click(function() {
-		location.href = "notice";
-	})
-	
-	$("#faq").click(function() {
+	$("#faq").click(function() { //faq
 		location.href = "faq";
 	})
 	
-	$("#faq2").click(function() {
-		location.href = "faq";
-	})
-	
-	$("#qna").click(function() {
+	$("#qna").click(function() { //qna
 		location.href = "qna";
 	})
 	
-	$("#qna2").click(function() {
-		location.href = "qna";
-	})
-	
-	$("#system").click(function() {
+	$("#system").click(function() { //시스템 좋은 랭킹
 		location.href = "rankingSystemGoodParking";
 	})
 	
-	$("#system2").click(function() {
-		location.href = "rankingSystemGoodParking";
-	})
-	
-	$("#fee").click(function() {
+	$("#fee").click(function() { //합리적 요금 랭킹
 		location.href = "rankingFeeReasonableBoard";
 	})
 	
-	$("#fee2").click(function() {
-		location.href = "rankingFeeReasonableBoard";
-	})
-    $("#basicinfo").click(function() {
+    $("#basicinfo").click(function() { //기본정보수정
 		location.href = "memInfoUpdate";
 	})
-	 $("#basicinfo2").click(function() {
-		location.href = "memInfoUpdate";
-	})
-	$("#pwupdate").click(function() {
-		location.href = "memPwUpdate";
-	})
-	$("#parkreview").click(function() {
+
+	$("#parkreview").click(function() { //리뷰
 		location.href = "mypageReviewBoard";
 	})
-	$("#parkreview2").click(function() {
+	$("#parkreview2").click(function() { //리뷰
 		location.href = "mypageReviewBoard";
 	})
 	$("#infoupdate").click(function() {
 		location.href = "memInfoUpdate";
 	})
-	$("#infoupdate2").click(function() {
+	
+	$("#infoupdate2").click(function() { //개인정보수정
 		location.href = "memInfoUpdate";
 	})
+	
 	$("#pwupdate").click(function() {
 		location.href = "memPwUpdate";
 	})
-	$("#pwupdate2").click(function() {
+	
+	$("#pwupdate2").click(function() { //비밀번호수정
 		location.href = "memPwUpdate";
 	})
-	$("#post").click(function() {
+	
+	$("#post").click(function() { //게시글
 		location.href = "myQnA";
 	})
-	$("#post2").click(function() {
+	
+	$("#post2").click(function() { //게시글
 		location.href = "myQnA";
 	})
-	$("#withdrawal").click(function() {
+	
+	$("#withdrawal").click(function() { //회원탈퇴
 		location.href = "withdraw";
 	})
-	$("#withdrawal2").click(function() {
+	
+	$("#withdrawal2").click(function() { 
 		location.href = "withdraw";
-	})	
+	})
+		
 	//관리자 페이지
 	/*$("#managerPage").click(function(){
 		location.href = "memManagement"; //수정해야함.
 	});*/
-/*	$("#managerPage").click(function() {
-		location.href = "memManagement";
-	})	
-	$("#managerPage2").click(function() {
-		location.href = "memManagement";
-	})
-	$("#report").click(function() {
-		location.href = "reportReviewManagement";
-	})	
-	$("#report2").click(function() {
-		location.href = "reportReviewManagement";
-	})	
-	$("#data").click(function() {
-		location.href = "dataManagement";
-	})	
-	$("#data2").click(function() {
-		location.href = "dataManagement";
-	})		
-	*/
+
 	
 });
 

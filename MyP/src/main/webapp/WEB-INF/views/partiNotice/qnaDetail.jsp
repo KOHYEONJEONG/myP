@@ -239,14 +239,9 @@ function action(flag){
   <c:import url="/header1"></c:import>
      <main>
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">참여/알림</div>
-                <div class="inner">
-                    <div>공지사항</div>
-                    <div>FAQ</div>
-                    <div class="on">QnA</div>
-                </div> 
-            </div>
+            <c:import url="/partiNoticeSidebar">
+          	<c:param name="link" value="qna"></c:param>
+          </c:import>
             <div class="right_area">      
                 <div class="detail_wrap">
                     <div class="title">QnA

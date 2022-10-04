@@ -90,14 +90,9 @@
 	<input type="hidden" name="searchText" value="${param.searchText}"/>
 	<input type="hidden" name="memNum" value="${sMemNo}"/>
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">참여/알림</div>
-                <div class="inner">
-                    <div class="on">공지사항</div>
-                    <div>FAQ</div>
-                    <div>QnA</div>
-                </div> 
-            </div>
+            <c:import url="/partiNoticeSidebar">
+          	<c:param name="link" value="notice"></c:param>
+          </c:import>
             <div class="right_area">      
                 <div class="register_wrap">
                     <div class="title">

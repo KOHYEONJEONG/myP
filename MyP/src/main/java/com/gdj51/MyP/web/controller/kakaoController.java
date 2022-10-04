@@ -64,7 +64,6 @@ public class kakaoController {
 
 			mav.setViewName("redirect:home");
 		} else {
-			System.out.println("1111");
 			mav.setViewName("redirect:kakaoRes");
 			// iKakaoS.getLogout(access_Token); // 로그아웃
 

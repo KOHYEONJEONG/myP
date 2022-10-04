@@ -89,7 +89,9 @@ $(document).ready(function () {
 	  <input type="hidden" name="searchText" value="${param.searchText}"/>
 	  <input type="hidden" name="mem_num" value="${sMemNo}"/>
         <div class="main_wrap">
-           <c:import url="/partiNoticeSidebar"></c:import>
+            <c:import url="/partiNoticeSidebar">
+          	<c:param name="link" value="faq"></c:param>
+          </c:import>
             <div class="right_area">      
                 <div class="register_wrap">
                     <div class="title">

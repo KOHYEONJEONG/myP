@@ -113,12 +113,12 @@ $(document).ready(function() {
 					var etime1 = $(this).find("exp_clr_time").text().substring(0, 2);
 					var etime2 = $(this).find("exp_clr_time").text().substring(2, 4);					
 					
-					
-					Proj4js.defs["EPSG:5179"] = "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"; 
+					//116~129 테스트 해본다고 추가했습니다..(뭔가 안되는 거 같아 지우셔도 될 거 같아요..)
+				   Proj4js.defs["EPSG:5179"] = "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"; 
 				   Proj4js.defs["EPSG:4326"] = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"; 
 				   var s_srs = new Proj4js.Proj("EPSG:5179"); 
 				   var t_srs = new Proj4js.Proj("EPSG:4326");
-				  var x=$(this).find("grs80tm_x").text(); //5179 좌표계 x
+				   var x=$(this).find("grs80tm_x").text(); //5179 좌표계 x
 				   var y=$(this).find("grs80tm_y").text(); //5179 좌표계 y
 				   var pt = new Proj4js.Point(x,y); //포인트 생성
 				   var result =Proj4js.transform(s_srs, t_srs, pt); //좌표계 변경 
@@ -140,10 +140,10 @@ $(document).ready(function() {
 		            
 		 			positions.push({
 		 				title: $(this).find("acc_info").text(),
-		 				latlng:new kakao.maps.LatLng(lat, lng)
+		 				latlng:new kakao.maps.LatLng(lat, lng) //여기도 수정했음.  $(this).find("grs80tm_x").text()
 		 			});
 		 			 
-		 			 points.push(new kakao.maps.LatLng(lat, lng));
+		 			 points.push(new kakao.maps.LatLng(lat, lng));//여기도 수정했음. $(this).find("grs80tm_y").text()
 				})
 				
 	 			// 마커 이미지의 이미지 주소입니다

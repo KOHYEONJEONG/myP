@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -133,14 +133,9 @@ function check(box){
   </header>
       <main>
         <div class="main_wrap">
-            <div class="side_bar">
-                <div class="title">참여/알림</div>
-                <div class="inner">
-                    <div>공지사항</div>
-                    <div>FAQ</div>
-                    <div class="on">QnA</div>
-                </div> 
-            </div>
+            <c:import url="/partiNoticeSidebar">
+          	<c:param name="link" value="qna"></c:param>
+          </c:import>
             <div class="right_area">      
             <form action="#" id="actionForm" method="post">
             	<input type="hidden" name="ckval" id="ckval" value="1"/>
