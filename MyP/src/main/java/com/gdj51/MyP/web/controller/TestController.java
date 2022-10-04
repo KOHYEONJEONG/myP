@@ -15,6 +15,8 @@ public class TestController {
 		return mav;
 	}
 	
+	
+	
 	@RequestMapping(value="/managerSidebar") 
 	public ModelAndView sidebar(ModelAndView mav) {
 		mav.setViewName("include/manager_sidebar");

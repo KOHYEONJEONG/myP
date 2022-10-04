@@ -13,6 +13,9 @@ $(document).ready(function () {
         $('.distance_wrap').addClass('on');
         $('.distance_wrap').siblings().removeClass('on');  
     })
+    
+    
+    
     $(".icons.fourth").click(function () {
         $('.bookmark_wrap').addClass('on');
         $('.bookmark_wrap').siblings().removeClass('on');  
