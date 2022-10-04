@@ -158,7 +158,7 @@ $(document).ready(function() {
          </c:import>
          
         <div class="right_area">
-            <div class="table_wrap">
+            <div class="table_wrap" style="top:435px;">
             <input type="hidden" id="oldGbn" value="${param.select_b}" />
 			<input type="hidden" id="oldTxt" value="${param.searchTxt}" />
             
