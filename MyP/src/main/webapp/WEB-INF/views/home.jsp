@@ -116,6 +116,116 @@
   width: 30px;
   height: 30px;
 }
+.movies{
+	filter: invert(1);
+}
+
+
+
+
+
+.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap {position:relative;width:100%;height:350px;}
+#category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+#category li {font-size: 16px;float:left;list-style: none;width:100px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+#category li.on {background: #ffe6e6;}
+#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
+#category li:last-child{margin-right:0;border-right:0;}
+#category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+
+		
+        .bg {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            position: relative;
+        }
+
+        .bg img {
+            width: 20px;
+            height: 20px;
+        }
+
+      /*   input {
+            border: 0;
+            background: transparent;
+            width: 100%;
+        }
+ */
+        .bg .title {
+            width: 200px;
+            height: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .reviewBox,.middleBox,.parkName, .buttonBox {
+            display: flex;
+            padding: 5px 0px 0px 0;
+            font-size: 14px;
+
+        }
+
+        .reviewBox>div,.middleBox>div, .parkName{
+            padding: 5px;
+        }
+        
+        .phone, .address {
+         	font-size: 12px;
+         	margin-bottom: 3px;
+        }
+        .phone{
+        	color: #028f69;
+        }
+
+        .payBox {
+            width: 70px;
+        }
+
+        .pay {
+            font-weight: 700;
+            color: red;
+            text-align: center;
+        }
+
+        .viewDetail {
+            font-weight: 700;
+            color: blue;
+        }
+
+        .bookmarkBox,
+        .shareBox {
+            padding: 5px 10px;
+            border: 1px solid #595959;
+        }
+        
+        .bookmarkBox {
+         border-right: 0px;
+         }
+
+        .compareBox {
+            /*요금비교 상자*/
+            margin-left: 10px;
+            width: 200px;
+            font-size: 12px;
+        }
+
+        .compareBoxBtn {
+            /*요금비교*/
+            width: 100%;
+            height: 100%;
+            line-height: 12px;
+        }
+
+        input:focus {
+            outline: 0;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
 </style>
   <script src="resources/jquery/jquery-1.12.4.js"></script>
   <script type="text/javascript">
@@ -237,6 +347,8 @@
 		 positions.push({
 			title: data.CAR_PARK_NM,
 			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
+		 	/* starttime: data.STARTTIME */
+		 	/* endtime: data.ENDTIME */
 		 });
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
@@ -258,9 +370,50 @@
 		        map: map, // 마커를 표시할 지도
 		        position: positions[i].latlng, // 마커를 표시할 위치
 		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage // 마커 이미지 
+		        image : markerImage, // 마커 이미지 
+		        clickable: true
 		    });
+		    
+		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
+		    	iwContent += "<div class=\"phone\">" + positions[i].title +"</div>";
+		    	iwContent += "<div class=\"address\">"+ positions[i].title + "</div>";
+		    	iwContent += "<div class=\"buttonBox\">";
+		    	iwContent += "<div class=\"bookmarkBox\">";
+		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"compareBox\">";
+		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "</div>"
+		    	iwContent += "</div>"
+		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    	iwRemoveable = true; 
+		    
+		    
+		 // 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				content : iwContent,
+			    removable : iwRemoveable
+			
+			});  
+		 
+		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+	     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+	     (function(marker, infowindow) {
+	    	 // 마커에 클릭이벤트를 등록합니다
+			 kakao.maps.event.addListener(marker, 'click', function() {
+				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+				  $("img[alt='close']").click();
+			       // 마커 위에 인포윈도우를 표시합니다
+			       infowindow.open(map, marker);  
+			 });
+
+	     })(marker, infowindow);		 
+	
 		}
+
 
 		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 		var bounds = new kakao.maps.LatLngBounds();    
@@ -277,10 +430,6 @@
 		map.setBounds(bounds);
 
  	}
- 
- 
-
-  
   </script>
 </head>
 <body>
