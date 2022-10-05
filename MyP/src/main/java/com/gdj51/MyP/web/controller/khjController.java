@@ -14,5 +14,12 @@ public class khjController {
 		mav.setViewName("home2");
 		return mav;
 	}
+	
+	//reviewPopup2
+	@RequestMapping(value = "/reviewPopup2")
+	public ModelAndView reviewPopup2(ModelAndView mav) {
+		mav.setViewName("review/reviewPopup");
+		return mav;
+	}
 
 }

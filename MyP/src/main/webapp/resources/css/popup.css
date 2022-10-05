@@ -1,20 +1,20 @@
 @charset "UTF-8";
 #review_popup {
-  width: 400px;
-  height: 500px;
-  position: absolute;
-  background-color: #d9d2e9;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  padding: 40px 30px 0 30px;
-  box-sizing: border-box;
-  display: none;
-  z-index: 100;
-  border: 1px solid #000;
-  border-radius: 15px;
-  font-family: "TmoneyRoundWindRegular";
+    width: 379px;
+    height: 486px;
+    position: absolute;
+    background-color: #d9d2e9;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    padding: 40px 20px 0 20px;
+    box-sizing: border-box;
+    display: none;
+    z-index: 100;
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-family: "TmoneyRoundWindRegular";
 }
 
 #review_popup  .star1{
@@ -41,7 +41,7 @@
   cursor: pointer;
 }
 #review_popup .txt_title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   padding-bottom: 10px;
 }
@@ -68,7 +68,7 @@
 }
 
 #review_popup .group1,#review_popup .group2{
-  font-size: 16px;
+  font-size: 14px;
   text-align: left;
   font-weight: 600;
   padding: 5px;
@@ -107,7 +107,6 @@
 }
 
 /*신고*/
-
 #warning_popup {
   width: 400px;
   height: 380px;
@@ -118,10 +117,10 @@
   transform: translate(-50%, -50%);
   z-index: 10;
   padding: 40px 20px 0 20px;
-  border: 1px solid #000;
+  border: 1px solid gray;
   box-sizing: border-box;
   display: none;
-  border-radius: 15px;
+  border-radius: 5px;
   font-family: "TmoneyRoundWindRegular";
 }
 #warning_popup .close_i {
@@ -197,8 +196,9 @@
   transform: translate(-50%, -50%);
   z-index: 10;
   padding: 50px 20px 20px 20px;
-  border: 1px solid #000;
+  border: 1px solid gray;
   box-sizing: border-box;
+  border-radius: 5px;
   display: none;
 }
 #refuse_popup .close_i {
