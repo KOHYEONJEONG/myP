@@ -2,19 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="home">
 	<select id="List" resultType="hashmap" parameterType="hashmap">
-	SELECT TO_CHAR(A.WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(A.WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME, A.CAR_PARK_MAG_NUM, A.CAR_PARK_NM,  
+	   SELECT TO_CHAR(A.WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(A.WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME, A.CAR_PARK_MAG_NUM, A.CAR_PARK_NM,  
        CASE A.PAYORFREE_DIV WHEN '1' THEN '유료'
                             ELSE '무료'
                             END AS PAYORFREE_DIV,
-       A.LOCX, A.LOCY, NVL(B.REVIEW_NUM,0)AS REVIEW, NVL(B.AVG_R,0)AS AVG, NVL(B.CNT,0)AS CNT
-	FROM CAR_PARK A LEFT OUTER JOIN (SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG_R , NVL(C.CNT,0) AS CNT
+       A.LOCX, A.LOCY, NVL(B.AVG,0)AS AVG, NVL(B.CNT,0)AS CNT
+   FROM CAR_PARK A LEFT OUTER JOIN (SELECT M.CAR_PARK_MAG_NUM, ROUND(AVG(AVG_R),1) AS AVG, CNT FROM (
+    SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG_R , NVL(C.CNT,0) AS CNT
                                  FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
                                                                 FROM REVIEW
-                                                                GROUP BY CAR_PARK_MAG_NUM)C
+                                                                GROUP BY CAR_PARK_MAG_NUM) C
                                                             ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-                                GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)B
+                                GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT) M GROUP BY CAR_PARK_MAG_NUM, CNT)B
                             ON A.CAR_PARK_MAG_NUM = B.CAR_PARK_MAG_NUM
-    WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
+   WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	
@@ -75,4 +76,20 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
     	AND ENT_NM LIKE '%' || #{search_txt} || '%'
 	</select>
+	
+	
+	<select id="ReviewwList" resultType="hashmap" parameterType="hashmap">
+	   SELECT C.CAR_PARK_NM,B.AVG,B.NM,B.TITLE,B.CON,B.REG_DT
+	   FROM
+		(
+		SELECT M.NM,A.TITLE,A.AVG,A.REVIEW_NUM,A.CAR_PARK_MAG_NUM,A.CON,A.REG_DT
+		FROM(
+		SELECT CAR_PARK_MAG_NUM,MEM_NUM,TITLE,REG_DT,CON,REVIEW_NUM,SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG
+		FROM REVIEW
+		GROUP BY REVIEW_NUM,CON,REG_DT,TITLE,MEM_NUM,CAR_PARK_MAG_NUM)A INNER JOIN MEMBER M
+		ON A.MEM_NUM = M.MEM_NUM)B INNER JOIN CAR_PARK C
+		ON B.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+		WHERE C.CAR_PARK_MAG_NUM = #{carparknum}
+	</select>
+	
 </mapper>

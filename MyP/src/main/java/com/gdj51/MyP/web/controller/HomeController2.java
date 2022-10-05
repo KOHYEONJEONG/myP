@@ -111,12 +111,12 @@ public class HomeController2 {
 
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		List<HashMap<String, String>> list = iACDao.getList("home.ReviewList", params);
+		List<HashMap<String, String>> reviewlist = iACDao.getList("home.ReviewwList", params);
 
 		
 		
 		
-		model.put("list", list);
+		model.put("reviewlist", reviewlist);
 		
 		/* model.put("popuplist", popuplist); */
 		return mapper.writeValueAsString(model);
