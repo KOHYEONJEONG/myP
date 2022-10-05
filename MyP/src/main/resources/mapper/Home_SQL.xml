@@ -17,6 +17,7 @@
 	GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)B
 								ON A.CAR_PARK_MAG_NUM = B.CAR_PARK_MAG_NUM
     WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
+
 	</select>
 	
 	
@@ -77,4 +78,20 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
     	AND ENT_NM LIKE '%' || #{search_txt} || '%'
 	</select>
+	
+	
+	<select id="ReviewwList" resultType="hashmap" parameterType="hashmap">
+	   SELECT C.CAR_PARK_NM,B.AVG,B.NM,B.TITLE,B.CON,B.REG_DT
+	   FROM
+		(
+		SELECT M.NM,A.TITLE,A.AVG,A.REVIEW_NUM,A.CAR_PARK_MAG_NUM,A.CON,A.REG_DT
+		FROM(
+		SELECT CAR_PARK_MAG_NUM,MEM_NUM,TITLE,REG_DT,CON,REVIEW_NUM,SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG
+		FROM REVIEW
+		GROUP BY REVIEW_NUM,CON,REG_DT,TITLE,MEM_NUM,CAR_PARK_MAG_NUM)A INNER JOIN MEMBER M
+		ON A.MEM_NUM = M.MEM_NUM)B INNER JOIN CAR_PARK C
+		ON B.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+		WHERE C.CAR_PARK_MAG_NUM = #{carparknum}
+	</select>
+	
 </mapper>

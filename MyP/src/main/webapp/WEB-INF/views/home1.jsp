@@ -240,6 +240,9 @@
   var markers = new Array();
   
   $(document).ready(function() {
+	  
+	  
+	  cultureBookmarkReloadList();
 
 		  
 	  
@@ -458,6 +461,7 @@
 			
 			} else { // 로그인 상태
 				
+				// 로그인 되면은 세션 회원정보를 넣어줌
 				$("#send_mem_num").val($("#mem_num").val());
 			
 				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
@@ -474,7 +478,7 @@
 								// 별이미지 변경하기, 북마크 된 상태 이미지로
 								//$(this).children("img").attr("src", "resources/icons/star1.svg")
 								// 북마크 리스트 로드
-								
+								cultureBookmarkReloadList()
 								break;
 							case "fail" :							
 								break;
@@ -500,6 +504,7 @@
 								// 별이미지 변경하기, 북마크 안 된 상태 이미지로
 								//$(this).children("img").attr("src", "resources/icons/bookmark.png")
 								// 북마크 리스트 로드
+								cultureBookmarkReloadList()
 								
 								break;
 							case "fail" :
@@ -660,7 +665,7 @@ function cultureList(list){
 		    	iwContent += "<div class=\"address\">" + positions[i].address +"</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
-		    	iwContent += "<img src=\"resources/icons/star1.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
+		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -1015,6 +1020,50 @@ function restaurantList(list){
 	});
 }
 
+// 문화생활 즐겨찾기
+function cultureBookmarkReloadList() {
+	var params = $("#headerForm").serialize();
+	
+	$.ajax({
+		url : "cultureBookmarkList",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) { 
+			cultureBookmarkDrawList(res.list);
+			console.log(res);
+			console.log(res.list);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); 
+	
+}
+
+ function cultureBookmarkDrawList(list) {
+		var html = "";
+		
+		for(var data of list){
+			
+			html += "<div class=\"box\">";
+            html += "<div class=\"close_i\"></div>";
+            html += "<div class=\"content\">";
+            html += "<div class=\"main\">";
+            html += "<div class=\"parking_name\">" + data.CUL_LIFE+"</div>";
+            html += "<div class=\"parking_info\">";
+            html += "<div class=\"time\">"+ data.PHONE +"</div>";
+            html += "<div class=\"detail mt8\">" + data.ADDRESS + "</div>";       
+            html += "</div>";
+            html += "</div>";
+           	html += "</div>";
+           	html += "</div>";
+		}
+		console.log(html);
+		$(".cultrue_bookmark_wrap .result_area").html(html);
+
+	}
+
 			 
 </script>
 </head>
@@ -1348,7 +1397,7 @@ function restaurantList(list){
             <input type="button" class="bottom_btn" value="요금 비교" />
           </div>
         </div>
-        <!-- <div class="bookmark_wrap">
+    <!--     <div class="bookmark_wrap">
           <div class="title">즐겨찾기</div>
           <div class="result_area">
             <div class="file">
@@ -1368,75 +1417,11 @@ function restaurantList(list){
               <div class="file_txt">주유소</div>
             </div>
           </div>
-        </div> -->
-        <div class="bookmark_wrap">
-          <div class="title p40">주차장</div>
+        </div>  -->
+      <div class="cultrue_bookmark_wrap">
+          <div class="title p40">문화생활 즐겨찾기</div>
           <div class="result_area">
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>       
+            
           </div>
       </div>
         <div class="review_wrap">

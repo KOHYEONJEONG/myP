@@ -305,12 +305,14 @@
 			var data = {carparknum : carparknum};
 			
 			$.ajax({
-				 type : "get",
+				 type : "POST",
 				   url : "ReviewAjax",
 				   dataType : "json",
-				   data : data
+				   data : data,
 				   success : function(res){
 					   reaviewList(res.reviewlist);
+					   console.log(res.reviewlist);
+					
 				   },
 				  error : function(request, status, error){
 						console.log(request.responseText); 
@@ -347,9 +349,72 @@
 		
 		
  });
-  
+ function reaviewList(reaviewList){
+	 var html = "";
+	 html += "<div class=\"standard\">"+reaviewList[0].CAR_PARK_NM +"</div>";
+	 for(var data of reaviewList){
+     html += "<div class=\"box pr40\">                        ";
+     html += "<div class=\"nickname\">"+data.NM +"</div>              ";
+     html += "<div class=\"line\">                            ";
+     html += "<div class=\"stars\">                           ";
+     html += "<div class=\"star_i\"></div>                    ";
+     html += "<div class=\"star_i\"></div>                    ";
+     html += "<div class=\"star_i\"></div>                    ";
+     html += "<div class=\"star_i\"></div>                    ";
+     html += "<div class=\"star_i\"></div>                    ";
+     html += "</div>                                          ";
+     html += "<div class=\"date\">"+data.REG_DT +"</div>            ";
+     html += "</div>                                          ";
+     html += "<div class=\"review_title\">                    ";
+     html += "<span>제목 :</span>                             ";
+     html += "<span>"+data.TITLE +"</span>             ";
+     html += "</div>                                          ";
+     html += "<div class=\"review_contents\">                 ";
+     html += "<span>내용 :</span>                             ";
+     html += "<span>"+data.CON +"</span>";
+     html += "</div>                                          ";
+     html += "<div class=\"box_inner_i\">                     ";
+     html += "<div class=\"warning_i\"></div>                 ";
+     html += "</div>                                          ";
+     html += "</div>                                          ";
+ 	}
+ 	$('.result_area2').html(html);
+ } 
 
-    
+/*  <div class="review_wrap">
+ <div class="title">리뷰</div>
+ <div class="select_box">
+ <select>
+     <option value="">높은별점순</option>
+     <option value="">최신순</option>
+   </select>
+ </div>
+ <div class="result_area">
+   <div class="standard">가산동 공영 주차장</div>
+   <div class="box pr40">
+     <div class="nickname">머순</div>
+     <div class="line">
+       <div class="stars">
+         <div class="star_i"></div>
+         <div class="star_i"></div>
+         <div class="star_i"></div>
+         <div class="star_i"></div>
+         <div class="star_i"></div>
+       </div>
+       <div class="date">2022-07-26</div>
+     </div>
+     <div class="review_title">
+       <span>제목 :</span>
+       <span>가산동 공영 주차장 굿!</span>
+     </div>
+     <div class="review_contents">
+       <span>내용 :</span>
+       <span>깔끔하니 좋아요, 또 방문할것 같습니다!</span>
+     </div>
+     <div class="box_inner_i">
+       <div class="warning_i"></div>
+     </div>
+   </div> */
   
  function searchList(list){
 	 console.log("aaaa");
@@ -417,7 +482,7 @@
 		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
 		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />"; 
 		    	if(positions[i].starscore == 0){
-		    		iwContent += "<div class=\"phone\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
+		    		iwContent += "<div class=\"phone2\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
 		    	}else {
 		    	
 		    	 iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
