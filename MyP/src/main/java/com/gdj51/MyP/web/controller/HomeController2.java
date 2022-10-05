@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,4 +104,23 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
+	@RequestMapping(value = "/ReviewAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String ReviewListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		List<HashMap<String, String>> reviewlist = iACDao.getList("home.ReviewwList", params);
+
+		
+		
+		
+		model.put("reviewlist", reviewlist);
+		
+		/* model.put("popuplist", popuplist); */
+		return mapper.writeValueAsString(model);
+
+	}
+
 }

@@ -13,9 +13,12 @@ $(document).ready(function () {
         $('.distance_wrap').addClass('on');
         $('.distance_wrap').siblings().removeClass('on');  
     })
+    
+    
+    
     $(".icons.fourth").click(function () {
-        $('.bookmark_wrap').addClass('on');
-        $('.bookmark_wrap').siblings().removeClass('on');  
+        $('.cultrue_bookmark_wrap').addClass('on');
+        $('.cultrue_bookmark_wrap').siblings().removeClass('on');  
     })
     $(".icons.fifth").click(function () {
         $('.review_wrap').addClass('on');

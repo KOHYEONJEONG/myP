@@ -7,7 +7,7 @@ $(document).ready(function(){
     $(".day2").html(month+day);
 
     $.getJSON('http://openapi.seoul.go.kr:8088/75554e67576b6f303133366941626663/json/ListAvgOfSeoulAirQualityService/1/5/'
- ,function(result){
+ 	,function(result){
         /*서울시 실시간 대기환경 평균 현황(미세먼지)*/
         $('.fineDust2').html(result.ListAvgOfSeoulAirQualityService.row[0].GRADE);    
         if((result.ListAvgOfSeoulAirQualityService.row[0].GRADE) == "보통"){
@@ -16,7 +16,7 @@ $(document).ready(function(){
     });
 
     $.getJSON('http://api.openweathermap.org/data/2.5/forecast?id=1835848&APPID=ab4b94596d87701c72ecaf24d6f9e37c&units=metric&lang=KR'
- ,function(result){
+ 	,function(result){
         /*현재 시간, 날씨, 강수확률, 습도*/
 
         var cIcon = '<img src="http://openweathermap.org/img/wn/'+result.list[0].weather[0].icon+'.png" alt="'+result.list[0].weather[0].description+'" >';    
@@ -28,7 +28,7 @@ $(document).ready(function(){
 
        // $('.temp_min').html(Math.round(result.list[0].main.temp_min)+"°");//최저
        // $('.temp_max').html(Math.round(result.list[0].main.temp_max)+"°");//최고
-});
+	});
 
     $.getJSON('https://api.openweathermap.org/data/2.5/onecall?lat=37.5683&lon=126.9778&appid=ab4b94596d87701c72ecaf24d6f9e37c&units=metric&lang=KR',
     function(result){//result는 날씨 예보 값

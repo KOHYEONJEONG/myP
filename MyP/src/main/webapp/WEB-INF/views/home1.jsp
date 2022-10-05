@@ -197,6 +197,7 @@
   .shareBox {
       padding: 5px 10px;
       border: 1px solid #595959;
+      cursor: pointer;
   }
   
   .bookmarkBox {
@@ -240,6 +241,10 @@
   
   $(document).ready(function() {
 	  
+	  
+	  cultureBookmarkReloadList();
+
+		  
 	  
 	  var area0 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	  var area1 = ["전체","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
@@ -447,6 +452,83 @@
 			})
 	
 		});
+		
+		
+		$("body").on("click", ".bookmarkBox", function() {
+			// 로그인 안된상태,
+			if($("#mem_num").val() == ""){ // 헤더에서 세션정보 가지고 있음
+			
+			
+			} else { // 로그인 상태
+				
+				// 로그인 되면은 세션 회원정보를 넣어줌
+				$("#send_mem_num").val($("#mem_num").val());
+			
+				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
+					
+				 	var params = $("#cultureForm").serialize();
+					$.ajax({
+						url : "cultureBookmarkAction/insert",
+						type : "POST",
+						dataType: "json",
+						data: params,
+						success : function(res) { 
+							switch(res.msg){
+							case "success" : 
+								// 별이미지 변경하기, 북마크 된 상태 이미지로
+								//$(this).children("img").attr("src", "resources/icons/star1.svg")
+								// 북마크 리스트 로드
+								cultureBookmarkReloadList()
+								break;
+							case "fail" :							
+								break;
+							case "error" :							
+								break;
+							}
+						},
+						error : function(request, status, error) { 
+							console.log(request.responseText); 
+						}
+					}) 
+				} else {
+					
+					var params = $("#cultureForm").serialize();
+					$.ajax({
+						url : "cultureBookmarkAction/delete",
+						type : "POST",
+						dataType: "json",
+						data: params,
+						success : function(res) { 
+							switch(res.msg){
+							case "success" : 
+								// 별이미지 변경하기, 북마크 안 된 상태 이미지로
+								//$(this).children("img").attr("src", "resources/icons/bookmark.png")
+								// 북마크 리스트 로드
+								cultureBookmarkReloadList()
+								
+								break;
+							case "fail" :
+								
+								break;
+							case "error" :
+								
+								break;
+							}
+						},
+						error : function(request, status, error) { 
+							console.log(request.responseText); 
+						}
+					}) 
+					
+				}
+				
+			}
+			
+		});
+		
+		
+		
+		
  });
   
 
@@ -538,16 +620,24 @@ function cultureList(list){
 			title: data.CUL_LIFE,
 			phone: data.PHONE,
 			address: data.ADDRESS,
-			homepage: data.HOMEPAGE,
+			cultureNum: data.CUL_LIFE_NUM,
 			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
 		 });
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
 
-		// 마커 이미지의 이미지 주소입니다
+	// 마커 이미지의 이미지 주소입니다
 		// 없으면 기본 마커, 파란색
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+	   // 마커 이미지의 이미지 크기 입니다
+	   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+	    imgOptions =  {
+	        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+	        spriteOrigin : new kakao.maps.Point(3, 640), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	    }
+	     
 			    
 		for (var i = 0; i < positions.length; i ++) {
 	      	    
@@ -555,7 +645,7 @@ function cultureList(list){
 		   var imageSize = new kakao.maps.Size(24, 35); 
 		    
 		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
 		    
 		    // 마커를 생성합니다
 		    var marker = new kakao.maps.Marker({
@@ -565,13 +655,17 @@ function cultureList(list){
 		       image : markerImage // 마커 이미지 
 		        //clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다, 마커 클릭시 팝업창 뜨게 추가
 		    });
-			    
-		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
+			   
+		    var iwContent = "<form action=\"#\" id=\"cultureForm\" method=\"post\">";
+		    	iwContent += "<input type=\"hidden\" id=\"cultureNum\" name=\"cultureNum\" value="+ positions[i].cultureNum +" />";
+		    	iwContent += "<input type=\"hidden\" id=\"send_mem_num\" name=\"memNum\" />";
+		    	iwContent += "</form>";
+		    	iwContent += "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
 		    	iwContent += "<div class=\"phone\">" + positions[i].phone +"</div>";
 		    	iwContent += "<div class=\"address\">" + positions[i].address +"</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
-		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -626,174 +720,20 @@ function cultureList(list){
 //주유소 카테고리 지도에 마커 function
 function gasStationList(list){
 	
-	var coords;
-	// let으로 해야함! 스코프 문제가 있나봐
-	 for (let i = 0; i < list.length; i ++) {
-			
-			// 주소-좌표 변환 객체를 생성합니다
-			var geocoder = new kakao.maps.services.Geocoder();
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(list[i].PARCEL_NUM, function(result, status) {
-				
-				  // 정상적으로 검색이 완료됐으면 
-		 	    if (status === kakao.maps.services.Status.OK) { 
-
-			     coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-			     
-			     // 결과값으로 받은 위치를 마커로 표시합니다
-			        var marker = new kakao.maps.Marker({
-			            map: map,
-			            position: coords
-			        });
-			     
-			        var iwContent = "<div class=\"bg\"><div class=\"title\">" +  list[i].GAS_NM +"</div>";
-				     	iwContent += "<div class=\"phone\">" + list[i].PHONE +"</div>";
-				    	iwContent += "<div class=\"address\">" + list[i].PARCEL_NUM +"</div>"; 
-				    	iwContent += "<div class=\"buttonBox\">";
-				    	iwContent += "<div class=\"bookmarkBox\">";
-				    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
-				    	iwContent += "</div>";
-				    	iwContent += "<div class=\"shareBox\">";
-				    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-				    	iwContent += "</div>";
-				    	iwContent += "<div class=\"compareBox\">";
-				    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
-				    	iwContent += "</div>";
-				    	iwContent += "</div>";
-				    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				    	iwRemoveable = true; // 인포윈도우의 X버튼
-				    
-				    
-					   // 인포윈도우를 생성합니다
-						var infowindow = new kakao.maps.InfoWindow({
-							content : iwContent,
-						    removable : iwRemoveable
-						
-						});  
-					 
-						 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
-					     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-					     (function(marker, infowindow) {
-					    	 // 마커에 클릭이벤트를 등록합니다
-							 kakao.maps.event.addListener(marker, 'click', function() {
-								 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
-								  $("img[alt='close']").click();
-							       // 마커 위에 인포윈도우를 표시합니다
-							       infowindow.open(map, marker);  
-							 });
-				
-					     })(marker, infowindow);		 
-				
-				      
-
-					      			     
-		 	 }
-	
-		}); 	     			 
-	}
-    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-    map.setCenter(coords);
-	 
-}
-
-
-
-//음식점 카테고리 지도에 마커 function
-function cinemaList(list){
-	
 	// 마커 이미지의 이미지 주소입니다
 	// 없으면 기본 마커, 파란색
-	//var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-	var coords;	
-	
-	// let으로 해야함! 스코프 문제가 있나봐
-	 for (let i = 0; i < list.length; i ++) {
-			
-		   // 마커 이미지의 이미지 크기 입니다
-		   //var imageSize = new kakao.maps.Size(24, 35);
-		   
-		    
-		    // 마커 이미지를 생성합니다    
-		    //var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-		 		
-			// 주소-좌표 변환 객체를 생성합니다
-			var geocoder = new kakao.maps.services.Geocoder();
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(list[i].PARCEL_NUM, function(result, status) {
-				
-				  // 정상적으로 검색이 완료됐으면 
-		 	    if (status === kakao.maps.services.Status.OK) { 
-
-			     coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-			     
-			     // 결과값으로 받은 위치를 마커로 표시합니다
-			        var marker = new kakao.maps.Marker({
-			            map: map,
-			            position: coords,
-			            //image : markerImage // 마커 이미지 
-			        });
-			     
-			        var iwContent = "<div class=\"bg\"><div class=\"title\">" +  list[i].ENT_NM +"</div>";
-				     	iwContent += "<div class=\"phone\">" + list[i].PHONE +"</div>";
-				    	iwContent += "<div class=\"address\">" + list[i].PARCEL_NUM +"</div>"; 
-				    	iwContent += "<div class=\"buttonBox\">";
-				    	iwContent += "<div class=\"bookmarkBox\">";
-				    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
-				    	iwContent += "</div>";
-				    	iwContent += "<div class=\"shareBox\">";
-				    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-				    	iwContent += "</div>";
-				    	iwContent += "<div class=\"compareBox\">";
-				    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
-				    	iwContent += "</div>";
-				    	iwContent += "</div>";
-				    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				    	iwRemoveable = true; // 인포윈도우의 X버튼
-				    
-				    
-					   // 인포윈도우를 생성합니다
-						var infowindow = new kakao.maps.InfoWindow({
-							content : iwContent,
-						    removable : iwRemoveable
-						
-						});  
-					 
-						 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
-					     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-					     (function(marker, infowindow) {
-					    	 // 마커에 클릭이벤트를 등록합니다
-							 kakao.maps.event.addListener(marker, 'click', function() {
-								 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
-								  $("img[alt='close']").click();
-							       // 마커 위에 인포윈도우를 표시합니다
-							       infowindow.open(map, marker);  
-							 });
-				
-					     })(marker, infowindow);		 
-				
-				      
-
-					      			     
-		 	 }	
-		}); 	     			 
-	}	 
-    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-    map.setCenter(coords);
-}
-
-
-// 영화관 카테고리 지도에 마커 function
-function restaurantList(list){
-	
-	// 마커 이미지의 이미지 주소입니다
-	// 없으면 기본 마커, 파란색
-	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-	// 마커 이미지의 이미지 크기 입니다
-	var imageSize = new kakao.maps.Size(24, 35);
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+   // 마커 이미지의 이미지 크기 입니다
+   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+    imgOptions =  {
+        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+        spriteOrigin : new kakao.maps.Point(0, 350), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+    }
     
     // 마커 이미지를 생성합니다    
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
- 		
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+	
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 	
@@ -803,8 +743,109 @@ function restaurantList(list){
     markers = [];
     
     $("img[alt='close']").click();
+	
+    list.forEach(function(data) {
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch(data.PARCEL_NUM, function(result, status) {
+			
+			  // 정상적으로 검색이 완료됐으면 
+	 	    if (status === kakao.maps.services.Status.OK) {
 
-	list.forEach(function(data) {
+	 	    	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	 	    	
+				// 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords,
+		            image : markerImage // 마커 이미지 
+		        });
+				
+		        markers.push(marker);
+		     	
+		        var iwContent = "<div class=\"bg\"><div class=\"title\">" +  data.GAS_NM +"</div>";
+			     	iwContent += "<div class=\"phone\">" + data.PHONE +"</div>";
+			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
+			    	iwContent += "<div class=\"buttonBox\">";
+			    	iwContent += "<div class=\"bookmarkBox\">";
+			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
+			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"shareBox\">";
+			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"compareBox\">";
+			    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+			    	iwContent += "</div>";
+			    	iwContent += "</div>";
+			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			    	iwRemoveable = true; // 인포윈도우의 X버튼
+			    
+			    
+				// 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+				    removable : iwRemoveable
+				
+				}); 
+				 
+				// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+				// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+				(function(marker, infowindow) {
+					// 마커에 클릭이벤트를 등록합니다
+					kakao.maps.event.addListener(marker, 'click', function() {
+						// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+						$("img[alt='close']").click();
+						// 마커 위에 인포윈도우를 표시합니다
+						infowindow.open(map, marker);  
+					});
+				
+				})(marker, infowindow);		 
+		 	}
+		}); 	     			 
+	});
+	
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch($("#sido1").val() + " " + $("#gugun1").val(), function(result, status) {
+		if (status === kakao.maps.services.Status.OK) { 
+
+ 	    	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+ 	    	
+ 	    	// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			map.setCenter(coords);
+			map.setLevel(5);
+		}
+	}); 
+}
+
+
+
+//영화관 카테고리 지도에 마커 function
+function cinemaList(list){
+	
+	// 마커 이미지의 이미지 주소입니다
+	// 없으면 기본 마커, 파란색
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+   // 마커 이미지의 이미지 크기 입니다
+   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+    imgOptions =  {
+        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+        spriteOrigin : new kakao.maps.Point(0, 520), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+    }
+    
+    // 마커 이미지를 생성합니다    
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	for ( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(null);
+    }   
+    markers = [];
+    
+    $("img[alt='close']").click();
+	
+    list.forEach(function(data) {
 		// 주소로 좌표를 검색합니다
 		geocoder.addressSearch(data.PARCEL_NUM, function(result, status) {
 			
@@ -873,8 +914,156 @@ function restaurantList(list){
 			map.setCenter(coords);
 			map.setLevel(5);
 		}
+	}); 
+}
+
+
+// 음식점 카테고리 지도에 마커 function
+function restaurantList(list){
+	
+	// 마커 이미지의 이미지 주소입니다
+	// 없으면 기본 마커, 파란색
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+   // 마커 이미지의 이미지 크기 입니다
+   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+    imgOptions =  {
+        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+        spriteOrigin : new kakao.maps.Point(0, 150), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+    }
+    
+    // 마커 이미지를 생성합니다    
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	for ( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(null);
+    }   
+    markers = [];
+    
+    $("img[alt='close']").click();
+
+	list.forEach(function(data) {
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch(data.PARCEL_NUM, function(result, status) {
+			
+			  // 정상적으로 검색이 완료됐으면 
+	 	    if (status === kakao.maps.services.Status.OK) {
+
+	 	    	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	 	    	
+				// 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords,
+		            image : markerImage // 마커 이미지 
+		        });
+				
+		        markers.push(marker);
+		     	
+		        var iwContent = "<div class=\"bg\"><div class=\"title\">" +  data.ENT_NM +"</div>";
+			     	iwContent += "<div class=\"phone\" id=\"phone11\">" + data.PHONE +"</div>";
+			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
+			    	iwContent += "<div class=\"buttonBox\">";
+			    	iwContent += "<div class=\"bookmarkBox\">";
+			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"shareBox\">";
+			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"compareBox\">";
+			    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+			    	iwContent += "</div>";
+			    	iwContent += "</div>";
+			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			    	iwRemoveable = true; // 인포윈도우의 X버튼
+			    
+			    	
+			    
+				// 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+				    removable : iwRemoveable
+				
+				}); 
+				
+				 
+				// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+				// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+				(function(marker, infowindow) {
+					// 마커에 클릭이벤트를 등록합니다
+					kakao.maps.event.addListener(marker, 'click', function() {
+						// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+						$("img[alt='close']").click();
+						// 마커 위에 인포윈도우를 표시합니다
+						infowindow.open(map, marker);  
+					});
+				
+				})(marker, infowindow);	
+				
+		 	}
+		}); 	     			 
+	});
+	
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch($("#sido1").val() + " " + $("#gugun1").val(), function(result, status) {
+		if (status === kakao.maps.services.Status.OK) { 
+
+ 	    	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+ 	    	
+ 	    	// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			map.setCenter(coords);
+			map.setLevel(5);
+		}
 	});
 }
+
+// 문화생활 즐겨찾기
+function cultureBookmarkReloadList() {
+	var params = $("#headerForm").serialize();
+	
+	$.ajax({
+		url : "cultureBookmarkList",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) { 
+			cultureBookmarkDrawList(res.list);
+			console.log(res);
+			console.log(res.list);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); 
+	
+}
+
+ function cultureBookmarkDrawList(list) {
+		var html = "";
+		
+		for(var data of list){
+			
+			html += "<div class=\"box\">";
+            html += "<div class=\"close_i\"></div>";
+            html += "<div class=\"content\">";
+            html += "<div class=\"main\">";
+            html += "<div class=\"parking_name\">" + data.CUL_LIFE+"</div>";
+            html += "<div class=\"parking_info\">";
+            html += "<div class=\"time\">"+ data.PHONE +"</div>";
+            html += "<div class=\"detail mt8\">" + data.ADDRESS + "</div>";       
+            html += "</div>";
+            html += "</div>";
+           	html += "</div>";
+           	html += "</div>";
+		}
+		console.log(html);
+		$(".cultrue_bookmark_wrap .result_area").html(html);
+
+	}
+
 			 
 </script>
 </head>
@@ -891,7 +1080,7 @@ function restaurantList(list){
         <div class="icons sixth"></div>
         <div class="icons end"></div>
       </div>
-        <form action="#" id="actionForm" method="post">
+       <form action="#" id="actionForm" method="post">
       <div class="left_section">
         <div class="search_warp on">
           <div class="search_box">
@@ -1208,7 +1397,7 @@ function restaurantList(list){
             <input type="button" class="bottom_btn" value="요금 비교" />
           </div>
         </div>
-        <!-- <div class="bookmark_wrap">
+    <!--     <div class="bookmark_wrap">
           <div class="title">즐겨찾기</div>
           <div class="result_area">
             <div class="file">
@@ -1228,75 +1417,11 @@ function restaurantList(list){
               <div class="file_txt">주유소</div>
             </div>
           </div>
-        </div> -->
-        <div class="bookmark_wrap">
-          <div class="title p40">주차장</div>
+        </div>  -->
+      <div class="cultrue_bookmark_wrap">
+          <div class="title p40">문화생활 즐겨찾기</div>
           <div class="result_area">
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="box add">
-              <div class="close_i"></div>
-                <div class="content">
-                  <div class="park_img"></div>
-                  <div class="main"> 
-                    <div class="parking_name">가산동 공영주차장</div>
-                    <div class="parking_info">
-                      <div class="time">09:00~18:00</div>
-                      <div class="detail mt8">상세보기</div>
-                    </div>
-                  </div>
-                </div>
-              </div>       
+            
           </div>
       </div>
         <div class="review_wrap">
