@@ -1057,8 +1057,9 @@ function cultureBookmarkReloadList() {
             html += "</div>";
             html += "</div>";
            	html += "</div>";
+           	html += "</div>";
 		}
-		
+		console.log(html);
 		$(".cultrue_bookmark_wrap .result_area").html(html);
 
 	}
