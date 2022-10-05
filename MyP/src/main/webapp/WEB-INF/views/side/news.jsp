@@ -70,6 +70,17 @@ $(document).ready(function() {
 			});
 		}
 	});		
+	
+	$(".result_area").on("click", function() {
+		
+		// 기존 검색상태 유지
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTxt").val($("#oldTxt").val());
+		
+		$("#actionForm").attr("action", "ATDetail");
+		$("#actionForm").submit();
+	});
+	
 	$("#search_i").on("click", function() {
 		
 	$.ajax({
@@ -82,6 +93,7 @@ $(document).ready(function() {
 			
 			var logx = [];
 			var logy = [];
+			// xml 형식 json으로 바꿈
 			var xmlData = $(xml).find("row");
 			console.log(xmlData);
 			var listLength = xmlData.length;
@@ -99,6 +111,7 @@ $(document).ready(function() {
 	 			
 				$(xmlData).each(function() {
 					
+					//혼자 쓸수없는 데이터들 변수 선언
 					var sdate1 = $(this).find("occr_date").text().substring(0, 4);
 					var sdate2 = $(this).find("occr_date").text().substring(4, 6);
 					var sdate3 = $(this).find("occr_date").text().substring(6, 9);
@@ -117,7 +130,8 @@ $(document).ready(function() {
 				   //https://yganalyst.github.io/spatial_analysis/spatial_analysis_3/ <--좌표가 정확히 안맞는 문제를 해결(+towgs84=0,0,0,0,0,0,0)
 				   const grs80 = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=0,0,0,0,0,0,0";
 				   const wgs84 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
-
+				   
+				   //  () * 1 정수화 ().toFixed() * 1 도 정수화
 				   console.log(($(this).find("grs80tm_x").text() * 1).toFixed(1)); 
 				   const p = proj4(grs80, wgs84, [($(this).find("grs80tm_x").text() * 1).toFixed(1) * 1, ($(this).find("grs80tm_y").text() * 1).toFixed(1) * 1]);				 
 
@@ -133,10 +147,10 @@ $(document).ready(function() {
 		            
 		 			positions.push({
 		 				title: $(this).find("acc_info").text(),
-		 				latlng:new kakao.maps.LatLng(p[1], p[0]) //경도, 위도
+		 				latlng:new kakao.maps.LatLng(p[1], p[0]) //경도, 위도 순서 중요
 		 			});
 		 			 
-		 			 points.push(new kakao.maps.LatLng(p[1], p[0]));//경도, 위도
+		 			 points.push(new kakao.maps.LatLng(p[1], p[0]));//경도, 위도 순서 중요
 				})
 				
 	 			// 마커 이미지의 이미지 주소입니다
