@@ -16,16 +16,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"> <!-- 여기 있어야함 -->
 <link rel="stylesheet" href="resources/css/swiper.css"> <!--추가-->
 <link rel="stylesheet" href="resources/css/weather.css"> <!--추가--> 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
 <script type="text/javascript" src="resources/js/weather.js"></script><!--추가-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
 <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
 <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="resources/js/main.js"></script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.0/jquery.raty.min.js"></script><!-- 별 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.0/jquery.raty.min.css"><!-- 별 -->
-  <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
-  <link rel="stylesheet" href="resources/rety/jquery.raty.css">
 <style>
   .result_area2 {
   width: 100%;
@@ -424,13 +419,11 @@ function mapList(list){
     	iwContent += "</div>"
     	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     	iwRemoveable = true; 
-	    
 		    
 		// 인포윈도우를 생성합니다
 		var infowindow = new kakao.maps.InfoWindow({
 			content : iwContent,
 		    removable : iwRemoveable
-		
 		});  
 		 
 		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
@@ -965,12 +958,9 @@ function feeCom(car_num,starttime,endtime,payorfree_div,title) {//요금비교�
           <div class="search_box">
             <div class="box_top">
           
-              <select name="sido1" id="sido1">
-               
-              </select>
-              <select name="gugun1" id="gugun1">
-               
-              </select>
+              <select name="sido1" id="sido1"></select>
+              
+              <select name="gugun1" id="gugun1"></select>
              
             </div>
             <div class="box_bottom">
@@ -1047,55 +1037,9 @@ function feeCom(car_num,starttime,endtime,payorfree_div,title) {//요금비교�
 <!-- 가이드(챗봇 아님)-->
 <c:import url="/guideMain"/>
 
-   <!-- 리뷰 팝업 -->
 <!-- 리뷰 팝업 -->
-<div id="review_popup">
-  <div class="close_i">
-      <img src="resources/icons/close.png" alt="">
-  </div>
-  <div class="popup_top">
-      <div class="txt_title">제목</div>
-      <input type="text" class="title" maxlength="30">
-  </div>
+<c:import url="/reviewPopup2"/>
 
-	<div class="popup_middle">
-		<div class="txt_title">별점을 선택해주세요.</div>
-		<div class="star_wrap">
-		   <div class="group1">[시스템 별점]</div>
-		 
-		   <div class="star1">
-		     <div class="cctv_wrap">
-		         <div class="wrap_title">CCTV</div>
-		         <div class="cctvStar"></div> 
-		     </div>
-		     <div class="env_wrap">
-		         <div class="wrap_title">환경</div>
-		         <div class="envStar"></div>
-		     </div>
-		   </div>
-		
-		   <div class="group2">[가성비 별점]</div>
-		   <div class="star2">
-		       <div class="amo_wrap">
-		           <div class="wrap_title">요금</div>
-		          <div class="feeStar"></div>
-		       </div>
-		       <div class="ticket_wrap">
-		           <div class="wrap_title">할인정보 별점</div>
-		           <div class="disStar"></div>
-		       </div>
-		   </div><!-- star2 -->
-		</div><!--star_wrap-->
-	</div><!-- popup_middle -->
-	
-    <div class="popup_content">
-        <div class="txt_title">내용을 입력해주세요.</div>
-        <textarea cols="" rows="" class="contents"></textarea>
-    </div>
-    <div class="sendBtn_wrap">
-        <input type="button" value="등록" id="sendBtn">
-    </div>
-</div>
 <!-- 신고하기 팝업 -->
 <div id="warning_popup">
   <form>
