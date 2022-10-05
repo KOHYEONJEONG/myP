@@ -454,14 +454,15 @@ main {
   cursor: pointer;
 }
 .left_section .select_box {
-  width: 100%;
-  height: 40px;
-  line-height: 38px;
-  background: #fff;
-  text-align: center;
-  border-top: 1px solid #000;
-  border-bottom: 1px solid #000;
-  box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    /* line-height: 38px; */
+    background: #fff;
+    text-align: center;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    box-sizing: border-box;
+    padding: 10px;
 }
 .left_section .select_box span {
   font-size: 16px;
