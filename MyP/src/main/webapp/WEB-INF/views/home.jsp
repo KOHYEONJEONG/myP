@@ -299,7 +299,25 @@
 		  });
 		  
 		  
-		 
+		 $("body").on("click", ".phone2",function(){
+			 var carparknum = $("#carparknum").val();
+			 
+			var data = {carparknum : carparknum};
+			
+			$.ajax({
+				 type : "get",
+				   url : "ReviewAjax",
+				   dataType : "json",
+				   data : data
+				   success : function(res){
+					   reaviewList(res.reviewlist);
+				   },
+				  error : function(request, status, error){
+						console.log(request.responseText); 
+				  }
+			})
+			 
+		 });
 		  
 
 		$("#search_i").on("click", function(){
@@ -327,7 +345,7 @@
 		
 		
 		
-		$("")
+		
  });
   
 
