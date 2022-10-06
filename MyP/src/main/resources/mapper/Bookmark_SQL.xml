@@ -17,4 +17,10 @@
 		WHERE CUL_LIFE_NUM = #{cultureNum} AND MEM_NUM = #{memNum}
 	</delete>
 	
+	
+	<select id="getCinemaBookmarkList" parameterType="hashmap" resultType="hashmap">        
+		 SELECT A.CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, PHONE, REG_DT FROM CINEMA A 
+    	INNER JOIN CINEMA_BOOKMARK B 
+		ON A.CINEMA_MAG_NUM = B.CINEMA_MAG_NUM WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
+	</select>
 </mapper>
