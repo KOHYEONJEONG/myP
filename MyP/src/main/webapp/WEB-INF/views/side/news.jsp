@@ -132,10 +132,10 @@ $(document).ready(function() {
 				   const wgs84 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
 				   
 				   //  () * 1 정수화 ().toFixed() * 1 도 정수화
-				   console.log(($(this).find("grs80tm_x").text() * 1).toFixed(1)); 
+				   //console.log(($(this).find("grs80tm_x").text() * 1).toFixed(1)); 
 				   const p = proj4(grs80, wgs84, [($(this).find("grs80tm_x").text() * 1).toFixed(1) * 1, ($(this).find("grs80tm_y").text() * 1).toFixed(1) * 1]);				 
 
-				   console.log(p); 
+				   //console.log(p); 
 
 					html += "<div class=\"box\">";
 		            html += "<div class=\"accident_title " + $(this).find("acc_type").text() + "\"></div>";

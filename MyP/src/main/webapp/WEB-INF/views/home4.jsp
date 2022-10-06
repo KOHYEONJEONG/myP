@@ -430,6 +430,7 @@
 	 for(var data of list){		
 		 html += "<div class=\"box\">";
          html += "<div class=\"close_i\"></div>";
+         html += "<div no=\"" + data.CAR_PARK_MAG_NUM + "\"></div>";        
          html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
          html += "<div class=\"parking_info\">";
          html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
@@ -558,17 +559,19 @@
  
  Kakao.init('e41934107d35da0fcd73a47e8bc1ca9e'); // 사용하려는 앱의 JavaScript 키 입력
 
- function shareMessage() {
+ function shareMessage(list) {
+	 
+  var a = '';
    Kakao.Share.sendDefault({
      objectType: 'feed',
      content: {
-       title: 'TESTTESTTEST',
-       description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
+       title: '공영주차장 상세보기',
+       description: '#주차장 #리뷰 #나만의P',
        imageUrl:
-          'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png', 
+          '', 
        link: {
-         mobileWebUrl: 'http://localhost:8090/MyP',
-         webUrl: 'http://localhost:8090/MyP'
+         mobileWebUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+a,
+         webUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+a
        },
      }/* ,
      social: {
