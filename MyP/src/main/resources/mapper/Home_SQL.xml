@@ -20,6 +20,16 @@
 
 	</select>
 	
+	<select id="getFeelist" resultType="hashmap" parameterType="hashmap">
+		SELECT  CAR_PARK_NM,CASE PAYORFREE_DIV WHEN '1' THEN '유료'  ELSE '무료' END AS PAYORFREE_DIV ,
+		        CASE SATURDAY_PAYORFREE_DIV WHEN 1 THEN '유료'  ELSE '무료' END AS SATURDAY_PAYORFREE_DIV,
+		        CASE HOLIDAY_PAYORFREE_DIV WHEN 1 THEN '유료' ELSE '무료' END AS HOLIDAY_PAYORFREE_DIV,
+		        FULLTIME_MONTHLY,
+		        TIME_RATE, FEE_RATE, ADD_FEE, ADD_TIME_RATE
+		FROM CAR_PARK
+		WHERE CAR_PARK_MAG_NUM = #{car_num}
+	</select>
+	
 	
 	<select id="SearchCnt" parameterType="hashmap" resultType="Integer">
 		SELECT COUNT(*) CNT

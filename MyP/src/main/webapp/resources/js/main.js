@@ -2,7 +2,7 @@ var logx = [];
 var logy = [];
 var title = [];
 var feeComArray  = [];//추가 khj
-
+var feeSort = [];
 $(document).ready(function () {
 		
     // 메인 페이지 아이콘 클릭시 왼쪽영역 변경
@@ -83,13 +83,6 @@ $(document).ready(function () {
     //     $('#map').css({"width" : "100%"});
     //     $('.right_area').css({"width" : "100%"});
     // })
-
-	//별점
-	$('.feeStar, .envStar, .cctvStar, .disStar').raty({
-		readOnly: false,
-		score : 1,
-		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
-	});
 	
 	var area0 = ["구","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	var area1 = ["동","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
@@ -143,6 +136,11 @@ $(document).ready(function () {
 	  });
 		  
 	$("#search_i").on("click", function(){
+		//feeComArray  = [];//요금비교 영역 모두 지우기
+		//feeSort = [];
+		//$("#feeComArea").children().remove(); //UI에서 지우기(주석처리 한 이유는 여러곳에서 선택할 수 있어서)
+		$("#time_rate").val(0);
+		
 		var params = $("#actionForm").serialize();
 		$.ajax({
 			url : "HomeAjax",
@@ -273,7 +271,7 @@ $(document).ready(function () {
           ]
     });*/
 $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비교 버튼
-	var feeSort = feeComArray;//다시 담고 뿌려주려고
+	feeSort = feeComArray;//다시 담고 뿌려주려고
 	var lastLength = feeSort.length;
 	//추가 단위로 선택한 시간(분)으로 나눈다음
 	//몫을 통해 
@@ -317,7 +315,7 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 		for(var i=0; i<lastLength-1; i++){
 			for(var j=0; j<(lastLength-i-1); j++){
 				var a,b = "";
-				console.log("feeSort[j].re_fee_rate =>"+feeSort[j].re_fee_rate +"feeSort[j].re_add_fee =>"+feeSort[j].re_add_fee);
+				console.log("i = "+ i+", j= "+j);
 				
 				if(feeSort[j].re_fee_rate *time > feeSort[j+1].re_fee_rate*time){
 					temp = feeSort[j];
@@ -331,32 +329,50 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 		var html = "";
 		for(var data of feeSort){
 			 html +="<div class=\"box\">";
-	         html +="<div class=\"close_i\"></div>";
+	         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
 	         html +="<div class=\"parking_name\">"+data.title+"</div>";
 	         html +="<div class=\"parking_info\">";
 	         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
+	         html +="   <span style=\"color:red;\">₩"+data.re_fee_rate*time+"</span>";
 	         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
-	         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">상세보기</span>";
+	         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
 	         html +="</div>";
 	         html +="<div class=\"box_inner_i\">";
 	         html +="<div class=\"bookmark_i\"></div>";
 	         html +="<div class=\"share_i\"></div>";
 	         html +="</div>";
 	         html +="</div>";
-	         
 		}
 		console.log(html);
 		$("#feeComArea").html(html);
 	}
 	
+	});
 	
+	$("#feeTablePopup .close_i").click(function () {
+		$("#feeTablePopup").hide();
+	    $('main').css({"opacity" : "1","pointer-events":"auto"});
+	    $('header').css({"opacity" : "1","pointer-events":"auto"});
+	});
+	
+	$("#feeComArea").on("click",".box .close_i",function(){
+		console.log("요금비교 box x버튼");
+		//feeComArray
+		var car_num = $(this).attr("no");
+		//console.log(feeComArray[0].car_num);
+		
+		//현재 이 no의 값을 갖는 배열에 인덱스 번호를 알아낸 다음 지워주려고
+		var json_idx = feeComArray.findIndex(function(key) {return key.car_num === car_num});
+    	feeComArray.splice(json_idx, 1);
+		
+		//(*)UI에서 지워주기
+		$(this).parent().remove();
 	});
 
 });//document.ready
 
 
  function searchList(list){
-	 console.log("aaaa");
 	 var html = "";
 	 html += "<div class=\"result_box\">" +list.length+ "</div>";
 	 for(var data of list){		
@@ -490,10 +506,72 @@ function mapList(list){
 }
  
 function goDetail(car_num){
- 	//잘 넘어오면 상세보기 페이지로 이동하자.
- 	$("#no").val(car_num);
+ 	//잘 넘어오면 금액표 팝업을 보여주자.
+ 	$("#car_num").val(car_num);
+	var html = "";
  	
- 	$("#goForm").submit();
+ 	var params = $("#goForm").serialize();
+	$.ajax({
+		url : "parkFeeDetail", //경로
+		type : "POST", //전송방식(GET: 주소형태, Post : 주소 헤더형태)
+		dataType : "json", //데이터 형태
+		data : params, //보낼 데이터
+		success : function(res){// 성공했을때 겨로가를 res에 받고 함수실행
+			html += "<tr>";
+	      	html += "<th colspan=\"2\" style=\"background-color:lightgray;\">"+res.data.CAR_PARK_NM+"</th>";
+	      	html += "</tr>";
+	      	
+			html += "<tr>";
+	      	html += "<th>평일 유/무료구분</th>";
+	      	html += "<td>"+res.data.PAYORFREE_DIV+"</td>";
+	      	html += "</tr>";
+	      
+	        html += "<tr>";
+	      	html += "<th>토요일 유/무료 구분</th>";
+	      	html += "<td>"+res.data.SATURDAY_PAYORFREE_DIV+"</td>";
+	        html += "</tr>";
+	      
+	        html += "<tr>";
+	        html += "<th>공휴일 유/무료 구분</th>";
+	      	html += "<td>"+res.data.HOLIDAY_PAYORFREE_DIV+"</td>";
+	        html += "</tr>";
+	
+	        html += "<tr>";
+	      	html += "<th>정액권</th>";
+	      	html += "<td>"+res.data.FULLTIME_MONTHLY+"</td>";
+	        html += "</tr>";
+	      
+	        html += "<tr>";
+	      	html += "<th>기본 주차 시간</th>";
+	      	html += "<td>"+res.data.TIME_RATE+"</td>";
+	        html += "</tr>";
+	      
+	        html += "<tr>";
+	      	html += "<th>기본 요금</th>";
+	      	html += "<td>"+res.data.FEE_RATE+"</td>";
+	        html += "</tr>";
+	        
+	        html += "<tr>";
+	      	html += "<th>추가 단위 시간</th>";
+	      	html += "<td>"+res.data.ADD_TIME_RATE+"</td>";
+	        html += "</tr>";
+	        
+	        html += "<tr>";
+	      	html += "<th>추가 요금</th>";
+	      	html += "<td>"+res.data.ADD_FEE+"</td>";
+	        html += "</tr>";
+	        
+	        $("#feeTablePopup tbody").html(html);
+			$("#feeTablePopup").show();
+			
+		},
+		error : function(request, status, error){
+			makeAlert("알림", "빠른 시일 내에 준비하겠습니다.");
+			console.log(request.responseText);
+		}
+	});
+	
+	
 }
  
 function feeCom(car_num,starttime,endtime,payorfree_div, fee_rate, add_time_rate, time_rate, add_fee, re_fee_rate, re_add_fee, title) {//요금비교하려고 배열에 담았다.
@@ -513,19 +591,40 @@ function feeCom(car_num,starttime,endtime,payorfree_div, fee_rate, add_time_rate
  	var html = "";
 	for(var data of feeComArray){
 		 html +="<div class=\"box\">";
-         html +="<div class=\"close_i\"></div>";
+         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
          html +="<div class=\"parking_name\">"+data.title+"</div>";
          html +="<div class=\"parking_info\">";
          html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
+         html +="   <span style=\"color:black;\">₩"+ data.re_fee_rate +"(5분단위)</span>";
          html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
-         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">상세보기</span>";
+         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
          html +="</div>";
          html +="<div class=\"box_inner_i\">";
          html +="<div class=\"bookmark_i\"></div>";
          html +="<div class=\"share_i\"></div>";
          html +="</div>";
          html +="</div>";
-		
-		$("#feeComArea").html(html); 
 	}
+	$("#feeComArea").html(html); 
+}
+
+function feeComx(){
+	var html = "";
+	for(var data of feeComArray){
+		 html +="<div class=\"box\">";
+         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
+         html +="<div class=\"parking_name\">"+data.title+"</div>";
+         html +="<div class=\"parking_info\">";
+         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
+         html +="   <span style=\"color:black;\">₩"+ data.re_fee_rate +"(5분단위)</span>";
+         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
+         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
+         html +="</div>";
+         html +="<div class=\"box_inner_i\">";
+         html +="<div class=\"bookmark_i\"></div>";
+         html +="<div class=\"share_i\"></div>";
+         html +="</div>";
+         html +="</div>";
+	}
+	$("#feeComArea").html(html); 
 }
