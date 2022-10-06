@@ -279,8 +279,6 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 	var time = 0;
 	
 	var temp = 0;
-	var stage1 = 0;
-	var stage2 = 0;
 	
 	switch($("#time_rate").val()){
 		case "1"://30분
@@ -292,13 +290,14 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 		case "3"://120분
 			time = 24;
 		break;
+		
 		case "4"://240분
 			time = 48;
 		break;
 		
-		defalut:
-			time = 0;
-		break;
+		default:
+			time = 0; 
+			break;
 	}
 	// re_fee_rate, re_add_fee <-- 5분 단위 기본요금, 추가요금
 	//기본요금으로 정렬하돼
@@ -314,8 +313,6 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 		//오름차순
 		for(var i=0; i<lastLength-1; i++){
 			for(var j=0; j<(lastLength-i-1); j++){
-				var a,b = "";
-				console.log("i = "+ i+", j= "+j);
 				
 				if(feeSort[j].re_fee_rate *time > feeSort[j+1].re_fee_rate*time){
 					temp = feeSort[j];
@@ -343,7 +340,6 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 	         html +="</div>";
 	         html +="</div>";
 		}
-		console.log(html);
 		$("#feeComArea").html(html);
 	}
 	
