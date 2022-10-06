@@ -153,10 +153,10 @@
         html += "<tr>";
       	html += "<th>권한</th>";
       	html += "<td>"+data.AUTORITY_NM+"</td>";
+        html += "</tr>";
       	
       	vCk = data.AUTORITY_NM;
       	
-        html += "</tr>";
 		
 		$("#autority_popup").show();
 		$("#autority_popup thead").html(html);

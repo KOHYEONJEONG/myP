@@ -19,9 +19,17 @@
 .env_wrap, .ticket_wrap{
 	margin-left: 20px;
 }
-
-
 </style>
+<script type="text/javascript">
+$(document).ready(function() { 
+	//별점
+	$('.feeStar, .envStar, .cctvStar, .disStar').raty({ //cdn이 여기에 있다보니까 여기다가 작성해야 해 main.js에 작성하면 오류나서 다른 코드가 실행이 안돼요~
+		readOnly: false,
+		score : 1,
+		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+	});
+})
+</script>
 </head>
 <body>
 <!-- 리뷰 팝업 -->
