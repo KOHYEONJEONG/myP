@@ -28,8 +28,8 @@ $(document).ready(function () {
         $('.icons.fourth').click(function () {
             $('.fourth').parent().addClass('on');
             $('.fourth').parent().siblings().removeClass('on')
-            $('.cultrue_bookmark_wrap').addClass('on');
-            $('.cultrue_bookmark_wrap').siblings().removeClass('on');  
+            $('.bookmark_wrap').addClass('on');
+            $('.bookmark_wrap').siblings().removeClass('on');  
         })
         $('.icons.fifth').click(function () {
             $('.fifth').parent().addClass('on');

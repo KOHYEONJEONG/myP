@@ -17,10 +17,10 @@ import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
 public class BookmarkController {
-	
+
 	@Autowired
 	public IACDao dao;
-	
+
 	@RequestMapping(value = "/cultureBookmarkAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String noticeAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params)
@@ -29,7 +29,7 @@ public class BookmarkController {
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		int cnt = 0;
-		System.out.println(params);
+		System.out.println("params" + params);
 
 		try {
 			switch (gbn) {
@@ -53,16 +53,14 @@ public class BookmarkController {
 
 		return mapper.writeValueAsString(model);
 	}
-	
-	
-	
+
 	// 문화생활 즐겨찾기 리스트
 	@RequestMapping(value = "/cultureBookmarkList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String noticeListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
-		
+
 		System.out.println("bookmarkparams" + params);
 
 		List<HashMap<String, String>> list = dao.getList("bookmark.getCultrueBookmarkList", params);
