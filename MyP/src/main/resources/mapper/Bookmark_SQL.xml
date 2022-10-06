@@ -3,19 +3,18 @@
 <mapper namespace="bookmark">
 
 	<select id="getCultrueBookmarkList" parameterType="hashmap" resultType="hashmap">        
-    	SELECT A.CUL_LIFE_NUM, CUL_LIFE, ADDRESS, PHONE, LOCX, LOCY FROM CULTURAL_LIFE A 
+		SELECT A.CUL_LIFE_NUM, CUL_LIFE, ADDRESS, PHONE, LOCX, LOCY, REG_DT FROM CULTURAL_LIFE A 
     	INNER JOIN CULTURAL_LIFE_BOOKMARK B 
-		ON A.CUL_LIFE_NUM = B.CUL_LIFE_NUM WHERE B.MEM_NUM= #{mem_num}
+		ON A.CUL_LIFE_NUM = B.CUL_LIFE_NUM WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
 	</select>
 	
-
 	<insert id="insertCultrue" parameterType="hashmap">
 	 	INSERT INTO CULTURAL_LIFE_BOOKMARK(MEM_NUM ,CUL_LIFE_NUM) VALUES (#{memNum} , #{cultureNum})
 	</insert>
 	
 	<delete id="deleteCultrue" parameterType="hashmap">
 		DELETE FROM CULTURAL_LIFE_BOOKMARK
-		WHERE CUL_LIFE_NUM = #{cultureNum}
+		WHERE CUL_LIFE_NUM = #{cultureNum} AND MEM_NUM = #{memNum}
 	</delete>
 	
 </mapper>
