@@ -239,9 +239,9 @@
 <body>
 <c:import url="/header"></c:import>
 
-<form action="parkinfodetail" id="goForm" method="post">
+<form action="#" id="goForm" method="post">
 	<!-- 상세보기 페이지로 이동하려고 -->
-	<input type="hidden" id="no" name="no">
+	<input type="hidden" id="car_num" name="car_num">
 </form>
 
   <main class="main1">
@@ -328,7 +328,7 @@
           <div class="select_box">
             <span>이용시간</span>
             <select name="use_time" id="time_rate">
-              <option value="" disabled selected>전체</option>
+              <option value="0" disabled selected>전체</option>
               <option value="1">30분</option>
               <option value="2">1시간</option>
               <option value="3">2시간</option>
@@ -339,109 +339,21 @@
               <span style="font-size: 12px;margin: 0px auto;">※기본 주차 5분 단위(자세한 요금은 상세보기로 확인해주세요.)</span>
           </div>
           
-          <div class="result_area" id="feeComArea"><!-- 요금 비교  -->
-           <!--  <div class="box">요금 Box 
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div> -->
- 
+          <div class="result_area" id="feeComArea">
+          		<!-- 요금 비교  -->
           </div>
+          
           <div class="btn_wrap">
             <input type="button" class="bottom_btn" id="feeCompareBtn" value="요금 비교" />
           </div>
         </div>
+        
+        
         <div class="distance_wrap">
           <div class="title">최단거리 비교</div>
           <div class="select_box">
             <span>이용시간</span>
-            <select name="use_time" id="">
+            <select name="use_time" id="use_time">
               <option value="" disabled selected>전체</option>
               <option value="">30분</option>
               <option value="">1시간</option>
@@ -803,6 +715,25 @@
     </div>
   </main>
 <c:import url="/footer"></c:import>
+ 
+<!-- 요금표 팝업창 -->
+<div id="feeTablePopup" class="feeTablePopup" style="display: none;">
+	<div class="close_i">
+      		<img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
+   	</div>
+ 
+	<table>
+	     <colgroup>
+	     	<col width="200">
+	     	<col width="150">
+	     </colgroup>
+	   
+	   	<caption>금액표</caption>
+	   	
+	   	<tbody>
+	   	</tbody>
+    </table>
+</div>  <!-- 요금표 팝업창 --> 
  
 <!-- 가이드(챗봇 아님)-->
 <c:import url="/guideMain"/>
