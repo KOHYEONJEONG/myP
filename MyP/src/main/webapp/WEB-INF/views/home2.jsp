@@ -9,13 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyP</title>
-<script type="text/javascript" src="resources/jquery/jquery-1.12.4.js"></script>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/popup.css">
 <link rel="stylesheet" href="resources/css/font.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"> <!-- 여기 있어야함 -->
 <link rel="stylesheet" href="resources/css/swiper.css"> <!--추가-->
 <link rel="stylesheet" href="resources/css/weather.css"> <!--추가--> 
+<script type="text/javascript" src="resources/jquery/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="resources/js/weather.js"></script><!--추가-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
 <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
@@ -235,239 +235,6 @@
             text-decoration: none;
         }
 </style>
-
-<script type="text/javascript">
-var logx = [];
-var logy = [];
-var title = [];
-var feeComArray  = [];//추가 khj
-$(document).ready(function() {
-
-	//별점
-	$('.feeStar, .envStar, .cctvStar, .disStar').raty({
-		readOnly: false,
-		score : 1,
-		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
-	});
-	
-	var area0 = ["구","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
-	var area1 = ["동","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
-	var area2 = ["동","강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
-	var area3 = ["동","미아동","번동","수유동","우이동"];
-	var area4 = ["동","가양동","개화동","공항동","과해동","내발산동","등촌동","마곡동","방화동","염창동","오곡동","오쇠동","외발산동","화곡동"];
-	var area5 = ["동","남현동","봉천동","신림동"];
-	var area6 = ["동","광장동","구의동","군자동","능동","자양동","중곡동","화양동"];
-	var area7 = ["동","가리봉동","개봉동","고척동","구로동","궁동","신도림동","오류동","온수동","천왕동","항동"];
-	var area8 = ["동","가산동","독산동","시흥동"];
-	var area9 = ["동","공릉동","상계동","월계동","중계동","하계동"];
-	var area10 = ["동","도봉동","방학동","쌍문동","창동"];
-	var area11 = ["동","답십리동","신설동","용두동","이문동","장안동","전농동","제기동","청량리동","회기동","휘경동"];
-	var area12 = ["동","노량진동","대방동","동작동","본동","사당동","상도동","신대방동","흑석동"];
-	var area13 = ["동","공덕동","구수동","노고산동","당인동","대흥동","도화동","동교동","마포동","망원동","상수동","상암동","서교동","성산동","신수동","아현동","연남동","염리동","용강동","중동","창전동","토정동","합정동"];
-	var area14 = ["동","남가좌동","북가좌동","북아현동","신촌동","연희동","홍은동","홍제동"];
-	var area15 = ["동","내곡동","반포동","방배동","서초동","신원동","양재동","우면동","원지동","잠원동"];
-	var area16 = ["동","금호동1가","금호동2가","금호동3가","금호동4가","도선동","마장동","사근동","상왕십리동","성수동1가","성수동2가","송정동","옥수동","용답동","응봉동","하왕십리동","홍익동","행당동"];
-	var area17 = ["동","길음동","돈암동","동선동","보문동","삼선동","석관동","성북동","안암동","월곡동","장위동","정릉동","종암동"];
-	var area18 = ["동","가락동","거여동","마천동","문정동","방이동","삼전동","석촌동","송파동","신천동","오금동","장지동","잠실동","풍납동"];
-	var area19 = ["동","목동","신월동","신정동"];
-	var area20 = ["동","당산동","대림동","도림동","문래동","신길동","양평동","여의도","영등포동"];
-	var area21 = ["동","남영동","보광동","서빙고동","용문동","용산동","이촌동","이태원동","청파동","한강로","한남동","효창동","후암동"];
-	var area22 = ["동","갈현동","구산동","녹번동","대조동","불광동","수색동","신사동","역촌동","응암동","증산동","진관동"];
-	var area23 = ["동","가회동","무악동","부암동","사직동","삼청동","숭인동","이화동","종로1.2.3.4가동","창신동","청운동","평창동","혜화동"];
-	var area24 = ["동","다산동","동화동","소공동","신당동","을지로","장충동","중림동","필동","황학동","회현동"];
-	var area25 = ["동","망우동","면목동","묵동","상봉동","신내동","중화동"];
-	 
-	 $("select[name^=sido]").each(function() {
-		   $selsido = $(this);
-		   $.each(eval(area0), function() {
-		    $selsido.append("<option value='"+this+"'>"+this+"</option>");
-		   });
-		   $selsido.next().append("<option value=''>동</option>");
-		  });
-
-		  
-		  // 시/도 선택시 구/군 설정
-		$("select[name^=sido]").change(function() {
-		   var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
-		   var $gugun = $(this).next(); // 선택영역 군구 객체
-		   $("option",$gugun).remove(); // 구군 초기화
-		   if(area == "area0")
-		    $gugun.append("<option value=''>동</option>");
-		   else {
-		    $.each(eval(area), function() {
-		     $gugun.append("<option value='"+this+"'>"+this+"</option>");
-		    });
-		   }
-		  });
-		  
-		  
-		 
-		  
-
-		$("#search_i").on("click", function(){
-			var params = $("#actionForm").serialize();
-			$.ajax({
-				url : "HomeAjax",
-				type : "POST",
-				dataType: "json",
-				data: params,
-				success : function(res){
-					console.log(res);
-					console.log(res.cnt);
-					searchList(res.list);
-					mapList(res.list);
-					console.log(res.list.length);
-					
-				},
-				error : function(request, status, error) { 
-					console.log(request.responseText); 
-				}
-			})
-			
-			
-		});
- });
-  
- function searchList(list){
-	 console.log("aaaa");
-	 var html = "";
-	 html += "<div class=\"result_box\">" +list.length+ "</div>";
-	 for(var data of list){		
-		 html += "<div class=\"box\">";
-         html += "<div class=\"close_i\"></div>";
-         html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
-         html += "<div class=\"parking_info\">";
-         html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
-         html += "<span class=\"pay\">유료</span>";
-         html += "<span class=\"detail\">상세보기</span>"; 
-         html += "</div>";
-         html += "<div class=\"box_inner_i\">";
-         html += "<div class=\"bookmark_i\"></div>";
-         html += "<div class=\"share_i\"></div>";
-         html += "</div>";
-         html += "</div>";
-	 }
-	 //console.log(html);
-	 //console.log(list.length);
-	 $('.result_area2').html(html);
- } 
- 
-function mapList(list){
-	 
-	var positions = new Array();
-	var points = new Array();
-	for(var data of list) {
-		positions.push({
-			title: data.CAR_PARK_NM,
-			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY),
-			starttime: data.STARTTIME,
-			endtime: data.ENDTIME,
-			review: data.CNT,
-			starscore: data.AVG,
-			payorfree_div:data.PAYORFREE_DIV,//유,무료
-			carparknum: data.CAR_PARK_MAG_NUM
-		});
-		 
-		points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
-	
-	}
-	//console.log(positions);
-
-	// 마커 이미지의 이미지 주소입니다
-	var imageSrc = "resources/icons/park_marker4.png"; 
-		    
-	for (var i = 0; i < positions.length; i ++) {
-		    
-	    // 마커 이미지의 이미지 크기 입니다
-	    var imageSize = new kakao.maps.Size(24, 35); 
-	    
-	    // 마커 이미지를 생성합니다    
-	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-	    
-	    // 마커를 생성합니다
-	    var marker = new kakao.maps.Marker({
-	        map: map, // 마커를 표시할 지도
-	        position: positions[i].latlng, // 마커를 표시할 위치
-	        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-	        image : markerImage, // 마커 이미지 
-	        
-	        clickable: true
-	    });
-		    
-	    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
-    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />"; 
-    	
-    	if(positions[i].starscore == 0){
-    		iwContent += "<div class=\"phone\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
-    	}else {
-    	 	iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
-    	}
-    	
-    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
-    	iwContent += "<span class=\"pay\">"+positions[i].payorfree_div+"</span>";
-    	iwContent += " <span class=\"detail\"  onclick=\"goDetail("+positions[i].carparknum+")\">상세보기</span>"; 
-    	iwContent += "<div class=\"buttonBox\">";
-    	iwContent += "<div class=\"bookmarkBox\">";
-    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
-    	iwContent += "</div>";
-    	iwContent += "<div class=\"shareBox\">";
-    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-    	iwContent += "</div>";
-    	iwContent += "<div class=\"compareBox\">";
-    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"feeCom("+positions[i].carparknum+",\'"+positions[i].starttime+"\',\'"+positions[i].endtime+"\', \'"+ positions[i].payorfree_div +"\', \'"+positions[i].title+"\')\">요금비교</button>";
-    	iwContent += "</div>"
-    	iwContent += "</div>"
-    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    	iwRemoveable = true; 
-		    
-		// 인포윈도우를 생성합니다
-		var infowindow = new kakao.maps.InfoWindow({
-			content : iwContent,
-		    removable : iwRemoveable
-		});  
-		 
-		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
-	     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-	     (function(marker, infowindow) {
-	    	 // 마커에 클릭이벤트를 등록합니다
-			 kakao.maps.event.addListener(marker, 'click', function() {
-				  // 다른 마커를 클릭했을때, 이전 팝업창 닫힘
-				  $("img[alt='close']").click();//개발자도구에서 x버튼의 속성에 접근한것.
-			      // 마커 위에 인포윈도우를 표시합니다
-		      	  infowindow.open(map, marker);
-			 });
-	
-	     })(marker, infowindow);		 
-	
-		}//for
-
-
-		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-		var bounds = new kakao.maps.LatLngBounds();    
-
-		var i, marker;
-		for (i = 0; i < points.length; i++) {// 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-		    bounds.extend(points[i]);// LatLngBounds 객체에 좌표를 추가합니다
-		}//for
-		
-		map.setBounds(bounds);
-
-}
- 
-function goDetail(car_num){
-	console.log("상세보기 클릭 => "+car_num);
- 	//잘 넘어오면 상세보기 페이지로 이동하자.
- 	$("#no").val(car_num);
- 	
- 	$("#goForm").submit();
-}
- 
-function feeCom(car_num,starttime,endtime,payorfree_div,title) {//요금비교하려고 배열에 담았다.
- 	//1370100 '00:00' '00:00','유료','강일동공영주차장(구)'
-	feeComArray.push({car_num: car_num, starttime: starttime, endtime: endtime, payorfree_div:payorfree_div, title: title});
-}
-</script>
-
 </head>
 <body>
 <c:import url="/header"></c:import>
@@ -560,17 +327,20 @@ function feeCom(car_num,starttime,endtime,payorfree_div,title) {//요금비교�
           <div class="title">요금 계산</div>
           <div class="select_box">
             <span>이용시간</span>
-            <select name="use_time">
+            <select name="use_time" id="time_rate">
               <option value="" disabled selected>전체</option>
-              <option value="">30분</option>
-              <option value="">1시간</option>
-              <option value="">2시간</option>
-              <option value="">4시간</option>
-              <option value="">종일</option>
+              <option value="1">30분</option>
+              <option value="2">1시간</option>
+              <option value="3">2시간</option>
+              <option value="4">4시간</option>
+              <!-- <option value="">종일</option> -->
             </select>
+            <br/>
+              <span style="font-size: 12px;margin: 0px auto;">※기본 주차 5분 단위(자세한 요금은 상세보기로 확인해주세요.)</span>
           </div>
-          <div class="result_area">
-            <div class="box">
+          
+          <div class="result_area" id="feeComArea"><!-- 요금 비교  -->
+           <!--  <div class="box">요금 Box 
               <div class="close_i"></div>
               <div class="parking_name">가산동 공영주차장</div>
               <div class="parking_info">
@@ -660,18 +430,18 @@ function feeCom(car_num,starttime,endtime,payorfree_div,title) {//요금비교�
                 <div class="bookmark_i"></div>
                 <div class="share_i"></div>
               </div>
-            </div>
+            </div> -->
  
           </div>
           <div class="btn_wrap">
-            <input type="button" class="bottom_btn" value="요금 비교" />
+            <input type="button" class="bottom_btn" id="feeCompareBtn" value="요금 비교" />
           </div>
         </div>
         <div class="distance_wrap">
           <div class="title">최단거리 비교</div>
           <div class="select_box">
             <span>이용시간</span>
-            <select name="use_time">
+            <select name="use_time" id="">
               <option value="" disabled selected>전체</option>
               <option value="">30분</option>
               <option value="">1시간</option>
