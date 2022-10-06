@@ -27,6 +27,11 @@
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"
   integrity="sha384-PFHeU/4gvSH8kpvhrigAPfZGBDPs372JceJq3jAXce11bVA6rMvGWzvP4fMQuBGL" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="resources/rety/jquery.raty.css">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://deveroad.kr">
+  <meta property="og:title" content="디벨로드">
+  <meta property="og:description" content="Road to Development">
+  <meta property="og:image" content="http://deveroad.kr/img/kakao_logo_deveroad.png">
 <style>
   .result_area2 {
   width: 100%;
@@ -433,7 +438,9 @@
          html += "</div>";
          html += "<div class=\"box_inner_i\">";
          html += "<div class=\"bookmark_i\"></div>";
-         html += "<div class=\"share_i\" id=\"share_i\"></div>";
+         /* html += "<div class=\"share_i\" id=\"share_i\" onclick=\"shareMessage\"></div>"; */
+         html += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage()\" class=\"share_i\">";
+         html += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
          html += "</div>";
          html += "</div>";               
 	 }										 
@@ -548,6 +555,46 @@
 		map.setBounds(bounds);
 
  	}
+ 
+ Kakao.init('e41934107d35da0fcd73a47e8bc1ca9e'); // 사용하려는 앱의 JavaScript 키 입력
+
+ function shareMessage() {
+   Kakao.Share.sendDefault({
+     objectType: 'feed',
+     content: {
+       title: 'TESTTESTTEST',
+       description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
+       imageUrl:
+          'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png', 
+       link: {
+         mobileWebUrl: 'http://localhost:8090/MyP',
+         webUrl: 'http://localhost:8090/MyP'
+       },
+     }/* ,
+     social: {
+       likeCount: 286,
+       commentCount: 45,
+       sharedCount: 845,
+     } *//* ,
+      buttons: [
+       {
+         title: '웹으로 보기',
+         link: {
+           mobileWebUrl: 'https://developers.kakao.com',
+           webUrl: 'https://developers.kakao.com',
+         },
+       },
+       {
+         title: '앱으로 보기',
+         link: {
+           mobileWebUrl: 'https://developers.kakao.com',
+           webUrl: 'https://developers.kakao.com',
+         },
+       },
+     ],  */
+   });
+ }
+ 
   </script>
 </head>
 <body>
@@ -1310,55 +1357,6 @@
 
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 </script>
-
-<script>
-  Kakao.init('e41934107d35da0fcd73a47e8bc1ca9e'); // 사용하려는 앱의 JavaScript 키 입력
-</script>
-
-<a id="share_i">
-  <img alt="카카오톡 공유 보내기 버튼" />
-</a>
-
-<script>
-  function shareMessage() {
-    Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '딸기 치즈 케익',
-        description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
-        imageUrl:
-          'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
-        link: {
-          mobileWebUrl: 'https://developers.kakao.com',
-          webUrl: 'https://developers.kakao.com',
-        },
-      },
-      social: {
-        likeCount: 286,
-        commentCount: 45,
-        sharedCount: 845,
-      },
-      buttons: [
-        {
-          title: '웹으로 보기',
-          link: {
-            mobileWebUrl: 'https://developers.kakao.com',
-            webUrl: 'https://developers.kakao.com',
-          },
-        },
-        {
-          title: '앱으로 보기',
-          link: {
-            mobileWebUrl: 'https://developers.kakao.com',
-            webUrl: 'https://developers.kakao.com',
-          },
-        },
-      ],
-    });
-  }
-</script>
-
-  
 
 </body>
 
