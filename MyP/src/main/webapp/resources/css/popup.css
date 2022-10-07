@@ -1,4 +1,59 @@
 @charset "UTF-8";
+
+/*금액표 팝업*/
+.feeTablePopup{
+  width: 400px;
+  height: 366px;
+  position: absolute;
+  background-color: #efe7cb;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding: 36px 25px;
+  border: 1px solid gray;
+  box-sizing: border-box;
+  display: none;
+  border-radius: 5px;
+  font-family: "TmoneyRoundWindRegular";
+  font-size: 14px;
+}
+.feeTablePopup .close_i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.feeTablePopup .close_i img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.feeTablePopup table caption{
+	font-size: 16px;
+	text-align: center;
+    padding: 12px;
+    font-weight: 700;
+}
+
+.feeTablePopup table {
+	border: 1px solid black;
+	border-collapse: collapse;
+	height: 250px;
+}
+
+.feeTablePopup table tr{
+	border: 1px solid black;
+	background-color: #fff;
+}
+
+.feeTablePopup table th, td{
+	border: 1px solid black;
+	background-color: #fff;
+	text-align: center;
+}
+
+/*리뷰 팝업*/
 #review_popup {
     width: 379px;
     height: 486px;

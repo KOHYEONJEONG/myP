@@ -15,6 +15,12 @@ public class TestController {
 		return mav;
 	}
 	
+	// 장원석 공유하기 하는 page
+	@RequestMapping(value = "/home4")
+	public ModelAndView home4(ModelAndView mav) {
+		mav.setViewName("home4");
+		return mav;
+	}
 	
 	
 	@RequestMapping(value="/managerSidebar") 
