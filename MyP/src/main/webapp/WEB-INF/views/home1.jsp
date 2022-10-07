@@ -177,6 +177,13 @@
   .phone{
   	color: #028f69;
   }
+ .phone2, .address {
+      	font-size: 12px;
+      	margin-bottom: 3px;
+     }
+     .phone2{
+     	color: #028f69;
+     }
 
   .payBox {
       width: 70px;
@@ -243,9 +250,30 @@
 	  
 	  
 	  cultureBookmarkReloadList();
-
-		  
+	  cinemaBookmarkReloadList();
 	  
+	  $("#cultrueBookmark").click(function () {
+          $(".cultrue_bookmark_wrap").addClass("on");
+          $(".cultrue_bookmark_wrap").siblings().removeClass("on");  
+      })
+ 
+      $("#gasstationBookmark").click(function () {
+          $(".gasstation_bookmark_wrap").addClass("on");
+          $(".gasstation_bookmark_wrap").siblings().removeClass("on");  
+      })
+       $("#parkingBookmark").click(function () {
+          $(".parking_bookmark_wrap").addClass("on");
+          $(".parking_bookmark_wrap").siblings().removeClass("on");  
+      })
+       $("#restaurantBookmark").click(function () {
+          $(".restaurant_bookmark_wrap").addClass("on");
+          $(".restaurant_bookmark_wrap").siblings().removeClass("on");  
+      })      
+       $("#cinemaBookmark").click(function () {
+          $(".cinema_bookmark_wrap").addClass("on");
+          $(".cinema_bookmark_wrap").siblings().removeClass("on");  
+      })
+
 	  var area0 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	  var area1 = ["전체","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
 	   var area2 = ["전체","강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
@@ -453,20 +481,26 @@
 	
 		});
 		
-		
+		// 북마크
 		$("body").on("click", ".bookmarkBox", function() {
 			// 로그인 안된상태,
 			if($("#mem_num").val() == ""){ // 헤더에서 세션정보 가지고 있음
-			
-			
+				makePopup({
+			         title : "알림",
+			         contents : "즐겨찾기 메뉴는 로그인 후 이용 가능합니다.",
+			         buttons : [{
+			            name : "확인",
+			         }]
+				});
 			} else { // 로그인 상태
 				
 				// 로그인 되면은 세션 회원정보를 넣어줌
-				$("#send_mem_num").val($("#mem_num").val());
+				$("#sendMemNum").val($("#mem_num").val());
+				$("#sendCultureNum").val($("#cultureNum1").val());
 			
 				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
 					
-				 	var params = $("#cultureForm").serialize();
+				 	var params = $("#bookmarkForm").serialize();
 					$.ajax({
 						url : "cultureBookmarkAction/insert",
 						type : "POST",
@@ -475,10 +509,10 @@
 						success : function(res) { 
 							switch(res.msg){
 							case "success" : 
-								// 별이미지 변경하기, 북마크 된 상태 이미지로
-								//$(this).children("img").attr("src", "resources/icons/star1.svg")
 								// 북마크 리스트 로드
 								cultureBookmarkReloadList()
+								// 별이미지 변경하기, 북마크 된 상태 이미지로
+								$("#bookmarkBtn").attr("src", "resources/icons/star1.png")
 								break;
 							case "fail" :							
 								break;
@@ -490,19 +524,18 @@
 							console.log(request.responseText); 
 						}
 					}) 
-				} else {
-					
-					var params = $("#cultureForm").serialize();
+				} else {				
+					var params = $("#bookmarkForm").serialize();
 					$.ajax({
 						url : "cultureBookmarkAction/delete",
 						type : "POST",
-						dataType: "json",
+						dataType : "json",
 						data: params,
 						success : function(res) { 
 							switch(res.msg){
 							case "success" : 
 								// 별이미지 변경하기, 북마크 안 된 상태 이미지로
-								//$(this).children("img").attr("src", "resources/icons/bookmark.png")
+								$("#bookmarkBtn").attr("src", "resources/icons/bookmark.png")
 								// 북마크 리스트 로드
 								cultureBookmarkReloadList()
 								
@@ -518,46 +551,129 @@
 						error : function(request, status, error) { 
 							console.log(request.responseText); 
 						}
-					}) 
-					
-				}
-				
+					}) 	
+				}	
 			}
+		});
+		
+		// 북마크
+		$("body").on("click", ".close_i", function() {
+			// 로그인 되면은 세션 회원정보를 넣어줌
+			$("#sendMemNum").val($("#mem_num").val());
+			$("#sendCultureNum").val($("#cultureNum").val());
+			
+			var params = $("#bookmarkForm").serialize();
+			$.ajax({
+				url : "cultureBookmarkAction/delete",
+				type : "POST",
+				dataType: "json",
+				data: params,
+				success : function(res) { 
+					switch(res.msg){
+					case "success" : 
+						// 북마크 리스트 로드
+						cultureBookmarkReloadList()
+						
+						break;
+					case "fail" :
+						
+						break;
+					case "error" :
+						
+						break;
+					}
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			}) 	
 			
 		});
 		
-		
+		// 리뷰
+		 $("body").on("click", ".phone2",function(){
+			 var carparknum = $("#carparknum").val();
+			 
+			var data = {carparknum : carparknum};
+			
+			$.ajax({
+				 type : "POST",
+				   url : "ReviewAjax",
+				   dataType : "json",
+				   data : data,
+				   success : function(res){
+					   reaviewList(res.reviewlist);
+					   console.log(res.reviewlist);
+					
+				   },
+				  error : function(request, status, error){
+						console.log(request.responseText); 
+				  }
+			})
+			 
+		 });
+		  
 		
 		
  });
-  
+  // 형석님 리뷰 부분
+  function reaviewList(reaviewList){
+		 var html = "";
+		 html += "<div class=\"standard\">"+reaviewList[0].CAR_PARK_NM +"</div>";
+		 for(var data of reaviewList){
+	     html += "<div class=\"box pr40\">                        ";
+	     html += "<div class=\"nickname\">"+data.NM +"</div>              ";
+	     html += "<div class=\"line\">                            ";
+	     html += "<div class=\"stars\">                           ";
+	     html += "<div class=\"star_i\"></div>                    ";
+	     html += "<div class=\"star_i\"></div>                    ";
+	     html += "<div class=\"star_i\"></div>                    ";
+	     html += "<div class=\"star_i\"></div>                    ";
+	     html += "<div class=\"star_i\"></div>                    ";
+	     html += "</div>                                          ";
+	     html += "<div class=\"date\">"+data.REG_DT +"</div>            ";
+	     html += "</div>                                          ";
+	     html += "<div class=\"review_title\">                    ";
+	     html += "<span>제목 :</span>                             ";
+	     html += "<span>"+data.TITLE +"</span>             ";
+	     html += "</div>                                          ";
+	     html += "<div class=\"review_contents\">                 ";
+	     html += "<span>내용 :</span>                             ";
+	     html += "<span>"+data.CON +"</span>";
+	     html += "</div>                                          ";
+	     html += "<div class=\"box_inner_i\">                     ";
+	     html += "<div class=\"warning_i\"></div>                 ";
+	     html += "</div>                                          ";
+	     html += "</div>                                          ";
+	 	}
+	 	$('.result_area2').html(html);
+	 } 
 
     
   
- function searchList(list){
-	 console.log("aaaa");
-	 var html = "";
-	 html += "<div class=\"result_box\">" +list.length+ "</div>";
-	 for(var data of list){
-		  /* html += "<div class=\"box\">";
-		 html +="  <div class=\"accident_title\">"+ data.CAR_PARK_NM  +"</div>";
-		 html += "  <div class=\"accident_period\"> " + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</div>";
-		 html += "</div>"; */
-		
-		 html += "<div class=\"box\">";
-         html += "<div class=\"close_i\"></div>";
-         html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
-         html += "<div class=\"parking_info\">";
-         html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
-         html += "<span class=\"pay\">유료</span>";
-         html += "<span class=\"detail\">상세보기</span>"; 
-         html += "</div>";
-         html += "</div>";
-	 }
-	 console.log(html);
-	console.log(list.length);
-	 $('.result_area2').html(html);
- } 
+  function searchList(list){
+		 console.log("aaaa");
+		 var html = "";
+		 html += "<div class=\"result_box\">" +list.length+ "</div>";
+		 for(var data of list){		
+			 html += "<div class=\"box\">";
+	         html += "<div class=\"close_i\"></div>";
+	         html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
+	         html += "<div class=\"parking_info\">";
+	         html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
+	         html += "<span class=\"pay\">유료</span>";
+	         html += "<span class=\"detail\">상세보기</span>"; 
+	         html += "</div>";
+	         html += "<div class=\"box_inner_i\">";
+	         html += "<div class=\"bookmark_i\"></div>";
+	         html += "<div class=\"share_i\"></div>";
+	         html += "</div>";
+	         html += "</div>";
+		 }
+		 console.log(html);
+		console.log(list.length);
+		 $('.result_area2').html(html);
+	 } 
  
  function mapList(list){
 	 
@@ -566,19 +682,25 @@
 	 for(var data of list) {
 		 positions.push({
 			title: data.CAR_PARK_NM,
-			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY)
+			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY),
+		 	starttime: data.STARTTIME,
+		 	endtime: data.ENDTIME,
+		 	review: data.CNT,
+		 	starscore: data.AVG,
+		 	carparknum: data.CAR_PARK_MAG_NUM
 		 });
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
+	 console.log(positions);
 
 		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "re"; 
+		var imageSrc = "resources/icons/park_marker4.png"; 
 		    
 		for (var i = 0; i < positions.length; i ++) {
 		    
 		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
+		    var imageSize = new kakao.maps.Size(35, 35); 
 		    
 		    // 마커 이미지를 생성합니다    
 		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
@@ -588,9 +710,61 @@
 		        map: map, // 마커를 표시할 지도
 		        position: positions[i].latlng, // 마커를 표시할 위치
 		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage // 마커 이미지 
+		        image : markerImage, // 마커 이미지 
+		        clickable: true
 		    });
+		    
+		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
+		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />"; 
+		    	if(positions[i].starscore == 0){
+		    		iwContent += "<div class=\"phone2\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
+		    	}else {
+		    	
+		    	 iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
+		    	}
+		    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
+		    	iwContent += "<span class=\"pay\">유료</span>";
+		    	iwContent += "<span class=\"detail\">상세보기</span>"; 
+		    	iwContent += "<div class=\"buttonBox\">";
+		    	iwContent += "<div class=\"bookmarkBox\">";
+		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"compareBox\">";
+		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "</div>"
+		    	iwContent += "</div>"
+		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    	iwRemoveable = true; 
+		    
+		    
+		 // 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				content : iwContent,
+			    removable : iwRemoveable
+			
+			});  
+		 
+		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+	     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+	     (function(marker, infowindow) {
+	    	 // 마커에 클릭이벤트를 등록합니다
+			 kakao.maps.event.addListener(marker, 'click', function() {
+				 
+				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+				  $("img[alt='close']").click();
+			       // 마커 위에 인포윈도우를 표시합니다
+			       infowindow.open(map, marker);
+			       
+			      
+			 });
+
+	     })(marker, infowindow);		 
+	
 		}
+
 
 		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 		var bounds = new kakao.maps.LatLngBounds();    
@@ -626,8 +800,9 @@ function cultureList(list){
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
+	 
 
-	// 마커 이미지의 이미지 주소입니다
+		// 마커 이미지의 이미지 주소입니다
 		// 없으면 기본 마커, 파란색
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
 	   // 마커 이미지의 이미지 크기 입니다
@@ -637,8 +812,8 @@ function cultureList(list){
 	        spriteOrigin : new kakao.maps.Point(3, 640), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
 	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
 	    }
-	     
-			    
+	   
+		    
 		for (var i = 0; i < positions.length; i ++) {
 	      	    
 		    // 마커 이미지의 이미지 크기 입니다
@@ -655,17 +830,21 @@ function cultureList(list){
 		       image : markerImage // 마커 이미지 
 		        //clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다, 마커 클릭시 팝업창 뜨게 추가
 		    });
-			   
-		    var iwContent = "<form action=\"#\" id=\"cultureForm\" method=\"post\">";
-		    	iwContent += "<input type=\"hidden\" id=\"cultureNum\" name=\"cultureNum\" value="+ positions[i].cultureNum +" />";
-		    	iwContent += "<input type=\"hidden\" id=\"send_mem_num\" name=\"memNum\" />";
-		    	iwContent += "</form>";
+		 			   
+		    var iwContent = "<input type=\"hidden\" id=\"cultureNum1\" value="+ positions[i].cultureNum +" />";
 		    	iwContent += "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
 		    	iwContent += "<div class=\"phone\">" + positions[i].phone +"</div>";
 		    	iwContent += "<div class=\"address\">" + positions[i].address +"</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
-		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
+		    	$(".cultrue_bookmark_wrap .result_area").each(function() {
+	               if($(this).html().match(positions[i].title)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
+	                  console.log($(this).html());
+	                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+	               } else {
+	                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+	               }
+	            });
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -767,7 +946,15 @@ function gasStationList(list){
 			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
 			    	iwContent += "<div class=\"buttonBox\">";
 			    	iwContent += "<div class=\"bookmarkBox\">";
-			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtnImg\">";
+			    	$(".gasstation_bookmark_wrap .result_area").each(function() {
+			               if($(this).html().match(positions[i].title)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
+			                  console.log($(this).html());
+			                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+			               } else {
+			                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+			               }
+			         });
+			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\" class=\"boomarkBtnImg\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -1044,12 +1231,18 @@ function cultureBookmarkReloadList() {
  function cultureBookmarkDrawList(list) {
 		var html = "";
 		
-		for(var data of list){
+
+		if(list.length == 0){
+			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+		}
+		
+		for(var data of list){			
 			
 			html += "<div class=\"box\">";
             html += "<div class=\"close_i\"></div>";
             html += "<div class=\"content\">";
             html += "<div class=\"main\">";
+            html += "<input type=\"hidden\" id=\"cultureNum\" value="+ data.CUL_LIFE_NUM +" />";
             html += "<div class=\"parking_name\">" + data.CUL_LIFE+"</div>";
             html += "<div class=\"parking_info\">";
             html += "<div class=\"time\">"+ data.PHONE +"</div>";
@@ -1059,15 +1252,70 @@ function cultureBookmarkReloadList() {
            	html += "</div>";
            	html += "</div>";
 		}
-		console.log(html);
-		$(".cultrue_bookmark_wrap .result_area").html(html);
-
+			$(".cultrue_bookmark_wrap .result_area").html(html);
 	}
+ 
+ 
+//영화관 즐겨찾기
+ function cinemaBookmarkReloadList() {
+ 	var params = $("#headerForm").serialize();
+ 	
+ 	$.ajax({
+ 		url : "cinemaBookmarkList",
+ 		type : "POST", 
+ 		dataType: "json", 
+ 		data: params, 
+ 		success : function(res) { 
+ 			cinemaBookmarkDrawList(res.list);
+ 			console.log(res);
+ 			console.log(res.list);
+ 		},
+ 		error : function(request, status, error) { 
+ 			console.log(request.responseText); 
+ 		}
+ 	}); 
+ 	
+ }
+
+  function cinemaBookmarkDrawList(list) {
+ 		var html = "";
+ 		
+
+ 		if(list.length == 0){
+ 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+ 		}
+ 		
+ 		for(var data of list){			
+ 			
+ 			html += "<div class=\"box\">";
+             html += "<div class=\"close_i\"></div>";
+             html += "<div class=\"content\">";
+             html += "<div class=\"main\">";
+             html += "<input type=\"hidden\" id=\"cinemaNum\" value="+ data.CINEMA_MAG_NUM  +" />";
+             html += "<div class=\"parking_name\">" + data.ENT_NM+"</div>";
+             html += "<div class=\"parking_info\">";
+             html += "<div class=\"time\">"+ data.PHONE +"</div>";
+             html += "<div class=\"detail mt8\">" + data.PARCEL_NUM + "</div>";       
+             html += "</div>";
+             html += "</div>";
+            	html += "</div>";
+            	html += "</div>";
+ 		}
+ 			$(".cinema_bookmark_wrap .result_area").html(html);
+ 	}
+
 
 			 
 </script>
 </head>
 <body>
+<form action="#" id="bookmarkForm" method="post">
+	<input type="hidden" id="sendRestaurantNum" name="restaurantNum"  /> <!-- 영화관번호 -->
+	<input type="hidden" id="sendGasStationNum" name="gasStationNum"  /> <!-- 주유소변호 -->
+	<input type="hidden" id="sendCinemaNum" name="cinemaNum"  /> 		 <!-- 영화관번호 -->
+	<input type="hidden" id="sendCultureNum" name="cultureNum"  />       <!-- 문화생화번호 -->
+	<input type="hidden" id="sendMemNum" name="memNum" />                <!-- 회원번호 -->
+</form>
 <c:import url="/header"></c:import>
   <main class="main1">
     <div class="left_area">
@@ -1397,33 +1645,65 @@ function cultureBookmarkReloadList() {
             <input type="button" class="bottom_btn" value="요금 비교" />
           </div>
         </div>
-    <!--     <div class="bookmark_wrap">
-          <div class="title">즐겨찾기</div>
-          <div class="result_area">
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">주차장</div>
-            </div>
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">맛집</div>
-            </div>
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">문화생활</div>
-            </div>
-            <div class="file">
-              <div class="file_i"></div>
-              <div class="file_txt">주유소</div>
-            </div>
-          </div>
-        </div>  -->
+        <!-- 북마크 시작 -->
+        <c:choose>
+			<c:when test="${empty sMemNm}">
+				<div class="bookmark_wrap">
+			       <div class="title">즐겨찾기</div>
+			       <div class="result_area">
+			          <div class="text">로그인 후 이용 가능합니다.</div> 
+			        </div>
+			     </div> 
+			</c:when>
+			<c:otherwise>
+				<div class="bookmark_wrap">
+			       <div class="title">즐겨찾기</div>
+			       <div class="result_area">
+			          <div class="file" id="parkingBookmark">
+			             <div class="file_i"></div>
+			             <div class="file_txt">주차장</div>
+			          </div>
+			          <div class="file" id="restaurantBookmark">
+			             <div class="file_i"></div>
+			             <div class="file_txt">음식점</div>
+			          </div>
+			          <div class="file" id="cultrueBookmark">
+			             <div class="file_i"></div>
+			             <div class="file_txt">문화생활</div>
+			           </div>
+			           <div class="file" id="gasstationBookmark">
+			             <div class="file_i"></div>
+			             <div class="file_txt">주유소</div>
+			           </div>
+			           <div class="file" id="cinemaBookmark">
+			             <div class="file_i"></div>
+			             <div class="file_txt">영화관</div>
+			           </div>
+			        </div>
+			     </div>  
+			</c:otherwise>
+	  </c:choose>
+	   <div class="parking_bookmark_wrap">
+          <div class="title p40">주차장 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
+      <div class="restaurant_bookmark_wrap">
+          <div class="title p40">음식점 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
       <div class="cultrue_bookmark_wrap">
           <div class="title p40">문화생활 즐겨찾기</div>
-          <div class="result_area">
-            
-          </div>
+          <div class="result_area"></div>
       </div>
+      <div class="gasstation_bookmark_wrap">
+          <div class="title p40">주유소 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
+      <div class="cinema_bookmark_wrap">
+          <div class="title p40">영화관 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
+      <!-- 리뷰 시작 -->
         <div class="review_wrap">
           <div class="title">리뷰</div>
           <div class="select_box">
@@ -1615,7 +1895,7 @@ function cultureBookmarkReloadList() {
       <div id="map"></div>
       <ul id="category">
         <li id="restaurant"> 
-            <img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00032.png">
+        	<img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00032.png">
             음식점
         </li>       
         <li id="gasStation"> 

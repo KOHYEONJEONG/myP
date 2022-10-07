@@ -482,6 +482,19 @@ main {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.left_section .result_area3 {
+  width: 100%;
+  height: calc(100% - 190px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.left_section .result_area .text {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 80px;
+}
+
 .left_section .result_area .standard {
   text-align: center;
   font-size: 16px;
@@ -498,6 +511,34 @@ main {
   font-size: 14px;
 }
 .left_section .result_area .box {
+  width: 90%;
+  height: 100px;
+  background: #fff;
+  border-radius: 15px;
+  margin: 15px 5% 0px 5%;
+  border: 1px solid #000;
+  padding: 15px 10px 15px 20px;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.left_section .result_area3 .standard {
+  text-align: center;
+  font-size: 16px;
+  padding: 20px 0px 5px 0px;
+}
+.left_section .result_area3 .result_box {
+  height: 40px;
+  background: #fff;
+  text-align: right;
+  line-height: 40px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding-right: 20px;
+  font-size: 14px;
+}
+.left_section .result_area3 .box {
   width: 90%;
   height: 100px;
   background: #fff;
@@ -696,6 +737,10 @@ main {
   font-size: 15px;
   margin-bottom: 3px;
 }
+.left_section .review_wrap3 .box .nickname {
+  font-size: 15px;
+  margin-bottom: 3px;
+}
 .left_section .review_wrap .box .line {
   display: flex;
 }
@@ -845,6 +890,7 @@ main {
   box-sizing: border-box;
   margin: 3px 0;
 }
+
 .right_area .content_wrap .box {
   width: 800px;
   height: 200px;

@@ -246,6 +246,14 @@
   var logy = [];
   var title = [];
   $(document).ready(function() {
+	  
+	  $("body").on("click", ".warning_i", function () {
+	        document.getElementById("warning_popup").style.display = "block";
+	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
+	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
+	    })
+	    
+	    
 	  var area0 = ["구","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	  var area1 = ["동","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
 	   var area2 = ["동","강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
@@ -310,6 +318,10 @@
 				   dataType : "json",
 				   data : data,
 				   success : function(res){
+					    
+					        $('.review_wrap').addClass('on');
+					        $('.review_wrap').siblings().removeClass('on');  
+					    
 					   reaviewList(res.reviewlist);
 					   console.log(res.reviewlist);
 					
@@ -354,7 +366,7 @@
 	 html += "<div class=\"standard\">"+reaviewList[0].CAR_PARK_NM +"</div>";
 	 for(var data of reaviewList){
      html += "<div class=\"box pr40\">                        ";
-     html += "<div class=\"nickname\">"+data.NM +"</div>              ";
+     html += "<div class=\"nickname\">"+data.NM +"</div>";
      html += "<div class=\"line\">                            ";
      html += "<div class=\"stars\">                           ";
      html += "<div class=\"star_i\"></div>                    ";
@@ -363,7 +375,7 @@
      html += "<div class=\"star_i\"></div>                    ";
      html += "<div class=\"star_i\"></div>                    ";
      html += "</div>                                          ";
-     html += "<div class=\"date\">"+data.REG_DT +"</div>            ";
+     html += "<div class=\"date\">"+data.DT+"</div>            ";
      html += "</div>                                          ";
      html += "<div class=\"review_title\">                    ";
      html += "<span>제목 :</span>                             ";
@@ -378,7 +390,7 @@
      html += "</div>                                          ";
      html += "</div>                                          ";
  	}
- 	$('.result_area2').html(html);
+ 	$('.review_wrap .result_area').html(html);
  } 
 
 /*  <div class="review_wrap">
@@ -1279,15 +1291,15 @@
           <div class="note">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>
           <div class="choice_label"> <사유선택> </div>
           <div>
-              <input type="radio" name="selete" value="1" checked>
+              <input type="radio" name="selete" value="4" checked>
               <label>부적절한 홍보 게시글</label>
           </div>
           <div>
-              <input type="radio" name="selete" value="2" checked>
+              <input type="radio" name="selete" value="5" checked>
               <label>음란성 및 청소년에게 부적절한 게시글</label>
           </div>
           <div>
-              <input type="radio" name="selete" value="3" checked>
+              <input type="radio" name="selete" value="6" checked>
               <label>명예훼손/사생활 침해 및 저작권침해 등</label>
           </div>
       </div>
