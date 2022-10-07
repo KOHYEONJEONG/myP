@@ -24,14 +24,9 @@
    <script src="resources/js/main.js"></script>
    <script src="resources/js/header.js"></script>
   <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"
+ <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"
   integrity="sha384-PFHeU/4gvSH8kpvhrigAPfZGBDPs372JceJq3jAXce11bVA6rMvGWzvP4fMQuBGL" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="resources/rety/jquery.raty.css">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="http://deveroad.kr">
-  <meta property="og:title" content="디벨로드">
-  <meta property="og:description" content="Road to Development">
-  <meta property="og:image" content="http://deveroad.kr/img/kakao_logo_deveroad.png">
+  <link rel="stylesheet" href="resources/rety/jquery.raty.css"> 
 <style>
   .result_area2 {
   width: 100%;
@@ -341,6 +336,7 @@
 					console.log(res.cnt);
 					searchList(res.list);
 					mapList(res.list);
+					
 					console.log(res.list.length);
 					
 				},
@@ -430,7 +426,7 @@
 	 for(var data of list){		
 		 html += "<div class=\"box\">";
          html += "<div class=\"close_i\"></div>";
-         html += "<div no=\"" + data.CAR_PARK_MAG_NUM + "\"></div>";        
+         html += "<div no=\"" + data.CAR_PARK_MAG_NUM + "\"></div>";
          html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
          html += "<div class=\"parking_info\">";
          html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
@@ -440,7 +436,7 @@
          html += "<div class=\"box_inner_i\">";
          html += "<div class=\"bookmark_i\"></div>";
          /* html += "<div class=\"share_i\" id=\"share_i\" onclick=\"shareMessage\"></div>"; */
-         html += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage()\" class=\"share_i\">";
+         html += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage(" + data.CAR_PARK_MAG_NUM + ")\" class=\"share_i\">";
          html += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
          html += "</div>";
          html += "</div>";               
@@ -504,9 +500,11 @@
 		    	iwContent += "<div class=\"bookmarkBox\">";
 		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
 		    	iwContent += "</div>";
-		    	iwContent += "<div class=\"shareBox\">";
+		    	/* iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-		    	iwContent += "</div>";
+		    	iwContent += "</div>"; */
+		    	iwContent += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage(" + positions[i].carparknum + ")\" class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
 		    	iwContent += "<div class=\"compareBox\">";
 		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
 		    	iwContent += "</div>"
@@ -559,9 +557,8 @@
  
  Kakao.init('e41934107d35da0fcd73a47e8bc1ca9e'); // 사용하려는 앱의 JavaScript 키 입력
 
- function shareMessage(list) {
-	 
-  var a = '';
+ function shareMessage(num) {
+	 console.log(num);
    Kakao.Share.sendDefault({
      objectType: 'feed',
      content: {
@@ -570,8 +567,8 @@
        imageUrl:
           '', 
        link: {
-         mobileWebUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+a,
-         webUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+a
+         mobileWebUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+num,
+         webUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+num
        },
      }/* ,
      social: {

@@ -34,6 +34,13 @@ public class khjController {
 		return mav;
 	}
 	
+	//calc_wrap
+	@RequestMapping(value = "calc_wrap")
+	public ModelAndView calc_wrap(ModelAndView mav) {
+		mav.setViewName("side/acc");
+		return mav;
+	}
+	
 	//위치:home , 금액표 상세보기(요금비교 사이드바)
 	@RequestMapping(value = "/parkFeeDetail", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
