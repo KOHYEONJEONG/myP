@@ -20,13 +20,13 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="resources/js/weather.js"></script><!--추가-->
-<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-   <script src="resources/js/main.js"></script>
-   <script src="resources/js/header.js"></script>
+  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  <script src="resources/js/main.js"></script>
+  <script src="resources/js/header.js"></script>
   <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="resources/rety/jquery.raty.css">
-   <script type="text/javascript" 
+  <script type="text/javascript" 
 		src="resources/script/common/popup.js"></script>
 <style>
   .result_area2 {
@@ -354,16 +354,15 @@
 					            name : "확인",
 					         }]
 						});
+						$("#culture").removeClass('on');
 					} else {
 						cultureList(res.list);
-					}
-						
+					}	
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
 				}
 			})
-	
 		});
 		
 		//  주유소 카테고리 지도에 마커
@@ -387,16 +386,15 @@
 					            name : "확인",
 					         }]
 						});
+						$("#gasStation").removeClass('on');
 					} else {
 						gasStationList(res.list);
 					}
-						
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
 				}
 			})
-	
 		});
 		
 		
@@ -421,16 +419,15 @@
 					            name : "확인",
 					         }]
 						});
+						$("#restaurant").removeClass('on');
 					} else {
 						restaurantList(res.list);
 					}
-						
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
 				}
 			})
-	
 		});
 		
 
@@ -455,6 +452,7 @@
 					            name : "확인",
 					         }]
 						});
+						$("#cinema").removeClass('on');
 					} else {
 						cinemaList(res.list);
 					}	
@@ -462,7 +460,6 @@
 				error : function(request, status, error) { 
 				}
 			})
-	
 		});
 
 		// 지도 인포윈도우에서 즐겨찾기 아이콘 클릭시, 즐겨찾기 폴더에 삽입, 삭제
@@ -579,18 +576,17 @@
 	      				success : function(res) { 
 	      					switch(res.msg){
 	      					case "success" : 
+	      						// 별이미지 변경하기, 북마크 안 된 상태 이미지로
+								$("#bookmarkBtn").attr("src", "resources/icons/bookmark.png")
 	      						// 북마크 리스트 로드
 	      						cultureBookmarkReloadList();
 								cinemaBookmarkReloadList();
 								gasstationBookmarkReloadList();
 								restaurantBookmarkReloadList();
-	      						
 	      						break;
 	      					case "fail" :
-	      						
 	      						break;
 	      					case "error" :
-	      						
 	      						break;
 	      					}
 	      				},
@@ -604,7 +600,6 @@
                name : "취소"
 			}]
 		})
-			
 	});
 		
 	// 리뷰
@@ -668,7 +663,6 @@
     
   
   function searchList(list){
-		 console.log("aaaa");
 		 var html = "";
 		 html += "<div class=\"result_box\">" +list.length+ "</div>";
 		 for(var data of list){		
@@ -686,8 +680,6 @@
 	         html += "</div>";
 	         html += "</div>";
 		 }
-		 console.log(html);
-		console.log(list.length);
 		 $('.result_area2').html(html);
 	 } 
  
@@ -760,7 +752,6 @@
 			var infowindow = new kakao.maps.InfoWindow({
 				content : iwContent,
 			    removable : iwRemoveable
-			
 			});  
 		 
 		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
@@ -785,14 +776,11 @@
 		var i, marker;
 		for (i = 0; i < points.length; i++) {
 		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-		  
-		    
+
 		    // LatLngBounds 객체에 좌표를 추가합니다
 		    bounds.extend(points[i]);
 		}
-		
 		map.setBounds(bounds);
-
  	}
  
  
@@ -818,8 +806,8 @@ function cultureList(list){
 		// 마커 이미지의 이미지 주소입니다
 		// 없으면 기본 마커, 파란색
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
-	   // 마커 이미지의 이미지 크기 입니다
-	   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+	    // 마커 이미지의 이미지 크기 입니다
+	    imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
 	    imgOptions =  {
 	        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
 	        spriteOrigin : new kakao.maps.Point(3, 640), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
@@ -1015,8 +1003,6 @@ function gasStationList(list){
 		}
 	}); 
 }
-
-
 
 //영화관 카테고리 지도에 마커 function
 function cinemaList(list){
@@ -1258,7 +1244,7 @@ function cultureBookmarkReloadList() {
 		
 		if(list.length == 0){
 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
-		}
+		} 
 		
 		for(var data of list){			
 			
@@ -1290,8 +1276,6 @@ function cultureBookmarkReloadList() {
  		data: params, 
  		success : function(res) { 
  			cinemaBookmarkDrawList(res.list);
- 			console.log(res);
- 			console.log(res.list);
  		},
  		error : function(request, status, error) { 
  			console.log(request.responseText); 
@@ -1302,11 +1286,11 @@ function cultureBookmarkReloadList() {
 
   function cinemaBookmarkDrawList(list) {
  		var html = "";	
-
- 		if(list.length == 0){
- 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
- 		}
  		
+ 		if(list.length == 0){
+			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+		} 
+
  		for(var data of list){		
  			//html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
 	
@@ -1347,12 +1331,12 @@ function cultureBookmarkReloadList() {
  }
 
   function gasstationBookmarkDrawList(list) {
- 		var html = "";	
-
- 		if(list.length == 0){
- 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
- 		}
+ 		var html = "";
  		
+ 		if(list.length == 0){
+			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+		} 
+
  		for(var data of list){		
  			//html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
 	
@@ -1394,11 +1378,11 @@ function cultureBookmarkReloadList() {
 
   function restaurantBookmarkDrawList(list) {
  		var html = "";	
-
- 		if(list.length == 0){
- 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
- 		}
  		
+ 		if(list.length == 0){
+			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+		} 
+
  		for(var data of list){		
  			//html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
 	
@@ -1445,18 +1429,12 @@ function cultureBookmarkReloadList() {
         <div class="search_warp on">
           <div class="search_box">
             <div class="box_top">
-          
-              <select name="sido1" id="sido1">
-              
-              </select>
-              <select name="gugun1" id="gugun1">
-              </select>
-            
+              <select name="sido1" id="sido1"></select>
+              <select name="gugun1" id="gugun1"></select>
             </div>
             <div class="box_bottom">
               <input type="text" class="search_txt" id= "search_txt" name= "search_txt" placeholder="검색어를 입력하세요" />
               <div class="search_i" id= "search_i" ></div>
-               
             </div>
           </div>
           </form> 
@@ -1797,23 +1775,33 @@ function cultureBookmarkReloadList() {
 	  </c:choose>
 	   <div class="parking_bookmark_wrap">
           <div class="title p40">주차장 즐겨찾기</div>
-          <div class="result_area"></div>
+          <div class="result_area">
+          	<div class="text">즐겨찾기 된 장소가 없습니다.</div>
+          </div>
       </div>
       <div class="restaurant_bookmark_wrap">
           <div class="title p40">음식점 즐겨찾기</div>
-          <div class="result_area"></div>
+          <div class="result_area">
+          	<div class="text">즐겨찾기 된 장소가 없습니다.</div>
+          </div>
       </div>
       <div class="cultrue_bookmark_wrap">
           <div class="title p40">문화생활 즐겨찾기</div>
-          <div class="result_area"></div>
+          <div class="result_area">
+          	<div class="text">즐겨찾기 된 장소가 없습니다.</div>
+          </div>
       </div>
       <div class="gasstation_bookmark_wrap">
           <div class="title p40">주유소 즐겨찾기</div>
-          <div class="result_area"></div>
+          <div class="result_area">
+          	<div class="text">즐겨찾기 된 장소가 없습니다.</div>
+          </div>
       </div>
       <div class="cinema_bookmark_wrap">
           <div class="title p40">영화관 즐겨찾기</div>
-          <div class="result_area"></div>
+          <div class="result_area">
+          	<div class="text">즐겨찾기 된 장소가 없습니다.</div>
+          </div>
       </div>
       <!-- 리뷰 시작 -->
         <div class="review_wrap">

@@ -10,16 +10,17 @@
 
 * {
 	font-family: 'TmoneyRoundWindRegular';
+	margin: 0;
+	padding: 0;
 }
 
 
-	body{
-		margin: 0;
-    	height: 100%;
-    	position: relative;
-	}
-	
-	.logo {
+html, body, main{
+	width: 100%;
+   	height: 100%;
+}
+
+.logo {
 	width: 280px;
 	height: 100px;
 	background: url('resources/icons/logo8.png') no-repeat;
@@ -31,40 +32,41 @@
 	transform: translate(-50%, -50%);
 }
 
-	.wrap{
-		width: 700px;
-	    padding: 40px 20px 20px 20px;
-	    background-color: #f5f6f7;
-	    transform: translate(100%, 110%);
-	    border-radius: 30px;
-	    box-sizing: border-box;
-	    text-align: center;
-	    margin: 0 atuo;
-	    height: 300px;
-    
-	}
-	.text {
-		margin-bottom: 30px;
-		font-size: 22px;
-		line-height: 1.5;
-	
-	}
-	.f { 
-		display: flex;
-		justify-content: space-evenly
-	}
-	.box {
-		    width: 120px;
-    height: 120px;
-    border: 1px solid #cdcdcd;
-    line-height: 120px;
+.wrap{
+	width: 700px;
+	height: 300px;
+    padding: 40px 20px 20px 20px;
+    background-color: #f5f6f7;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    position: absolute;
+   
+}
+.text {
+	margin-bottom: 50px;
+	font-size: 22px;
+	line-height: 1.5;
+}
+.f { 
+	display: flex;
+	justify-content: space-evenly
+}
+.box {
+	width: 130px;
+    height: 80px;
+    border: 1px solid #b4b1b1;
+    line-height: 80px;
     text-align: center;
     cursor: pointer;
-	
-	}
-	
-	.box:hover {
-	font-weight: bold;
+    background: #fff;
+}
+
+.box:hover {
+font-weight: bold;
 }
 
 
