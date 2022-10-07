@@ -250,17 +250,30 @@
 	  
 	  
 	  cultureBookmarkReloadList();
+	  cinemaBookmarkReloadList();
 	  
-	  $('#cultrueBookmark').click(function () {
-    /*       $('.fourth').parent().addClass('on');
-          $('.fourth').parent().siblings().removeClass('on') */
-          $('.cultrue_bookmark_wrap').addClass('on');
-          $('.cultrue_bookmark_wrap').siblings().removeClass('on');  
+	  $("#cultrueBookmark").click(function () {
+          $(".cultrue_bookmark_wrap").addClass("on");
+          $(".cultrue_bookmark_wrap").siblings().removeClass("on");  
       })
-        
+ 
+      $("#gasstationBookmark").click(function () {
+          $(".gasstation_bookmark_wrap").addClass("on");
+          $(".gasstation_bookmark_wrap").siblings().removeClass("on");  
+      })
+       $("#parkingBookmark").click(function () {
+          $(".parking_bookmark_wrap").addClass("on");
+          $(".parking_bookmark_wrap").siblings().removeClass("on");  
+      })
+       $("#restaurantBookmark").click(function () {
+          $(".restaurant_bookmark_wrap").addClass("on");
+          $(".restaurant_bookmark_wrap").siblings().removeClass("on");  
+      })      
+       $("#cinemaBookmark").click(function () {
+          $(".cinema_bookmark_wrap").addClass("on");
+          $(".cinema_bookmark_wrap").siblings().removeClass("on");  
+      })
 
-		  
-	  
 	  var area0 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
 	  var area1 = ["전체","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
 	   var area2 = ["전체","강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
@@ -687,7 +700,7 @@
 		for (var i = 0; i < positions.length; i ++) {
 		    
 		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
+		    var imageSize = new kakao.maps.Size(35, 35); 
 		    
 		    // 마커 이미지를 생성합니다    
 		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
@@ -933,6 +946,14 @@ function gasStationList(list){
 			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
 			    	iwContent += "<div class=\"buttonBox\">";
 			    	iwContent += "<div class=\"bookmarkBox\">";
+			    	$(".gasstation_bookmark_wrap .result_area").each(function() {
+			               if($(this).html().match(positions[i].title)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
+			                  console.log($(this).html());
+			                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+			               } else {
+			                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+			               }
+			         });
 			    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\" class=\"boomarkBtnImg\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"shareBox\">";
@@ -1233,14 +1254,67 @@ function cultureBookmarkReloadList() {
 		}
 			$(".cultrue_bookmark_wrap .result_area").html(html);
 	}
+ 
+ 
+//영화관 즐겨찾기
+ function cinemaBookmarkReloadList() {
+ 	var params = $("#headerForm").serialize();
+ 	
+ 	$.ajax({
+ 		url : "cinemaBookmarkList",
+ 		type : "POST", 
+ 		dataType: "json", 
+ 		data: params, 
+ 		success : function(res) { 
+ 			cinemaBookmarkDrawList(res.list);
+ 			console.log(res);
+ 			console.log(res.list);
+ 		},
+ 		error : function(request, status, error) { 
+ 			console.log(request.responseText); 
+ 		}
+ 	}); 
+ 	
+ }
+
+  function cinemaBookmarkDrawList(list) {
+ 		var html = "";
+ 		
+
+ 		if(list.length == 0){
+ 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+ 		}
+ 		
+ 		for(var data of list){			
+ 			
+ 			html += "<div class=\"box\">";
+             html += "<div class=\"close_i\"></div>";
+             html += "<div class=\"content\">";
+             html += "<div class=\"main\">";
+             html += "<input type=\"hidden\" id=\"cinemaNum\" value="+ data.CINEMA_MAG_NUM  +" />";
+             html += "<div class=\"parking_name\">" + data.ENT_NM+"</div>";
+             html += "<div class=\"parking_info\">";
+             html += "<div class=\"time\">"+ data.PHONE +"</div>";
+             html += "<div class=\"detail mt8\">" + data.PARCEL_NUM + "</div>";       
+             html += "</div>";
+             html += "</div>";
+            	html += "</div>";
+            	html += "</div>";
+ 		}
+ 			$(".cinema_bookmark_wrap .result_area").html(html);
+ 	}
+
 
 			 
 </script>
 </head>
 <body>
 <form action="#" id="bookmarkForm" method="post">
-	<input type="hidden" id="sendCultureNum" name="cultureNum"  />
-	<input type="hidden" id="sendMemNum" name="memNum" />
+	<input type="hidden" id="sendRestaurantNum" name="restaurantNum"  /> <!-- 영화관번호 -->
+	<input type="hidden" id="sendGasStationNum" name="gasStationNum"  /> <!-- 주유소변호 -->
+	<input type="hidden" id="sendCinemaNum" name="cinemaNum"  /> 		 <!-- 영화관번호 -->
+	<input type="hidden" id="sendCultureNum" name="cultureNum"  />       <!-- 문화생화번호 -->
+	<input type="hidden" id="sendMemNum" name="memNum" />                <!-- 회원번호 -->
 </form>
 <c:import url="/header"></c:import>
   <main class="main1">
@@ -1585,28 +1659,48 @@ function cultureBookmarkReloadList() {
 				<div class="bookmark_wrap">
 			       <div class="title">즐겨찾기</div>
 			       <div class="result_area">
-			          <div class="file" id="">
+			          <div class="file" id="parkingBookmark">
 			             <div class="file_i"></div>
 			             <div class="file_txt">주차장</div>
 			          </div>
-			          <div class="file">
+			          <div class="file" id="restaurantBookmark">
 			             <div class="file_i"></div>
-			             <div class="file_txt">맛집</div>
+			             <div class="file_txt">음식점</div>
 			          </div>
 			          <div class="file" id="cultrueBookmark">
 			             <div class="file_i"></div>
 			             <div class="file_txt">문화생활</div>
 			           </div>
-			           <div class="file">
+			           <div class="file" id="gasstationBookmark">
 			             <div class="file_i"></div>
 			             <div class="file_txt">주유소</div>
+			           </div>
+			           <div class="file" id="cinemaBookmark">
+			             <div class="file_i"></div>
+			             <div class="file_txt">영화관</div>
 			           </div>
 			        </div>
 			     </div>  
 			</c:otherwise>
 	  </c:choose>
+	   <div class="parking_bookmark_wrap">
+          <div class="title p40">주차장 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
+      <div class="restaurant_bookmark_wrap">
+          <div class="title p40">음식점 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
       <div class="cultrue_bookmark_wrap">
           <div class="title p40">문화생활 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
+      <div class="gasstation_bookmark_wrap">
+          <div class="title p40">주유소 즐겨찾기</div>
+          <div class="result_area"></div>
+      </div>
+      <div class="cinema_bookmark_wrap">
+          <div class="title p40">영화관 즐겨찾기</div>
           <div class="result_area"></div>
       </div>
       <!-- 리뷰 시작 -->
@@ -1801,7 +1895,7 @@ function cultureBookmarkReloadList() {
       <div id="map"></div>
       <ul id="category">
         <li id="restaurant"> 
-            <img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00032.png">
+        	<img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00032.png">
             음식점
         </li>       
         <li id="gasStation"> 
