@@ -19,8 +19,47 @@
 	
 	
 	<select id="getCinemaBookmarkList" parameterType="hashmap" resultType="hashmap">        
-		 SELECT A.CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, PHONE, REG_DT FROM CINEMA A 
+		SELECT A.CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, NVL(PHONE, ' '), REG_DT FROM CINEMA A 
     	INNER JOIN CINEMA_BOOKMARK B 
 		ON A.CINEMA_MAG_NUM = B.CINEMA_MAG_NUM WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
 	</select>
+	
+	<insert id="insertCinema" parameterType="hashmap">
+		INSERT INTO CINEMA_BOOKMARK(MEM_NUM ,CINEMA_MAG_NUM) VALUES (#{memNum} , #{cinemaNum})
+	</insert>
+	
+	<delete id="deleteCinema" parameterType="hashmap">
+		DELETE FROM CINEMA_BOOKMARK
+		WHERE CINEMA_MAG_NUM = #{cinemaNum} AND MEM_NUM = #{memNum}
+	</delete>
+	
+	<select id="getGasstationBookmarkList" parameterType="hashmap" resultType="hashmap">
+		SELECT A.GAS_STATION_NUM, GAS_NM, PARCEL_NUM, PHONE, REG_DT FROM GAS_STATION A 
+    	INNER JOIN GAS_STATION_BOOKMARK B 
+		ON A.GAS_STATION_NUM = B.GAS_STATION_NUM WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
+	</select>
+	
+	<insert id="insertGasstation" parameterType="hashmap">
+		INSERT INTO GAS_STATION_BOOKMARK(MEM_NUM ,GAS_STATION_NUM) VALUES (#{memNum} , #{gasStationNum})
+	</insert>
+	
+	<delete id="deletetGasstation" parameterType="hashmap">
+		DELETE FROM GAS_STATION_BOOKMARK
+		WHERE GAS_STATION_NUM = #{gasStationNum} AND MEM_NUM = #{memNum}
+	</delete>
+	
+	<select id="getRestaurantBookmarkList" parameterType="hashmap" resultType="hashmap">
+		SELECT A.RESTAURANT_NO, ENT_NM, PARCEL_NUM, PHONE, REG_DT FROM RESTAURANT A 
+    	INNER JOIN RESTAURANT_BOOKMARK B 
+		ON A.RESTAURANT_NO = B.RESTAURANT_NO WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
+	</select>
+	
+	<insert id="insertRestaurant" parameterType="hashmap">
+		INSERT INTO RESTAURANT_BOOKMARK(MEM_NUM ,RESTAURANT_NO) VALUES (#{memNum} , #{restaurantNum})
+	</insert>
+	
+	<delete id="deletetRestaurant" parameterType="hashmap">
+		DELETE FROM RESTAURANT_BOOKMARK
+		WHERE RESTAURANT_NO = #{restaurantNum} AND MEM_NUM = #{memNum}
+	</delete>
 </mapper>

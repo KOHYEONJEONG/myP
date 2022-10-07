@@ -41,21 +41,18 @@
 		SELECT CUL_LIFE_NUM, CUL_LIFE, ADDRESS, PHONE, LOCX, LOCY FROM CULTURAL_LIFE
     	WHERE ADDRESS LIKE '%' || #{sido1} || '%' 
     	AND ADDRESS LIKE'%'|| #{gugun1} || '%' 
-    	AND CUL_LIFE LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	<select id="GasStationList" resultType="hashmap" parameterType="hashmap">
 		SELECT GAS_STATION_NUM, GAS_NM, PARCEL_NUM, PHONE FROM GAS_STATION
 		WHERE PARCEL_NUM LIKE '%' || #{sido1} || '%' 
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%' 
-    	AND GAS_STATION_NUM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	<select id="RestaurantList" resultType="hashmap" parameterType="hashmap">
 		SELECT RESTAURANT_NO, ENT_NM, PARCEL_NUM, PHONE FROM RESTAURANT
 		WHERE PARCEL_NUM LIKE '%' || #{sido1} || '%'
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
-    	AND ENT_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	<!-- 지도 위 주차장 팝업 (차 번호, 별점 평균(각회원 별점들을 평균낸 후 마지막에 리뷰개수를 나누었음), 총 리뷰 개수) -->
@@ -86,7 +83,6 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
         ROW_NUMBER() OVER (PARTITION BY PARCEL_NUM ORDER BY CINEMA_MAG_NUM DESC) AS RANK 
         FROM CINEMA) WHERE RANK = '1' AND PARCEL_NUM LIKE '%' || #{sido1} || '%'
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
-    	AND ENT_NM LIKE '%' || #{search_txt} || '%'
 	</select>
 	
 	
