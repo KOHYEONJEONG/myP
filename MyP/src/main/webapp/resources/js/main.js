@@ -47,12 +47,7 @@ $(document).ready(function () {
         $('header').css({"opacity" : "1","pointer-events":"auto"});
     })
 
-    $(".warning_i").click(function () {
-        document.getElementById("warning_popup").style.display = "block";
-        $('main').css({"opacity" : "0.5","pointer-events":"none"});
-        $('header').css({"opacity" : "0.5","pointer-events":"none"});
-    })
-
+   
     $("#warning_popup .close_i").click(function () {
         document.getElementById("warning_popup").style.display = "none";
         $('main').css({"opacity" : "1","pointer-events":"auto"});
