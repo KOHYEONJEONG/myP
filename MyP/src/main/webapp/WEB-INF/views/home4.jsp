@@ -24,14 +24,9 @@
    <script src="resources/js/main.js"></script>
    <script src="resources/js/header.js"></script>
   <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"
+ <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"
   integrity="sha384-PFHeU/4gvSH8kpvhrigAPfZGBDPs372JceJq3jAXce11bVA6rMvGWzvP4fMQuBGL" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="resources/rety/jquery.raty.css">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="http://deveroad.kr">
-  <meta property="og:title" content="디벨로드">
-  <meta property="og:description" content="Road to Development">
-  <meta property="og:image" content="http://deveroad.kr/img/kakao_logo_deveroad.png">
+  <link rel="stylesheet" href="resources/rety/jquery.raty.css"> 
 <style>
   .result_area2 {
   width: 100%;
