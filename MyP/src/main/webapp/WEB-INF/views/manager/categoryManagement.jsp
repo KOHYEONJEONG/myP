@@ -440,11 +440,9 @@ var msg ={
 	"delete" : "삭제",
 }
  	
-
  	 
 	// 분류명 테이블의 action
 	function action1(flag) {
-		console.log(msg[flag]);
 		
 		var params = $("#searchForm1").serialize();
 		

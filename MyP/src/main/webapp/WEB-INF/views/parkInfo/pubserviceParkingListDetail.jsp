@@ -350,7 +350,6 @@ function chartload() {
 				$(".i").show();
 				$(".text").hide();
 			}
-
 			 // entrance 배열
 			 for(var i =0; i< res.list.length; i++){
 	                if(res.list[i].ENTRANCE == null){
@@ -366,8 +365,7 @@ function chartload() {
 	            }else{
 	            		exit[i] = res.list[i].EXIT;
 	                }   
-	            }
-		
+	            }		
 			 chartdraw();
 			 
 		},
@@ -379,7 +377,6 @@ function chartload() {
 }
 	
 function chartdraw() {
-
 	
 	Highcharts.chart('chartsContainer', {
 	
@@ -410,7 +407,7 @@ function chartdraw() {
 	        name: '입차',
 	        data: entrance
 	    }, {
-	        name: '출자',
+	        name: '출차',
 	        data: exit
 	    }]
 	});	
