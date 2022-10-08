@@ -547,7 +547,7 @@
 		});
 		
 		// 즐겨찾기 리스트에서 x버튼 클릭시 삭제
-		$("body").on("click", ".close_i", function() {
+		$("body").on("click", "#close_i", function() {
 			// 로그인 되면은 세션 회원정보를 넣어줌
   			$("#sendMemNum").val($("#mem_num").val());
   			$("#sendCultureNum").val($(this).attr("cultureNo"));
@@ -601,6 +601,394 @@
 			}]
 		})
 	});
+		
+	// 즐겨찾기 리스트에서 문화생활 박스 클릭시 마커 지도에 찍힘
+	$("body").on("click", "#cultureBox", function() {
+		
+		var cultureNm = $(this).attr("cultureNm");
+		var cultureNo = $(this).children().attr("cultureNo");
+		var phone = $(this).attr("phone");
+		var address = $(this).attr("address");
+		
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(locx, locy); 
+		
+		// 마커 이미지의 이미지 주소입니다
+		// 없으면 기본 마커, 파란색
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+	    // 마커 이미지의 이미지 크기 입니다
+	    imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+	    imgOptions =  {
+	        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+	        spriteOrigin : new kakao.maps.Point(3, 640), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	    }
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+	   
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition,
+		    image : markerImage // 마커 이미지 
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+		
+		var iwContent = "<input type=\"hidden\" id=\"cultureNum1\" value="+ cultureNo +" />";
+    	iwContent += "<div class=\"bg\"><div class=\"title\">" + cultureNm +"</div>";
+    	iwContent += "<div class=\"phone\">" + phone +"</div>";
+    	iwContent += "<div class=\"address\">" + address +"</div>";
+    	iwContent += "<div class=\"buttonBox\">";
+    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"culture\">";
+    	$(".cultrue_bookmark_wrap .result_area").each(function() {
+           if($(this).html().match(cultureNm)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
+              iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+           } else {
+              iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+           }
+        });
+    	iwContent += "</div>";
+    	iwContent += "<div class=\"shareBox\">";
+    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+    	iwContent += "</div>";
+    	iwContent += "<div class=\"compareBox\">";
+    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+    	iwContent += "</div>";
+    	iwContent += "</div>";
+    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    	iwRemoveable = true; // 인포윈도우의 X버튼
+    
+    	 // 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				content : iwContent,
+			    removable : iwRemoveable
+			
+			});  
+		 
+		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+		 // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+		 (function(marker, infowindow) {
+			 // 마커에 클릭이벤트를 등록합니다
+			 kakao.maps.event.addListener(marker, 'click', function() {
+				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+				  $("img[alt='close']").click();
+			       // 마커 위에 인포윈도우를 표시합니다
+			       infowindow.open(map, marker);  
+			 });
+		
+		 })(marker, infowindow);
+		 
+		var points = new Array();
+		points.push(new kakao.maps.LatLng(locx, locy));
+		
+		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		var bounds = new kakao.maps.LatLngBounds();    
+
+		var i, marker;
+		for (i = 0; i < points.length; i++) {
+		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+
+		    // LatLngBounds 객체에 좌표를 추가합니다
+		    bounds.extend(points[i]);
+		}
+		map.setBounds(bounds);
+	
+	})
+	
+	
+	// 즐겨찾기 리스트에서 영화관 박스 클릭시 마커 지도에 찍힘
+	$("body").on("click", "#cinemaBox", function() {
+		
+		var cinemaNm = $(this).attr("cinemaNm");
+		var cinemaNo = $(this).children().attr("cinemaNo");
+		var phone = $(this).attr("phone");
+		var address = $(this).attr("address");
+		
+		// 마커 이미지의 이미지 주소입니다
+		// 없으면 기본 마커, 파란색
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+	   // 마커 이미지의 이미지 크기 입니다
+	    imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+	    imgOptions =  {
+	        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+	        spriteOrigin : new kakao.maps.Point(0, 520), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	    }
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+		
+	 	// 주소-좌표 변환 객체를 생성합니다
+	    var geocoder = new kakao.maps.services.Geocoder();
+	 	
+	 	console.log(address);
+
+	    // 주소로 좌표를 검색합니다
+	    geocoder.addressSearch(address, function(result, status) {
+
+	        // 정상적으로 검색이 완료됐으면 
+	         if (status === kakao.maps.services.Status.OK) {
+
+	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	            console.log(result[0].y, result[0].x);
+
+	            // 결과값으로 받은 위치를 마커로 표시합니다
+	            var marker = new kakao.maps.Marker({
+	                map: map,
+	                position: coords,
+	                image : markerImage // 마커 이미지 
+	            });
+
+		     	
+		        var iwContent = "<input type=\"hidden\" id=\"cinemaNum1\" value="+ cinemaNo +" />" 
+		        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  cinemaNm  +"</div>";
+			        if(phone != null){
+			        	iwContent += "<div class=\"phone\">"+ phone +"</div>"; 
+		             }
+			    	iwContent += "<div class=\"address\">" + address +"</div>"; 
+			    	iwContent += "<div class=\"buttonBox\">";
+			    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"cinema\">";
+			    	$(".cinema_bookmark_wrap .result_area").each(function() {
+		               if($(this).html().match(cinemaNo)){
+		                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+		               } else {
+		                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+		               }
+		            });
+			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"shareBox\">";
+			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"compareBox\">";
+			    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+			    	iwContent += "</div>";
+			    	iwContent += "</div>";
+			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			    	iwRemoveable = true; // 인포윈도우의 X버튼
+			    
+			    
+				// 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+				    removable : iwRemoveable
+				
+				}); 
+				 
+				// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+				// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+				(function(marker, infowindow) {
+					// 마커에 클릭이벤트를 등록합니다
+					kakao.maps.event.addListener(marker, 'click', function() {
+						// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+						$("img[alt='close']").click();
+						// 마커 위에 인포윈도우를 표시합니다
+						infowindow.open(map, marker);  
+					});
+				
+				})(marker, infowindow);		
+
+	            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	            map.setCenter(coords);
+	        } 
+	    });    
+	
+	})
+	
+	// 즐겨찾기 리스트에서 주유소 박스 클릭시 마커 지도에 찍힘
+	$("body").on("click", "#gasstationBox", function() {
+		
+		var gasstationNm = $(this).attr("gasstationNm");
+		var gasstationNo = $(this).children().attr("gasstationNo");
+		var phone = $(this).attr("phone");
+		var address = $(this).attr("address");
+		
+		// 마커 이미지의 이미지 주소입니다
+		// 없으면 기본 마커, 파란색
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+	   // 마커 이미지의 이미지 크기 입니다
+	    imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+	    imgOptions =  {
+	        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+	        spriteOrigin : new kakao.maps.Point(0, 350), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	    }
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+		
+	 	// 주소-좌표 변환 객체를 생성합니다
+	    var geocoder = new kakao.maps.services.Geocoder();
+	 	
+	 	console.log(address);
+
+	    // 주소로 좌표를 검색합니다
+	    geocoder.addressSearch(address, function(result, status) {
+
+	        // 정상적으로 검색이 완료됐으면 
+	         if (status === kakao.maps.services.Status.OK) {
+
+	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	            console.log(result[0].y, result[0].x);
+
+	            // 결과값으로 받은 위치를 마커로 표시합니다
+	            var marker = new kakao.maps.Marker({
+	                map: map,
+	                position: coords,
+	                image : markerImage // 마커 이미지 
+	            });
+
+		     	
+	            var iwContent = "<input type=\"hidden\" id=\"gasStation1\" value="+ gasstationNm +" />";
+	        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  gasstationNo +"</div>";
+		     	iwContent += "<div class=\"phone\">" + phone +"</div>";
+		    	iwContent += "<div class=\"address\">" + address +"</div>"; 
+		    	iwContent += "<div class=\"buttonBox\">";
+		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"gasStation\">";
+		    	$(".gasstation_bookmark_wrap .result_area").each(function() {
+		               if($(this).html().match(gasstationNm)){
+		                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+		               } else {
+		                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+		               }
+		         });
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"compareBox\">";
+		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "</div>";
+		    	iwContent += "</div>";
+		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    	iwRemoveable = true; // 인포윈도우의 X버튼
+			    
+			    
+				// 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+				    removable : iwRemoveable
+				
+				}); 
+				 
+				// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+				// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+				(function(marker, infowindow) {
+					// 마커에 클릭이벤트를 등록합니다
+					kakao.maps.event.addListener(marker, 'click', function() {
+						// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+						$("img[alt='close']").click();
+						// 마커 위에 인포윈도우를 표시합니다
+						infowindow.open(map, marker);  
+					});
+				
+				})(marker, infowindow);		
+
+	            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	            map.setCenter(coords);
+	        } 
+	    });    
+	
+	})
+	
+	// 즐겨찾기 리스트에서 음식점 박스 클릭시 마커 지도에 찍힘
+	$("body").on("click", "#restaurantBox", function() {
+		
+		var restaurantNm = $(this).attr("restaurantNm");
+		var restaurantNo = $(this).children().attr("restaurantNo");
+		var phone = $(this).attr("phone");
+		var address = $(this).attr("address");
+		
+		// 마커 이미지의 이미지 주소입니다
+		// 없으면 기본 마커, 파란색
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+	   // 마커 이미지의 이미지 크기 입니다
+	    imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+	    imgOptions =  {
+	        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+	        spriteOrigin : new kakao.maps.Point(0, 150), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	    }
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+		
+	 	// 주소-좌표 변환 객체를 생성합니다
+	    var geocoder = new kakao.maps.services.Geocoder();
+	 	
+	 	console.log(address);
+
+	    // 주소로 좌표를 검색합니다
+	    geocoder.addressSearch(address, function(result, status) {
+
+	        // 정상적으로 검색이 완료됐으면 
+	         if (status === kakao.maps.services.Status.OK) {
+
+	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	            console.log(result[0].y, result[0].x);
+
+	            // 결과값으로 받은 위치를 마커로 표시합니다
+	            var marker = new kakao.maps.Marker({
+	                map: map,
+	                position: coords,
+	                image : markerImage // 마커 이미지 
+	            });
+
+	            var iwContent = "<input type=\"hidden\" id=\"restaurantNum1\" value="+ restaurantNo +" />" 
+	        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  restaurantNm +"</div>";
+		     	iwContent += "<div class=\"phone\" id=\"phone11\">" + phone +"</div>";
+		    	iwContent += "<div class=\"address\">" + address +"</div>"; 
+		    	iwContent += "<div class=\"buttonBox\">";
+		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"restaurant\">";
+		    	$(".restaurant_bookmark_wrap .result_area").each(function() {
+		               if($(this).html().match(restaurantNo)){
+		                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+		               } else {
+		                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+		               }
+		         });
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+		    	iwContent += "</div>";
+		    	iwContent += "<div class=\"compareBox\">";
+		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "</div>";
+		    	iwContent += "</div>";
+		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    	iwRemoveable = true; // 인포윈도우의 X버튼
+			    
+				// 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+				    removable : iwRemoveable
+				
+				}); 
+				 
+				// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+				// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+				(function(marker, infowindow) {
+					// 마커에 클릭이벤트를 등록합니다
+					kakao.maps.event.addListener(marker, 'click', function() {
+						// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+						$("img[alt='close']").click();
+						// 마커 위에 인포윈도우를 표시합니다
+						infowindow.open(map, marker);  
+					});
+				
+				})(marker, infowindow);		
+
+	            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	            map.setCenter(coords);
+	        } 
+	    });    
+	
+	})
+	
+	
+	
+	
 		
 	// 리뷰
 	 $("body").on("click", ".phone2",function(){
@@ -802,7 +1190,6 @@ function cultureList(list){
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
 	 
-
 		// 마커 이미지의 이미지 주소입니다
 		// 없으면 기본 마커, 파란색
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
@@ -813,8 +1200,7 @@ function cultureList(list){
 	        spriteOrigin : new kakao.maps.Point(3, 640), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
 	        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
 	    }
-	   
-		    
+	   	    
 		for (var i = 0; i < positions.length; i ++) {
 	      	    
 		    // 마커 이미지의 이미지 크기 입니다
@@ -858,7 +1244,7 @@ function cultureList(list){
 		    	iwRemoveable = true; // 인포윈도우의 X버튼
 		    
 		    
-		 // 인포윈도우를 생성합니다
+		   // 인포윈도우를 생성합니다
 			var infowindow = new kakao.maps.InfoWindow({
 				content : iwContent,
 			    removable : iwRemoveable
@@ -890,9 +1276,7 @@ function cultureList(list){
 		    // LatLngBounds 객체에 좌표를 추가합니다
 		    bounds.extend(points[i]);
 		}
-		
 		map.setBounds(bounds);
-
  	}
  	
  	
@@ -1011,7 +1395,7 @@ function cinemaList(list){
 	// 없으면 기본 마커, 파란색
 	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
    // 마커 이미지의 이미지 크기 입니다
-   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+    imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
     imgOptions =  {
         spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
         spriteOrigin : new kakao.maps.Point(0, 520), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
@@ -1187,9 +1571,7 @@ function restaurantList(list){
 					content : iwContent,
 				    removable : iwRemoveable
 				
-				}); 
-				
-				 
+				}); 	 
 				// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
 				// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
 				(function(marker, infowindow) {
@@ -1200,9 +1582,7 @@ function restaurantList(list){
 						// 마커 위에 인포윈도우를 표시합니다
 						infowindow.open(map, marker);  
 					});
-				
 				})(marker, infowindow);	
-				
 		 	}
 		}); 	     			 
 	});
@@ -1248,8 +1628,8 @@ function cultureBookmarkReloadList() {
 		
 		for(var data of list){			
 			
-			html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
-            html += "<div class=\"close_i\" cultureNo=\"" + data.CUL_LIFE_NUM  + "\" cateNm=\"culture\" ></div>";
+			html += "<div class=\"box\" id=\"cultureBox\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\" cultureNm=\"" + data.CUL_LIFE +"\"  phone=\"" + data.PHONE + "\"  address=\"" + data.ADDRESS + "\">";
+            html += "<div class=\"close_i\" id=\"close_i\" cultureNo=\"" + data.CUL_LIFE_NUM  + "\" cateNm=\"culture\" ></div>";
             html += "<div class=\"content\">";
             html += "<div class=\"main\">";
             html += "<div class=\"parking_name\">" + data.CUL_LIFE+"</div>";
@@ -1285,6 +1665,8 @@ function cultureBookmarkReloadList() {
  }
 
   function cinemaBookmarkDrawList(list) {
+	  console.log(list);
+	  
  		var html = "";	
  		
  		if(list.length == 0){
@@ -1292,15 +1674,16 @@ function cultureBookmarkReloadList() {
 		} 
 
  		for(var data of list){		
- 			//html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
 	
- 			 html += "<div class=\"box\">";
-             html += "<div class=\"close_i\" cinemaNo=\"" + data.CINEMA_MAG_NUM  + "\" cateNm=\"cinema\"></div>";
+ 			 html += "<div class=\"box\" id=\"cinemaBox\" cinemaNm=\"" + data.ENT_NM +"\"  phone=\"" + data.PHONE + "\"  address=\"" + data.PARCEL_NUM + "\">";
+             html += "<div class=\"close_i\" id=\"close_i\" cinemaNo=\"" + data.CINEMA_MAG_NUM  + "\" cateNm=\"cinema\"></div>";
              html += "<div class=\"content\">";
              html += "<div class=\"main\">";
              html += "<div class=\"parking_name\">" + data.ENT_NM+"</div>";
              html += "<div class=\"parking_info\">";
-             html += "<div class=\"phone\">"+ data.PHONE +"</div>";
+             if(data.PHONE != null){
+            	 html += "<div class=\"phone\">"+ data.PHONE +"</div>"; 
+             }
              html += "<div class=\"address\">" + data.PARCEL_NUM + "</div>";       
              html += "</div>";
              html += "</div>";
@@ -1338,10 +1721,9 @@ function cultureBookmarkReloadList() {
 		} 
 
  		for(var data of list){		
- 			//html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
 	
- 			 html += "<div class=\"box\">";
-             html += "<div class=\"close_i\" gasstationNo=\"" + data.GAS_STATION_NUM  + "\" cateNm=\"gasStation\"></div>";
+ 			 html += "<div class=\"box\" id=\"gasstationBox\" gasstationNm=\"" + data.GAS_NM +"\"  phone=\"" + data.PHONE + "\"  address=\"" + data.PARCEL_NUM + "\">";
+             html += "<div class=\"close_i\" id=\"close_i\" gasstationNo=\"" + data.GAS_STATION_NUM  + "\" cateNm=\"gasStation\"></div>";
              html += "<div class=\"content\">";
              html += "<div class=\"main\">";
              html += "<div class=\"parking_name\">" + data.GAS_NM+"</div>";
@@ -1384,10 +1766,9 @@ function cultureBookmarkReloadList() {
 		} 
 
  		for(var data of list){		
- 			//html += "<div class=\"box\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\">";
-	
- 			 html += "<div class=\"box\">";
-             html += "<div class=\"close_i\" restaurantNo=\"" + data.RESTAURANT_NO  + "\" cateNm=\"restaurant\"></div>";
+ 			
+ 			 html += "<div class=\"box\" id=\"restaurantBox\" restaurantNm=\"" + data.ENT_NM +"\"  phone=\"" + data.PHONE + "\"  address=\"" + data.PARCEL_NUM + "\">";
+             html += "<div class=\"close_i\" id=\"close_i\" restaurantNo=\"" + data.RESTAURANT_NO  + "\" cateNm=\"restaurant\"></div>";
              html += "<div class=\"content\">";
              html += "<div class=\"main\">";
              html += "<div class=\"parking_name\">" + data.ENT_NM+"</div>";
