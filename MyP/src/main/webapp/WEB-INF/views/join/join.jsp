@@ -22,8 +22,7 @@
 	<div class="wrap">
 		<h1 class="logo" id="logo"></h1>
 		<form action="#" class="was-validated" name="form" id="joinform" method="post">
-			<input type="hidden" name="cert" id="cert" >
-			
+			<input type="hidden" name="cert" id="cert" >			
 			<div class="title">회원가입</div>
 			<div class="id_input">
 				<input type="text" name="id" placeholder="아이디" id="id" required><br>
@@ -32,19 +31,15 @@
 			<div class="pwd_input">
 				<input type="password" name="pwd" placeholder="비밀번호" id="pwd" required  autocomplete="off"><br>
 			</div>
-			<span id="pw_ck_status"></span>
-				
+			<span id="pw_ck_status"></span>			
 			<div class="rePw_input">
 				<input type="password" id="rePw" placeholder="비밀번호 재확인"  autocomplete="off"><br>
 			</div>
 			<span id="repw_ck_status" style="font-size: 14px"></span>
-			
 			<div class="nm_input">
 				<input type="text" name="nickname" id="nickname" placeholder="닉네임"><br>
-			</div>
-			
+			</div>	
 			<span class="nickname_status"></span>
-			
 			<div class="df">
 				<div class="input_box2">
 					<input type="text" name="account" id="account" placeholder="이메일">
@@ -62,8 +57,6 @@
 				<button class="join_btn" type="button" id="mail-Check-Btn">
 					인증번호<br/>전송
 				</button>
-				<br>
-				<br>
 			</div>
 			<span class="mail_input_box_warn" style="font-size: 14px"></span>
 			<div class="df">
@@ -72,9 +65,7 @@
 				</div>
 				<button class="join_btn" type="button">확인</button>
 			</div>
-
 			<span class="mail-check-warn" style="font-size: 14px"></span>
-
 			<div>
 				<div class="sign_up" id="joinBtn">가입하기</div>
 			</div>

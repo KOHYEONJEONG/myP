@@ -100,7 +100,6 @@ a {
 	$("#pwFind").on("click", function(){
 		location.href = "pwFind";
 	});
-
  })
 </script>
 </head>
@@ -110,7 +109,14 @@ a {
 		<h1 class="logo"></h1>
 		<div class="title">아이디 찾기 완료</div>
 		<div class="result_text">
-			고객님의 아이디 <span class="result"><c:out value="${fn:substring(data.ID, 0, fn:length(data.ID) - 3)}" />***</span> 입니다.
+		<c:choose>
+			<c:when test="${data.ID != null}">
+				고객님의 아이디 <span class="result"><c:out value="${fn:substring(data.ID, 0, fn:length(data.ID) - 3)}" />***</span> 입니다.
+			</c:when>
+			<c:otherwise>
+				고객님은 탈퇴한 회원입니다. 다른 이메일로 가입 부탁드립니다.
+			</c:otherwise>
+		</c:choose>
 		</div>
 		<div>
 			<button type="submit" id="loginBtn">로그인하기</button>

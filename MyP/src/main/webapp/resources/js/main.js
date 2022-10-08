@@ -7,71 +7,71 @@ $(document).ready(function () {
 		
     // 메인 페이지 아이콘 클릭시 왼쪽영역 변경
     // 메인 페이지 아이콘 클릭시 왼쪽영역 변경
-        $('.icons.first').click(function () {
+        $('.icons .first').click(function () {
             $('.first').parent().addClass('on');
             $('.first').parent().siblings().removeClass('on')
             $('.search_warp').addClass('on');
             $('.search_warp').siblings().removeClass('on');
         })
-        $('.icons.second').click(function () {
+        $('.icons .second').click(function () {
             $('.second').parent().addClass('on');
             $('.second').parent().siblings().removeClass('on')
             $('.calc_wrap').addClass('on');
             $('.calc_wrap').siblings().removeClass('on');  
         })
-        $('.icons.third').click(function () {
+        $('.icons .third').click(function () {
             $('.third').parent().addClass('on');
             $('.third').parent().siblings().removeClass('on')
             $('.distance_wrap').addClass('on');
             $('.distance_wrap').siblings().removeClass('on');  
         })
-        $('.icons.fourth').click(function () {
+        $('.icons .fourth').click(function () {
             $('.fourth').parent().addClass('on');
             $('.fourth').parent().siblings().removeClass('on')
             $('.bookmark_wrap').addClass('on');
             $('.bookmark_wrap').siblings().removeClass('on');  
         })
-        $('.icons.fifth').click(function () {
+        $('.icons .fifth').click(function () {
             $('.fifth').parent().addClass('on');
             $('.fifth').parent().siblings().removeClass('on')
             $('.review_wrap').addClass('on');
             $('.review_wrap').siblings().removeClass('on');  
         })
-        $('.icons.sixth').click(function () {
+        $('.icons .sixth').click(function () {
             $('.sixth').parent().addClass('on');
             $('.sixth').parent().siblings().removeClass('on')
             $('.accident_wrap').addClass('on');
             $('.accident_wrap').siblings().removeClass('on');  
         })
         // 하단 화살표 아이콘 클릭시 왼쪽영역 감추기
-        $('.icons.end').click(function () {
+        $('.icons .end').click(function () {
             var index = $('.left_section').children('.on').index() + 1;
             console.log(index);
 
-            var hasOn2 = $('.icons.end').hasClass('on')
+            var hasOn2 = $('.icons .end').hasClass('on')
             if (hasOn2) {
-                $('.icons.end').removeClass('on');
+                $('.icons .end').removeClass('on');
                 $('.left_section').css({'display' : 'none'});
                 $('.left_area').css({'width' : '50px'});
                 $('.rigth_area1').css({'width' : '100%'});
                 $('#map').css({'width' : '100%'});
-                $('.icons.end').parent().siblings().removeClass('on')
+                $('.icons .end').parent().siblings().removeClass('on')
             } else {
-                $('.icons.end').addClass('on');
+                $('.icons .end').addClass('on');
                 $('.left_area').css({'width' : '400px'});
                 $('.left_section').css({'display' : 'block'});
                 switch(index) {
-                    case 1:  $('.icons.first').parent().addClass('on')
+                    case 1:  $('.icons .first').parent().addClass('on')
                         break;
-                    case 2:  $('.icons.second').parent().addClass('on')
+                    case 2:  $('.icons .second').parent().addClass('on')
                         break;
-                    case 3:  $('.icons.third').parent().addClass('on')
+                    case 3:  $('.icons .third').parent().addClass('on')
                         break;
-                    case 4:  $('.icons.fourth').parent().addClass('on')
+                    case 4:  $('.icons .fourth').parent().addClass('on')
                         break;
-                    case 5:  $('.icons.fifth').parent().addClass('on')
+                    case 5:  $('.icons .fifth').parent().addClass('on')
                         break;
-                    case 6:  $('.icons.sixth').parent().addClass('on')
+                    case 6:  $('.icons .sixth').parent().addClass('on')
                         break;
                   }
             }

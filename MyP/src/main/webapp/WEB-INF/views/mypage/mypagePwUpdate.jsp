@@ -21,18 +21,9 @@
     	#pw_ck_status{
     		padding-left: 125px;
     	}
-		.pwck_input_re_1 {
-			color : green;
-			display : none;
-			font-size: 14px;
-			padding-left: 125px;
-		}
-		.pwck_input_re_2{
-			color : red;
-			display : none;
-			font-size: 14px;
-			padding-left: 125px;
-		}
+    	#repw_ck_status{
+    	 	padding-left: 125px;
+    	}
 		.btn.update{
 			line-height: 40px;
     		text-align: center;
@@ -45,9 +36,7 @@
     
       <main class="main1">
         <div class="main_wrap">
-            
-                <c:import url="/mypageSidebar"></c:import> 
-             
+           <c:import url="/mypageSidebar"></c:import> 
              <form action="#" id="pwChangeform" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
 	             <div class="right_area">            
@@ -61,15 +50,14 @@
 	                            	<input type="password" name="pwd" id="pwd" required><br>
 	                            </div>
 	                        </div>
-	                        <span class="" id="pw_ck_status" style="font-size: 14px"></span>
+	                        <span id="pw_ck_status" style="font-size: 14px"></span>
 	                        <div class="row1" style="border-top: 0px">
 	                            <div class="box_title">비밀번호 확인</div>
 	                            <div class="input">
 	                               <input type="password" name="pwd" id="rePw"><br>
 	                            </div>
 	                        </div>
-	                         <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> 
-							<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+	                         <span id="repw_ck_status" style="font-size: 14px"></span>
 	                    </div>
 	                    <div class="btn_wrap">
 	                    	<div class="btn update" id="changeBtn">수정</div>
