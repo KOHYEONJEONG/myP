@@ -609,6 +609,8 @@
 		var cultureNo = $(this).children().attr("cultureNo");
 		var phone = $(this).attr("phone");
 		var address = $(this).attr("address");
+		var locx = $(this).attr("locx");
+		var locy = $(this).attr("locy");
 		
 		// 마커가 표시될 위치입니다 
 		var markerPosition  = new kakao.maps.LatLng(locx, locy); 
@@ -840,14 +842,14 @@
 	            });
 
 		     	
-	            var iwContent = "<input type=\"hidden\" id=\"gasStation1\" value="+ gasstationNm +" />";
-	        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  gasstationNo +"</div>";
+	            var iwContent = "<input type=\"hidden\" id=\"gasStation1\" value="+ gasstationNo +" />";
+	        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  gasstationNm +"</div>";
 		     	iwContent += "<div class=\"phone\">" + phone +"</div>";
 		    	iwContent += "<div class=\"address\">" + address +"</div>"; 
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"gasStation\">";
 		    	$(".gasstation_bookmark_wrap .result_area").each(function() {
-		               if($(this).html().match(gasstationNm)){
+		               if($(this).html().match(gasstationNo)){
 		                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
 		               } else {
 		                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
