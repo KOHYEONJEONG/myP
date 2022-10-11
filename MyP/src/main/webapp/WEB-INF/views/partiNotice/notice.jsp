@@ -28,8 +28,6 @@
 		reloadList(); 
 		
 
-	
-
 	//  테이블 페이징 클릭시
 	 $(".page_nation").on("click", "a", function () {
 		$("#page").val($(this).attr("page"));
@@ -41,7 +39,7 @@
 	})
 	
 	
-/// 테이블 검색버튼 부분, 엔터키 이벤트 막기
+	// 테이블 검색버튼 부분, 엔터키 이벤트 막기
 	$("#searchForm").on("keypress", "input", function(event){
 		if(event.keyCode == 13){ //이벤트 코드가 엔터가들어오면
 		

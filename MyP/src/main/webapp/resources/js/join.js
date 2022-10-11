@@ -107,7 +107,7 @@ $(document).ready(function () {
 		        // 회원가입에서 메일 중복 체크
 				} else {
 					if(res != 'fail'){ 
-		            	warnMsg.html("이미 가입된 이메일 입니다. 다시 확인 부탁드립니다.");   
+		            	warnMsg.html("이미 가입됬거나 탈퇴한 이메일입니다. 다시 확인 부탁드립니다.");   
 		                warnMsg.css("color","red");
 		                warnMsg.show();
 		            } else {

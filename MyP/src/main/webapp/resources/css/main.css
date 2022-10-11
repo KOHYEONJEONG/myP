@@ -337,44 +337,44 @@ main {
   cursor: pointer;
 }
 .icon_bar .icons.on {
-  background: #e8e8e8;
+  background: #e8e8e8 !important;
 }
 .icon_bar .icons div {
   width: 50px;
   height: 60px;
   cursor: pointer;
 }
-.icon_bar .icons.first {
+.icon_bar .icons .first {
   background: url(../icons/search.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons.second {
+.icon_bar .icons .second {
   background: url(../icons/calc.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons.third {
+.icon_bar .icons .third {
   background: url(../icons/distance.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons.fourth {
+.icon_bar .icons .fourth {
   background: url(../icons/bookmark.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons.fifth {
+.icon_bar .icons .fifth {
   background: url(../icons/review.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons.sixth {
+.icon_bar .icons .sixth {
   background: url(../icons/accident.png) no-repeat;
   background-size: 40%;
   background-position: 50%;
 }
-.icon_bar .icons.end {
+.icon_bar .icons .end {
   position: absolute;
   bottom: 0;
   background: url(../icons/arrow.png) no-repeat;
@@ -455,7 +455,6 @@ main {
 }
 .left_section .select_box {
     width: 100%;
-    height: 60px;
     /* line-height: 38px; */
     background: #fff;
     text-align: center;
@@ -668,14 +667,15 @@ main {
   font-weight: bold;
   margin-right: 5px;
 }
-.left_section .bookmark_wrap {
+.left_section .bookmark_wrap, .parking_bookmark_wrap, .restaurant_bookmark_wrap, .cultrue_bookmark_wrap,
+.gasstation_bookmark_wrap, .cinema_bookmark_wrap {
   background: #f6edc9;
   height: 100%;
   position: relative;
   overflow: hidden;
 }
 .left_section .bookmark_wrap .title {
-  padding: 120px 0 0 0;
+  padding: 100px 0 0 0;
 }
 .left_section .bookmark_wrap .title.p40 {
   padding: 40px 0 0 0;
