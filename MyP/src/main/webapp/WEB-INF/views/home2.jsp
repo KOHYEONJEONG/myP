@@ -698,7 +698,7 @@
 <c:import url="/footer"></c:import>
  
 <!-- 요금표 팝업창 -->
-<div id="feeTablePopup" class="feeTablePopup" style="display: block;">
+<div id="feeTablePopup" class="feeTablePopup" style="display: none;">
 	<div class="close_i">
       		<img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
    	</div>

@@ -118,6 +118,7 @@ textarea.con{
 .carInfo{
 	margin-bottom: 40px;
 }
+
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -287,15 +288,18 @@ function action(flag) {
 						<div class="btn update" id="updateBtn">수정</div>
 					</div>
 					<table class="myReviewInfo">
-					
-					
-							<thead>
+						<thead>
 							<tr>
 								<td colspan="4">[나의 리뷰]</td>
 							</tr>
-							</thead>
+						</thead>
+						
+						<tbody>
+							<tr>
+								<td>제목</td>
+								<td colspan="3">${data.TITLE}</td>
+							</tr>
 							
-							<tbody>
 							<tr>
 								<td>CCTV별점</td>
 								<td>
@@ -326,7 +330,7 @@ function action(flag) {
 									<textarea name="con" id="con" class="con" readonly="readonly">${data.CON}</textarea>
 							    </td>
 							</tr>
-							</tbody>
+						</tbody>
 					</table>
 
 				</div>
