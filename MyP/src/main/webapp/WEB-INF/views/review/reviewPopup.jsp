@@ -69,9 +69,22 @@ function action(flag){
 				    				   dataType : "json",
 				    				   data : data,
 				    				   success : function(res){
+				    					   mapReload();//지도 팝업창에 리뷰개수, 별 개수
+				    					   
 				    				       $('.review_wrap').addClass('on');
 				    				       $('.review_wrap').siblings().removeClass('on');  
+				    				      
 				    					   reviewList(res.reviewlist);
+				    					   $("#title").val("");
+				    					   $("#con").val("");
+				    					   $("#cctvStar,#envStar,#feeStar,#disStar").empty();//이전별점 결과를 비워준다
+				    					   
+				    					   $("#cctvStar,#envStar,#feeStar,#disStar").raty({ //다시 새로 별점을 그려준다.
+				    							readOnly: false,
+				    							score : 1,
+				    							path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+				    						});
+				    					   
 				    					
 				    				   },
 				    				  error : function(request, status, error){
@@ -93,6 +106,8 @@ function action(flag){
 			
 		}); //Ajax End
 	} // action Function End */
+	
+	
 	
 });
 </script>

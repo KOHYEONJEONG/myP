@@ -236,6 +236,8 @@
         a {
             text-decoration: none;
         }
+        
+   
 </style>
 <script type="text/javascript" src="resources/script/common/popup.js"></script>      
 <script type="text/javascript">
@@ -303,6 +305,14 @@
 	         }); 
 	  });
 	  
+	  
+	  $("#selectx").change(function(){
+		  
+		  reviewReload();
+		  
+	  })
+	  
+	  
 	  $("body").on("click", ".warning_i", function () {
 	        document.getElementById("warning_popup").style.display = "block";
 	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
@@ -335,58 +345,64 @@
 		  });
 		  
 		  
-		 $("body").on("click", ".phone2", function(){
-
-		  $("#car_park_nm").html($(this).attr("nm"));
-		  $("#carparknum").val($(this).attr("no"));
-		  $(".review_wrap #carparknum").val($(this).attr("no"));
-		  
-    	   var data = {carparknum : $(this).attr("no"),
-    					select : $("#selectx").val()	   
-    	   
-    	   };
-			$.ajax({
-				 type : "POST",
-				   url : "ReviewAjax", 
-				   dataType : "json",
-				   data : data,
-				   success : function(res){
-				       $('.review_wrap').addClass('on');
-				       $('.review_wrap').siblings().removeClass('on');  
-					   reviewList(res.reviewlist);
-					
-				   },
-				  error : function(request, status, error){
-						console.log(request.responseText); 
-				  }
-			})
-			  
+		 $("body").on("click", ".phone2", function(){//리뷰 버튼
+			 $("#carparknum").val($(this).attr("no"));
+			 $("#car_park_nm").html($(this).attr("nm"));
+			 reviewReload();
+			/*  $("img[alt='close']").click(); */
 		 });
 		  
 
-		$("#search_i").on("click", function(){
-			var params = $("#actionForm").serialize();
-			$.ajax({
-				url : "HomeAjax",
-				type : "POST",
-				dataType: "json",
-				data: params,
-				success : function(res){
-					console.log(res);
-					console.log(res.cnt);
-					searchList(res.list);
-					mapList(res.list);
-					console.log(res.list.length);
-					
-				},
-				error : function(request, status, error) { 
-					console.log(request.responseText); 
-				}
-			})
-			
+		$("#search_i").on("click", function(){//검색 버튼
+			mapReload();
+  		});
+		
+});//document
+  
+  function mapReload(){
+	  
+	  var params = $("#actionForm").serialize();
+		$.ajax({
+			url : "HomeAjax",
+			type : "POST",
+			dataType: "json",
+			data: params,
+			success : function(res){
+				
+				searchList(res.list);
+				mapList(res.list);
+			},
+			error : function(request, status, error) { 
+				console.log(request.responseText); 
+			}
 		});
 		
- });
+  }
+  
+  
+  
+  function reviewReload(){
+	  
+	   var data = {carparknum : $("#carparknum").val(),	select : $("#selectx").val()};
+		
+	  $.ajax({
+			 type : "POST",
+			   url : "ReviewAjax", 
+			   dataType : "json",
+			   data : data,
+			   success : function(res){
+			       $('.review_wrap').addClass('on');
+			       $('.review_wrap').siblings().removeClass('on');  
+				   reviewList(res.reviewlist);
+				
+			   },
+			  error : function(request, status, error){
+					console.log(request.responseText); 
+			  }
+		})
+  }
+  
+  
  function reviewList(reviewList){
 	 
 	 var html = "";
@@ -409,61 +425,25 @@
      html += "<span>"+data.CON +"</span>";
      html += "</div>                                          ";
      html += "<div class=\"box_inner_i\">                     ";
-     html += "<div onclick=\"warningPopup("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>                 ";
+     html += "<div onclick=\"warningPopup("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>";//신고버튼
      html += "</div>                                          ";
      html += "</div>                                          ";
  	}
-	 
 	
  	$('.review_wrap .result_area').html(html);
- 	 $("body .Star").raty({ 
-			readOnly: true, 
-			path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
-		});
+ 	
+ 	$(".review_wrap .Star").raty({
+		readOnly: true, 
+		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+	});
 	
  } 
-
-/*  <div class="review_wrap">
- <div class="title">리뷰</div>
- <div class="select_box">
- <select>
-     <option value="">높은별점순</option>
-     <option value="">최신순</option>
-   </select>
- </div>
- <div class="result_area">
-   <div class="standard">가산동 공영 주차장</div>
-   <div class="box pr40">
-     <div class="nickname">머순</div>
-     <div class="line">
-       <div class="stars">
-         <div class="star_i"></div>
-         <div class="star_i"></div>
-         <div class="star_i"></div>
-         <div class="star_i"></div>
-         <div class="star_i"></div>
-       </div>
-       <div class="date">2022-07-26</div>
-     </div>
-     <div class="review_title">
-       <span>제목 :</span>
-       <span>가산동 공영 주차장 굿!</span>
-     </div>
-     <div class="review_contents">
-       <span>내용 :</span>
-       <span>깔끔하니 좋아요, 또 방문할것 같습니다!</span>
-     </div>
-     <div class="box_inner_i">
-       <div class="warning_i"></div>
-     </div>
-   </div> */
  
   function warningPopup(review_num) {
    	 $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
   }
    
- function searchList(list){
-	 console.log("aaaa");
+ function searchList(list){ //사이드 쪽에 주차장 리스트
 	 var html = "";
 	 html += "<div class=\"result_box\">" +list.length+ "</div>";
 	 for(var data of list){		
@@ -473,7 +453,6 @@
          html += "<div class=\"parking_info\">";
          html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
          html += "<span class=\"pay\">유료</span>";
-         html += "<span class=\"detail\">상세보기</span>"; 
          html += "</div>";
          html += "<div class=\"box_inner_i\">";
          html += "<div class=\"bookmark_i\"></div>";
@@ -481,12 +460,10 @@
          html += "</div>";
          html += "</div>";
 	 }
-	 console.log(html);
-	console.log(list.length);
 	 $('.result_area2').html(html);
  } 
  
- function mapList(list){
+ function mapList(list){ //지도 안에 핀 그리기
 	 
 	 var positions = new Array();
 	 var points = new Array();
@@ -500,10 +477,10 @@
 		 	starscore: data.AVG,
 		 	carparknum: data.CAR_PARK_MAG_NUM
 		 });
+		
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
-	 console.log(positions);
 
 		// 마커 이미지의 이미지 주소입니다
 		var imageSrc = "resources/icons/park_marker4.png"; 
@@ -525,17 +502,13 @@
 		        clickable: true
 		    });
 		    
+			 
 		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
-		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />";
-		    	if(positions[i].starscore == 0){
-		    		iwContent += "<div class=\"phone2\"  no=\""+positions[i].carparknum+"\"  nm=\""+positions[i].title+"\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
-		    	}else {
-		    	
-		    	 iwContent += "<div class=\"phone2\" no=\""+positions[i].carparknum+"\" nm=\""+positions[i].title+"\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
-		    	}
+		    	iwContent += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />";
+	        	iwContent += "<span class=\"Star\" data-score=\"" +positions[i].starscore +"\"></span>";
+		    	iwContent += "<span class=\"phone2\" no=\""+positions[i].carparknum+"\" nm=\""+positions[i].title+"\"> "+"리뷰"+" " + positions[i].review + "</span>";
 		    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
 		    	iwContent += "<span class=\"pay\">유료</span>";
-		    	iwContent += "<span class=\"detail\">상세보기</span>"; 
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\">";
 		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
@@ -549,6 +522,8 @@
 		    	iwContent += "</div>"
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		    	iwRemoveable = true; 
+		    	
+		    	
 		    
 		    
 		 // 인포윈도우를 생성합니다
@@ -558,6 +533,18 @@
 			
 			});  
 		 
+		if(positions[i].carparknum == $(".review_wrap #carparknum").val()) {//(*)리뷰가 작성되고 나면 자동으로 다시 팝업이 그려지게
+			 $("img[alt='close']").click();
+		       // 마커 위에 인포윈도우를 표시합니다
+		       infowindow.open(map, marker);
+		       
+		       $("#map .Star").empty();
+		       $("#map .Star").raty({ 
+					readOnly: true, 
+					path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+			});
+		 } 
+		 		 
 		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
 	     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
 	     (function(marker, infowindow) {
@@ -566,16 +553,22 @@
 				 
 				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
 				  $("img[alt='close']").click();
+			 
 			       // 마커 위에 인포윈도우를 표시합니다
-			       infowindow.open(map, marker);
+			      infowindow.open(map, marker);
+			       $("#map .Star").empty(); 
+			       $("#map .Star").raty({ 
+						readOnly: true, 
+						path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+					});  
 			       
+			 
 			      
 			 });
 
-	     })(marker, infowindow);		 
+	     })(marker, infowindow);	
 	
-		}
-
+		}//for
 
 		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 		var bounds = new kakao.maps.LatLngBounds();    
@@ -590,7 +583,6 @@
 		}
 		
 		map.setBounds(bounds);
-
  	}
   </script>
 </head>
@@ -982,7 +974,7 @@
           
           
           <div class="standard" id="car_park_nm" style="text-align: center; font-size: 16px; padding: 20px 0px 5px 0px;"></div>
-          <input type="hidden" id="carparknum" value=\" />
+          <input type="hidden" id="carparknum" value="" />
           <div class="result_area">
           <!-- 리뷰 비동기화처리 -->
           </div>
