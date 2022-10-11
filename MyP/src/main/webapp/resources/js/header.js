@@ -206,13 +206,10 @@ function notireload() {
 				var notiNo = "";
 				// data.NOTICE_NUM 는 가져오는 리스트의 가장 적은 숫자로 가져옴
 				if(index == 1){
-					console.log(data.NOTICE_NUM + 2);
 					notiNo = data.NOTICE_NUM + 2;
 				} else if(index == 2){
-					 console.log(data.NOTICE_NUM + 1);
 					 notiNo = data.NOTICE_NUM + 1;
 				} else {
-					 console.log(data.NOTICE_NUM);
 					 notiNo = data.NOTICE_NUM;
 				}
 				$("#notiNo").val(notiNo);
