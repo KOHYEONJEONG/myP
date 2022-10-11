@@ -603,6 +603,97 @@
 		})
 	});
 		
+	// 즐겨찾기 리스트에서 주차장 박스 클릭시 마커 지도에 찍힘
+	$("body").on("click", "#parkingBox", function() {
+		
+		var parkingNm = $(this).attr("parkingNm");
+		var parkingNo = $(this).children().attr("parkingNo");
+		var address = $(this).attr("address");
+		var locx = $(this).attr("locx");
+		var locy = $(this).attr("locy");
+		
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(locx, locy); 
+		
+		// 마커 이미지의 이미지 주소입니다
+		// 없으면 기본 마커, 파란색
+		var imageSrc = "resources/icons/park_marker4.png";
+	    // 마커 이미지의 이미지 크기 입니다
+	    imageSize = new kakao.maps.Size(35, 35)  // 마커 이미지의 크기
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+	   
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition,
+		    image : markerImage // 마커 이미지 
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+		
+		var iwContent = "<input type=\"hidden\" id=\"carparknum\" value="+ parkingNo +" />";
+		iwContent += "<div class=\"bg\"><div class=\"title\">" + parkingNm +"</div>";
+    	iwContent += "<div class=\"address\">" + address +"</div>";
+    	iwContent += "<div class=\"buttonBox\">";
+    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"parking\">";
+    	$(".parking_bookmark_wrap .result_area").each(function() {
+           if($(this).html().match(parkingNo)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
+              iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+           } else {
+              iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+           }
+        });
+    	iwContent += "</div>";
+    	iwContent += "<div class=\"shareBox\">";
+    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
+    	iwContent += "</div>";
+    	iwContent += "<div class=\"compareBox\">";
+    	iwContent += "<button class=\"compareBoxBtn\">요금비교</button>";
+    	iwContent += "</div>";
+    	iwContent += "</div>";
+    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    	iwRemoveable = true; // 인포윈도우의 X버튼
+    
+    	 // 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				content : iwContent,
+			    removable : iwRemoveable
+			
+			});  
+		 
+		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+		 // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+		 (function(marker, infowindow) {
+			 // 마커에 클릭이벤트를 등록합니다
+			 kakao.maps.event.addListener(marker, 'click', function() {
+				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+				  $("img[alt='close']").click();
+			       // 마커 위에 인포윈도우를 표시합니다
+			       infowindow.open(map, marker);  
+			 });
+		
+		 })(marker, infowindow);
+		 
+		var points = new Array();
+		points.push(new kakao.maps.LatLng(locx, locy));
+		
+		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		var bounds = new kakao.maps.LatLngBounds();    
+
+		var i, marker;
+		for (i = 0; i < points.length; i++) {
+		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+
+		    // LatLngBounds 객체에 좌표를 추가합니다
+		    bounds.extend(points[i]);
+		}
+		map.setBounds(bounds);
+	
+	})
+	
+		
 	// 즐겨찾기 리스트에서 문화생활 박스 클릭시 마커 지도에 찍힘
 	$("body").on("click", "#cultureBox", function() {
 		
@@ -980,6 +1071,8 @@
 	    });    
 	
 	})
+	
+	
 	
 	
 	
@@ -1612,7 +1705,6 @@ function parkingBookmarkReloadList() {
 			console.log(request.responseText); 
 		}
 	}); 
-	
 }
 
  function parkingBookmarkDrawList(list) {
@@ -1621,10 +1713,9 @@ function parkingBookmarkReloadList() {
 		if(list.length == 0){
 			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
 		} 
-		
 		for(var data of list){			
 			
-			html += "<div class=\"box\" id=\"parkingBox\">";
+			html += "<div class=\"box\" id=\"parkingBox\" locx=\"" + data.LOCX + "\" locy=\"" + data.LOCY + "\" parkingNm=\"" + data.CAR_PARK_NM +"\" address=\"" + data.ADDRESS + "\">";
             html += "<div class=\"close_i\" id=\"close_i\" parkingNo=\"" + data.CAR_PARK_MAG_NUM  + "\" cateNm=\"parking\" ></div>";
             html += "<div class=\"content\">";
             html += "<div class=\"main\">";
