@@ -1,9 +1,8 @@
 @charset "UTF-8";
 
 *{
-        font-family: 'TmoneyRoundWindRegular';
-    }
-   
+   font-family: 'TmoneyRoundWindRegular';
+}  
 .wrap {
    width: 490px;
    padding: 40px 20px 20px 20px;
@@ -12,29 +11,28 @@
    top: 50%;
    left: 50%;
    transform: translate(-50%,-50%);
-    border-radius: 30px;
+   border-radius: 30px;
    box-sizing: border-box;
 }
 .logo {
-      width: 280px;
-      height: 100px;
-      background: url('../icons/logo8.png') no-repeat;
-      background-size: 130%;
-      background-position: 50%;
-      position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translate(-50%,-50%);
-       cursor: pointer;
-
-    }
-   a{
-      width: 280px;
-      height: 110px;
-      display: block;
-   }
+    width: 280px;
+    height: 100px;
+    background: url('../icons/logo8.png') no-repeat;
+    background-size: 130%;
+    background-position: 50%;
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+}
+ a{
+    width: 280px;
+    height: 110px;
+    display: block;
+ }
 .title {
-   margin: 0 auto;
+    margin: 0 auto;
     width: 240px;
     height: 44px;
     text-align: center;
@@ -59,8 +57,8 @@
 input {
    height: 100%;
    width: 100%;
-    border: 0;
-    background: #fff;
+   border: 0;
+   background: #fff;
    font-size: 15px;
    outline: 0;
 }
@@ -70,26 +68,26 @@ input::placeholder {
 
 .loginBtn_wrap {
    font-size: 0;
-    margin-top: 10px;
+   margin-top: 10px;
    text-align: center;
     
 }
 #loginBtn {
-    margin-top: 10px;
+   margin-top: 10px;
    height: 60px;
-    border: solid 1px #00af80;
-    text-align: center;
-    background: #00af80;
-    color:white;
-    font-size: 18px; 
+   border: solid 1px #00af80;
+   text-align: center;
+   background: #00af80;
+   color:white;
+   font-size: 18px; 
    box-sizing: border-box;
    border-radius: 5px;
    cursor: pointer;
    width: 450px;
 }
 .btn_bottom{
-    margin: 20px 0;
-    text-align: center;
+   margin: 20px 0;
+   text-align: center;
    font-size: 12px;
    cursor: pointer;
    display: flex;
@@ -111,7 +109,7 @@ input::placeholder {
    width: 85px;
 }
 .btn_bottom div:nth-child(n+2)::before{
-   content: '';
+    content: '';
     display: block;
     position: absolute;
     left: -1px;
@@ -125,22 +123,23 @@ input::placeholder {
 .kakao{
    margin-top: 15px;
    height: 60px;
-    border: solid 1px #FEE500;
-    background: #FEE500;
-    color: #3c1d1e;
-    font-size: 18px; 
+   border: solid 1px #FEE500;
+   background: #FEE500;
+   color: #3c1d1e;
+   font-size: 18px; 
    box-sizing: border-box;
    border-radius: 5px;
    cursor: pointer;
    width: 450px;
    display: flex;
+   text-decoration: none;
 }
 .kakao_i{
    background: url(../icons/kakao.png) no-repeat;
    width: 40px;
    height: 100%;
-    background-size: 90%;
-    background-position: 50%;
+   background-size: 90%;
+   background-position: 50%;
    margin: 0 20px;
 }
 .kakao_txt{

@@ -17,7 +17,7 @@
 }
 
 .env_wrap, .ticket_wrap{
-	margin-left: 20px;
+	margin-left: 20px; 
 }
 </style>
 <script type="text/javascript">
