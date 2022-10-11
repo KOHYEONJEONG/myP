@@ -107,6 +107,13 @@ textarea.con{
 	background: #00af80;
 	border: solid 1px #00af80;
 }
+
+.title{
+    width: 100%;
+    height: 100%;
+    border: 0px;
+    padding: 5px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -128,6 +135,7 @@ $(document).ready(function() {
 		
 	$("#updateBtn").on("click",function(){
 		
+		$("#title").val($("#review_title").val());
 		$("#cctv_star").val($("#cctvStar input").val());
 		$("#env_star").val($("#envStar input").val());
 		$("#fee_star").val($("#feeStar input").val());
@@ -181,19 +189,20 @@ function action(flag) {
 <body>
 	<c:import url="/header1"></c:import>
 	<form action="#" id="actionForm">
-		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}" /> 
-		<input type="hidden" name="no" id="no" value="${sMemNo}" />
+		<input type="hidden" name="review_num" id="review_num" value="${param.review_num}"/> 
+		<input type="hidden" name="no" id="no" value="${sMemNo}"/>
 		
-		<input type="hidden" name="page" id="page" value="${param.page}" /><!--  전 화면에서 넘어온 페이지 정보 -->
+		<input type="hidden" name="page" id="page" value="${param.page}"/><!--  전 화면에서 넘어온 페이지 정보 -->
 		
-		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}" />
-		<input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}" /><!--  전 화면에서 넘어온 검색 정보 -->
+		<input type="hidden" id="searchGbn" name="searchGbn" value="${param.searchGbn}"/>
+		<input type="hidden" id="searchTxt" name="searchTxt" value="${param.searchTxt}"/><!--  전 화면에서 넘어온 검색 정보 -->
 			
 		<input type="hidden" id="cctv_star" name="cctv_star"/>
 		<input type="hidden" id="env_star" name="env_star"/>
 		<input type="hidden" id="dis_star" name="dis_star"/>
 		<input type="hidden" id="fee_star" name="fee_star"/>
 		<input type="hidden" id="sendCon" name="sendCon"/>
+		<input type="hidden" id="title" name="title"/>
 	</form>
 	<main>
 		<div class="main_wrap">
@@ -214,6 +223,10 @@ function action(flag) {
 							</tr>
 						</thead>
 						<tbody>
+							<tr>
+								<td>제목</td>
+								<td colspan="3"><input class="title" id="review_title" name="review_title" value="${data.TITLE}"></td>
+							</tr>
 							<tr>
 								<td>CCTV별점</td>
 								<td>
