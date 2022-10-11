@@ -233,12 +233,12 @@
   var markers = new Array();
   
   $(document).ready(function() {
-	  
-	  
+	   
 	  cultureBookmarkReloadList();
 	  cinemaBookmarkReloadList();
 	  gasstationBookmarkReloadList();
 	  restaurantBookmarkReloadList();
+	  parkingBookmarkReloadList();
 	  
 	  $("#cultrueBookmark").click(function () {
           $(".cultrue_bookmark_wrap").addClass("on");
@@ -482,6 +482,7 @@
   				$("#sendRestaurantNum").val($("#restaurantNum1").val());
 				$("#sendGasStationNum").val($("#gasStation1").val()); 
 				$("#sendCinemaNum").val($("#cinemaNum1").val());
+				$("#sendParkingNum").val($("#carparknum").val());
 			
 				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
 					
@@ -499,6 +500,7 @@
 								cinemaBookmarkReloadList();
 								gasstationBookmarkReloadList();
 								restaurantBookmarkReloadList();
+								parkingBookmarkReloadList();
 								// 별이미지 변경하기, 북마크 된 상태 이미지로
 								$("#bookmarkBtn").attr("src", "resources/icons/star1.png")
 								break;
@@ -529,12 +531,11 @@
 								cinemaBookmarkReloadList();
 								gasstationBookmarkReloadList();
 								restaurantBookmarkReloadList();
+								parkingBookmarkReloadList();
 								break;
 							case "fail" :
-								
 								break;
-							case "error" :
-								
+							case "error" :								
 								break;
 							}
 						},
@@ -554,8 +555,7 @@
   			$("#sendRestaurantNum").val($(this).attr("restaurantNo"));
 			$("#sendGasStationNum").val($(this).attr("gasstationNo")); 
 			$("#sendCinemaNum").val($(this).attr("cinemaNo"));
-  			
-			console.log($("#sendCinemaNum").val());
+			$("#sendParkingNum").val($(this).attr("parkingNo"));
   			
   			var cateNm = $(this).attr("cateNm");
 			
@@ -583,6 +583,7 @@
 								cinemaBookmarkReloadList();
 								gasstationBookmarkReloadList();
 								restaurantBookmarkReloadList();
+								parkingBookmarkReloadList();
 	      						break;
 	      					case "fail" :
 	      						break;
@@ -723,18 +724,16 @@
 	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
 		
 	 	// 주소-좌표 변환 객체를 생성합니다
-	    var geocoder = new kakao.maps.services.Geocoder();
-	 	
-	 	console.log(address);
+	    var geocoder = new kakao.maps.services.Geocoder(); 	
 
 	    // 주소로 좌표를 검색합니다
 	    geocoder.addressSearch(address, function(result, status) {
+	    	
 
 	        // 정상적으로 검색이 완료됐으면 
 	         if (status === kakao.maps.services.Status.OK) {
 
 	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	            console.log(result[0].y, result[0].x);
 
 	            // 결과값으로 받은 위치를 마커로 표시합니다
 	            var marker = new kakao.maps.Marker({
@@ -746,9 +745,9 @@
 		     	
 		        var iwContent = "<input type=\"hidden\" id=\"cinemaNum1\" value="+ cinemaNo +" />" 
 		        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  cinemaNm  +"</div>";
-			        if(phone != null){
-			        	iwContent += "<div class=\"phone\">"+ phone +"</div>"; 
-		             }
+		        	if(phone != "undefined"){
+		        		iwContent += "<div class=\"phone\">"+ phone +"</div>"; 
+		        	}
 			    	iwContent += "<div class=\"address\">" + address +"</div>"; 
 			    	iwContent += "<div class=\"buttonBox\">";
 			    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"cinema\">";
@@ -822,8 +821,6 @@
 		
 	 	// 주소-좌표 변환 객체를 생성합니다
 	    var geocoder = new kakao.maps.services.Geocoder();
-	 	
-	 	console.log(address);
 
 	    // 주소로 좌표를 검색합니다
 	    geocoder.addressSearch(address, function(result, status) {
@@ -832,7 +829,6 @@
 	         if (status === kakao.maps.services.Status.OK) {
 
 	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	            console.log(result[0].y, result[0].x);
 
 	            // 결과값으로 받은 위치를 마커로 표시합니다
 	            var marker = new kakao.maps.Marker({
@@ -918,8 +914,6 @@
 		
 	 	// 주소-좌표 변환 객체를 생성합니다
 	    var geocoder = new kakao.maps.services.Geocoder();
-	 	
-	 	console.log(address);
 
 	    // 주소로 좌표를 검색합니다
 	    geocoder.addressSearch(address, function(result, status) {
@@ -928,7 +922,6 @@
 	         if (status === kakao.maps.services.Status.OK) {
 
 	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	            console.log(result[0].y, result[0].x);
 
 	            // 결과값으로 받은 위치를 마커로 표시합니다
 	            var marker = new kakao.maps.Marker({
@@ -939,7 +932,7 @@
 
 	            var iwContent = "<input type=\"hidden\" id=\"restaurantNum1\" value="+ restaurantNo +" />" 
 	        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  restaurantNm +"</div>";
-		     	iwContent += "<div class=\"phone\" id=\"phone11\">" + phone +"</div>";
+		     	iwContent += "<div class=\"phone\" id=\"phone\">" + phone +"</div>";
 		    	iwContent += "<div class=\"address\">" + address +"</div>"; 
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"restaurant\">";
@@ -1090,7 +1083,6 @@
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
-	 console.log(positions);
 
 		// 마커 이미지의 이미지 주소입니다
 		var imageSrc = "resources/icons/park_marker4.png"; 
@@ -1124,8 +1116,14 @@
 		    	iwContent += "<span class=\"pay\">유료</span>";
 		    	iwContent += "<span class=\"detail\">상세보기</span>"; 
 		    	iwContent += "<div class=\"buttonBox\">";
-		    	iwContent += "<div class=\"bookmarkBox\">";
-		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"parking\">";
+		    	$(".parking_bookmark_wrap .result_area").each(function() {
+	               if($(this).html().match(positions[i].carparknum)){
+	                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+	               } else {
+	                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+	               }
+	            });
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
@@ -1228,7 +1226,6 @@ function cultureList(list){
 		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"culture\">";
 		    	$(".cultrue_bookmark_wrap .result_area").each(function() {
 	               if($(this).html().match(positions[i].title)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
-	                  console.log($(this).html());
 	                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
 	               } else {
 	                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
@@ -1336,7 +1333,6 @@ function gasStationList(list){
 			    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"gasStation\">";
 			    	$(".gasstation_bookmark_wrap .result_area").each(function() {
 			               if($(this).html().match(data.GAS_STATION_NUM)){
-			                  console.log($(this).html());
 			                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
 			               } else {
 			                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
@@ -1443,14 +1439,12 @@ function cinemaList(list){
 			    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"cinema\">";
 			    	$(".cinema_bookmark_wrap .result_area").each(function() {
 		               if($(this).html().match(data.CINEMA_MAG_NUM)){ //cultureNum로 하면, cultureNum가 단순한 번호라서 html주소나 번호에 걸리는 경우 있음 
-		                  console.log($(this).html());
 		                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
 		               } else {
 		                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
 		               }
 		            });
 			    	iwContent += "</div>";
-			    	iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
@@ -1545,13 +1539,12 @@ function restaurantList(list){
 		     	
 		        var iwContent = "<input type=\"hidden\" id=\"restaurantNum1\" value="+ data.RESTAURANT_NO +" />" 
 		        	iwContent += "<div class=\"bg\"><div class=\"title\">" +  data.ENT_NM +"</div>";
-			     	iwContent += "<div class=\"phone\" id=\"phone11\">" + data.PHONE +"</div>";
+			     	iwContent += "<div class=\"phone\" id=\"phone\">" + data.PHONE +"</div>";
 			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
 			    	iwContent += "<div class=\"buttonBox\">";
 			    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"restaurant\">";
 			    	$(".restaurant_bookmark_wrap .result_area").each(function() {
 			               if($(this).html().match(data.RESTAURANT_NO)){
-			                  console.log($(this).html());
 			                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
 			               } else {
 			                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
@@ -1602,6 +1595,51 @@ function restaurantList(list){
 	});
 }
 
+
+//주차창 즐겨찾기
+function parkingBookmarkReloadList() {
+	var params = $("#headerForm").serialize();
+	
+	$.ajax({
+		url : "parkingBookmarkList",
+		type : "POST", 
+		dataType: "json", 
+		data: params, 
+		success : function(res) { 
+			parkingBookmarkDrawList(res.list);
+		},
+		error : function(request, status, error) { 
+			console.log(request.responseText); 
+		}
+	}); 
+	
+}
+
+ function parkingBookmarkDrawList(list) {
+		var html = "";
+		
+		if(list.length == 0){
+			html += "<div class=\"text\">즐겨찾기 된 장소가 없습니다.</div> ";
+		} 
+		
+		for(var data of list){			
+			
+			html += "<div class=\"box\" id=\"parkingBox\">";
+            html += "<div class=\"close_i\" id=\"close_i\" parkingNo=\"" + data.CAR_PARK_MAG_NUM  + "\" cateNm=\"parking\" ></div>";
+            html += "<div class=\"content\">";
+            html += "<div class=\"main\">";
+            html += "<div class=\"parking_name\">" + data.CAR_PARK_NM+"</div>";
+            html += "<div class=\"address\">" + data.STARTTIME + "~" + data.ENDTIME + " " +data.PAYORFREE_DIV +"</div>"; 
+            html += "<div class=\"address\">" + data.ADDRESS + "</div>";       
+            html += "</div>";
+            html += "</div>";
+           	html += "</div>";
+           	html += "</div>";
+		}
+			$(".parking_bookmark_wrap .result_area").html(html);
+	}
+ 
+ 
 // 문화생활 즐겨찾기
 function cultureBookmarkReloadList() {
 	var params = $("#headerForm").serialize();
@@ -1666,9 +1704,7 @@ function cultureBookmarkReloadList() {
  	
  }
 
-  function cinemaBookmarkDrawList(list) {
-	  console.log(list);
-	  
+  function cinemaBookmarkDrawList(list) {	  
  		var html = "";	
  		
  		if(list.length == 0){
@@ -1793,6 +1829,7 @@ function cultureBookmarkReloadList() {
 	<input type="hidden" id="sendGasStationNum" name="gasStationNum"  /> <!-- 주유소변호 -->
 	<input type="hidden" id="sendCinemaNum" name="cinemaNum"  /> 		 <!-- 영화관번호 -->
 	<input type="hidden" id="sendCultureNum" name="cultureNum"  />       <!-- 문화생화번호 -->
+	<input type="hidden" id="sendParkingNum" name="parkingNum"  />       <!-- 주차장번호 -->
 	<input type="hidden" id="sendMemNum" name="memNum" />                <!-- 회원번호 -->
 </form>
 <c:import url="/header"></c:import>

@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bookmark">
 
+	<select id="getParkingBookmarkList" parameterType="hashmap" resultType="hashmap">        
+		SELECT A.CAR_PARK_MAG_NUM, CAR_PARK_NM, ADDRESS, TO_CHAR(A.WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, 
+		TO_CHAR(A.WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME, 
+    	CASE A.PAYORFREE_DIV WHEN '1' THEN '유료'ELSE '무료' END AS PAYORFREE_DIV, LOCX, LOCY, REG_DT FROM CAR_PARK A 
+    	INNER JOIN CAR_PARK_BOOKMARK B
+    	ON A.CAR_PARK_MAG_NUM = B.CAR_PARK_MAG_NUM WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
+	</select>
+	
+	<insert id="insertParking" parameterType="hashmap">
+	 	 INSERT INTO CAR_PARK_BOOKMARK(MEM_NUM ,CAR_PARK_MAG_NUM) VALUES (#{memNum} , #{parkingNum})
+	</insert>
+	
+	<delete id="deleteParking" parameterType="hashmap">
+		DELETE FROM CAR_PARK_BOOKMARK
+		WHERE CAR_PARK_MAG_NUM = #{parkingNum} AND MEM_NUM = #{memNum}
+	</delete>
+	
+
 	<select id="getCultrueBookmarkList" parameterType="hashmap" resultType="hashmap">        
 		SELECT A.CUL_LIFE_NUM, CUL_LIFE, ADDRESS, PHONE, LOCX, LOCY, REG_DT FROM CULTURAL_LIFE A 
     	INNER JOIN CULTURAL_LIFE_BOOKMARK B 
@@ -19,7 +37,7 @@
 	
 	
 	<select id="getCinemaBookmarkList" parameterType="hashmap" resultType="hashmap">        
-		SELECT A.CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, NVL(PHONE, ' '), REG_DT FROM CINEMA A 
+		SELECT A.CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, NVL(PHONE, '') AS PHONE, REG_DT FROM CINEMA A 
     	INNER JOIN CINEMA_BOOKMARK B 
 		ON A.CINEMA_MAG_NUM = B.CINEMA_MAG_NUM WHERE B.MEM_NUM= #{mem_num} ORDER BY REG_DT DESC
 	</select>

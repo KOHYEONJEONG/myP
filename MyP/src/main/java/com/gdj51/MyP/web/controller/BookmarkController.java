@@ -31,7 +31,6 @@ public class BookmarkController {
 
 		int cnt = 0;
 		System.out.println("params" + params);
-		
 
 		try {
 			switch (gbn) {
@@ -59,9 +58,14 @@ public class BookmarkController {
 			case "deleterestaurant":
 				cnt = dao.delete("bookmark.deletetRestaurant", params);
 				break;
-				
+			case "insertparking":
+				cnt = dao.insert("bookmark.insertParking", params);
+				break;
+			case "deleteparking":
+				cnt = dao.delete("bookmark.deleteParking", params);
+				break;
+
 			}
-			
 
 			if (cnt > 0) {
 				model.put("msg", "success");
@@ -72,6 +76,22 @@ public class BookmarkController {
 			e.printStackTrace();
 			model.put("msg", "error");
 		}
+
+		return mapper.writeValueAsString(model);
+	}
+
+	// 주차장 즐겨찾기 리스트
+	@RequestMapping(value = "/parkingBookmarkList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String parkingBookmarkListListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		System.out.println("bookmarkparams" + params);
+
+		List<HashMap<String, String>> list = dao.getList("bookmark.getParkingBookmarkList", params);
+
+		model.put("list", list);
 
 		return mapper.writeValueAsString(model);
 	}
@@ -107,7 +127,7 @@ public class BookmarkController {
 
 		return mapper.writeValueAsString(model);
 	}
-	
+
 	// 주유소 즐겨찾기 리스트
 	@RequestMapping(value = "/gasstationBookmarkList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
@@ -123,7 +143,7 @@ public class BookmarkController {
 
 		return mapper.writeValueAsString(model);
 	}
-	
+
 	// 음식점 즐겨찾기 리스트
 	@RequestMapping(value = "/restaurantBookmarkList", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
