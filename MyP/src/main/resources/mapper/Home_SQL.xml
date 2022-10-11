@@ -9,7 +9,7 @@
 	        END AS PAYORFREE_DIV,
 	        A.LOCX, A.LOCY, NVL(B.REVIEW_NUM,0)AS REVIEW, A.FEE_RATE, A.ADD_FEE, A.ADD_TIME_RATE,A.TIME_RATE, NVL(B.AVG_R,0)AS AVG, NVL(B.CNT,0)AS CNT,
 	        DECODE(TIME_RATE,0,0,ROUND(FEE_RATE/(TIME_RATE/5),1)) AS RE_FEE_RATE, DECODE(ADD_TIME_RATE,0,0,ROUND(ADD_FEE/(ADD_TIME_RATE/5),1))AS RE_ADD_FEE
-	FROM CAR_PARK A LEFT OUTER JOIN (SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4 AS AVG_R , NVL(C.CNT,0) AS CNT
+	FROM CAR_PARK A LEFT OUTER JOIN (SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, ROUND(SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4) AS AVG_R , NVL(C.CNT,0) AS CNT
 	                                FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
 	                                                                FROM REVIEW
 	                                                                GROUP BY CAR_PARK_MAG_NUM)C
@@ -87,7 +87,7 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	
 	
 	<select id="ReviewwList" resultType="hashmap" parameterType="hashmap">
-	   SELECT C.CAR_PARK_NM,B.AVG,B.NM,B.TITLE,B.CON,B.DT
+	   SELECT C.CAR_PARK_NM,ROUND(B.AVG)AS AVG,B.NM,B.TITLE,B.CON,B.DT, B.REVIEW_NUM,B.CAR_PARK_MAG_NUM
 	   FROM
 		(
 		SELECT M.NM,A.TITLE,A.AVG,A.REVIEW_NUM,A.CAR_PARK_MAG_NUM,A.CON,CASE WHEN TO_CHAR(A.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
@@ -101,6 +101,25 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 		ON A.MEM_NUM = M.MEM_NUM)B INNER JOIN CAR_PARK C
 		ON B.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
 		WHERE C.CAR_PARK_MAG_NUM = #{carparknum}
+		<choose>
+		<when test = "select eq 0">
+			ORDER BY DT DESC
+		</when>
+			<when test = "select eq 1">
+				ORDER BY AVG DESC
+			</when>
+	</choose>
 	</select>
+	
+	<insert id="insert" parameterType="hashmap">
+		INSERT INTO REPORT(REPORT_NUM,REPORT_TITLE,MEM_NUM,CATE_NUM,REVIEW_NUM)
+		VALUES(REP_SEQ.NEXTVAL,#{title},#{memno},#{selete},#{send})
+	</insert>
+	
+	<insert id="insertreview" parameterType="hashmap">
+		INSERT INTO REVIEW(REVIEW_NUM,MEM_NUM,CAR_PARK_MAG_NUM,TITLE,CON,CCTV_STAR_SCORE,ENV_STAR_SCORE,FEE_STAR_SCORE,DIS_STAR_SCORE)
+		VALUES(REV_SEQ.NEXTVAL,#{memno},#{send_car_num},#{title},#{con},#{cctv_star},#{env_star},#{fee_star},#{dis_star})
+	</insert>
+	
 	
 </mapper>
