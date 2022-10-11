@@ -91,7 +91,7 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	
 	
 	<select id="ReviewwList" resultType="hashmap" parameterType="hashmap">
-	   SELECT C.CAR_PARK_NM,B.AVG,B.NM,B.TITLE,B.CON,B.DT
+	   SELECT C.CAR_PARK_NM,ROUND(B.AVG)AS AVG,B.NM,B.TITLE,B.CON,B.DT, B.REVIEW_NUM,B.CAR_PARK_MAG_NUM
 	   FROM
 		(
 		SELECT M.NM,A.TITLE,A.AVG,A.REVIEW_NUM,A.CAR_PARK_MAG_NUM,A.CON,CASE WHEN TO_CHAR(A.REG_DT,'YY.MM.DD') = TO_CHAR(SYSDATE, 'YY.MM.DD')
@@ -105,6 +105,25 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 		ON A.MEM_NUM = M.MEM_NUM)B INNER JOIN CAR_PARK C
 		ON B.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
 		WHERE C.CAR_PARK_MAG_NUM = #{carparknum}
+		<choose>
+		<when test = "select eq 0">
+			ORDER BY DT DESC
+		</when>
+			<when test = "select eq 1">
+				ORDER BY AVG DESC
+			</when>
+	</choose>
 	</select>
+	
+	<insert id="insert" parameterType="hashmap">
+		INSERT INTO REPORT(REPORT_NUM,REPORT_TITLE,MEM_NUM,CATE_NUM,REVIEW_NUM)
+		VALUES(REP_SEQ.NEXTVAL,#{title},#{memno},#{selete},#{send})
+	</insert>
+	
+	<insert id="insertreview" parameterType="hashmap">
+		INSERT INTO REVIEW(REVIEW_NUM,MEM_NUM,CAR_PARK_MAG_NUM,TITLE,CON,CCTV_STAR_SCORE,ENV_STAR_SCORE,FEE_STAR_SCORE,DIS_STAR_SCORE)
+		VALUES(REV_SEQ.NEXTVAL,#{memno},#{send_car_num},#{title},#{con},#{cctv_star},#{env_star},#{fee_star},#{dis_star})
+	</insert>
+	
 	
 </mapper>

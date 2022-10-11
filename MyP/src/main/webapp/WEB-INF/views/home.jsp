@@ -23,8 +23,6 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
    <script src="resources/js/main.js"></script>
    <script src="resources/js/header.js"></script>
-  <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
-  <link rel="stylesheet" href="resources/rety/jquery.raty.css">
 <style>
   .result_area2 {
   width: 100%;
@@ -239,23 +237,18 @@
             text-decoration: none;
         }
 </style>
-  <script src="resources/jquery/jquery-1.12.4.js"></script>
-  <script type="text/javascript">
+<script type="text/javascript" src="resources/script/common/popup.js"></script>      
+<script type="text/javascript">
  
   var logx = [];
   var logy = [];
   var title = [];
+  
   $(document).ready(function() {
-	  
-	  $("body").on("click", ".warning_i", function () {
-	        document.getElementById("warning_popup").style.display = "block";
-	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
-	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
-	    })
-	    
-	    
-	  var area0 = ["구","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
-	  var area1 = ["동","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
+	
+	
+	   var area0 = ["구","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
+	   var area1 = ["동","개포동","논현동","도곡동","대치동","삼성동","수서동","신사동","세곡동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
 	   var area2 = ["동","강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
 	   var area3 = ["동","미아동","번동","수유동","우이동"];
 	   var area4 = ["동","가양동","개화동","공항동","과해동","내발산동","등촌동","마곡동","방화동","염창동","오곡동","오쇠동","외발산동","화곡동"];
@@ -281,15 +274,50 @@
 	   var area24 = ["동","다산동","동화동","소공동","신당동","을지로","장충동","중림동","필동","황학동","회현동"];
 	   var area25 = ["동","망우동","면목동","묵동","상봉동","신내동","중화동"];
 	   
+	  //팝업 창 안에 있는 신고 버튼
+	  $("#warningBtn").on("click", function() {
+		  var params = $("#actionForm2").serialize();
+	         $.ajax({
+	        	 url : "HomeAction/insert",
+	            type : "POST",
+	            dataType : "json", 
+	            data : params, 
+	            success : function(res) { 
+					switch(res.msg){
+					 case "success":
+						 
+						  makeAlert("알림","신고에 성공하였습니다.");
+						  break;
+					  case "fail":
+						  makeAlert("알림","신고에 실패하였습니다.");
+						  break;
+					  case "error":
+						  makeAlert("알림","신고등록 중 문제가 발생하였습니다.");
+						  break;
+					}
+	            },
+	            error : function(request, status, error) {
+	               console.log(request.responseText); 
+	            }
+	            
+	         }); 
+	  });
+	  
+	  $("body").on("click", ".warning_i", function () {
+	        document.getElementById("warning_popup").style.display = "block";
+	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
+	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
+	  });
+	    
 		// 시/도 선택 박스 초기화
 	   
 	   $("select[name^=sido]").each(function() {
 		   $selsido = $(this);
 		   $.each(eval(area0), function() {
-		    $selsido.append("<option value='"+this+"'>"+this+"</option>");
+			    $selsido.append("<option value='"+this+"'>"+this+"</option>");
 		   });
-		   $selsido.next().append("<option value=''>동</option>");
-		  });
+			   $selsido.next().append("<option value=''>동</option>");
+	   });
 
 		  
 		  // 시/도 선택시 구/군 설정
@@ -307,30 +335,32 @@
 		  });
 		  
 		  
-		 $("body").on("click", ".phone2",function(){
-			 var carparknum = $("#carparknum").val();
-			 
-			var data = {carparknum : carparknum};
-			
+		 $("body").on("click", ".phone2", function(){
+
+		  $("#car_park_nm").html($(this).attr("nm"));
+		  $("#carparknum").val($(this).attr("no"));
+		  $(".review_wrap #carparknum").val($(this).attr("no"));
+		  
+    	   var data = {carparknum : $(this).attr("no"),
+    					select : $("#selectx").val()	   
+    	   
+    	   };
 			$.ajax({
 				 type : "POST",
-				   url : "ReviewAjax",
+				   url : "ReviewAjax", 
 				   dataType : "json",
 				   data : data,
 				   success : function(res){
-					    
-					        $('.review_wrap').addClass('on');
-					        $('.review_wrap').siblings().removeClass('on');  
-					    
-					   reaviewList(res.reviewlist);
-					   console.log(res.reviewlist);
+				       $('.review_wrap').addClass('on');
+				       $('.review_wrap').siblings().removeClass('on');  
+					   reviewList(res.reviewlist);
 					
 				   },
 				  error : function(request, status, error){
 						console.log(request.responseText); 
 				  }
 			})
-			 
+			  
 		 });
 		  
 
@@ -354,26 +384,19 @@
 				}
 			})
 			
-			
 		});
 		
-		
-		
-		
  });
- function reaviewList(reaviewList){
+ function reviewList(reviewList){
+	 
 	 var html = "";
-	 html += "<div class=\"standard\">"+reaviewList[0].CAR_PARK_NM +"</div>";
-	 for(var data of reaviewList){
+	 /* html += "<div class=\"standard\">"+reviewList[0].CAR_PARK_NM +"</div>"; */
+	 for(var data of reviewList){
      html += "<div class=\"box pr40\">                        ";
      html += "<div class=\"nickname\">"+data.NM +"</div>";
      html += "<div class=\"line\">                            ";
      html += "<div class=\"stars\">                           ";
-     html += "<div class=\"star_i\"></div>                    ";
-     html += "<div class=\"star_i\"></div>                    ";
-     html += "<div class=\"star_i\"></div>                    ";
-     html += "<div class=\"star_i\"></div>                    ";
-     html += "<div class=\"star_i\"></div>                    ";
+     html += "<div class=\"Star\" data-score=\"" +data.AVG +"\"></div>";
      html += "</div>                                          ";
      html += "<div class=\"date\">"+data.DT+"</div>            ";
      html += "</div>                                          ";
@@ -386,11 +409,18 @@
      html += "<span>"+data.CON +"</span>";
      html += "</div>                                          ";
      html += "<div class=\"box_inner_i\">                     ";
-     html += "<div class=\"warning_i\"></div>                 ";
+     html += "<div onclick=\"warningPopup("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>                 ";
      html += "</div>                                          ";
      html += "</div>                                          ";
  	}
+	 
+	
  	$('.review_wrap .result_area').html(html);
+ 	 $("body .Star").raty({ 
+			readOnly: true, 
+			path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+		});
+	
  } 
 
 /*  <div class="review_wrap">
@@ -427,7 +457,11 @@
        <div class="warning_i"></div>
      </div>
    </div> */
-  
+ 
+  function warningPopup(review_num) {
+   	 $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
+  }
+   
  function searchList(list){
 	 console.log("aaaa");
 	 var html = "";
@@ -492,12 +526,12 @@
 		    });
 		    
 		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
-		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />"; 
+		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />";
 		    	if(positions[i].starscore == 0){
-		    		iwContent += "<div class=\"phone2\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
+		    		iwContent += "<div class=\"phone2\"  no=\""+positions[i].carparknum+"\"  nm=\""+positions[i].title+"\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
 		    	}else {
 		    	
-		    	 iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
+		    	 iwContent += "<div class=\"phone2\" no=\""+positions[i].carparknum+"\" nm=\""+positions[i].title+"\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
 		    	}
 		    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
 		    	iwContent += "<span class=\"pay\">유료</span>";
@@ -593,64 +627,6 @@
             </div>
           </div>
           </form> 
-          <!-- <div class="result_area">
-            <div class="result_box">검색결과: 4건</div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-          </div>
-          <div class="btn_wrap">
-            <input type="button" class="bottom_btn" value="요금 비교" />
-          </div> -->
           <!-- 날씨 -->
           <div class="result_area2">
             <div class="side_bar">
@@ -984,137 +960,22 @@
         <div class="review_wrap">
           <div class="title">리뷰</div>
           <div class="select_box">
-          <select>
-              <option value="">높은별점순</option>
-              <option value="">최신순</option>
+          <select id="selectx" name="selectx">
+              <option value="1">높은별점순</option>
+              <option value="2">최신순</option>
             </select>
           </div>
+          
+          
+          <div class="standard" id="car_park_nm" style="text-align: center; font-size: 16px; padding: 20px 0px 5px 0px;"></div>
+          <input type="hidden" id="carparknum" value=\" />
           <div class="result_area">
-            <div class="standard">가산동 공영 주차장</div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요, 또 방문할것 같습니다!</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            
+          <!-- 리뷰 비동기화처리 -->
           </div>
+          
+          
           <div class="btn_wrap">
-            <input type="button" class="bottom_btn review_btn" value="글쓰기" />
+            <input type="button" class="bottom_btn review_btn" id="writeReview" value="리뷰 작성" />
           </div>
         </div>
         <div class="accident_wrap">
@@ -1203,87 +1064,28 @@
 <!-- 가이드(챗봇 아님)-->
 <c:import url="/guideMain"/>
 
-   <!-- 리뷰 팝업 -->
 <!-- 리뷰 팝업 -->
-<div id="review_popup">
-  <div class="close_i">
-      <img src="resources/icons/close.png" alt="">
-  </div>
-  <div class="popup_top">
-      <div class="txt_title">제목</div>
-      <input type="text" class="title" maxlength="30">
-  </div>
+<c:import url="/reviewPopup2"/>
 
-  <div class="popup_middle">
-      <div class="txt_title">별점을 선택해주세요.</div>
-      <div class="star_wrap">
-        <div class="group1"><시스템 별점></div>
-      
-        <div class="star1">
-          <div class="cctv_wrap">
-              <div class="wrap_title">CCTV</div>
-              <div class="starstar"></div>
-          </div>
-          <div class="env_wrap">
-              <div class="wrap_title">환경</div>
-              <div class="starstar"></div>
-          </div>
-        </div>
-
-        <div class="group2"><요금 별점></div>
-        <div class="star2">
-            <div class="amo_wrap">
-                <div class="wrap_title">요금</div>
-                <div class="starstar"></div>
-            </div>
-            <div class="ticket_wrap">
-                <div class="wrap_title">정기권</div>
-                <div class="starstar"></div>
-            </div>
-            <div class="sale_wrap">
-                <div class="wrap_title">할인정보</div>
-                <div class="starstar"></div>
-            </div>
-        </div>
-        <script type="text/javascript">
-          $(function() {
-              $('.starstar').raty({
-  //                score: 3,
-                  path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images",
-                  half : true,
-                  hints :  [['bad 1/2', 'bad'], ['poor 1/2', 'poor'], ['regular 1/2', 'regular'], ['good 1/2', 'good'], ['gorgeous 1/2', 'gorgeous']]
-                  ,width : 200
-                  ,click: function(score, evt) {//선택한 별점수가
-                  }
-              });
-          });
-      </script>
-      </div><!--star_wrap-->
-  </div>
-    <div class="popup_content">
-        <div class="txt_title">내용을 입력해주세요.</div>
-        <textarea cols="" rows="" class="contents"></textarea>
-    </div>
-    <div class="sendBtn_wrap">
-        <input type="button" value="등록" id="sendBtn">
-    </div>
-</div>
 <!-- 신고하기 팝업 -->
 <div id="warning_popup">
-  <form>
+  <form action="#" id="actionForm2" method="post">
+
+  	<input type="hidden" name="send" id="send" />
       <div class="close_i">
           <img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
       </div>
       <div class="popup_top">
           <div class="title">제목</div>
           <div class="input">
-              <input type="text" class="txt_title" readonly>
+              <input type="text" name="title" class="txt_title" >
+              <input type="hidden" name="memno" value="${sMemNo}"/>
           </div>
       </div>
       <div class="popup_middle">
           <div class="writer">작성자</div>
           <div class="input">
-              <input type="text" class="txt_writer" readonly>
+              <input type="text" name="writer" class="txt_writer" value="${sMemNm}" readonly>
           </div>
       </div>
       <hr/>
@@ -1292,15 +1094,15 @@
           <div class="choice_label"> <사유선택> </div>
           <div>
               <input type="radio" name="selete" value="4" checked>
-              <label>부적절한 홍보 게시글</label>
+              <label style="font-size:12px;">부적절한 홍보 게시글</label>
           </div>
           <div>
               <input type="radio" name="selete" value="5" checked>
-              <label>음란성 및 청소년에게 부적절한 게시글</label>
+              <label style="font-size:12px;">음란성 및 청소년에게 부적절한 게시글</label>
           </div>
           <div>
               <input type="radio" name="selete" value="6" checked>
-              <label>명예훼손/사생활 침해 및 저작권침해 등</label>
+              <label style="font-size:12px;">명예훼손/사생활 침해 및 저작권침해 등</label>
           </div>
       </div>
       <hr/>
