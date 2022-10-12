@@ -142,10 +142,21 @@
 		WHERE MEM_NUM= #{memNo}
 		AND PW = #{pw}
 	</select>
+
+
+	<!-- 회원탈퇴 사유 -->
+	<select id="memWitReason" resultType="hashmap">
+		SELECT C.CATE_NM
+		FROM CATEGORY C LEFT OUTER JOIN CATEGORY_DIV CD
+									 ON C.DIV_NUM = CD.DIV_NUM
+		WHERE C.DIV_NUM= 23<!-- 회원탈퇴 num -->
+	</select>
 	
+	<!-- 회원탈퇴 -->
 	<update id="memWit" parameterType="hashmap">
 		UPDATE MEMBER 
-		SET WIT_DT = sysdate
+		SET WIT_DT = sysdate,
+			REASON = #{reasonHtml}
 		WHERE MEM_NUM = #{memNo}
 	</update>
 	

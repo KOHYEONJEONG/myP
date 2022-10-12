@@ -573,6 +573,7 @@ function feeCom(car_num,starttime,endtime,payorfree_div, fee_rate, add_time_rate
 		if(data.car_num == car_num) { //이미 데이터가 있다면 더 추가 못하게.(중복 피하기)
 			cnt++;
 		}
+		
 	}
  	
  	if(cnt == 0) {

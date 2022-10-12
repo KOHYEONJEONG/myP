@@ -51,7 +51,7 @@ $(document).ready(function() {
 								<select name="searchGbn" id="searchGbn">
 									<option value="0">전체</option>
 									<option value="1">아이디</option>
-									<option value="2">작성자</option>
+									<option value="2">닉네임</option>
 									<option value="3">이메일</option>
 									<option value="4">권한</option>
 								</select>

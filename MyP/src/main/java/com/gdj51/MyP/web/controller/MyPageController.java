@@ -315,6 +315,21 @@ public class MyPageController { // no
 		return mapper.writeValueAsString(model);
 	}
 
+	//회원탈퇴 사유
+	@RequestMapping(value = "/memWitReasonAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String memWitReasonAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+
+		System.out.println("memWitReasonAjax ==>" + params.toString());
+
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		List<HashMap<String, String>> list = dao.getList("member.memWitReason");
+		model.put("list", list);
+		return mapper.writeValueAsString(model);// jsp에서 img만 받으면 됌.
+	}
+	
 	// 회원탈퇴
 	@RequestMapping(value = "/withdraw")
 	public ModelAndView withdraw(ModelAndView mav, @RequestParam HashMap<String, String> params) {

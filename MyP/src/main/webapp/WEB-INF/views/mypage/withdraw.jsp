@@ -22,6 +22,26 @@
     <script type="text/javascript">
     $(document).ready(function () {
     	
+    	$.ajax({
+			url : "memWitReasonAjax",
+			type : "POST", 
+			dataType: "json", 
+			success : function(res) { 
+				var html = "";
+				html += "<option value=\"\" disabled selected>무엇이 불편하셨나요?</option>";
+				var index = 0;
+				for(var data of res.list){
+					html += "<option value=\""+index+"\">"+data.CATE_NM+"</option>";
+					index++;
+				}
+				
+				$("#reason").html(html);
+			},
+			error : function(request, status, error) { 
+				console.log(request.responseText); 
+			}
+		});
+    	
     	// password 유효성 password input 밑에 문구 띄어줌
 	    $("#pwd").keyup(function () {
 	 	  var pwd = $("#pwd").val();
@@ -29,40 +49,52 @@
 	    });
     	
 	    $("#withdrawBtn").on("click", function(){
-	    	var params = $("#withdrawForm").serialize();
-			
-	    	$.ajax({
-				url : "memAction/delete",
-				type : "POST", 
-				dataType: "json", 
-				data: params, 
-				success : function(res) { 
-					switch(res.msg){
-					case "success" : 
-						 makePopup({
-					         title : "알림",
-					         contents : "탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.",
-					         // draggable : true,
-					         buttons : [{
-					            name : "확인",
-					            func:function() {
-					            	location.href = "home";
-					            }
-					         }]
-						})
-						break;
-					case "fail" :
-						makeAlert("알림" , "탈퇴에 실패하였습니다.");
-						break;
-					case "error" :
-						makeAlert("알림" , "탈퇴 중 문제가 발생하였습니다.");
-						break;
+	    	if($("#reason").val() == ""  || $("#reason").val() == null){
+	    		makeAlert("알림" , "탈퇴사유를 선택해주세요.");
+	    		return;
+	    		
+	    	}else{
+	    		//$("#reasonHtml").val($("#reason").html());
+	    		$("#reasonHtml").val($("#reason option:selected").text());
+	    		
+	    		var params = $("#withdrawForm").serialize();
+				
+		    	$.ajax({
+					url : "memAction/delete",
+					type : "POST", 
+					dataType: "json", 
+					data: params, 
+					success : function(res) { 
+						switch(res.msg){
+						case "success" : 
+							 makePopup({
+						         title : "알림",
+						         contents : "탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.",
+						         // draggable : true,
+						         buttons : [{
+						            name : "확인",
+						            func:function() {
+						            	location.href = "home";
+						            }
+						         }]
+							})
+							break;
+						case "fail" :
+							makeAlert("알림" , "탈퇴에 실패하였습니다.");
+							break;
+						case "error" :
+							makeAlert("알림" , "탈퇴 중 문제가 발생하였습니다.");
+							break;
+						}
+					},
+					error : function(request, status, error) { 
+						console.log(request.responseText); 
 					}
-				},
-				error : function(request, status, error) { 
-					console.log(request.responseText); 
-				}
-			});
+				});
+	    	}
+	    	
+	    	
+	    	
 		});
 	    
 	  //사이드바 개인정보 수정하기로 이동
@@ -121,6 +153,7 @@
                 <c:import url="/mypageSidebar"></c:import> 
              <form action="#" id="withdrawForm" method="post">
 				<input type="hidden" name="memNo" id="memNo" value="${sMemNo}"/>
+				<input type="hidden" name="reasonHtml" id="reasonHtml"/>
              <div class="right_area">
                 <div class="content_wrap">
                     <div class="title">회원 탈퇴</div>
@@ -129,11 +162,11 @@
                         <div class="row1">
                             <div class="box_title">탈퇴사유</div>
                             <div class="select">
-                                <select name="reason">
-                                    <option value="" disabled selected>무엇이 불편하셨나요?</option>
+                                <select id="reason">
+                                    <!-- <option value="" disabled selected>무엇이 불편하셨나요?</option>
                                     <option value="이용 불편">이용 불편</option>
                                     <option value="사용빈도 낮음">사용빈도 낮음</option>
-                                    <option value="기타">기타</option>
+                                    <option value="기타">기타</option> -->
                                   </select>
                             </div>
                         </div>
