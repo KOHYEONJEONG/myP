@@ -87,6 +87,7 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	
 	
 	<select id="ReviewwList" resultType="hashmap" parameterType="hashmap">
+	
 	   SELECT C.CAR_PARK_NM,ROUND(B.AVG)AS AVG,B.NM,B.TITLE,B.CON,B.DT, B.REVIEW_NUM,B.CAR_PARK_MAG_NUM
 	   FROM
 		(
@@ -101,6 +102,7 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 		ON A.MEM_NUM = M.MEM_NUM)B INNER JOIN CAR_PARK C
 		ON B.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
 		WHERE C.CAR_PARK_MAG_NUM = #{carparknum}
+		
 		<choose>
 		<when test = "select eq 0">
 			ORDER BY DT DESC
@@ -120,6 +122,13 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 		INSERT INTO REVIEW(REVIEW_NUM,MEM_NUM,CAR_PARK_MAG_NUM,TITLE,CON,CCTV_STAR_SCORE,ENV_STAR_SCORE,FEE_STAR_SCORE,DIS_STAR_SCORE)
 		VALUES(REV_SEQ.NEXTVAL,#{memno},#{send_car_num},#{title},#{con},#{cctv_star},#{env_star},#{fee_star},#{dis_star})
 	</insert>
+	
+	
+	<select id="CateList" resultType="hashmap" parameterType="hashmap">
+		 SELECT CATE_NUM , CATE_NM
+        FROM CATEGORY
+        WHERE DIV_NUM = 2
+	</select>
 	
 	
 </mapper>

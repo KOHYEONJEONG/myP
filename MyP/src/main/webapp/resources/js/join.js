@@ -590,18 +590,21 @@ $(document).ready(function () {
 	        	return false; 
 	        }else if ($("#pwd").val().length < 6) { 
 	            $('#pw_ck_status').removeClass(); 
-	            $('#pw_ck_status').addClass('weak-password'); 
+	            $('#pw_ck_status').addClass('weak-password');
+	            $('#pw_ck_status').css("color","red");  
 	            $('#pw_ck_status').html("6자리 이상으로 작성하세요."); 
 	            return false;                  
 	        } else { 
 	            if ($("#pwd").val().match(number) && $("#pwd").val().match(alphabets) && $("#pwd").val().match(special_characters)) { 
 	                $('#pw_ck_status').removeClass(); 
-	                $('#pw_ck_status').addClass('strong-password'); 
+	                $('#pw_ck_status').addClass('strong-password');
+	                $('#pw_ck_status').css("color","green"); 
 	                $('#pw_ck_status').html("아주 좋은 비밀번호입니다!"); 
 	                return true; 
 	            } else { 
 	                $('#pw_ck_status').removeClass(); 
-	                $('#pw_ck_status').addClass('medium-password'); 
+	                $('#pw_ck_status').addClass('medium-password');
+	                $('#pw_ck_status').css("color","blue");   
 	                $('#pw_ck_status').html("보안 취약(특수문자,영문 대소문자와 숫자 혼합해주세요.)"); 
 	                return false; 
 	            } 

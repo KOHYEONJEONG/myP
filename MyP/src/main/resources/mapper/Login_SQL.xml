@@ -10,6 +10,10 @@
 		AND WIT_DT IS NULL
 	</select>
 	
+	<select id="checkWarningMem" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE WARNING >= 3 AND ID= #{id} AND PW = #{pw}
+	</select>
+	
 	<select id="kakaocheckMem" parameterType="hashmap" resultType="hashmap">
 		SELECT MEM_NUM, NM, AUTORITY_NUM
 		FROM MEMBER

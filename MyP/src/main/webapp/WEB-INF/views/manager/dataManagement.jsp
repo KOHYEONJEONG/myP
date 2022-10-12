@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyP</title>
-    <link rel="stylesheet" href="resources/css/main.css">
-    <link rel="stylesheet" href="resources/css/font.css">
-    <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyP</title>
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/font.css">
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -43,19 +43,20 @@ $(document).ready(function() {
 		$("#searchTxt").val("");
 		$("#oldGbn").val("0");
 		$("#oldTxt").val("");
+		
 		switch($(this).val()) {
-		case "1" :
-			reloadList1(); //주차장
-			break;
-		case "2" :
-			reloadList2(); //맛집
-			break;
-		case "3" :
-			reloadList3(); //문화생활(영화관)
-			break;
-		case "4" :
-			reloadList4(); //주유소
-			break;
+			case "1" :
+				reloadList1(); //주차장
+				break;
+			case "2" :
+				reloadList2(); //맛집
+				break;
+			case "3" :
+				reloadList3(); //문화생활(영화관)
+				break;
+			case "4" :
+				reloadList4(); //주유소
+				break;
 		}
 	});
 	
