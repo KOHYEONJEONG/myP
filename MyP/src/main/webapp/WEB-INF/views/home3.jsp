@@ -434,7 +434,7 @@
 			         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
 			         html +="   <span style=\"color:red;\">₩"+data.re_fee_rate*time+"</span>";
 			         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
-			         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
+			         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">상세보기</span>";
 			         html +="</div>";
 			         html +="<div class=\"box_inner_i\">";
 			         html +="<div class=\"bookmark_i\"></div>";
@@ -1710,7 +1710,7 @@ function cultureBookmarkReloadList() {
 	     	<col width="150">
 	     </colgroup>
 	   
-	   	<caption>금액표</caption>
+	   	<caption>상세보기</caption>
 	   	
 	   	<tbody>
 	   	</tbody>

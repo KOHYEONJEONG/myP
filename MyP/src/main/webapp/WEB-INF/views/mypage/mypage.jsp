@@ -69,7 +69,7 @@ $(document).ready(function() {
 	$(".my_pic").on("click", "#close_i", function(){ 
 		defalutImg = true;//기본이미지라는 체크
 		var html = "";
-		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">"; //기본 이미지로 변경
+		html += "<img class=\"img\" src=\"resources/icons/person3.png\" alt=\"이미지\">"; //기본 이미지로 변경
 		$(".my_pic #imgRelod").html(html);
 		
 		//기존에 있던 db명을 삭제해야한다.
@@ -165,7 +165,7 @@ function img(data){
 	var html = "";
 	
 	if(img != null && !img.length == 0){
-		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>"; //x버튼
+		html += "<img class=\"memImg img\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>"; //x버튼
 		html += "<img class=\"close_i\" id=\"close_i\" src=\"${pageContext.request.contextPath}/resources/icons/close.png\">";    //등록한 이미지
 	}else{
 		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
@@ -180,7 +180,7 @@ function readURL(input) {
 		var reader = new FileReader();
 		var html = "";
 		reader.onload = function(e) {
-			html += "<img src="+e.target.result+">";
+			html += "<img class=\"img\" src="+e.target.result+">";
 			html += "<img class=\"close_i\" id=\"close_i\" src=\"${pageContext.request.contextPath}/resources/icons/close.png\">";//x버튼
 			$('.my_pic #imgRelod').html(html);
 		}
@@ -266,15 +266,15 @@ function readURL(input) {
 						<!--bottom2-->
 						<div class="bottom2">
 							<div class="my_btn1 myReview" id="myReview">
-								<img class="myReviewImg" src="resources/icons/reviewmypage.png">
+								<img class="myReviewImg img" src="resources/icons/reviewmypage.png">
 								<div class="txt">주차장리뷰</div>
 							</div>
 							<div class="my_btn1 myQna" id="myQnA">
-								<img class="qnaImg" src="resources/icons/qna.png">
+								<img class="qnaImg img" src="resources/icons/qna.png">
 								<div class="txt">게시글</div>
 							</div>
 							<div class="my_btn1 myResignMembership" id="memWitBtn">
-								<img class="resignMembershipImg"
+								<img class="resignMembershipImg img"
 									src="resources/icons/logout.png">
 								<div class="txt">회원탈퇴</div>
 							</div>
