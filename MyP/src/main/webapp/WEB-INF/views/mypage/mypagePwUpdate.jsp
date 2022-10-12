@@ -51,7 +51,7 @@
 	                            </div>
 	                        </div>
 	                        <span id="pw_ck_status" style="font-size: 14px"></span>
-	                        <div class="row1" style="border-top: 0px">
+	                        <div class="row1" style="border-top: 0px;margin-top: 7px;">
 	                            <div class="box_title">비밀번호 확인</div>
 	                            <div class="input">
 	                               <input type="password" name="pwd" id="rePw"><br>
