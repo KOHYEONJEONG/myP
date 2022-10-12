@@ -190,7 +190,7 @@ $(document).ready(function () {
 				<table class="table1">
 					<thead>
 						<tr>
-							<th colspan="5">고척돔 주차장후기</th>
+							<th colspan="5">${data.TITLE}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -214,7 +214,7 @@ $(document).ready(function () {
 						</tr>
 						<tr>
 							<td>내용</td>
-							<td colspan="3" class="contents">주차장이 너무 협소합니다.</td>
+							<td colspan="3" class="contents">${data.CON}</td>
 						</tr>
 					</tbody>
 				</table>

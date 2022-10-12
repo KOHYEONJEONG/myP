@@ -276,6 +276,10 @@
 	   var area24 = ["동","다산동","동화동","소공동","신당동","을지로","장충동","중림동","필동","황학동","회현동"];
 	   var area25 = ["동","망우동","면목동","묵동","상봉동","신내동","중화동"];
 	   
+	   
+	   
+	  
+	   
 	  //팝업 창 안에 있는 신고 버튼
 	  $("#warningBtn").on("click", function() {
 		  var params = $("#actionForm2").serialize();
@@ -310,7 +314,7 @@
 	  $("#selectx").change(function(){
 		  
 		  reviewReload();
-		  
+		  console.log("11111111111");
 	  })
 	  
 	  
@@ -318,6 +322,19 @@
 	        document.getElementById("warning_popup").style.display = "block";
 	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
 	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
+	        
+	        $.ajax({
+				url : "ReportAjax",
+				type : "POST",
+				dataType: "json",
+				success : function(res){
+					reportList(res.reportlist);
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			});
+			
 	  });
 	    
 		// 시/도 선택 박스 초기화
@@ -439,6 +456,20 @@
 	});
 	
  } 
+ 
+ function reportList(reportlist){//신고 사유 DB
+	 
+	 var html= "";
+	 html += "<div class=\"note\">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>";
+     for(var data of reportlist){                                                            
+	     html += "<div>";
+	     html += "<input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>";                        
+	     html += "<label style=\"font-size:12px;\">"+data.CATE_NM +"</label>";
+	     html += "</div>";
+	 }
+    $('#warning_popup .popup_content').html(html);  
+ }
+ 
  
   function warningPopup(review_num) {
    	 $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
@@ -1106,7 +1137,7 @@
       </div>
       <hr/>
       <div class="popup_content">
-          <div class="note">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>
+         <!--  <div class="note">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>
           <div class="choice_label"> <사유선택> </div>
           <div>
               <input type="radio" name="selete" value="4" checked>
@@ -1119,7 +1150,7 @@
           <div>
               <input type="radio" name="selete" value="6" checked>
               <label style="font-size:12px;">명예훼손/사생활 침해 및 저작권침해 등</label>
-          </div>
+          </div> -->
       </div>
       <hr/>
       <div class="warningBtn_wrap" style="text-align: center">

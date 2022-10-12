@@ -359,6 +359,7 @@
 		            		var cateNm =  $(".input1").val();
 			        		$("#cateNm").val(cateNm);
 			            	action("insert");
+			            	reloadList1();
 			            	closePopup();
 		            	}
 		            }
@@ -384,6 +385,7 @@
 		            func:function() {
 		            	$("#cateNum").val(no);
 		            	action("delete");
+		            	reloadList1();
 		            	closePopup(); // 제일 위의 팝업 닫기
 		            }
 		         }, {
