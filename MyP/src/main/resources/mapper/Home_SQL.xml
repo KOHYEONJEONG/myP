@@ -124,4 +124,11 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	</insert>
 	
 	
+	<select id="CateList" resultType="hashmap" parameterType="hashmap">
+		 SELECT CATE_NUM , CATE_NM
+        FROM CATEGORY
+        WHERE DIV_NUM = 2
+	</select>
+	
+	
 </mapper>
