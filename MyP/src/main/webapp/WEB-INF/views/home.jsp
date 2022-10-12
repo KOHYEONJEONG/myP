@@ -471,7 +471,7 @@
          html += "</div>                                                                                  ";
         
 	 }
-         $('.popup_content').html(html);  
+         $('#warning_popup .popup_content').html(html);  
  }
  
  
