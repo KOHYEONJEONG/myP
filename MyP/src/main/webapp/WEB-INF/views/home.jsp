@@ -314,7 +314,7 @@
 	  $("#selectx").change(function(){
 		  
 		  reviewReload();
-		  
+		  console.log("11111111111");
 	  })
 	  
 	  
@@ -327,11 +327,8 @@
 				url : "ReportAjax",
 				type : "POST",
 				dataType: "json",
-				/* data: params, */
 				success : function(res){
-					
-					reportList(res.list);
-					
+					reportList(res.reportlist);
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
@@ -461,16 +458,20 @@
  } 
  
  function reportList(reportlist){
+	 
+	 console.log(reportlist);
 	 var html= ""
-		 html += "<div class=\"note\">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>";
-         html += "<div class=\"choice_label\"> <사유선택> </div>";
+		 
+		 html += "<div class=\"note\">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>    ";
+         html += "<div class=\"choice_label\"> <사유선택> </div>                            ";
          for(var data of reportlist){                                                            
-         html += "<div>";
-         html += "<input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>";
-         html += "<label style=\"font-size:12px;\">"+data.CATE_NM +"</label>";
-         html += "</div>";
+         html += "<div>                                                                ";
+         html += "    <input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>  ";                        
+         html += "    <label style=\"font-size:12px;\">"+data.CATE_NM +"</label>                       ";
+         html += "</div>                                                                                  ";
+        
 	 }
-        $('.popup_content').html(html);  
+         $('.popup_content').html(html);  
  }
  
  

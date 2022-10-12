@@ -108,7 +108,7 @@ $(document).ready(function () {
 				<table class="table1">
 					<thead>
 						<tr>
-							<th colspan="5">고척돔 주차장후기</th>
+							<th colspan="5">${data.TITLE}</th>
 						</tr>
 					</thead>
 					<tbody>
