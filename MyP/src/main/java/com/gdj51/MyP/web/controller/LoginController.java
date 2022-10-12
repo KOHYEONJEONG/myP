@@ -48,6 +48,28 @@ public class LoginController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/checkMemAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String checkMemAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		params.put("pw", Utils.encryptAES128(params.get("pw")));
+
+		// 경고 3회 이상인 회원 체크
+		int result = iACDao.getIntData("login.checkWarningMem", params);
+
+		if (result == 0) {
+			model.put("msg", "success"); // 경고 3회 이상이 아님
+		} else {
+			model.put("msg", "fail");
+		}
+
+		return mapper.writeValueAsString(model);
+
+	}
+
 	@RequestMapping(value = "/loginAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String testALoginAjax(HttpSession session, @RequestParam HashMap<String, String> params) throws Throwable {
@@ -93,9 +115,8 @@ public class LoginController {
 		if (params.get("email") != null && params.get("email") != "") {
 
 			HashMap<String, String> data = iACDao.getMapData("join.getId", params);
-			
+
 			mav.addObject("data", data);
-			
 
 			mav.setViewName("login/idFindResult");
 		} else {
