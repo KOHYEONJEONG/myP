@@ -155,7 +155,7 @@
 	 		<input type="hidden" name="no" id="no" value="${sMemNo}"/><!-- 나의 no-->
 	       
 	       <div class="right_area">
-	           <div class="table_wrap">
+	           <div class="table_wrap" style="top:435px;">
 	               <div class="search_box">
 	                 <div class="select_box">
 	                  <div class="select">
