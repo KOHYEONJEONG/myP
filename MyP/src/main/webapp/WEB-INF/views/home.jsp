@@ -289,12 +289,13 @@
 					 case "success":
 						 
 						  makeAlert("알림","신고에 성공하였습니다.");
+						  
 						  break;
 					  case "fail":
 						  makeAlert("알림","신고에 실패하였습니다.");
 						  break;
 					  case "error":
-						  makeAlert("알림","신고등록 중 문제가 발생하였습니다.");
+						  makeAlert("알림","로그인을 하셔야합니다.");
 						  break;
 					}
 	            },
@@ -981,7 +982,16 @@
           
           
           <div class="btn_wrap">
+          		<c:choose>
+
+						<c:when test="${empty sMemNo}">
+
+						</c:when>
+
+						<c:otherwise>
             <input type="button" class="bottom_btn review_btn" id="writeReview" value="리뷰 작성" />
+            		</c:otherwise>
+            		</c:choose>
           </div>
         </div>
         <div class="accident_wrap">
