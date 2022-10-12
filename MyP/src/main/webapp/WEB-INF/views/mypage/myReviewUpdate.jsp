@@ -8,6 +8,7 @@
 <title>MyP</title>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/font.css">
+
 <script src="resources/jquery/jquery-1.12.4.js"></script>
 <script src="resources/js/main.js"></script>
 <script type="text/javascript" src="resources/rety/jquery.raty.js"></script><!-- 별 -->
@@ -206,9 +207,9 @@ function action(flag) {
 	</form>
 	<main>
 		<div class="main_wrap">
-			<div class="side_bar">
-				<c:import url="/mypagesidebar"></c:import> 
-			</div>
+			
+				<c:import url="/mypageSidebar"></c:import> 
+			
 
 			<div class="right_area">
 				<div class="rigth_contents">

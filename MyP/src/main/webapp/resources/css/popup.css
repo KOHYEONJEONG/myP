@@ -164,7 +164,7 @@
 /*신고*/
 #warning_popup {
   width: 400px;
-  height: 380px;
+  height: 340px;
   position: absolute;
   background-color: #d9d2e9;
   top: 50%;
@@ -207,7 +207,7 @@
   justify-content: center;
   align-items: center;
   height: 40px;
-  font-size: 18px;
+  font-size: 17px;;
 }
 #warning_popup .input {
   width: 370px;
