@@ -261,7 +261,7 @@ function drawListfood(list2) {
 	if(flag){
 		html += "<tr>"+ +"<\>";
 		html += "<th>"+"맛집관리번호"+"</th>";
-	    html += "<th>"+"사업장명"+"</th>";
+	    html += "<th>"+"음식점명"+"</th>";
 	    html += "<th>"+"전화번호"+"</th>";
 	    html += "<th>"+"도로명 주소"+"</th>";
 		html += "</tr>";
