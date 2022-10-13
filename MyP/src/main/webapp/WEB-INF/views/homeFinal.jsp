@@ -72,6 +72,29 @@
     font-size: 14px;
 }
 
+.left_section .result_area2 .box .box_inner_i {
+  position: absolute;
+  bottom: 8px;
+  right: 20px;
+  display: flex;
+}
+
+.left_section .result_area2 .box .bookmark_i {
+  background: url(resources/icons/bookmark.png) no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+  width: 30px;
+  height: 30px;
+  float: left;
+}
+.left_section .result_area2 .box .share_i {
+  background: url(resources/icons/share.png) no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+  width: 30px;
+  height: 30px;
+}
+
 .movies{
 	filter: invert(1);
 }
@@ -178,13 +201,15 @@
 
   .pay {
       font-weight: 700;
-      color: red;
+      color: #e06666;
       text-align: center;
+      font-size: 12px
   }
 
-  .viewDetail {
+  .detail, .viewDetail {
       font-weight: 700;
-      color: blue;
+      color: #4285f4;
+      font-size: 12px
   }
 
   .bookmarkBox,
@@ -222,6 +247,15 @@
       text-decoration: none;
   }
   
+  #news_search_i{
+  	    width: 20%;
+    height: 45px;
+    background: url(resources/icons/search.png) no-repeat;
+    background-size: 40%;
+    background-position: 50%;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
 
 
 </style>
@@ -329,24 +363,72 @@
 		  });
 
 		  
-		$("#search_i").on("click", function(){
-			var params = $("#actionForm").serialize();
-			$.ajax({
-				url : "HomeAjax",
+		 //팝업 창 안에 있는 신고 버튼
+		  $("#warningBtn").on("click", function() {
+			  var params = $("#actionForm2").serialize();
+		         $.ajax({
+		        	 url : "HomeAction/insert",
+		            type : "POST",
+		            dataType : "json", 
+		            data : params, 
+		            success : function(res) { 
+						switch(res.msg){
+						 case "success":
+							 
+							  makeAlert("알림","신고에 성공하였습니다.");
+							  
+							  break;
+						  case "fail":
+							  makeAlert("알림","신고에 실패하였습니다.");
+							  break;
+						  case "error":
+							  makeAlert("알림","로그인을 하셔야합니다.");
+							  break;
+						}
+		            },
+		            error : function(request, status, error) {
+		               console.log(request.responseText); 
+		            }
+		            
+		         }); 
+		  });
+		 
+		  $("#selectx").change(function(){  
+			  reviewReload();
+		  })
+		  
+		   $("body").on("click", ".warning_i", function () {
+	        document.getElementById("warning_popup").style.display = "block";
+	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
+	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
+	        
+	        $.ajax({
+				url : "ReportAjax",
 				type : "POST",
 				dataType: "json",
-				data: params,
 				success : function(res){
-					searchList(res.list);
-					mapList(res.list);
-					
+					reportList(res.reportlist);
 				},
 				error : function(request, status, error) { 
 					console.log(request.responseText); 
 				}
-			})
-		});
-		
+			});
+			
+	  });
+		  
+		  $("body").on("click", ".phone2", function(){//리뷰 버튼
+				 $("#carparknum").val($(this).attr("no"));
+				 $("#car_park_nm").html($(this).attr("nm"));
+				 reviewReload();
+				/*  $("img[alt='close']").click(); */
+			 });
+		 
+		  $("#search_i").on("click", function(){//검색 버튼
+			  $("#time_rate").val(0);
+		  
+				mapReload();
+	  		});
+		  
 		// 문화생활 카테고리 지도에 마커
 		$("#culture").on("click", function(){
 			$("#shortDistanceArea").html('');
@@ -1091,34 +1173,7 @@
 	    });    
 	
 	})
-	
-	
-	
-	
-	
-	
-		
-	// 리뷰
-	 $("body").on("click", ".phone2",function(){
-		var carparknum = $("#carparknum").val();
-		 
-		var data = {carparknum : carparknum};
-		
-		$.ajax({
-			 type : "POST",
-			   url : "ReviewAjax",
-			   dataType : "json",
-			   data : data,
-			   success : function(res){
-				   reaviewList(res.reviewlist);
-				
-			   },
-			  error : function(request, status, error){
-					console.log(request.responseText); 
-			  }
-		})
-		 
-	 });
+
 		  
 	//최단거리 상세보기 팝업
 	$("#detailTablePopup .close_i").click(function () {
@@ -1126,44 +1181,352 @@
 	    $('main').css({"opacity" : "1","pointer-events":"auto"});
 	    $('header').css({"opacity" : "1","pointer-events":"auto"});
 	});
+	
+	
+	
+	$("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비교 버튼
+		feeSort = feeComArray;//다시 담고 뿌려주려고
+		var lastLength = feeSort.length;
+		//추가 단위로 선택한 시간(분)으로 나눈다음
+		//몫을 통해 
+		//(몫 x 추가요금) =  요금비교 
+		var time = 0;
+		
+		var temp = 0;
+		
+		switch($("#time_rate").val()){
+			case "1"://30분
+				time = 6;// 5(기본요금 분단위) * 6 = 30 
+			break;
+			case "2"://60분
+				time = 12;
+			break;
+			case "3"://120분
+				time = 24;
+			break;
+			
+			case "4"://240분
+				time = 48;
+			break;
+			
+			default:
+				time = 0; 
+				break;
+		}
+		// re_fee_rate, re_add_fee <-- 5분 단위 기본요금, 추가요금
+		//기본요금으로 정렬하돼
+		//기본요금이 0이면 추가요금으로 
+		
+		if(time == 0){
+			alert("비교할 시간을 클릭해주세요.");
+			return;
+		}else if(lastLength<2){
+			alert("비교할 대상을 2개이상 넣어주세요.");
+			return;
+		}else{
+			//오름차순
+			for(var i=0; i<lastLength-1; i++){
+				for(var j=0; j<(lastLength-i-1); j++){
+					
+					if(feeSort[j].re_fee_rate *time > feeSort[j+1].re_fee_rate*time){
+						temp = feeSort[j];
+						feeSort[j] = feeSort[j+1];
+						feeSort[j+1] = temp;
+					}
+				}
+			}
+			
+			//순서를 바꿔주려고 다시 그리자~
+			var html = "";
+			for(var data of feeSort){
+				 html +="<div class=\"box\">";
+		         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
+		         html +="<div class=\"parking_name\">"+data.title+"</div>";
+		         html +="<div class=\"parking_info\">";
+		         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
+		         html +="   <span style=\"color:red;\">₩"+data.re_fee_rate*time+"</span>";
+		         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
+		         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
+		         html +="</div>";
+		         html +="<div class=\"box_inner_i\">";
+		         html +="<div class=\"bookmark_i\"></div>";
+		         html +="<div class=\"share_i\"></div>";
+		         html +="</div>";
+		         html +="</div>";
+			}
+			$("#feeComArea").html(html);
+		}
+		
+		});
+		
+		$("#feeTablePopup .close_i").click(function () {
+			$("#feeTablePopup").hide();
+		    $('main').css({"opacity" : "1","pointer-events":"auto"});
+		    $('header').css({"opacity" : "1","pointer-events":"auto"});
+		});
+		
+		$("#feeComArea").on("click",".box .close_i",function(){
+			console.log("요금비교 box x버튼");
+			//feeComArray
+			var car_num = $(this).attr("no");
+			//console.log(feeComArray[0].car_num);
+			
+			//현재 이 no의 값을 갖는 배열에 인덱스 번호를 알아낸 다음 지워주려고
+			var json_idx = feeComArray.findIndex(function(key) {return key.car_num === car_num});
+	    	feeComArray.splice(json_idx, 1);
+			
+			//(*)UI에서 지워주기
+			$(this).parent().remove();
+		});
+		
+		
+		// 사고 탭에서 검색 클릭시
+		$("#news_search_i").on("click", function() {
+			
+			$.ajax({
+				url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/20/", 
+				type :"GET", 
+				dataType :"xml", 
+				success : function(xml) { 
+					console.log(xml);
+					
+					var logx = [];
+					var logy = [];
+					// xml 형식 json으로 바꿈
+					var xmlData = $(xml).find("row");
+					console.log(xmlData);
+					var listLength = xmlData.length;
+					
+					console.log(listLength);
+					
+					if(listLength > 0) {
+						
+						var html = "";				
+				
+						html += "<div class=\"result_box\"></div>"; 
+						
+						var positions = new Array();
+			 			var points = new Array();
+			 			
+						$(xmlData).each(function() {
+							
+							//혼자 쓸수없는 데이터들 변수 선언
+							var sdate1 = $(this).find("occr_date").text().substring(0, 4);
+							var sdate2 = $(this).find("occr_date").text().substring(4, 6);
+							var sdate3 = $(this).find("occr_date").text().substring(6, 9);
+							
+							var edate1 = $(this).find("exp_clr_date").text().substring(0, 4);
+							var edate2 = $(this).find("exp_clr_date").text().substring(4, 6);
+							var edate3 = $(this).find("exp_clr_date").text().substring(6, 9);
+							
+							var stime1 = $(this).find("occr_time").text().substring(0, 2);
+							var stime2 = $(this).find("occr_time").text().substring(2, 4);
+							
+							var etime1 = $(this).find("exp_clr_time").text().substring(0, 2);
+							var etime2 = $(this).find("exp_clr_time").text().substring(2, 4);					
+						
+						   //https://www.osgeo.kr/17  <-- 한국 주요 좌표계 EPSG코드 및 proj4 인자 정리(*중부원점(Bessel): 서울 등 중부지역)
+						   //https://yganalyst.github.io/spatial_analysis/spatial_analysis_3/ <--좌표가 정확히 안맞는 문제를 해결(+towgs84=0,0,0,0,0,0,0)
+						   const grs80 = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=0,0,0,0,0,0,0";
+						   const wgs84 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
+						   
+						   //  () * 1 정수화 ().toFixed() * 1 도 정수화
+						   //console.log(($(this).find("grs80tm_x").text() * 1).toFixed(1)); 
+						   const p = proj4(grs80, wgs84, [($(this).find("grs80tm_x").text() * 1).toFixed(1) * 1, ($(this).find("grs80tm_y").text() * 1).toFixed(1) * 1]);				 
+
+						   //console.log(p); 
+
+							html += "<div class=\"box\">";
+				            html += "<div class=\"accident_title " + $(this).find("acc_type").text() + "\"></div>";
+				            html += "<div class=\"accident_period\">"+ sdate1 +" "+ sdate2 +" "+ sdate3 +" "+"/"+" "+ stime1 +" "+":"+" "+ stime2 +" "+"~"+" "+ edate1 +" "+ edate2 +" "+ edate3 +" "+"/"+" "+ etime1 +" "+":"+" "+ etime2 +"</div>";
+				            html += "<div class=\"accident_info\">"+ $(this).find("acc_info").text() +"</div>";	
+							//html += "<input type=\"hidden\" id=\"grs80tm_x\" name=\"grs80tm_x\" value="+ p[1] +" />";
+							//html += "<input type=\"hidden\" id=\"grs80tm_y\" name=\"grs80tm_y\" value="+ p[0] +" />"; 					
+				            html += "</div>	";					
+				            
+				 			positions.push({
+				 				title: $(this).find("acc_info").text(),
+				 				latlng:new kakao.maps.LatLng(p[1], p[0]) //경도, 위도 순서 중요
+				 			});
+				 			 
+				 			 points.push(new kakao.maps.LatLng(p[1], p[0]));//경도, 위도 순서 중요
+						})
+						
+			 			// 마커 이미지의 이미지 주소입니다
+			 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_theme.png"; 
+			 			    
+			 			 for (var i = 0; i < positions.length; i ++) {
+			 			    
+			 			   // 마커 이미지의 이미지 크기 입니다
+						   imageSize = new kakao.maps.Size(40, 41),  // 마커 이미지의 크기
+						   imgOptions =  {
+						        spriteSize : new kakao.maps.Size(30, 910), // 스프라이트 이미지의 크기
+						        spriteOrigin : new kakao.maps.Point(0, 790), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+						        offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+						    }
+		    
+						    // 마커 이미지를 생성합니다    
+						    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+			 			    
+			 			    // 마커를 생성합니다
+			 			    var marker = new kakao.maps.Marker({
+			 			        map: map, // 마커를 표시할 지도
+			 			        position: positions[i].latlng, // 마커를 표시할 위치
+			 			        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+			 			        image : markerImage // 마커 이미지 
+			 			    });
+			 			} 
+
+
+			 			// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+			 			var bounds = new kakao.maps.LatLngBounds();    
+
+			 			var i, marker;
+			 			for (i = 0; i < points.length; i++) {
+			 			    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+
+			 			    // LatLngBounds 객체에 좌표를 추가합니다
+			 			    bounds.extend(points[i]);
+			 			}
+			 			
+			 			map.setBounds(bounds); 
+						
+						$(".accident_wrap .result_area").html(html);
+
+		 				 $.ajax({
+				         type:"post",
+				         url:"trafficAccidentList", 
+				         dataType : "json",
+				         success : function(res) {
+				        	 console.log(res.list);
+				        	 console.log(res.list[0].ACC_TYPE);
+				        	 console.log(res.list.length);
+				        	   for(var i=0; i < res.list.length; i++){
+				        	         $("." + res.list[i].ACC_TYPE).html(res.list[i].ACC_TYPE_NM)
+				        	 }  
+				        	   
+				        	  $(".result_box").html("검색결과:" + listLength + "건");
+				         },
+				         error : function(request, status, error) {// 실패했을 때 함수 실행
+					            console.log(request.responseText);    //실패 상세 내역
+					         }
+				         
+				      }); //ajax	       
+						
+					}
+				},
+				error : function(request, status, error) { // 실패했을 때 함수 실행
+					console.log(request.responseText); // 실패 상세 내역
+				}
+				
+			});
+		});	
+
+	
 		
  });
-  // 형석님 리뷰 부분
-  function reaviewList(reaviewList){
-		 var html = "";
-		 html += "<div class=\"standard\">"+reaviewList[0].CAR_PARK_NM +"</div>";
-		 for(var data of reaviewList){
-	     html += "<div class=\"box pr40\">                        ";
-	     html += "<div class=\"nickname\">"+data.NM +"</div>              ";
-	     html += "<div class=\"line\">                            ";
-	     html += "<div class=\"stars\">                           ";
-	     html += "<div class=\"star_i\"></div>                    ";
-	     html += "<div class=\"star_i\"></div>                    ";
-	     html += "<div class=\"star_i\"></div>                    ";
-	     html += "<div class=\"star_i\"></div>                    ";
-	     html += "<div class=\"star_i\"></div>                    ";
-	     html += "</div>                                          ";
-	     html += "<div class=\"date\">"+data.REG_DT +"</div>            ";
-	     html += "</div>                                          ";
-	     html += "<div class=\"review_title\">                    ";
-	     html += "<span>제목 :</span>                             ";
-	     html += "<span>"+data.TITLE +"</span>             ";
-	     html += "</div>                                          ";
-	     html += "<div class=\"review_contents\">                 ";
-	     html += "<span>내용 :</span>                             ";
-	     html += "<span>"+data.CON +"</span>";
-	     html += "</div>                                          ";
-	     html += "<div class=\"box_inner_i\">                     ";
-	     html += "<div class=\"warning_i\"></div>                 ";
-	     html += "</div>                                          ";
-	     html += "</div>                                          ";
-	 	}
-	 	$('.result_area2').html(html);
-	 } 
-
+  
+function mapReload(){
+	  
+	  var params = $("#actionForm").serialize();
+		$.ajax({
+			url : "HomeAjax",
+			type : "POST",
+			dataType: "json",
+			data: params,
+			success : function(res){
+				
+				searchList(res.list);
+				mapList(res.list);
+			},
+			error : function(request, status, error) { 
+				console.log(request.responseText); 
+			}
+		});
+		
+  }
+  
+  
+  
+  function reviewReload(){
+	  
+	   var data = {carparknum : $("#carparknum").val(),	select : $("#selectx").val()};
+		
+	  $.ajax({
+			 type : "POST",
+			   url : "ReviewAjax", 
+			   dataType : "json",
+			   data : data,
+			   success : function(res){
+			       $('.review_wrap').addClass('on');
+			       $('.review_wrap').siblings().removeClass('on');  
+				   reviewList(res.reviewlist);
+				
+			   },
+			  error : function(request, status, error){
+					console.log(request.responseText); 
+			  }
+		})
+  }
+  
+  
+ function reviewList(reviewList){
+	 
+	 var html = "";
+	 /* html += "<div class=\"standard\">"+reviewList[0].CAR_PARK_NM +"</div>"; */
+	 for(var data of reviewList){
+     html += "<div class=\"box pr40\">                        ";
+     html += "<div class=\"nickname\">"+data.NM +"</div>";
+     html += "<div class=\"line\">                            ";
+     html += "<div class=\"stars\">                           ";
+     html += "<div class=\"Star\" data-score=\"" +data.AVG +"\"></div>";
+     html += "</div>                                          ";
+     html += "<div class=\"date\">"+data.DT+"</div>            ";
+     html += "</div>                                          ";
+     html += "<div class=\"review_title\">                    ";
+     html += "<span>제목 :</span>                             ";
+     html += "<span>"+data.TITLE +"</span>             ";
+     html += "</div>                                          ";
+     html += "<div class=\"review_contents\">                 ";
+     html += "<span>내용 :</span>                             ";
+     html += "<span>"+data.CON +"</span>";
+     html += "</div>                                          ";
+     html += "<div class=\"box_inner_i\">                     ";
+     html += "<div onclick=\"warningPopup("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>";//신고버튼
+     html += "</div>                                          ";
+     html += "</div>                                          ";
+ 	}
+	
+ 	$('.review_wrap .result_area').html(html);
+ 	
+ 	$(".review_wrap .Star").raty({
+		readOnly: true, 
+		path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+	});
+	
+ } 
+ 
+ function reportList(reportlist){//신고 사유 DB
+	 
+	 var html= "";
+	 html += "<div class=\"note\">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>";
+     for(var data of reportlist){                                                            
+	     html += "<div>";
+	     html += "<input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>";                        
+	     html += "<label style=\"font-size:12px;\">"+data.CATE_NM +"</label>";
+	     html += "</div>";
+	 }
+    $('#warning_popup .popup_content').html(html);  
+ }
+ 
+ 
+  function warningPopup(review_num) {
+   	 $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
+  }
+   
     
   
-  function searchList(list){
+  function searchList(list){ //사이드 쪽에 주차장 리스트
 		 var html = "";
 		 html += "<div class=\"result_box\">" +list.length+ "</div>";
 		 for(var data of list){		
@@ -1173,11 +1536,12 @@
 	         html += "<div class=\"parking_info\">";
 	         html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
 	         html += "<span class=\"pay\">유료</span>";
-	         html += "<span class=\"detail\">상세보기</span>"; 
+	         html += "<span class=\"detail\">상세보기</span>";  // 추가됨
 	         html += "</div>";
 	         html += "<div class=\"box_inner_i\">";
 	         html += "<div class=\"bookmark_i\"></div>";
-	         html += "<div class=\"share_i\"></div>";
+	         html += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage(" + data.CAR_PARK_MAG_NUM + ")\" class=\"share_i\">";
+	         html += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
 	         html += "</div>";
 	         html += "</div>";
 		 }
@@ -1244,114 +1608,133 @@
 		
 		
 	} 
- function mapList(list){
-	 
-	 var positions = new Array();
-	 var points = new Array();
-	 for(var data of list) {
-		 positions.push({
-			title: data.CAR_PARK_NM,
-			latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY),
-		 	starttime: data.STARTTIME,
-		 	endtime: data.ENDTIME,
-		 	review: data.CNT,
-		 	starscore: data.AVG,
-		 	carparknum: data.CAR_PARK_MAG_NUM
-		 });
+  function mapList(list){ //지도 안에 핀 그리기
 		 
-		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
-	 }
+		 var positions = new Array();
+		 var points = new Array();
+		 for(var data of list) {
+			 positions.push({
+				title: data.CAR_PARK_NM,
+				latlng:new kakao.maps.LatLng(data.LOCX, data.LOCY),
+				starttime: data.STARTTIME,
+				endtime: data.ENDTIME,
+				review: data.CNT,
+				starscore: data.AVG,
+				payorfree_div:data.PAYORFREE_DIV,//유,무료
+				fee_rate:data.FEE_RATE,//기본 주차 요금
+				add_fee : data.ADD_FEE,//추가 단위 요금
+				add_time_rate : data.ADD_TIME_RATE,//추가 단위 시간
+				time_rate : data.TIME_RATE,//기본 주차 시간
+				re_fee_rate : data.RE_FEE_RATE, //환산 정보 '기본' 요금
+				re_add_fee : data.RE_ADD_FEE, //환산 정보 '추가' 요금
+				carparknum: data.CAR_PARK_MAG_NUM
+			 });
+			
+			 
+			 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
+		 }
 
-		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "resources/icons/park_marker4.png"; 
-		    
-		for (var i = 0; i < positions.length; i ++) {
-		    
-		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(35, 35); 
-		    
-		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-		    
-		    // 마커를 생성합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng, // 마커를 표시할 위치
-		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage, // 마커 이미지 
-		        clickable: true
-		    });
-		    
-		    markers.push(marker);
-		    
-		    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
+			// 마커 이미지의 이미지 주소입니다
+			var imageSrc = "resources/icons/park_marker4.png"; 
+			    
+			for (var i = 0; i < positions.length; i ++) {
+			    
+			    // 마커 이미지의 이미지 크기 입니다
+			    var imageSize = new kakao.maps.Size(35, 35); 
+			    
+			    // 마커 이미지를 생성합니다    
+			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+			    
+			    // 마커를 생성합니다
+			    var marker = new kakao.maps.Marker({
+			        map: map, // 마커를 표시할 지도
+			        position: positions[i].latlng, // 마커를 표시할 위치
+			        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+			        image : markerImage, // 마커 이미지 
+			        clickable: true
+			    });
+			    
+				 
+			    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
 		    	iwContent  += "<input type=\"hidden\" id=\"carparknum\" value=\"" + positions[i].carparknum + "\" />"; 
-		    	if(positions[i].starscore == 0){
-		    		iwContent += "<div class=\"phone2\">" + " "+"별점없음"+" " + " "+"리뷰없음"+" " + "</div>";	
-		    	}else {
-		    	
-		    	 iwContent += "<div class=\"phone2\">" + positions[i].starscore + " "+"리뷰"+" " + positions[i].review + "</div>"; 
-		    	}
-		    	iwContent += "<div class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</div>";
-		    	iwContent += "<span class=\"pay\">유료</span>";
-		    	iwContent += "<span class=\"detail\">상세보기</span>"; 
+		    	iwContent += "<span class=\"Star\" data-score=\"" +positions[i].starscore +"\"></span>";
+		    	iwContent += "<span class=\"phone2\" no=\""+positions[i].carparknum+"\" nm=\""+positions[i].title+"\"> "+"리뷰"+" " + positions[i].review + "</span>";
+		    	iwContent += "<div>"
+		    	iwContent += "<sapn class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</sapn>";
+		    	iwContent += "<span class=\"pay\">"+positions[i].payorfree_div+"</span>";
+		    	iwContent += "<span class=\"detail\"  onclick=\"goDetail("+positions[i].carparknum+")\">상세보기</span>";
+		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
-		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"parking\">";
-		    	$(".parking_bookmark_wrap .result_area").each(function() {
-	               if($(this).html().match(positions[i].carparknum)){
-	                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
-	               } else {
-	                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
-	               }
-	            });
+		    	iwContent += "<div class=\"bookmarkBox\">";
+		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
 		    	iwContent += "</div>";
-		    	iwContent += "<div class=\"shareBox\">";
-		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-		    	iwContent += "</div>";
+		    	iwContent += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage(" + positions[i].carparknum + ")\" class=\"shareBox\">";
+		    	iwContent += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
 		    	iwContent += "<div class=\"compareBox\">";
-		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
+		    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"feeCom("+positions[i].carparknum+",\'"+positions[i].starttime+"\',\'"+positions[i].endtime+"\', \'"+ positions[i].payorfree_div+"\', \'"+ positions[i].fee_rate+"\', \'"+ positions[i].add_time_rate+"\', \'"+ positions[i].time_rate+"\', \'"+ positions[i].add_fee+"\',\'"+positions[i].re_fee_rate+"\',\'"+positions[i].re_add_fee +"\', \'"+positions[i].title+"\')\">요금비교</button>"; // 객체라서 positions[i]로 바로 못보냄!
 		    	iwContent += "</div>"
 		    	iwContent += "</div>"
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		    	iwRemoveable = true; 
-		    
-		    
-		 // 인포윈도우를 생성합니다
-			var infowindow = new kakao.maps.InfoWindow({
-				content : iwContent,
-			    removable : iwRemoveable
-			});  
-		 
-		 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
-	     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-	     (function(marker, infowindow) {
-	    	 // 마커에 클릭이벤트를 등록합니다
-			 kakao.maps.event.addListener(marker, 'click', function() {
-				 
-				 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
-				  $("img[alt='close']").click();
+				    
+			    	
+			    
+			    
+			 // 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+				    removable : iwRemoveable
+				
+				});  
+			 
+			if(positions[i].carparknum == $(".review_wrap #carparknum").val()) {//(*)리뷰가 작성되고 나면 자동으로 다시 팝업이 그려지게
+				 $("img[alt='close']").click();
 			       // 마커 위에 인포윈도우를 표시합니다
 			       infowindow.open(map, marker);
-			 });
+			       
+			       $("#map .Star").empty();
+			       $("#map .Star").raty({ 
+						readOnly: true, 
+						path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+				});
+			 } 
+			 		 
+			 // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+		     // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+		     (function(marker, infowindow) {
+		    	 // 마커에 클릭이벤트를 등록합니다
+				 kakao.maps.event.addListener(marker, 'click', function() {
+					 
+					 	// 다른 마커를 클릭했을때, 이전 팝업창 닫힘
+					  $("img[alt='close']").click();
+				 
+				       // 마커 위에 인포윈도우를 표시합니다
+				      infowindow.open(map, marker);
+				       $("#map .Star").empty(); 
+				       $("#map .Star").raty({ 
+							readOnly: true, 
+							path : "https://cdn.jsdelivr.net/npm/raty-js@2.8.0/lib/images"
+						});  
+				 });
 
-	     })(marker, infowindow);		 
-		}
+		     })(marker, infowindow);	
+		
+			}//for
 
+			// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+			var bounds = new kakao.maps.LatLngBounds();    
 
-		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-		var bounds = new kakao.maps.LatLngBounds();    
-
-		var i, marker;
-		for (i = 0; i < points.length; i++) {
-		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-
-		    // LatLngBounds 객체에 좌표를 추가합니다
-		    bounds.extend(points[i]);
-		}
-		map.setBounds(bounds);
- 	}
- 
- 
+			var i, marker;
+			for (i = 0; i < points.length; i++) {
+			    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+			  
+			    
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(points[i]);
+			}
+			
+			map.setBounds(bounds);
+	 	}
 // 문화생활 카테고리 지도에 마커 function
 function cultureList(list){
 	
@@ -1804,6 +2187,7 @@ function cinemaList(list){
 		               }
 		            });
 			    	iwContent += "</div>";
+			    	iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
@@ -2197,6 +2581,172 @@ function cultureBookmarkReloadList() {
  		}
  			$(".restaurant_bookmark_wrap .result_area").html(html);
  	}
+  
+  
+  function goDetail(car_num){
+	 	//잘 넘어오면 금액표 팝업을 보여주자.
+	 	$("#car_num").val(car_num);
+		var html = "";
+	 	
+	 	var params = $("#goForm").serialize();
+		$.ajax({
+			url : "parkFeeDetail", //경로
+			type : "POST", //전송방식(GET: 주소형태, Post : 주소 헤더형태)
+			dataType : "json", //데이터 형태
+			data : params, //보낼 데이터
+			success : function(res){// 성공했을때 겨로가를 res에 받고 함수실행
+				html += "<tr>";
+		      	html += "<th colspan=\"2\" style=\"background-color:lightgray;\">"+res.data.CAR_PARK_NM+"</th>";
+		      	html += "</tr>";
+		      	
+				html += "<tr>";
+		      	html += "<th>평일 유/무료구분</th>";
+		      	html += "<td>"+res.data.PAYORFREE_DIV+"</td>";
+		      	html += "</tr>";
+		      
+		        html += "<tr>";
+		      	html += "<th>토요일 유/무료 구분</th>";
+		      	html += "<td>"+res.data.SATURDAY_PAYORFREE_DIV+"</td>";
+		        html += "</tr>";
+		      
+		        html += "<tr>";
+		        html += "<th>공휴일 유/무료 구분</th>";
+		      	html += "<td>"+res.data.HOLIDAY_PAYORFREE_DIV+"</td>";
+		        html += "</tr>";
+		
+		        html += "<tr>";
+		      	html += "<th>정액권</th>";
+		      	html += "<td>"+res.data.FULLTIME_MONTHLY+"</td>";
+		        html += "</tr>";
+		      
+		        html += "<tr>";
+		      	html += "<th>기본 주차 시간</th>";
+		      	html += "<td>"+res.data.TIME_RATE+"</td>";
+		        html += "</tr>";
+		      
+		        html += "<tr>";
+		      	html += "<th>기본 요금</th>";
+		      	html += "<td>"+res.data.FEE_RATE+"</td>";
+		        html += "</tr>";
+		        
+		        html += "<tr>";
+		      	html += "<th>추가 단위 시간</th>";
+		      	html += "<td>"+res.data.ADD_TIME_RATE+"</td>";
+		        html += "</tr>";
+		        
+		        html += "<tr>";
+		      	html += "<th>추가 요금</th>";
+		      	html += "<td>"+res.data.ADD_FEE+"</td>";
+		        html += "</tr>";
+		        
+		        $("#feeTablePopup tbody").html(html);
+				$("#feeTablePopup").show();
+				
+			},
+			error : function(request, status, error){
+				makeAlert("알림", "빠른 시일 내에 준비하겠습니다.");
+				console.log(request.responseText);
+			}
+		});
+		
+		
+	}
+	 
+	function feeCom(car_num,starttime,endtime,payorfree_div, fee_rate, add_time_rate, time_rate, add_fee, re_fee_rate, re_add_fee, title) {//요금비교하려고 배열에 담았다.
+	 	//1583756 '00:00' '00:00' '유료' '150' '5' '5' '150' '150' '150' '민속의집 공영주차장(구)'
+	 	var cnt = 0;
+	 	
+	 	for(var data of feeComArray) {
+			if(data.car_num == car_num) { //이미 데이터가 있다면 더 추가 못하게.(중복 피하기)
+				cnt++;
+			}
+			
+		}
+	 	
+	 	if(cnt == 0) {
+			feeComArray.push({car_num: car_num, starttime: starttime, endtime: endtime, payorfree_div:payorfree_div, fee_rate:fee_rate, add_time_rate:add_time_rate, time_rate:time_rate, add_fee:add_fee ,re_fee_rate:re_fee_rate, re_add_fee:re_add_fee, title: title});
+		}
+	 	
+	 	var html = "";
+		for(var data of feeComArray){
+			 html +="<div class=\"box\">";
+	         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
+	         html +="<div class=\"parking_name\">"+data.title+"</div>";
+	         html +="<div class=\"parking_info\">";
+	         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
+	         html +="   <span style=\"color:black;\">₩"+ data.re_fee_rate +"(5분단위)</span>";
+	         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
+	         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
+	         html +="</div>";
+	         html +="<div class=\"box_inner_i\">";
+	         html +="<div class=\"bookmark_i\"></div>";
+	         html +="<div class=\"share_i\"></div>";
+	         html +="</div>";
+	         html +="</div>";
+		}
+		$("#feeComArea").html(html); 
+	}
+
+	function feeComx(){
+		var html = "";
+		for(var data of feeComArray){
+			 html +="<div class=\"box\">";
+	         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
+	         html +="<div class=\"parking_name\">"+data.title+"</div>";
+	         html +="<div class=\"parking_info\">";
+	         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
+	         html +="   <span style=\"color:black;\">₩"+ data.re_fee_rate +"(5분단위)</span>";
+	         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
+	         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
+	         html +="</div>";
+	         html +="<div class=\"box_inner_i\">";
+	         html +="<div class=\"bookmark_i\"></div>";
+	         html +="<div class=\"share_i\"></div>";
+	         html +="</div>";
+	         html +="</div>";
+		}
+		$("#feeComArea").html(html); 
+	}
+	
+	// 카카오 공유하기
+	 Kakao.init('e41934107d35da0fcd73a47e8bc1ca9e'); // 사용하려는 앱의 JavaScript 키 입력
+
+	 function shareMessage(num) {
+	   Kakao.Share.sendDefault({
+	     objectType: 'feed',
+	     content: {
+	       title: '공영주차장 상세보기',
+	       description: '#주차장 #리뷰 #나만의P',
+	       imageUrl:
+	          '', 
+	       link: {
+	         mobileWebUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+num,
+	         webUrl: 'http://localhost:8090/MyP/parkinfodetail?no='+num
+	       },
+	     }/* ,
+	     social: {
+	       likeCount: 286,
+	       commentCount: 45,
+	       sharedCount: 845,
+	     } *//* ,
+	      buttons: [
+	       {
+	         title: '웹으로 보기',
+	         link: {
+	           mobileWebUrl: 'https://developers.kakao.com',
+	           webUrl: 'https://developers.kakao.com',
+	         },
+	       },
+	       {
+	         title: '앱으로 보기',
+	         link: {
+	           mobileWebUrl: 'https://developers.kakao.com',
+	           webUrl: 'https://developers.kakao.com',
+	         },
+	       },
+	     ],  */
+	   });
+	 }
 			 
 </script>
 </head>
@@ -2209,24 +2759,6 @@ function cultureBookmarkReloadList() {
 	<input type="hidden" id="sendParkingNum" name="parkingNum"  />       <!-- 주차장번호 -->
 	<input type="hidden" id="sendMemNum" name="memNum" />                <!-- 회원번호 -->
 </form>
-<!-- 상세보기 팝업창 -->
-<div id="detailTablePopup" class="detailTablePopup" style="display: none;">
-	<div class="close_i">
-      		<img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
-   	</div>
- 
-	<table>
-	     <colgroup>
-	     	<col width="200">
-	     	<col width="150">
-	     </colgroup>
-	   
-	   	<caption>상세보기</caption>
-	   	
-	   	<tbody>
-	   	</tbody>
-    </table>
-</div>
 <form action="#" id="disForm" method="post">
 	<input type="hidden" id="locx" name="locx" />
 	<input type="hidden" id="locy" name="locy" />
@@ -2236,6 +2768,40 @@ function cultureBookmarkReloadList() {
 	<!-- 상세보기 페이지로 이동하려고 -->
 	<input type="hidden" id="car_num" name="car_num">
 </form>
+<form action="#" id="goForm" method="post">
+	<!-- 상세보기 페이지로 이동하려고 -->
+	<input type="hidden" id="car_num" name="car_num">
+</form>
+<!-- 상세보기 팝업창 -->
+<div id="detailTablePopup" class="detailTablePopup" style="display: none;">
+	<div class="close_i">
+      	<img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
+   	</div>
+	<table>
+	     <colgroup>
+	     	<col width="200">
+	     	<col width="150">
+	     </colgroup>
+	   	<caption>상세보기</caption>
+	   	<tbody>
+	   	</tbody>
+    </table>
+</div>
+<!-- 요금표 팝업창 -->
+<div id="feeTablePopup" class="feeTablePopup" style="display: none;">
+	<div class="close_i">
+      	<img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
+   	</div>
+	<table>
+	     <colgroup>
+	     	<col width="200">
+	     	<col width="150">
+	     </colgroup>
+	   	<caption>상세보기</caption>
+	   	<tbody>
+	   	</tbody>
+    </table>
+</div>
 <c:import url="/header"></c:import>
   <main class="main1">
     <div class="left_area">
@@ -2382,117 +2948,11 @@ function cultureBookmarkReloadList() {
           </div>
           </div>
         </div>
+         <!-- 요금계산 사이드 -->
         <div class="calc_wrap">
-          <div class="title">요금 계산</div>
-          <div class="select_box">
-            <span>이용시간</span>
-            <select name="use_time">
-              <option value="" disabled selected>전체</option>
-              <option value="">30분</option>
-              <option value="">1시간</option>
-              <option value="">2시간</option>
-              <option value="">4시간</option>
-              <option value="">종일</option>
-            </select>
-          </div>
-          <div class="result_area">
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">가산동 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
- 
-          </div>
-          <div class="btn_wrap">
-            <input type="button" class="bottom_btn" value="요금 비교" />
-          </div>
+         	<c:import url="/calc_wrap"/>
         </div>
+ 
         <div class="distance_wrap">
           <div class="title">최단거리 비교</div>
           <div class="result_area" id="shortDistanceArea">
@@ -2568,188 +3028,40 @@ function cultureBookmarkReloadList() {
       </div>
       <!-- 리뷰 시작 -->
         <div class="review_wrap">
-          <div class="title">리뷰</div>
+         <div class="title">리뷰</div>
           <div class="select_box">
-          <select>
-              <option value="">높은별점순</option>
-              <option value="">최신순</option>
+          <select id="selectx" name="selectx">
+              <option value="1">높은별점순</option>
+              <option value="2">최신순</option>
             </select>
           </div>
+          <div class="standard" id="car_park_nm" style="text-align: center; font-size: 16px; padding: 20px 0px 5px 0px;"></div>
+          <input type="hidden" id="carparknum" value="" />
           <div class="result_area">
-            <div class="standard">가산동 공영 주차장</div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요, 또 방문할것 같습니다!</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            <div class="box pr40">
-              <div class="nickname">머순</div>
-              <div class="line">
-                <div class="stars">
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                  <div class="star_i"></div>
-                </div>
-                <div class="date">2022-07-26</div>
-              </div>
-              <div class="review_title">
-                <span>제목 :</span>
-                <span>가산동 공영 주차장 굿!</span>
-              </div>
-              <div class="review_contents">
-                <span>내용 :</span>
-                <span>깔끔하니 좋아요</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="warning_i"></div>
-              </div>
-            </div>
-            
+          <!-- 리뷰 비동기화처리 -->
           </div>
           <div class="btn_wrap">
-            <input type="button" class="bottom_btn review_btn" value="글쓰기" />
+          	<c:choose>
+				<c:when test="${empty sMemNo}"></c:when>
+				<c:otherwise>
+            		<input type="button" class="bottom_btn review_btn" id="writeReview" value="리뷰 작성" />
+            	</c:otherwise>
+            </c:choose>
           </div>
         </div>
         <div class="accident_wrap">
           <div class="search_box">
-            <div class="box_top">
-          
-              <select name="sido1" id="sido1">
-               
-              </select>
-              <select name="gugun1" id="gugun1">
-               
-              </select>
-             
-            </div>
+            <!-- <div class="box_top">
+              <select name="sido1" id="sido1"></select>
+              <select name="gugun1" id="gugun1"></select>
+            </div -->
             <div class="box_bottom">
               <input type="text" class="search_txt" placeholder="검색어를 입력하세요" />
-              <div class="search_i"></div>
+              <div id="news_search_i"></div>
             </div>
           </div>
           <div class="result_area">
-            <div class="result_box">검색결과: 4건</div>
-            <div class="box">
-              <div class="accident_title">목동로 교통사고</div>
-              <div class="accident_period">2022-07-01 15:42 ~ 2022-07-01 16:30</div>
-              <div class="accident_info">
-                구로중앙로 오금교동측 -> 서층방향 1,2차로 교통사고, 일부 구간 통제
-              </div>
-            </div>
-            <div class="box">
-              <div class="accident_title">목동로 교통사고</div>
-              <div class="accident_period">2022-07-01 15:42 ~ 2022-07-01 16:30</div>
-              <div class="accident_info">
-                구로중앙로 오금교동측 -> 서층방향 1,2차로 교통사고, 일부 구간 통제
-              </div>
-            </div>
-            <div class="box">
-              <div class="accident_title">목동로 교통사고</div>
-              <div class="accident_period">2022-07-01 15:42 ~ 2022-07-01 16:30</div>
-              <div class="accident_info">
-                구로중앙로 오금교동측 -> 서층방향 1,2차로 교통사고, 일부 구간 통제
-              </div>
-            </div>
-            <div class="box">
-              <div class="accident_title">목동로 교통사고</div>
-              <div class="accident_period">2022-07-01 15:42 ~ 2022-07-01 16:30</div>
-              <div class="accident_info">
-                구로중앙로 오금교동측 -> 서층방향 1,2차로 교통사고, 일부 구간 통제
-              </div>
-            </div>
+            <div class="result_box"></div>           
           </div>
         </div>
       </div>
@@ -2781,58 +3093,9 @@ function cultureBookmarkReloadList() {
 <!-- 가이드(챗봇 아님)-->
 <c:import url="/guideMain"/>
 
-   <!-- 리뷰 팝업 -->
 <!-- 리뷰 팝업 -->
-<div id="review_popup">
-  <div class="close_i">
-      <img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
-  </div>
-  <div class="popup_top">
-      <div class="txt_title">제목</div>
-      <input type="text" class="title" maxlength="30">
-  </div>
+<c:import url="/reviewPopup2"/>
 
-  <div class="popup_middle">
-      <div class="txt_title">별점을 선택해주세요.</div>
-      <div class="star_wrap">
-        <div class="group1"><시스템 별점></div>
-      
-        <div class="star1">
-          <div class="cctv_wrap">
-              <div class="wrap_title">CCTV</div>
-              <div class="starstar"></div>
-          </div>
-          <div class="env_wrap">
-              <div class="wrap_title">환경</div>
-              <div class="starstar"></div>
-          </div>
-        </div>
-
-        <div class="group2"><요금 별점></div>
-        <div class="star2">
-            <div class="amo_wrap">
-                <div class="wrap_title">요금</div>
-                <div class="starstar"></div>
-            </div>
-            <div class="ticket_wrap">
-                <div class="wrap_title">정기권</div>
-                <div class="starstar"></div>
-            </div>
-            <div class="sale_wrap">
-                <div class="wrap_title">할인정보</div>
-                <div class="starstar"></div>
-            </div>
-        </div>
-      </div>
-  </div>
-    <div class="popup_content">
-        <div class="txt_title">내용을 입력해주세요.</div>
-        <textarea cols="" rows="" class="contents"></textarea>
-    </div>
-    <div class="sendBtn_wrap">
-        <input type="button" value="등록" id="sendBtn">
-    </div>
-</div>
 <!-- 신고하기 팝업 -->
 <div id="warning_popup">
   <form>
