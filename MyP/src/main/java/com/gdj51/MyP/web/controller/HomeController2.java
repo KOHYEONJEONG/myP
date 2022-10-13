@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdj51.MyP.web.dao.IACDao;
@@ -20,6 +21,12 @@ public class HomeController2 {
 
 	@Autowired
 	public IACDao iACDao;
+
+	@RequestMapping(value = "/homeFinal")
+	public ModelAndView homeFinal(ModelAndView mav) {
+		mav.setViewName("homeFinal");
+		return mav;
+	}
 
 	@RequestMapping(value = "/HomeAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
@@ -36,8 +43,7 @@ public class HomeController2 {
 		 * List<HashMap<String, String>> popuplist = iACDao.getList("home.parkPopup",
 		 * params);
 		 */
-		
-		
+
 		model.put("list", list);
 		model.put("cnt", cnt);
 		/* model.put("popuplist", popuplist); */
@@ -59,7 +65,7 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
-	
+
 	@RequestMapping(value = "/gasStationAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String gasStationAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -74,7 +80,7 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
-	
+
 	@RequestMapping(value = "/restaurantAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String restaurantAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -89,7 +95,7 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
-	
+
 	@RequestMapping(value = "/cinemaAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String cinemaAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -104,58 +110,56 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
+
 	@RequestMapping(value = "/ReviewAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String ReviewListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
-		
-		System.out.println("ReviewAjax 실행 => "+params.toString());
-		
+
+		System.out.println("ReviewAjax 실행 => " + params.toString());
+
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		List<HashMap<String, String>> reviewlist = iACDao.getList("home.ReviewwList", params);
-		
+
 		model.put("reviewlist", reviewlist);
-		
+
 		/* model.put("popuplist", popuplist); */
 		return mapper.writeValueAsString(model);
 
 	}
 
-	@RequestMapping(value= "/HomeAction/{gbn}",
-			method = RequestMethod.POST,
-			produces = "text/json;charset=UTF-8")
+	@RequestMapping(value = "/HomeAction/{gbn}", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String HomeAction(
-			@PathVariable String gbn,
-			@RequestParam HashMap<String,String> params) throws Throwable{
+	public String HomeAction(@PathVariable String gbn, @RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
-		
-		Map<String, Object> model = new HashMap<String,Object>();
-		
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
 		int cnt = 0;
-		
+
 		try {
-			switch(gbn) {
-			case "insert" : cnt = iACDao.insert("home.insert",params);
+			switch (gbn) {
+			case "insert":
+				cnt = iACDao.insert("home.insert", params);
 				break;
-			case "insertreview" :	cnt = iACDao.insert("home.insertreview",params);
-			break;
-		} 
-			if(cnt>0) {
+			case "insertreview":
+				cnt = iACDao.insert("home.insertreview", params);
+				break;
+			}
+			if (cnt > 0) {
 				model.put("msg", "success");
-			}else {
+			} else {
 				model.put("msg", "fail");
 			}
-		}
-			catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			model.put("msg", "error");
 		}
 		return mapper.writeValueAsString(model);
-		}
-	
+	}
+
 	@RequestMapping(value = "/ReportAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String ReportAjax(@RequestParam HashMap<String, String> params) throws Throwable {
@@ -165,12 +169,10 @@ public class HomeController2 {
 
 		List<HashMap<String, String>> reportlist = iACDao.getList("home.CateList");
 		model.put("reportlist", reportlist);
-		
+
 		/* model.put("popuplist", popuplist); */
 		return mapper.writeValueAsString(model);
 
 	}
-	
-	
-	
+
 }
