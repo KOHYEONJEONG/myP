@@ -20,6 +20,7 @@
 
 	</select>
 	
+	<!-- 요금계산 버튼 - 금액표 팝업 -->
 	<select id="getFeelist" resultType="hashmap" parameterType="hashmap">
 		SELECT  CAR_PARK_NM,CASE PAYORFREE_DIV WHEN '1' THEN '유료'  ELSE '무료' END AS PAYORFREE_DIV ,
 		        CASE SATURDAY_PAYORFREE_DIV WHEN 1 THEN '유료'  ELSE '무료' END AS SATURDAY_PAYORFREE_DIV,
@@ -27,7 +28,7 @@
 		        FULLTIME_MONTHLY,
 		        TIME_RATE, FEE_RATE, ADD_FEE, ADD_TIME_RATE,NVL(PHONE, '-') AS PHONE
 		FROM CAR_PARK
-		WHERE CAR_PARK_MAG_NUM = #{car_num}
+		WHERE CAR_PARK_MAG_NUM = #{fee_car_num}
 	</select>
 	
 	
@@ -131,9 +132,9 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	</choose>
 	</select>
 	
-	<insert id="insert" parameterType="hashmap">
-		INSERT INTO REPORT(REPORT_NUM,REPORT_TITLE,MEM_NUM,CATE_NUM,REVIEW_NUM)
-		VALUES(REP_SEQ.NEXTVAL,#{title},#{memno},#{selete},#{send})
+	<insert id="insertReport" parameterType="hashmap">
+		INSERT INTO REPORT(REPORT_NUM,MEM_NUM,CATE_NUM,REVIEW_NUM)
+		VALUES(REP_SEQ.NEXTVAL,#{memno},#{selete},#{send})
 	</insert>
 	
 	<insert id="insertreview" parameterType="hashmap">

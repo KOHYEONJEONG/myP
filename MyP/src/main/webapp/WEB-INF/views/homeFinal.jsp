@@ -161,6 +161,10 @@
        width: 20px;
        height: 20px;
    }
+   
+   .accident_wrap .result_area{
+   	height: 100% !important;
+   }
 
  /* 팝업CSS */
   .bg .title {
@@ -247,16 +251,6 @@
       text-decoration: none;
   }
   
-  #news_search_i{
-  	    width: 20%;
-    height: 45px;
-    background: url(resources/icons/search.png) no-repeat;
-    background-size: 40%;
-    background-position: 50%;
-    box-sizing: border-box;
-    cursor: pointer;
-  }
-
 
 </style>
 <script type="text/javascript">
@@ -374,15 +368,11 @@
 		            success : function(res) { 
 						switch(res.msg){
 						 case "success":
-							 
 							  makeAlert("알림","신고에 성공하였습니다.");
-							  
+							  $("#warning_popup").hide();
 							  break;
 						  case "fail":
 							  makeAlert("알림","신고에 실패하였습니다.");
-							  break;
-						  case "error":
-							  makeAlert("알림","로그인을 하셔야합니다.");
 							  break;
 						}
 		            },
@@ -397,37 +387,16 @@
 			  reviewReload();
 		  })
 		  
-		   $("body").on("click", ".warning_i", function () {
-	        document.getElementById("warning_popup").style.display = "block";
-	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
-	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
-	        
-	        $.ajax({
-				url : "ReportAjax",
-				type : "POST",
-				dataType: "json",
-				success : function(res){
-					reportList(res.reportlist);
-				},
-				error : function(request, status, error) { 
-					console.log(request.responseText); 
-				}
-			});
-			
-	  });
-		  
 		  $("body").on("click", ".phone2", function(){//리뷰 버튼
 				 $("#carparknum").val($(this).attr("no"));
 				 $("#car_park_nm").html($(this).attr("nm"));
 				 reviewReload();
-				/*  $("img[alt='close']").click(); */
-			 });
+		});
 		 
-		  $("#search_i").on("click", function(){//검색 버튼
+		$("#search_i").on("click", function(){//검색 버튼
 			  $("#time_rate").val(0);
-		  
 				mapReload();
-	  		});
+	  	});
 		  
 		// 문화생활 카테고리 지도에 마커
 		$("#culture").on("click", function(){
@@ -436,7 +405,7 @@
 			$(this).addClass('on');
 			$(this).siblings().removeClass('on');
 			
-			if($("#sido1").val() == "전체" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
+			if($("#sido1").val() == "전체" || $("#sido1").val() == "구" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
 				makePopup({
 			         title : "알림",
 			         contents : "구와 동을 선택해주세요",
@@ -470,7 +439,7 @@
 			$(this).addClass('on');
 			$(this).siblings().removeClass('on');
 			
-			if($("#sido1").val() == "전체" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
+			if($("#sido1").val() == "전체" || $("#sido1").val() == "구" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체"){
 				makePopup({
 			         title : "알림",
 			         contents : "구와 동을 선택해주세요",
@@ -504,7 +473,7 @@
 			$(this).addClass('on');
 			$(this).siblings().removeClass('on');
 			
-			if($("#sido1").val() == "전체" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
+			if($("#sido1").val() == "전체" || $("#sido1").val() == "구" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
 				makePopup({
 			         title : "알림",
 			         contents : "구와 동을 선택해주세요",
@@ -538,7 +507,7 @@
 			$(this).addClass('on');
 			$(this).siblings().removeClass('on');
 			
-			if($("#sido1").val() == "전체" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체" ){
+			if($("#sido1").val() == "전체" || $("#sido1").val() == "구" || $("#gugun1").val() == "동" || $("#gugun1").val() == "전체"){
 				makePopup({
 			         title : "알림",
 			         contents : "구와 동을 선택해주세요",
@@ -1244,7 +1213,7 @@
 		         html +="<div class=\"parking_name\">"+data.title+"</div>";
 		         html +="<div class=\"parking_info\">";
 		         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
-		         html +="   <span style=\"color:red;\">₩"+data.re_fee_rate*time+"</span>";
+		         html +="<span style=\"color:red;\">₩"+data.re_fee_rate*time+"</span>";
 		         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
 		         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
 		         html +="</div>";
@@ -1281,28 +1250,26 @@
 		
 		
 		// 사고 탭에서 검색 클릭시
-		$("#news_search_i").on("click", function() {
+		$(".sixth").on("click", function() { // 사고탭 아이콘 클릭시 api 실행
 			
 			$.ajax({
 				url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/20/", 
 				type :"GET", 
 				dataType :"xml", 
 				success : function(xml) { 
-					console.log(xml);
 					
 					var logx = [];
 					var logy = [];
 					// xml 형식 json으로 바꿈
 					var xmlData = $(xml).find("row");
-					console.log(xmlData);
 					var listLength = xmlData.length;
 					
-					console.log(listLength);
 					
 					if(listLength > 0) {
 						
-						var html = "";				
-				
+						var html = "";
+						
+						html += "<div class=\"title\">사건, 사고 정보</div>";
 						html += "<div class=\"result_box\"></div>"; 
 						
 						var positions = new Array();
@@ -1398,9 +1365,6 @@
 				         url:"trafficAccidentList", 
 				         dataType : "json",
 				         success : function(res) {
-				        	 console.log(res.list);
-				        	 console.log(res.list[0].ACC_TYPE);
-				        	 console.log(res.list.length);
 				        	   for(var i=0; i < res.list.length; i++){
 				        	         $("." + res.list[i].ACC_TYPE).html(res.list[i].ACC_TYPE_NM)
 				        	 }  
@@ -1513,7 +1477,7 @@ function mapReload(){
      for(var data of reportlist){                                                            
 	     html += "<div>";
 	     html += "<input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>";                        
-	     html += "<label style=\"font-size:12px;\">"+data.CATE_NM +"</label>";
+	     html += "<label>"+data.CATE_NM +"</label>";
 	     html += "</div>";
 	 }
     $('#warning_popup .popup_content').html(html);  
@@ -1521,7 +1485,26 @@ function mapReload(){
  
  
   function warningPopup(review_num) {
-   	 $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
+	  if($("#mem_num").val() == null || $("#mem_num").val() == ""){
+		  makeAlert("알림","로그인을 하셔야합니다.");
+	  }else{
+	   	 	$("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
+	   	 	$("#warning_popup").show();
+	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
+	        $('header').css({"opacity" : "0.5","pointer-events":"none"});
+	      
+	        $.ajax({
+				url : "ReportAjax",
+				type : "POST",
+				dataType: "json",
+				success : function(res){
+					reportList(res.reportlist);
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			});
+	  }
   }
    
     
@@ -1727,14 +1710,13 @@ function mapReload(){
 			var i, marker;
 			for (i = 0; i < points.length; i++) {
 			    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-			  
-			    
 			    // LatLngBounds 객체에 좌표를 추가합니다
 			    bounds.extend(points[i]);
 			}
 			
 			map.setBounds(bounds);
-	 	}
+	 }
+  
 // 문화생활 카테고리 지도에 마커 function
 function cultureList(list){
 	
@@ -1842,14 +1824,33 @@ function cultureList(list){
 		var bounds = new kakao.maps.LatLngBounds();    
 
 		var i, marker;
-		for (i = 0; i < points.length; i++) {
-		    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-		     
-		    // LatLngBounds 객체에 좌표를 추가합니다
-		    bounds.extend(points[i]);
+		
+		if(points.length == 0){
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch($("#sido1").val() + " " + $("#gugun1").val(), function(result, status) {
+				if (status === kakao.maps.services.Status.OK) { 
+
+		 	    	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		 	    	
+		 	    	// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					map.setLevel(5);
+				}
+			});
+				
+		} else {
+			for (i = 0; i < points.length; i++) {
+			    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+			     
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(points[i]);
+			}
+			map.setBounds(bounds);
 		}
-		map.setBounds(bounds);
- 	}
+
+ }
  	
 function getShortDistance(locx,locy,carnum) { //클릭한거에 넣어줌 
 	var html = "";
@@ -2104,6 +2105,8 @@ function gasStationList(list){
 			map.setLevel(5);
 		}
 	}); 
+	
+	
 }
 
 //영화관 카테고리 지도에 마커 function
@@ -2585,9 +2588,9 @@ function cultureBookmarkReloadList() {
   
   function goDetail(car_num){
 	 	//잘 넘어오면 금액표 팝업을 보여주자.
-	 	$("#car_num").val(car_num);
-		var html = "";
-	 	
+	 	$("#fee_car_num").val(car_num);
+	 	var html = "";
+		
 	 	var params = $("#goForm").serialize();
 		$.ajax({
 			url : "parkFeeDetail", //경로
@@ -2598,42 +2601,34 @@ function cultureBookmarkReloadList() {
 				html += "<tr>";
 		      	html += "<th colspan=\"2\" style=\"background-color:lightgray;\">"+res.data.CAR_PARK_NM+"</th>";
 		      	html += "</tr>";
-		      	
 				html += "<tr>";
 		      	html += "<th>평일 유/무료구분</th>";
 		      	html += "<td>"+res.data.PAYORFREE_DIV+"</td>";
 		      	html += "</tr>";
-		      
 		        html += "<tr>";
 		      	html += "<th>토요일 유/무료 구분</th>";
 		      	html += "<td>"+res.data.SATURDAY_PAYORFREE_DIV+"</td>";
 		        html += "</tr>";
-		      
 		        html += "<tr>";
 		        html += "<th>공휴일 유/무료 구분</th>";
 		      	html += "<td>"+res.data.HOLIDAY_PAYORFREE_DIV+"</td>";
 		        html += "</tr>";
-		
 		        html += "<tr>";
 		      	html += "<th>정액권</th>";
 		      	html += "<td>"+res.data.FULLTIME_MONTHLY+"</td>";
 		        html += "</tr>";
-		      
 		        html += "<tr>";
 		      	html += "<th>기본 주차 시간</th>";
 		      	html += "<td>"+res.data.TIME_RATE+"</td>";
 		        html += "</tr>";
-		      
 		        html += "<tr>";
 		      	html += "<th>기본 요금</th>";
 		      	html += "<td>"+res.data.FEE_RATE+"</td>";
 		        html += "</tr>";
-		        
 		        html += "<tr>";
 		      	html += "<th>추가 단위 시간</th>";
 		      	html += "<td>"+res.data.ADD_TIME_RATE+"</td>";
 		        html += "</tr>";
-		        
 		        html += "<tr>";
 		      	html += "<th>추가 요금</th>";
 		      	html += "<td>"+res.data.ADD_FEE+"</td>";
@@ -2769,8 +2764,8 @@ function cultureBookmarkReloadList() {
 	<input type="hidden" id="car_num" name="car_num">
 </form>
 <form action="#" id="goForm" method="post">
-	<!-- 상세보기 페이지로 이동하려고 -->
-	<input type="hidden" id="car_num" name="car_num">
+	<!-- 요금계산 - 금액표 팝업 -->
+	<input type="hidden" id="fee_car_num" name="fee_car_num">
 </form>
 <!-- 상세보기 팝업창 -->
 <div id="detailTablePopup" class="detailTablePopup" style="display: none;">
@@ -2842,64 +2837,6 @@ function cultureBookmarkReloadList() {
             </div>
           </div>
           </form> 
-          <!-- <div class="result_area">
-            <div class="result_box">검색결과: 4건</div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="close_i"></div>
-              <div class="parking_name">언주로 147길 공영주차장</div>
-              <div class="parking_info">
-                <span class="time">09:00~18:00</span>
-                <span class="pay">유료</span>
-                <span class="detail">상세보기</span>
-              </div>
-              <div class="box_inner_i">
-                <div class="bookmark_i"></div>
-                <div class="share_i"></div>
-              </div>
-            </div>
-          </div>
-          <div class="btn_wrap">
-            <input type="button" class="bottom_btn" value="요금 비교" />
-          </div> -->
           <!-- 날씨 -->
           <div class="result_area2">
             <div class="side_bar">
@@ -2917,10 +2854,8 @@ function cultureBookmarkReloadList() {
                       <div class="temp_box">
                           <div class="temp_min" style="color: #3172e7;"></div>
                           <span class="solidus" style="color: #ccc">/</span>               
-                          <div class="temp_max" style="color: #cd3534;"></div>               
-                          
+                          <div class="temp_max" style="color: #cd3534;"></div>                 
                       </div>
-                      
                   </div>
                   <div class="middle_box">
                       <div class="probabilityBox">
@@ -2948,17 +2883,18 @@ function cultureBookmarkReloadList() {
           </div>
           </div>
         </div>
-         <!-- 요금계산 사이드 -->
+         <!-- 요금계산 -->
         <div class="calc_wrap">
          	<c:import url="/calc_wrap"/>
         </div>
- 
+         <!-- 최단거리 비교 -->
         <div class="distance_wrap">
           <div class="title">최단거리 비교</div>
           <div class="result_area" id="shortDistanceArea">
+          <div class="text">거리를 비교할 장소를 선택해주세요</div>
         </div>
         </div>
-        <!-- 북마크 시작 -->
+        <!-- 북마크 -->
         <c:choose>
 			<c:when test="${empty sMemNm}">
 				<div class="bookmark_wrap">
@@ -3026,7 +2962,7 @@ function cultureBookmarkReloadList() {
           	<div class="text">즐겨찾기 된 장소가 없습니다.</div>
           </div>
       </div>
-      <!-- 리뷰 시작 -->
+      <!-- 리뷰 -->
         <div class="review_wrap">
          <div class="title">리뷰</div>
           <div class="select_box">
@@ -3050,18 +2986,10 @@ function cultureBookmarkReloadList() {
           </div>
         </div>
         <div class="accident_wrap">
-          <div class="search_box">
-            <!-- <div class="box_top">
-              <select name="sido1" id="sido1"></select>
-              <select name="gugun1" id="gugun1"></select>
-            </div -->
-            <div class="box_bottom">
-              <input type="text" class="search_txt" placeholder="검색어를 입력하세요" />
-              <div id="news_search_i"></div>
-            </div>
-          </div>
           <div class="result_area">
-            <div class="result_box"></div>           
+          	<div class="title">사건, 사고 정보</div>
+         	 <div class="result_box">0건</div>
+			<div class="text">조회중입니다. 잠시만 기달려주세요...</div>
           </div>
         </div>
       </div>
@@ -3094,43 +3022,22 @@ function cultureBookmarkReloadList() {
 <c:import url="/guideMain"/>
 
 <!-- 리뷰 팝업 -->
-<c:import url="/reviewPopup2"/>
+<c:import url="/reviewPopup2"/> <!-- raty가 이 안에 있음. -->
 
 <!-- 신고하기 팝업 -->
 <div id="warning_popup">
-  <form>
+    <form action="#" id="actionForm2" method="post">
+      <input type="hidden" name="memno" id="memno" value="${sMemNo}" />
+      <input type="hidden" name="send" id="send" /><!-- review_num -->
       <div class="close_i">
           <img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
       </div>
+      
       <div class="popup_top">
-          <div class="title">제목</div>
-          <div class="input">
-              <input type="text" class="txt_title" readonly>
-          </div>
-      </div>
-      <div class="popup_middle">
-          <div class="writer">작성자</div>
-          <div class="input">
-              <input type="text" class="txt_writer" readonly>
-          </div>
+          <div class="title">💥신고💥</div>
       </div>
       <hr/>
-      <div class="popup_content">
-          <div class="note">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>
-          <div class="choice_label"> <사유선택> </div>
-          <div>
-              <input type="radio" name="selete" value="1" checked>
-              <label>부적절한 홍보 게시글</label>
-          </div>
-          <div>
-              <input type="radio" name="selete" value="2" checked>
-              <label>음란성 및 청소년에게 부적절한 게시글</label>
-          </div>
-          <div>
-              <input type="radio" name="selete" value="3" checked>
-              <label>명예훼손/사생활 침해 및 저작권침해 등</label>
-          </div>
-      </div>
+      <div class="popup_content"></div>
       <hr/>
       <div class="warningBtn_wrap" style="text-align: center">
           <input type="button" value="신고" id="warningBtn">

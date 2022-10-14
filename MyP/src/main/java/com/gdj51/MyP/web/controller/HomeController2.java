@@ -142,10 +142,10 @@ public class HomeController2 {
 		try {
 			switch (gbn) {
 			case "insert":
-				cnt = iACDao.insert("home.insert", params);
+				cnt = iACDao.insert("home.insertReport", params);// 신고
 				break;
 			case "insertreview":
-				cnt = iACDao.insert("home.insertreview", params);
+				cnt = iACDao.insert("home.insertreview", params);// 리뷰
 				break;
 			}
 			if (cnt > 0) {
