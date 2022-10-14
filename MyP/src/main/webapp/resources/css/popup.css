@@ -164,20 +164,23 @@
 /*신고*/
 #warning_popup {
   width: 400px;
-  height: 340px;
   position: absolute;
   background-color: #d9d2e9;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-  padding: 40px 20px 0 20px;
+  padding: 40px 20px 20px 20px;
   border: 1px solid gray;
   box-sizing: border-box;
   display: none;
   border-radius: 5px;
   font-family: "TmoneyRoundWindRegular";
 }
+#warning_popup label{
+   font-size: 14px;
+}
+
 #warning_popup .close_i {
   position: absolute;
   top: 10px;
@@ -202,12 +205,12 @@
   padding: 7px;
 }
 #warning_popup .title, #warning_popup .writer {
-  width: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  font-size: 17px;;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 40px;
+   font-size: 20px;
+   margin: 0 auto 5px;
 }
 #warning_popup .input {
   width: 370px;
@@ -220,6 +223,7 @@
   font-size: 13px;
 }
 #warning_popup .txt_title {
+	
   width: 280px;
   box-sizing: border-box;
   height: 40px;

@@ -265,7 +265,7 @@ $(document).ready(function () {
             ['view', ['fullscreen', 'codeview', 'help']]
           ]
     });*/
-$("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비교 버튼
+/*$("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비교 버튼
 	feeSort = feeComArray;//다시 담고 뿌려주려고
 	var lastLength = feeSort.length;
 	//추가 단위로 선택한 시간(분)으로 나눈다음
@@ -359,11 +359,11 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 		//(*)UI에서 지워주기
 		$(this).parent().remove();
 	});
-
+*/
 });//document.ready
 
 
- function searchList(list){
+/* function searchList(list){
 	 var html = "";
 	 html += "<div class=\"result_box\">" +list.length+ "</div>";
 	 for(var data of list){		
@@ -384,9 +384,9 @@ $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비�
 	 //console.log(html);
 	 //console.log(list.length);
 	 $('.result_area2').html(html);
- } 
+ } */
  
-function mapList(list){
+/*function mapList(list){
 	 
 	var positions = new Array();
 	var points = new Array();
@@ -490,13 +490,11 @@ function mapList(list){
 		    bounds.extend(points[i]);// LatLngBounds 객체에 좌표를 추가합니다
 		}//for
 		
-		map.setBounds(bounds);
-		
-		
+		map.setBounds(bounds);	
 
-}
+}*/
  
-function goDetail(car_num){
+/*function goDetail(car_num){
  	//잘 넘어오면 금액표 팝업을 보여주자.
  	$("#car_num").val(car_num);
 	var html = "";
@@ -619,4 +617,4 @@ function feeComx(){
          html +="</div>";
 	}
 	$("#feeComArea").html(html); 
-}
+}*/
