@@ -553,7 +553,7 @@
   				$("#sendRestaurantNum").val($("#restaurantNum1").val());
 				$("#sendGasStationNum").val($("#gasStation1").val()); 
 				$("#sendCinemaNum").val($("#cinemaNum1").val());
-				$("#sendParkingNum").val($("#carparknum").val());
+				$("#sendParkingNum").val($(".bg #carparknum").val());
 			
 				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
 					
@@ -1648,8 +1648,14 @@ function mapReload(){
 		    	iwContent += "<span class=\"detail\"  onclick=\"goDetail("+positions[i].carparknum+")\">상세보기</span>";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
-		    	iwContent += "<div class=\"bookmarkBox\">";
-		    	iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"boomarkBtn\" class=\"boomarkBtn\">";
+		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"parking\">";
+		    	$(".parking_bookmark_wrap .result_area").each(function() {
+	               if($(this).html().match(positions[i].carparknum)){
+	                  iwContent += "<img src=\"resources/icons/star1.png\" id=\"bookmarkBtn\">";
+	               } else {
+	                  iwContent += "<img src=\"resources/icons/bookmark.png\" id=\"bookmarkBtn\">";
+	               }
+	            });
 		    	iwContent += "</div>";
 		    	iwContent += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage(" + positions[i].carparknum + ")\" class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
