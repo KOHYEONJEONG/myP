@@ -70,7 +70,13 @@
     padding-right: 20px;
     font-size: 14px;
 }
-
+.name, .address {
+   	font-size: 12px;
+   	margin-bottom: 3px;
+}
+.name{
+  	color: #028f69;
+}
 .movies{
 	filter: invert(1);
 }
@@ -241,8 +247,17 @@
   var markers = new Array();
   var feeComArray  = [];
   var feeSort = [];
+  var mapContainer = null;
+  var map = null;
   $(document).ready(function() {
 	  
+	  mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	  mapOption = { 
+	   center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 지도의 중심좌표, 서울로맞춰놓음
+	      level: 3 // 지도의 확대 레벨
+	  };
+
+	 map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	  
 	  cultureBookmarkReloadList();
 	  
@@ -369,7 +384,7 @@
 		
 		
 		
-		$("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비교 버튼
+		/* $("#feeCompareBtn").on("click", function(){//사이드바에 있는 요금 비교 버튼
 			feeSort = feeComArray;//다시 담고 뿌려주려고
 			var lastLength = feeSort.length;
 			//추가 단위로 선택한 시간(분)으로 나눈다음
@@ -446,17 +461,17 @@
 				$("#feeComArea").html(html);
 			}
 			
-			});
+			}); */
 		
-		$("#feeTablePopup .close_i").click(function () {
-			$("#feeTablePopup").hide();
+		$("#detailTablePopup .close_i").click(function () {
+			$("#detailTablePopup").hide();
 		    $('main').css({"opacity" : "1","pointer-events":"auto"});
 		    $('header').css({"opacity" : "1","pointer-events":"auto"});
 		});
 		
 		
 		
-		$("#feeComArea").on("click",".box .close_i",function(){
+		/* $("#feeComArea").on("click",".box .close_i",function(){
 			console.log("요금비교 box x버튼");
 			//feeComArray
 			var car_num = $(this).attr("no");
@@ -468,7 +483,7 @@
 			
 			//(*)UI에서 지워주기
 			$(this).parent().remove();
-		});
+		}); */
 		
 		//  주유소 카테고리 지도에 마커
 		$("#gasStation").on("click", function(){
@@ -508,6 +523,8 @@
 		
 		// 음식점 카테고리 지도에 마커
 		$("#restaurant").on("click", function(){
+			$("#shortDistanceArea").html('');
+			
 			$(this).addClass('on');
 			$(this).siblings().removeClass('on');
 			
@@ -542,6 +559,8 @@
 
 		// 영화관 카테고리 지도에 마커
 		$("#cinema").on("click", function(){
+			$("#shortDistanceArea").html('');
+			
 			$(this).addClass('on');
 			$(this).siblings().removeClass('on');
 			
@@ -682,19 +701,20 @@
 			
 		});
 		
+		
 		// 리뷰
-		 $("body").on("click", ".phone2",function(){
-			 var carparknum = $("#carparknum").val();
+		 $("body").on("click", ".name",function(){
+			 var title = $("#title").val();
 			 
-			var data = {carparknum : carparknum};
+			var data = {title : title};
 			
 			$.ajax({
 				 type : "POST",
-				   url : "ReviewAjax",
+				   url : "cultureAjax",
 				   dataType : "json",
 				   data : data,
 				   success : function(res){
-					   reaviewList(res.reviewlist);
+					   CultureList(res.CultureList);
 					   console.log(res.reviewlist);
 					
 				   },
@@ -772,7 +792,7 @@
 	 	$("#car_num").val(car_num);
 		var html = "";
 	 	
-	 	var params = $("#goForm").serialize();
+	 	var params = $("#carDetailForm").serialize();
 		$.ajax({
 			url : "parkDetail", //경로
 			type : "POST", //전송방식(GET: 주소형태, Post : 주소 헤더형태)
@@ -815,8 +835,8 @@
 		        
 		      
 		        
-		        $("#feeTablePopup tbody").html(html);
-				$("#feeTablePopup").show();
+		        $("#detailTablePopup tbody").html(html);
+				$("#detailTablePopup").show();
 				
 			},
 			error : function(request, status, error){
@@ -1023,7 +1043,7 @@ function cultureList(list){
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"compareBox\">";
-		    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+positions[i].locx+","+positions[i].locy+")\">최단거리비교</button>";
+		    	iwContent += "<button class=\"compareBoxBtn\" name=\"" + positions[i].title + "\" onclick=\"getShortDistance('"+positions[i].title+"',"+positions[i].locx+","+positions[i].locy+")\">최단거리비교</button>";
 		    	iwContent += "</div>";
 		    	iwContent += "</div>";
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -1067,12 +1087,12 @@ function cultureList(list){
 
  	}
  	
-function getShortDistance(locx,locy,carnum) { //클릭한거에 넣어줌 
+function getShortDistance(nm,locx,locy) { //클릭한거에 넣어줌 
 	var html = "";
 	
 	$("#locx").val(locx);
 	$("#locy").val(locy);
-	$("#car_num").val(car_num);
+	$("#carnum").val($("#carnum").val());
 	
 	var params = $("#disForm").serialize();
 	$.ajax({
@@ -1081,6 +1101,8 @@ function getShortDistance(locx,locy,carnum) { //클릭한거에 넣어줌
 		dataType: "json",
 		data: params,
 		success : function(res){
+			
+			html += "<div class=\"standard\">"+nm+"기준</div>";	
 			
 			for(var data of res.list){
 				html += "<div class=\"box\">";
@@ -1225,7 +1247,7 @@ function getShortDistance(locx,locy,carnum) { //클릭한거에 넣어줌
 function gasStationList(list){
 	
 	var positions = new Array();
-	 var points = new Array();
+	var points = new Array();
 	 
 	 for(var data of list) {
 		 positions.push({
@@ -1300,7 +1322,7 @@ function gasStationList(list){
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
-			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+p[1]+","+p[0]+")\">최단거리비교</button>";
+			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.GAS_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -1356,7 +1378,6 @@ function cinemaList(list){
 			title: data.CUL_LIFE,
 			phone: data.PHONE,
 			address: data.ADDRESS,
-			cultureNum: data.CUL_LIFE_NUM,
 			fee_rate:data.FEE_RATE, //기본 주차 요금
 			locx : data.LOCX,
 			locy : data.LOCY,
@@ -1366,8 +1387,6 @@ function cinemaList(list){
 		 
 		 points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 	 }
-	 
-	 
 	
 	// 마커 이미지의 이미지 주소입니다
 	// 없으면 기본 마커, 파란색
@@ -1413,7 +1432,8 @@ function cinemaList(list){
 		        
 		        const p = proj4(grs80, wgs84, [(positions[i].locx* 1).toFixed(1) * 1, (positions[i].locy* 1).toFixed(1) * 1]);
 		     	
-		        var iwContent = "<div class=\"bg\"><div class=\"title\">" +  data.ENT_NM +"</div>";
+		        var 
+		        	iwContent = "<div class=\"bg\"><div class=\"title\">" +  data.ENT_NM +"</div>";
 			     	iwContent += "<div class=\"phone\">" + data.PHONE +"</div>";
 			    	iwContent += "<div class=\"address\">" + data.PARCEL_NUM +"</div>"; 
 			    	iwContent += "<input type=\"hidden\" name=\"locx\" id=\"locx\" value=\""+data.LOCX+"\">";
@@ -1426,7 +1446,7 @@ function cinemaList(list){
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
-			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+p[1]+","+p[0]+")\">최단거리비교</button>";
+			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.ENT_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -1546,7 +1566,7 @@ function restaurantList(list){
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
-			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+p[1]+","+p[0]+")\">최단거리비교</button>";
+			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.ENT_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -1640,66 +1660,12 @@ function cultureBookmarkReloadList() {
 			$(".cultrue_bookmark_wrap .result_area").html(html);
 	}
 
- /* function feeCom(car_num,starttime,endtime,payorfree_div, fee_rate, add_time_rate, time_rate, add_fee, re_fee_rate, re_add_fee, title) {//요금비교하려고 배열에 담았다.
-	 	//1583756 '00:00' '00:00' '유료' '150' '5' '5' '150' '150' '150' '민속의집 공영주차장(구)'
-	 	var cnt = 0;
-	 	
-	 	for(var data of feeComArray) {
-			if(data.car_num == car_num) { //이미 데이터가 있다면 더 추가 못하게.(중복 피하기)
-				cnt++;
-			}
-		}
-	 	
-	 	if(cnt == 0) {
-			feeComArray.push({car_num: car_num, starttime: starttime, endtime: endtime, payorfree_div:payorfree_div, fee_rate:fee_rate, add_time_rate:add_time_rate, time_rate:time_rate, add_fee:add_fee ,re_fee_rate:re_fee_rate, re_add_fee:re_add_fee, title: title});
-		}
-	 	
-	 	var html = "";
-		for(var data of feeComArray){
-			 html +="<div class=\"box\">";
-	         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
-	         html +="<div class=\"parking_name\">"+data.title+"</div>";
-	         html +="<div class=\"parking_info\">";
-	         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
-	         html +="<span style=\"color:black;\">₩"+ data.re_fee_rate +"(5분단위)</span>";
-	         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
-	         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
-	         html +="</div>";
-	         html +="<div class=\"box_inner_i\">";
-	         html +="<div class=\"bookmark_i\"></div>";
-	         html +="<div class=\"share_i\"></div>";
-	         html +="</div>";
-	         html +="</div>";
-		}
-		$("#feeComArea").html(html); 
-	}
- 
- function feeComx(){
-		var html = "";
-		for(var data of feeComArray){
-			 html +="<div class=\"box\">";
-	         html +="<div class=\"close_i\" no=\""+data.car_num+"\"></div>";
-	         html +="<div class=\"parking_name\">"+data.title+"</div>";
-	         html +="<div class=\"parking_info\">";
-	         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
-	         html +="   <span style=\"color:black;\">₩"+ data.re_fee_rate +"(5분단위)</span>";
-	         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
-	         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
-	         html +="</div>";
-	         html +="<div class=\"box_inner_i\">";
-	         html +="<div class=\"bookmark_i\"></div>";
-	         html +="<div class=\"share_i\"></div>";
-	         html +="</div>";
-	         html +="</div>";
-		}
-		$("#feeComArea").html(html); 
-	} */
 </script>
 </head>
 <body>
 <c:import url="/header"></c:import>
-<!-- 요금표 팝업창 -->
-<div id="feeTablePopup" class="feeTablePopup" style="display: none;">
+<!-- 상세보기 팝업창 -->
+<div id="detailTablePopup" class="detailTablePopup" style="display: none;">
 	<div class="close_i">
       		<img src="${pageContext.request.contextPath}/resources/icons/close.png" alt="">
    	</div>
@@ -1719,9 +1685,10 @@ function cultureBookmarkReloadList() {
 <form action="#" id="disForm" method="post">
 	<input type="hidden" id="locx" name="locx" />
 	<input type="hidden" id="locy" name="locy" />
+	<input type="hidden" id="title" name="title" />
 	<input type="hidden" id="carnum" name="carnum" />
 </form>
-<form action="#" id="goForm" method="post">
+<form action="#" id="carDetailForm" method="post">
 	<!-- 상세보기 페이지로 이동하려고 -->
 	<input type="hidden" id="car_num" name="car_num">
 </form>
@@ -1989,9 +1956,9 @@ function cultureBookmarkReloadList() {
         </div>
         <div class="distance_wrap">
           <div class="title">최단거리 비교</div>
-          
+           
           <div class="result_area" id="shortDistanceArea">
-            
+           
          
         </div>
         </div>
@@ -2393,22 +2360,6 @@ function cultureBookmarkReloadList() {
       </div>
   </form>
 </div>
-  
-  <script>
-     
- 
- var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
- mapOption = { 
-  center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 지도의 중심좌표, 서울로맞춰놓음
-     level: 3 // 지도의 확대 레벨
- };
-
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-
-
-  </script>
-  
 
 </body>
 

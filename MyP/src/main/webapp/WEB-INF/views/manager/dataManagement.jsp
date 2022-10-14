@@ -37,6 +37,7 @@ $(document).ready(function() {
 	console.log($("#cateNo").val());
 	
 	//카테고리 번호가 1이면 주차장 리스트 가져오고 2로 바뀌면 맛집 리스트를 가져옴
+	//검색창 내용
 	$("#cateNo").on("change", function() {
 		$("#page").val("1");
 		$("#searchGbn").val("0");
@@ -81,7 +82,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	//검색 버튼
+	//검색 버튼 카테고리마다 검색창 다시 그려줌
 	$("#search_btn").on("click", function() {
 		$("#page").val("1");
 		
@@ -147,130 +148,130 @@ $(document).ready(function() {
 		}
 	});
 });
-//주차장관련 ajax
-function reloadList1() {
-	var params = $("#dataForm").serialize();
-	
-	$.ajax({
-		url: "datacarAjax",
-		type: "POST",
-		dataType : "json",
-		data: params,
-		success: function(res) {
-			drawListcar(res.list1); //리스트 각각 가져와야해서 4개 만들었음.
-			drawPaging(res.pd); //페이징은 하나로 써도됨
-		},
-		error : function(request, status, error) {
-			console.log(request.responseText);
-		}
-	});
-}
-
-//맛집관련 ajax
-function reloadList2() {
-	var params = $("#dataForm").serialize();
-	
-	$.ajax({
-		url: "datafoodAjax",
-		type: "POST",
-		dataType : "json",
-		data: params,
-		success: function(res) {
-			drawListfood(res.list2); 
-			drawPaging(res.pd);
-		},
-		error : function(request, status, error) {
-			console.log(request.responseText);
-		}
-	});
-}
-//문화생활관련 ajax
-function reloadList3() {
-	var params = $("#dataForm").serialize();
-	
-	$.ajax({
-		url: "datacultureAjax",
-		type: "POST",
-		dataType : "json",
-		data: params,
-		success: function(res) {
-			drawListculture(res.list3);
-			drawPaging(res.pd);
-		},
-		error : function(request, status, error) {
-			console.log(request.responseText);
-		}
-	});
-}
-//주유소관련 ajax
-function reloadList4() {
-	var params = $("#dataForm").serialize();
-	
-	$.ajax({
-		url: "datagasAjax",
-		type: "POST",
-		dataType : "json",
-		data: params,
-		success: function(res) {
-			drawListgas(res.list4);
-			drawPaging(res.pd);
-		},
-		error : function(request, status, error) {
-			console.log(request.responseText);
-		}
-	});
-}
-
-function drawListcar(list1) {
-	var html = "";
-	var flag = true;
-	
-	if(flag){
+	//주차장관련 ajax
+	function reloadList1() {
+		var params = $("#dataForm").serialize();
 		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"주차장관리번호"+"</th>";
-	    html += "<th>"+"주차장명"+"</th>";
-	    html += "<th>"+"주차장유형"+"</th>";
-	    html += "<th>"+"주소"+"</th>";
-		html += "</tr>";
-		
-		flag = false;
-		$("thead").html(html);
+		$.ajax({
+			url: "datacarAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListcar(res.list1); //리스트 각각 가져와야해서 4개 만들었음.
+				drawPaging(res.pd); //페이징은 하나로 써도됨
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
 	}
-	
-	html = "";
-    
-	for(var data of list1) {
-		html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
-	    html += "<td>"+data.CAR_PARK_MAG_NUM+"</td>"; 
-	    html += "<td>"+data.CAR_PARK_NM+"</td>"; //주차장명
-	    html += "<td>"+data.CAR_PARK_TP_NM+"</td>"; //주차장유형(노상/노외)
-	    html += "<td>"+data.ADDRESS+"</td>"; //주소
-	    html += "</tr>";
+
+	//맛집관련 ajax
+	function reloadList2() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "datafoodAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListfood(res.list2); 
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+	//문화생활관련 ajax
+	function reloadList3() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "datacultureAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListculture(res.list3);
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+	//주유소관련 ajax
+	function reloadList4() {
+		var params = $("#dataForm").serialize();
+		
+		$.ajax({
+			url: "datagasAjax",
+			type: "POST",
+			dataType : "json",
+			data: params,
+			success: function(res) {
+				drawListgas(res.list4);
+				drawPaging(res.pd);
+			},
+			error : function(request, status, error) {
+				console.log(request.responseText);
+			}
+		});
+	}
+
+	function drawListcar(list1) {
+		var html = "";
+		var flag = true;
+		
+		if(flag){
+			
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"주차장관리번호"+"</th>";
+		    html += "<th>"+"주차장명"+"</th>";
+		    html += "<th>"+"주차장유형"+"</th>";
+		    html += "<th>"+"주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+		
+		html = "";
 	    
-	}
-	$("tbody").html(html);
-	
-	
-}
-
-function drawListfood(list2) {
-	var html = "";
-	var flag = true;
-	
-	if(flag){
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"맛집관리번호"+"</th>";
-	    html += "<th>"+"음식점명"+"</th>";
-	    html += "<th>"+"전화번호"+"</th>";
-	    html += "<th>"+"도로명 주소"+"</th>";
-		html += "</tr>";
+		for(var data of list1) {
+			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
+		    html += "<td>"+data.CAR_PARK_MAG_NUM+"</td>"; 
+		    html += "<td>"+data.CAR_PARK_NM+"</td>"; //주차장명
+		    html += "<td>"+data.CAR_PARK_TP_NM+"</td>"; //주차장유형(노상/노외)
+		    html += "<td>"+data.ADDRESS+"</td>"; //주소
+		    html += "</tr>";
+		    
+		}
+		$("tbody").html(html);
 		
-		flag = false;
-		$("thead").html(html);
+		
 	}
-	
-	html = "";
+
+	function drawListfood(list2) {
+		var html = "";
+		var flag = true;
+		
+		if(flag){
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"맛집관리번호"+"</th>";
+		    html += "<th>"+"음식점명"+"</th>";
+		    html += "<th>"+"전화번호"+"</th>";
+		    html += "<th>"+"도로명 주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+		
+		html = "";
   
     
 	for(var data of list2) {
@@ -281,28 +282,28 @@ function drawListfood(list2) {
 	    html += "<td>"+data.ROAD_NM_ADDRESS+"</td>"; //도로명 주소
 	    html += "</tr>";
 	    
-	}
-	$("tbody").html(html);
-}
-
-function drawListculture(list3) {
-	var html = "";
-	var flag = true;
-	
-	if(flag){
-		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"영화관관리번호"+"</th>";
-	    html += "<th>"+"사업자명"+"</th>";
-	    html += "<th>"+"전화번호"+"</th>";
-	    html += "<th>"+"도로명 주소"+"</th>";
-		html += "</tr>";
-		
-		flag = false;
-		$("thead").html(html);
+		}
+		$("tbody").html(html);
 	}
 
-	html = "";
+	function drawListculture(list3) {
+		var html = "";
+		var flag = true;
+		
+		if(flag){
+			
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"영화관관리번호"+"</th>";
+		    html += "<th>"+"사업자명"+"</th>";
+		    html += "<th>"+"전화번호"+"</th>";
+		    html += "<th>"+"도로명 주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+
+		html = "";
 	
 	for(var data of list3) {
 		html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">"; //영화관관리번호
@@ -316,23 +317,23 @@ function drawListculture(list3) {
 	$("tbody").html(html);
 }
 
-function drawListgas(list4) {
-	var html = "";
-	var flag = true;
-	
-	if(flag){
+	function drawListgas(list4) {
+		var html = "";
+		var flag = true;
 		
-		html += "<tr>"+ +"<\>";
-		html += "<th>"+"주유소관리번호"+"</th>";
-	    html += "<th>"+"주유소명"+"</th>";
-	    html += "<th>"+"전화번호"+"</th>";
-	    html += "<th>"+"도로명 주소"+"</th>";
-		html += "</tr>";
-		
-		flag = false;
-		$("thead").html(html);
-	}
-	html = "";
+		if(flag){
+			
+			html += "<tr>"+ +"<\>";
+			html += "<th>"+"주유소관리번호"+"</th>";
+		    html += "<th>"+"주유소명"+"</th>";
+		    html += "<th>"+"전화번호"+"</th>";
+		    html += "<th>"+"도로명 주소"+"</th>";
+			html += "</tr>";
+			
+			flag = false;
+			$("thead").html(html);
+		}
+		html = "";
 	
     
 	for(var data of list4) {
@@ -343,45 +344,45 @@ function drawListgas(list4) {
 	    html += "<td>"+data.ROAD_NM_ADDRESS+"</td>"; //도로명주소
 	    html += "</tr>";
 	    
+		}
+		$("tbody").html(html);
 	}
-	$("tbody").html(html);
-}
 
 
 
-function drawPaging(pd) {
-	var html = "";
-	
-	html +=
-	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
-	// 이전
-	if($("#page").val() == "1"){
-		html += "<a class=\"arrow prev\" page=\"1\"></a>";
-	} else{
-		// 문자열을 숫자로 바꾸기위해 *1
-		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
-	}
-	
-	for(var i = pd.startP; i <= pd.endP; i++){
-		if($("#page").val() * 1 == i){ // 현재 페이지
-			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
-		} else { // 다른 페이지
-			html += "<a page=\"" + i + "\">" + i + "</a>";
+	function drawPaging(pd) {
+		var html = "";
+		
+		html +=
+		html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+		// 이전
+		if($("#page").val() == "1"){
+			html += "<a class=\"arrow prev\" page=\"1\"></a>";
+		} else{
+			// 문자열을 숫자로 바꾸기위해 *1
+			html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
 		}
 		
+		for(var i = pd.startP; i <= pd.endP; i++){
+			if($("#page").val() * 1 == i){ // 현재 페이지
+				html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+			} else { // 다른 페이지
+				html += "<a page=\"" + i + "\">" + i + "</a>";
+			}
+			
+		}
+		
+		if($("#page").val() *1 == pd.maxP){ // 현재페이지가 마지막 페이지라면
+			html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+		} else {
+			html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+		}
+		
+		html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+		
+		$(".page_nation").html(html);
+	                                                                   
 	}
-	
-	if($("#page").val() *1 == pd.maxP){ // 현재페이지가 마지막 페이지라면
-		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
-	} else {
-		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
-	}
-	
-	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
-	
-	$(".page_nation").html(html);
-                                                                   
-}
 </script>
 </head>
 <body>
@@ -395,7 +396,7 @@ function drawPaging(pd) {
 				<c:param name="link" value="dataManagement"></c:param>
 			</c:import>          
         <div class="right_area">     
-            <div class="table_wrap">
+           <div class="table_wrap">
               <div class="search_box1">
                 <select class="cate" id="cateNo">
                   <option value="1">주차장</option>
@@ -444,14 +445,13 @@ function drawPaging(pd) {
               </table>
               
                 <!--페이징-->
-                <div class="page_wrap">
-                   <div class="page_nation"></div>
-                </div>
-                
-            </div>
-          </div>
+        <div class="page_wrap">
+          <div class="page_nation"></div>
         </div>
-      </main>
+      </div>
+    </div>
+  </div>
+</main>
 <c:import url="/footer"></c:import>
 </body>
 </html>
