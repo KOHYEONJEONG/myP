@@ -2975,7 +2975,7 @@ function cultureBookmarkReloadList() {
          <div class="title">리뷰</div>
           <div class="select_box">
           <select id="selectx" name="selectx">
-              <option value="1">높은별점순</option>
+              <option value="1">높은별점순</option><!-- ㅎㅎ -->
               <option value="2">최신순</option>
             </select>
           </div>
