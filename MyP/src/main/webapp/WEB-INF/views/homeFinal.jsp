@@ -1791,7 +1791,7 @@ function cultureList(list){
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"compareBox\">";
-		    	iwContent += "<button class=\"compareBoxBtn\"onclick=\"getShortDistance("+positions[i].locx+","+positions[i].locy+")\">최단거리비교</button>";
+		    	iwContent += "<button class=\"compareBoxBtn\"onclick=\"getShortDistance('"+positions[i].title+"',"+positions[i].locx+","+positions[i].locy+")\">최단거리비교</button>";
 		    	iwContent += "</div>";
 		    	iwContent += "</div>";
 		    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -1852,7 +1852,7 @@ function cultureList(list){
 
  }
  	
-function getShortDistance(locx,locy,carnum) { //클릭한거에 넣어줌 
+function getShortDistance(nm,locx,locy,carnum) { //클릭한거에 넣어줌 
 	var html = "";
 	
 	$("#locx").val(locx);
@@ -1866,6 +1866,8 @@ function getShortDistance(locx,locy,carnum) { //클릭한거에 넣어줌
 		dataType: "json",
 		data: params,
 		success : function(res){
+			
+			html += "<div class=\"standard\">"+nm+" 기준</div>";	
 			
 			for(var data of res.list){
 				html += "<div class=\"box\">";
@@ -2064,7 +2066,7 @@ function gasStationList(list){
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
-			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+p[1]+","+p[0]+")\">최단거리비교</button>";
+			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.GAS_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -2194,7 +2196,7 @@ function cinemaList(list){
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
-			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+p[1]+","+p[0]+")\">최단거리비교</button>";
+			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.ENT_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -2321,7 +2323,7 @@ function restaurantList(list){
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
 			    	iwContent += "</div>";
 			    	iwContent += "<div class=\"compareBox\">";
-			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance("+p[1]+","+p[0]+")\">최단거리비교</button>";
+			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.ENT_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>";
 			    	iwContent += "</div>", // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
