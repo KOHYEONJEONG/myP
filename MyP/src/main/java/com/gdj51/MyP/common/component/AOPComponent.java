@@ -17,18 +17,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 @EnableAspectJAutoProxy
 public class AOPComponent {
-	// Pointcut -> 적용범위
-	// @Pointcut(범위설정)
 	/*
+	 * // Pointcut -> 적용범위 // @Pointcut(범위설정)
+	 * 
 	 * 범위 execution -> include필터 !execution -> exclude필터 * -> 모든것 *(..) -> 모든 메소드 ..
 	 * -> 모든 경로 && -> 필터 추가
-	 */
-	@Pointcut("execution(* com.gdj51.MyP..HomeController.*(..))")
-	public void testAOP() {
-	}
-
-	// ProceedingJoinPoint -> 대상 적용 이벤트 필터
-	/*
+	 * 
+	 * @Pointcut("execution(* com.gdj51.MyP..HomeController.*(..))") public void
+	 * testAOP() { }
+	 * 
+	 * // ProceedingJoinPoint -> 대상 적용 이벤트 필터
+	 * 
 	 * @Before -> 메소드 실행 전
 	 * 
 	 * @After -> 메소드 실행 후
@@ -38,27 +37,26 @@ public class AOPComponent {
 	 * @After-throwing -> 메소드 예외 발생 후
 	 * 
 	 * @Around -> 모든 동작시점
+	 * 
+	 * @Around("testAOP()") public ModelAndView testAOP(ProceedingJoinPoint
+	 * joinPoint) throws Throwable { ModelAndView mav = new ModelAndView();
+	 * 
+	 * // Request 객체 취득 HttpServletRequest request = ((ServletRequestAttributes)
+	 * RequestContextHolder.currentRequestAttributes()) .getRequest();
+	 * 
+	 * mav = (ModelAndView) joinPoint.proceed(); // 기존 이벤트 처리 행위를 이어서 진행
+	 * 
+	 * System.out.println("------- testAOP 실행됨 ------");
+	 * 
+	 * return mav; }
 	 */
-	@Around("testAOP()")
-	public ModelAndView testAOP(ProceedingJoinPoint joinPoint) throws Throwable {
-		ModelAndView mav = new ModelAndView();
-
-		// Request 객체 취득
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-				.getRequest();
-
-		mav = (ModelAndView) joinPoint.proceed(); // 기존 이벤트 처리 행위를 이어서 진행
-
-		System.out.println("------- testAOP 실행됨 ------");
-
-		return mav;
-	}
 
 	// pointcut은 여러개 사용가능
 	// 주의사항 : 범위를 잘 잡아야한다.
 	// &&와 ||을 섞어 쓰는 거 비추
 	// 차리리 pointcut을 여러개 만들어서 사용해라~
-	// Ajax의 경우 String을 반환하기 때문에 ModelAndView로 구현이 안됨으로 따로 처리해야함.(*Ajax(..) 아니면 메소드 뒤에 구별문구를 두어서 !execution 해주면 된다.)
+	// Ajax의 경우 String을 반환하기 때문에 ModelAndView로 구현이 안됨으로 따로 처리해야함.(*Ajax(..) 아니면 메소드
+	// 뒤에 구별문구를 두어서 !execution 해주면 된다.)
 	// 자바클래스와 메소드만 포인트컷 안에 작석할 수 있다. 어노테이션을 넣을 수 없다.
 	@Pointcut("execution(* com.gdj51.MyP..controller.ManagerController.*(..))"
 			+ "&& !execution(* com.gdj51.MyP..controller.ManagerController.*Ajax(..))") // ATConroller안에 있는 모든 메소드

@@ -14,7 +14,7 @@ public class TestController {
 		mav.setViewName("home1");
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/home2")
 	public ModelAndView home2(ModelAndView mav) {
 		mav.setViewName("home2");
@@ -26,11 +26,17 @@ public class TestController {
 		mav.setViewName("home3");
 		return mav;
 	}
-	
+
 	// 장원석 공유하기 하는 page
 	@RequestMapping(value = "/home4")
 	public ModelAndView home4(ModelAndView mav) {
 		mav.setViewName("home4");
+		return mav;
+	}
+
+	@RequestMapping(value = "/homeFinal")
+	public ModelAndView homeFinal(ModelAndView mav) {
+		mav.setViewName("homeFinal");
 		return mav;
 	}
 
