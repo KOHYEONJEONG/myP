@@ -114,8 +114,8 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	</select>
 	
 	<insert id="insert" parameterType="hashmap">
-		INSERT INTO REPORT(REPORT_NUM,REPORT_TITLE,MEM_NUM,CATE_NUM,REVIEW_NUM)
-		VALUES(REP_SEQ.NEXTVAL,#{title},#{memno},#{selete},#{send})
+		INSERT INTO REPORT(REPORT_NUM,MEM_NUM,CATE_NUM,REVIEW_NUM)
+		VALUES(REP_SEQ.NEXTVAL,#{memno},#{selete},#{send})
 	</insert>
 	
 	<insert id="insertreview" parameterType="hashmap">
