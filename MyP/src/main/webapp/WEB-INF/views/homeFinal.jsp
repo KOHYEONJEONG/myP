@@ -1533,7 +1533,7 @@ function mapReload(){
  
   function carDetail(car_num){
 	 	//잘 넘어오면 금액표 팝업을 보여주자.
-	 	$("#car_num").val(car_num);
+	 	$("#fee_car_num").val(car_num);
 		var html = "";
 	 	
 	 	var params = $("#carDetailForm").serialize();
@@ -1569,12 +1569,12 @@ function mapReload(){
 		      
 		        html += "<tr>";
 		      	html += "<th>기본 주차 시간</th>";
-		      	html += "<td>"+res.data.TIME_RATE+"</td>";
+		      	html += "<td>"+res.data.TIME_RATE+"시간</td>";
 		        html += "</tr>";
 		      
 		        html += "<tr>";
 		      	html += "<th>기본 요금</th>";
-		      	html += "<td>"+res.data.FEE_RATE+"</td>";
+		      	html += "<td>"+res.data.FEE_RATE+"원</td>";
 		        html += "</tr>";
 		        
 		      
@@ -1911,7 +1911,7 @@ function getShortDistance(nm,locx,locy,carnum) { //클릭한거에 넣어줌
 					time_rate : data.TIME_RATE,//기본 주차 시간
 					re_fee_rate : data.RE_FEE_RATE, //환산 정보 '기본' 요금
 					re_add_fee : data.RE_ADD_FEE, //환산 정보 '추가' 요금
-					carparknum: data.CAR_PARK_MAG_NUM
+					fee_car_num: data.CAR_PARK_MAG_NUM
 				});
 				points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 			}
@@ -2769,7 +2769,7 @@ function cultureBookmarkReloadList() {
 </form>
 <form action="#" id="carDetailForm" method="post">
 	<!-- 상세보기 페이지로 이동하려고 -->
-	<input type="hidden" id="car_num" name="car_num">
+	<input type="hidden" id="fee_car_num" name="fee_car_num">
 </form>
 <form action="#" id="goForm" method="post">
 	<!-- 요금계산 - 금액표 팝업 -->
