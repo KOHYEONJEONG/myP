@@ -1253,6 +1253,7 @@
 		
 		// 사고 탭에서 검색 클릭시
 		$(".sixth").on("click", function() { // 사고탭 아이콘 클릭시 api 실행
+			 $("img[alt='close']").click(); // 지도의 윈포인도우 닫기
 			
 			$.ajax({
 				url :"http://openapi.seoul.go.kr:8088/7067696175776b6437334374514f54/xml/AccInfo/1/20/", 
@@ -1371,7 +1372,7 @@
 				        	         $("." + res.list[i].ACC_TYPE).html(res.list[i].ACC_TYPE_NM)
 				        	 }  
 				        	   
-				        	  $(".result_box").html("검색결과:" + listLength + "건");
+				        	  $(".accident_wrap .result_box").html("검색결과: " + listLength + "건");
 				         },
 				         error : function(request, status, error) {// 실패했을 때 함수 실행
 					            console.log(request.responseText);    //실패 상세 내역
@@ -1553,7 +1554,7 @@ function mapReload(){
   
   function searchList(list){ //사이드 쪽에 주차장 리스트
 		 var html = "";
-		 html += "<div class=\"result_box\">" +list.length+ "</div>";
+		 html += "<div class=\"result_box\">검색결과:" +list.length+ "건</div>";
 		 for(var data of list){		
 			 html += "<div class=\"box\">";
 	         html += "<div class=\"close_i\"></div>";
@@ -2873,10 +2874,10 @@ function cultureBookmarkReloadList() {
           <div class="end on"></div>
         </div>
       </div>
-       <form action="#" id="actionForm" method="post">
       <div class="left_section">
         <div class="search_warp on">
           <div class="search_box">
+           <form action="#" id="actionForm" method="post">
             <div class="box_top">
               <select name="sido1" id="sido1"></select>
               <select name="gugun1" id="gugun1"></select>
@@ -2885,8 +2886,8 @@ function cultureBookmarkReloadList() {
               <input type="text" class="search_txt" id= "search_txt" name= "search_txt" placeholder="검색어를 입력하세요" />
               <div class="search_i" id= "search_i" ></div>
             </div>
-          </div>
           </form> 
+          </div>
           <!-- 날씨 -->
           <div class="result_area2">
             <div class="side_bar">
@@ -3017,7 +3018,7 @@ function cultureBookmarkReloadList() {
          <div class="title">리뷰</div>
           <div class="select_box">
           <select id="selectx" name="selectx">
-              <option value="1">높은별점순</option><!-- ㅎㅎ -->
+              <option value="1">높은별점순</option>
               <option value="2">최신순</option>
             </select>
           </div>
@@ -3038,7 +3039,7 @@ function cultureBookmarkReloadList() {
         <div class="accident_wrap">
           <div class="result_area">
           	<div class="title">사건, 사고 정보</div>
-         	 <div class="result_box">0건</div>
+         	 <div class="result_box">검색결과: 0건</div>
 			<div class="text">조회중입니다. 잠시만 기달려주세요...</div>
           </div>
         </div>
