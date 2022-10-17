@@ -165,9 +165,7 @@ public class QnaController {
 
     @RequestMapping(value = "/qnaInsert")
 	public ModelAndView qnaInsert(ModelAndView mav) {
-		
 		mav.setViewName("partiNotice/qnaRegister");
-		
 		return mav;
 	}
     
