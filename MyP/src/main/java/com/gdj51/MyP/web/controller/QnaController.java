@@ -77,7 +77,7 @@ public class QnaController {
 	public ModelAndView QnaDetail(@RequestParam HashMap<String, String> params,
 			ModelAndView mav) throws Throwable {
 		
-		if(params.get("no")!=null && params.get("no") != "") {
+		if(params.get("qna_num")!=null && params.get("qna_num") != "") {
 		
 			iACDao.update("qna.updateHit",params);
 		

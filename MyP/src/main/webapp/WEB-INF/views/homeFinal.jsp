@@ -1456,7 +1456,7 @@ function mapReload(){
      html += "<span>"+data.CON +"</span>";
      html += "</div>                                          ";
      html += "<div class=\"box_inner_i\">                     ";
-     html += "<div onclick=\"warningPopup("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>";//신고버튼
+     html += "<div onclick=\"ckrp("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>";//신고버튼
      html += "</div>                                          ";
      html += "</div>                                          ";
  	}
@@ -1485,9 +1485,8 @@ function mapReload(){
  
  
   function warningPopup(review_num) {
-	  if($("#mem_num").val() == null || $("#mem_num").val() == ""){
-		  makeAlert("알림","로그인을 하셔야합니다.");
-	  }else{
+	  
+	 
 	   	 	$("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
 	   	 	$("#warning_popup").show();
 	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
@@ -1505,9 +1504,48 @@ function mapReload(){
 				}
 			});
 	  }
-  }
+  
    
-    
+  function ckrp(review_num) {
+		$("#send").val(review_num);
+	 	
+	  if($("#mem_num").val() == null || $("#mem_num").val() == ""){
+		  makeAlert("알림","로그인을 하셔야합니다.");
+	  }else{
+		  var params = $("#actionForm2").serialize();
+		  $.ajax({
+			
+			  url : "Checkreport",
+				  type : "POST",
+				  dataType: "text",
+				  data: params,
+				  success : function(res){
+					  console.log(res);
+					  if(res != 'fail'){
+						  console.log(1234);
+						  warningPopup(review_num);
+					  }else{
+						  makePopup({
+						         title : "알림",
+						         contents : "이미 신고 한 리뷰입니다",
+						         buttons : [{
+						            name : "확인",
+						         }]
+							});
+					  }
+				  },
+					error : function(request, status, error) {// 실패했을 때 함수 실행
+						console.log(status);    //실패 상세 내역
+						console.log(error);    //실패 상세 내역
+						console.log(request.responseText);    //실패 상세 내역
+					}
+		  });
+	  }
+	   	 	/* $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
+	   	 	$("#warning_popup").show();
+	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
+	        $('header').css({"opacity" : "0.5","pointer-events":"none"}); */
+  }  
   
   function searchList(list){ //사이드 쪽에 주차장 리스트
 		 var html = "";
@@ -1533,7 +1571,7 @@ function mapReload(){
  
   function carDetail(car_num){
 	 	//잘 넘어오면 금액표 팝업을 보여주자.
-	 	$("#car_num").val(car_num);
+	 	$("#fee_car_num").val(car_num);
 		var html = "";
 	 	
 	 	var params = $("#carDetailForm").serialize();
@@ -1569,12 +1607,12 @@ function mapReload(){
 		      
 		        html += "<tr>";
 		      	html += "<th>기본 주차 시간</th>";
-		      	html += "<td>"+res.data.TIME_RATE+"</td>";
+		      	html += "<td>"+res.data.TIME_RATE+"시간</td>";
 		        html += "</tr>";
 		      
 		        html += "<tr>";
 		      	html += "<th>기본 요금</th>";
-		      	html += "<td>"+res.data.FEE_RATE+"</td>";
+		      	html += "<td>"+res.data.FEE_RATE+"원</td>";
 		        html += "</tr>";
 		        
 		      
@@ -1911,7 +1949,7 @@ function getShortDistance(nm,locx,locy,carnum) { //클릭한거에 넣어줌
 					time_rate : data.TIME_RATE,//기본 주차 시간
 					re_fee_rate : data.RE_FEE_RATE, //환산 정보 '기본' 요금
 					re_add_fee : data.RE_ADD_FEE, //환산 정보 '추가' 요금
-					carparknum: data.CAR_PARK_MAG_NUM
+					fee_car_num: data.CAR_PARK_MAG_NUM
 				});
 				points.push(new kakao.maps.LatLng(data.LOCX, data.LOCY));
 			}
@@ -2769,7 +2807,7 @@ function cultureBookmarkReloadList() {
 </form>
 <form action="#" id="carDetailForm" method="post">
 	<!-- 상세보기 페이지로 이동하려고 -->
-	<input type="hidden" id="car_num" name="car_num">
+	<input type="hidden" id="fee_car_num" name="fee_car_num">
 </form>
 <form action="#" id="goForm" method="post">
 	<!-- 요금계산 - 금액표 팝업 -->
