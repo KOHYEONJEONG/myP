@@ -182,6 +182,22 @@ public class HomeController {
 
 	}
 
+	@RequestMapping(value = "/Checkreport", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String Checkreport(@RequestParam HashMap<String, String> params) throws Throwable {
+
+		System.out.print(params);
+
+		// 아이디 중복체크
+		int result = iACDao.memberCheck("home.reportCheck", params);
+
+		if (result >= 1) {
+			return "fail";// 중복 닉네임 존재
+		} else {
+			return "success";
+		}
+	}
+
 	/* 현재위치에 최단거리 주차장 5개 */
 	@RequestMapping(value = "/shortDistanceAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
