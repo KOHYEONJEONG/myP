@@ -22,13 +22,11 @@ public class GuideController {
 	@Autowired
 	public IACDao dao;
 	
-	
 	@RequestMapping(value = "/guideMain")
 	public ModelAndView guideMain(ModelAndView mav) {
 		mav.setViewName("guide/guide");
 		return mav;
 	}
-	
 	
 	@RequestMapping(value="/GuideListAjax",
 			method = RequestMethod.POST,
@@ -38,8 +36,6 @@ public class GuideController {
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> model = new HashMap<String, Object>();
-
-		System.out.println("params : "+params.toString());
 
 		//int cnt = dao.getIntData("guide.guideCnt", params);
 

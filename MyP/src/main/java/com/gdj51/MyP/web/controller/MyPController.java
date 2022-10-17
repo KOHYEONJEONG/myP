@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdj51.MyP.web.dao.IACDao;
 
 @Controller
-public class HomeController2 {
+public class MyPController {
 
 	@Autowired
 	public IACDao iACDao;
@@ -115,8 +115,6 @@ public class HomeController2 {
 	@ResponseBody
 	public String ReviewListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 
-		System.out.println("ReviewAjax 실행 => " + params.toString());
-
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -174,5 +172,63 @@ public class HomeController2 {
 		return mapper.writeValueAsString(model);
 
 	}
+			
+	/*현재위치에 최단거리 주차장 5개*/
+	@RequestMapping(value = "/shortDistanceAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String shortDistanceAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+	
+		Map<String, Object> model = new HashMap<String, Object>();
+	
+		List<HashMap<String, String>> list = iACDao.getList("home.getShortDistance", params);
+	
+		model.put("list", list);
+	
+		return mapper.writeValueAsString(model);
+	
+	}
+	
+	//위치:home , 금액표 상세보기(요금비교 사이드바)
+	@RequestMapping(value = "/parkDetail", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String parkDetailAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+	
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		HashMap<String, String> data = iACDao.getMapData("home.getFeelist",params);
+		model.put("data",data);
+		return mapper.writeValueAsString(model); // 결과값으로 발송번호 받기
+	}
+	
+	
+	//위치:home , 리뷰 사이드바 글쓰기 팝업
+	@RequestMapping(value = "/reviewPopup2")
+	public ModelAndView reviewPopup2(ModelAndView mav) {
+		mav.setViewName("review/reviewPopup");
+		return mav;
+	}
+	
+	//calc_wrap
+	@RequestMapping(value = "calc_wrap")
+	public ModelAndView calc_wrap(ModelAndView mav) {
+		mav.setViewName("side/acc");
+		return mav;
+	}
+	
+	//위치:home , 금액표 상세보기(요금비교 사이드바)
+	@RequestMapping(value = "/parkFeeDetail", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String parkFeeDetailAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		HashMap<String, String> data = iACDao.getMapData("home.getFeelist",params);
+		model.put("data",data);
+		return mapper.writeValueAsString(model); // 결과값으로 발송번호 받기
+	}
+	
 
 }

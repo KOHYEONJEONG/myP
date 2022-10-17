@@ -44,12 +44,8 @@ public class JoinController {
 	@ResponseBody
 	public String checkIdAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 
-		logger.info("checkIdAjax() 진입");
-
 		// 아이디 중복체크
 		int result = dao.memberCheck("join.idCheck", params);
-
-		logger.info("결과값 : " + result);
 
 		if (result != 0) {
 			return "fail";// 중복 아이디가 존재
@@ -63,12 +59,8 @@ public class JoinController {
 	@ResponseBody
 	public String checkNicknameAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 
-		logger.info("checkNicknameAjax() 진입");
-
 		// 아이디 중복체크
 		int result = dao.memberCheck("join.nicknameCheck", params);
-
-		logger.info("결과값 : " + result);
 
 		if (result != 0) {
 			return "fail";// 중복 닉네임 존재
@@ -82,12 +74,8 @@ public class JoinController {
 	@ResponseBody
 	public String checkEmailAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 
-		logger.info("checkEmailAjax() 진입");
-
 		// 아이디 중복체크
 		int result = dao.memberCheck("join.emailCheck", params);
-
-		logger.info("결과값 : " + result);
 
 		if (result == 1) {
 			return "success";// 중복 이메일이 존재
@@ -102,27 +90,20 @@ public class JoinController {
 	@ResponseBody
 	public String idEmailChackAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 
-		logger.info("idEmailChackAjax() 진입");
-
 		// 아이디 중복체크
 		int result = dao.memberCheck("join.idEmailCheck", params);
-
-		logger.info("결과값 : " + result);
 
 		if (result == 1) {
 			return "success";// 이메일, 아이디 일치
 		} else {
 			return "fail";
 		}
-
 	}
-		
 
 	// 해당 메일에 인증번호 이메일 전송 + 인증번호 테이블에 데이터 생성, 회원가입시에 적용
 	@RequestMapping(value = "/mailSend", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String mailSend(@RequestParam HashMap<String, String> params) throws Throwable {
-		System.out.println("이메일 :" + params);
 
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -139,7 +120,6 @@ public class JoinController {
 	@RequestMapping(value = "/mailCheck", method = RequestMethod.GET)
 	@ResponseBody
 	public String mailCheck(@RequestParam HashMap<String, String> params) throws Throwable {
-		System.out.println("인증번호 체크 params ===>" + params.toString());
 
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -169,29 +149,21 @@ public class JoinController {
 			case "insert":
 				// 암호화
 				params.put("pwd", Utils.encryptAES128(params.get("pwd")));
-				System.out.println("회원가입 param : " + params.toString());
-
 				String email = params.get("account") + '@' + params.get("domain");
-
 				params.put("email", email);
-
 				cnt = dao.insert("join.joinInsert", params);
 				break;
+				
 			case "update":
 				params.put("pwd", Utils.encryptAES128(params.get("pwd")));
-
 				cnt = dao.update("join.joinUpdate", params);
 				break;
+				
 			case "updateNickname":
-
 				cnt = dao.update("join.nicknameUpdate", params);
-				
 				HashMap<String, String> data = dao.getMapData("login.checkNm", params);
-
 				session.setAttribute("sMemNm", data.get("NM"));
-				
 				break;
-
 			}
 			
 			if (cnt > 0) {
@@ -200,7 +172,6 @@ public class JoinController {
 				model.put("msg", "fail");
 			}
 
-			System.out.println("msg(join)-=>" + model.get("msg"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.put("msg", "error");

@@ -30,7 +30,6 @@ public class BookmarkController {
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		int cnt = 0;
-		System.out.println("params" + params);
 
 		try {
 			switch (gbn) {
@@ -87,8 +86,6 @@ public class BookmarkController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		System.out.println("bookmarkparams" + params);
-
 		List<HashMap<String, String>> list = dao.getList("bookmark.getParkingBookmarkList", params);
 
 		model.put("list", list);
@@ -102,8 +99,6 @@ public class BookmarkController {
 	public String cultureBookmarkListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
-
-		System.out.println("bookmarkparams" + params);
 
 		List<HashMap<String, String>> list = dao.getList("bookmark.getCultrueBookmarkList", params);
 
@@ -119,8 +114,6 @@ public class BookmarkController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		System.out.println("bookmarkparams" + params);
-
 		List<HashMap<String, String>> list = dao.getList("bookmark.getCinemaBookmarkList", params);
 
 		model.put("list", list);
@@ -135,8 +128,6 @@ public class BookmarkController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		System.out.println("bookmarkparams" + params);
-
 		List<HashMap<String, String>> list = dao.getList("bookmark.getGasstationBookmarkList", params);
 
 		model.put("list", list);
@@ -150,8 +141,6 @@ public class BookmarkController {
 	public String restaurantBookmarkListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
-
-		System.out.println("bookmarkparams" + params);
 
 		List<HashMap<String, String>> list = dao.getList("bookmark.getRestaurantBookmarkList", params);
 
