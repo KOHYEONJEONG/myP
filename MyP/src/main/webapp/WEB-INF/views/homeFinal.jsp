@@ -1456,7 +1456,7 @@ function mapReload(){
      html += "<span>"+data.CON +"</span>";
      html += "</div>                                          ";
      html += "<div class=\"box_inner_i\">                     ";
-     html += "<div onclick=\"warningPopup("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>";//신고버튼
+     html += "<div onclick=\"ckrp("+data.REVIEW_NUM+")\" class=\"warning_i\"></div>";//신고버튼
      html += "</div>                                          ";
      html += "</div>                                          ";
  	}
@@ -1485,9 +1485,8 @@ function mapReload(){
  
  
   function warningPopup(review_num) {
-	  if($("#mem_num").val() == null || $("#mem_num").val() == ""){
-		  makeAlert("알림","로그인을 하셔야합니다.");
-	  }else{
+	  
+	 
 	   	 	$("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
 	   	 	$("#warning_popup").show();
 	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
@@ -1505,9 +1504,48 @@ function mapReload(){
 				}
 			});
 	  }
-  }
+  
    
-    
+  function ckrp(review_num) {
+		$("#send").val(review_num);
+	 	
+	  if($("#mem_num").val() == null || $("#mem_num").val() == ""){
+		  makeAlert("알림","로그인을 하셔야합니다.");
+	  }else{
+		  var params = $("#actionForm2").serialize();
+		  $.ajax({
+			
+			  url : "Checkreport",
+				  type : "POST",
+				  dataType: "text",
+				  data: params,
+				  success : function(res){
+					  console.log(res);
+					  if(res != 'fail'){
+						  console.log(1234);
+						  warningPopup(review_num);
+					  }else{
+						  makePopup({
+						         title : "알림",
+						         contents : "이미 신고 한 리뷰입니다",
+						         buttons : [{
+						            name : "확인",
+						         }]
+							});
+					  }
+				  },
+					error : function(request, status, error) {// 실패했을 때 함수 실행
+						console.log(status);    //실패 상세 내역
+						console.log(error);    //실패 상세 내역
+						console.log(request.responseText);    //실패 상세 내역
+					}
+		  });
+	  }
+	   	 	/* $("#send").val(review_num); //actionForm2에 있는 send <-- review_num담기
+	   	 	$("#warning_popup").show();
+	        $('main').css({"opacity" : "0.5","pointer-events":"none"});
+	        $('header').css({"opacity" : "0.5","pointer-events":"none"}); */
+  }  
   
   function searchList(list){ //사이드 쪽에 주차장 리스트
 		 var html = "";

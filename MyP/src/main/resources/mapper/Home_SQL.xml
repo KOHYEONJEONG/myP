@@ -149,5 +149,9 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
         WHERE DIV_NUM = 2
 	</select>
 	
+		<select id="reportCheck" resultType="int" parameterType="hashmap">
+		  SELECT COUNT(*) FROM REPORT WHERE MEM_NUM = #{memno} AND REVIEW_NUM = #{send}	
+	</select>
+	
 	
 </mapper>
