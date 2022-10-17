@@ -47,8 +47,6 @@ public class MyPageController { // no
 	@ResponseBody
 	public String memImgAjax(@RequestParam HashMap<String, String> params) throws Throwable {
 
-		System.out.println("memImgAjax ==>" + params.toString());
-
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
@@ -126,8 +124,6 @@ public class MyPageController { // no
 	@RequestMapping(value = "/mypageReviewBoard")
 	public ModelAndView mypageReviewBoard(ModelAndView mav, @RequestParam HashMap<String, String> params) {
 		int page = 1;// 첫페이지로 나타내려고
-
-		System.out.println("(*)mypageReviewBoard===> " + params.get("page"));
 		if (params.get("page") != null && params.get("page") != "") {
 			page = Integer.parseInt(params.get("page"));
 		}
@@ -142,7 +138,6 @@ public class MyPageController { // no
 	@ResponseBody
 	public String mypageReviewBoardAjax(ModelAndView mav, @RequestParam HashMap<String, String> params)
 			throws Throwable {
-		System.out.println("mypageReviewBoard : " + params.toString());
 
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();

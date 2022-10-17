@@ -14,7 +14,19 @@ public class TestController {
 		mav.setViewName("home1");
 		return mav;
 	}
+	
+	@RequestMapping(value = "/home2")
+	public ModelAndView home2(ModelAndView mav) {
+		mav.setViewName("home2");
+		return mav;
+	}
 
+	@RequestMapping(value = "/home3")
+	public ModelAndView home3(ModelAndView mav) {
+		mav.setViewName("home3");
+		return mav;
+	}
+	
 	// 장원석 공유하기 하는 page
 	@RequestMapping(value = "/home4")
 	public ModelAndView home4(ModelAndView mav) {
@@ -22,27 +34,4 @@ public class TestController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/managerSidebar")
-	public ModelAndView sidebar(ModelAndView mav) {
-		mav.setViewName("include/manager_sidebar");
-		return mav;
-	}
-
-	@RequestMapping(value = "/mypageSidebar")
-	public ModelAndView mypageSidebar(ModelAndView mav) {
-		mav.setViewName("include/mypage_sidebar");
-		return mav;
-	}
-
-	@RequestMapping(value = "/partiNoticeSidebar")
-	public ModelAndView partiNoticeSidebar(ModelAndView mav) {
-		mav.setViewName("include/partiNotice_sidebar");
-		return mav;
-	}
-
-	@RequestMapping(value = "/rankingSidebar")
-	public ModelAndView rankingSidebar(ModelAndView mav) {
-		mav.setViewName("include/ranking_sidebar");
-		return mav;
-	}
 }

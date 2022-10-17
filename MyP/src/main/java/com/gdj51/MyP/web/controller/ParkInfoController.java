@@ -68,9 +68,6 @@ public class ParkInfoController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		System.out.println("params : " + params.toString());
-
-		// 페이지 받아와야하는데..
 		int cnt = dao.getIntData("info.carinfocnt", params);
 
 		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")), cnt, 10, 5);

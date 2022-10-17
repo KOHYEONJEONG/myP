@@ -78,8 +78,7 @@ public class RankingController {
 		
 		int cnt = dao.getIntData("rank.getRankCnt", params);
 		
-		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
-				cnt, 10, 5);
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),cnt, 10, 5);
 
 		params.put("start", Integer.toString(pd.get("start")));
 		params.put("end", Integer.toString(pd.get("end")));

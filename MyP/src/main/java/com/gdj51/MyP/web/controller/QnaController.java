@@ -45,32 +45,34 @@ public class QnaController {
 		
 		return mav;
 	}
+	
 	@RequestMapping(value= "/QnaAjax",
 			method = RequestMethod.POST,
 			produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String QnaListAjax(
-			@RequestParam HashMap<String, String> params)throws Throwable{
-			ObjectMapper mapper = new ObjectMapper();
-			
-			Map<String, Object> model = new HashMap<String,Object>();
-			
-			int cnt = iACDao.getIntData("qna.qnaCnt",params);
-			
-			HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
-					cnt,10,5);
-			
-			params.put("start", Integer.toString(pd.get("start")));
-			params.put("end", Integer.toString(pd.get("end")));
+		@RequestParam HashMap<String, String> params)throws Throwable{
+		ObjectMapper mapper = new ObjectMapper();
 		
-			
-			List<HashMap<String, String>> list = iACDao.getList("qna.List",params);
-			
-			model.put("list",list);
-			model.put("pd",pd);
-			
-			return mapper.writeValueAsString(model);
-		}
+		Map<String, Object> model = new HashMap<String,Object>();
+		
+		int cnt = iACDao.getIntData("qna.qnaCnt",params);
+		
+		HashMap<String, Integer> pd = ips.getPagingData(Integer.parseInt(params.get("page")),
+				cnt,10,5);
+		
+		params.put("start", Integer.toString(pd.get("start")));
+		params.put("end", Integer.toString(pd.get("end")));
+	
+		
+		List<HashMap<String, String>> list = iACDao.getList("qna.List",params);
+		
+		model.put("list",list);
+		model.put("pd",pd);
+		
+		return mapper.writeValueAsString(model);
+	}
+	
 	@RequestMapping(value= "/QnaDetail")
 	public ModelAndView QnaDetail(@RequestParam HashMap<String, String> params,
 			ModelAndView mav) throws Throwable {
@@ -79,11 +81,11 @@ public class QnaController {
 		
 			iACDao.update("qna.updateHit",params);
 		
-		HashMap<String, String>data = iACDao.getMapData("qna.getqna",params);
-		
-		mav.addObject("data",data);
-		
-		mav.setViewName("partiNotice/qnaDetail");
+			HashMap<String, String>data = iACDao.getMapData("qna.getqna",params);
+			
+			mav.addObject("data",data);
+			
+			mav.setViewName("partiNotice/qnaDetail");
 		}else {
 			mav.setViewName("redirect:qna");
 		}
@@ -122,7 +124,7 @@ public class QnaController {
 			model.put("msg", "error");
 		}
 		return mapper.writeValueAsString(model);
-		}
+	}
 		
 	 //AOBAction
     @RequestMapping(value="/qnaDetail/{gbn}",
@@ -162,26 +164,22 @@ public class QnaController {
     }
 
     @RequestMapping(value = "/qnaInsert")
-	public ModelAndView qnaInsert(
-			
-			ModelAndView mav) {
+	public ModelAndView qnaInsert(ModelAndView mav) {
 		
-			mav.setViewName("partiNotice/qnaRegister");
-		
+		mav.setViewName("partiNotice/qnaRegister");
 		
 		return mav;
 	}
+    
     @RequestMapping(value= "/qnaUpdate")
 	public ModelAndView aTUpdate(@RequestParam HashMap<String, String> params,
 			ModelAndView mav) throws Throwable {
 		
 		if(params.get("no")!=null && params.get("no") != "") {
-		
-		
-		HashMap<String, String>data = iACDao.getMapData("qna.getqna",params);
-		mav.addObject("data",data);
-		
-		mav.setViewName("partiNotice/qnaUpdate");
+			HashMap<String, String>data = iACDao.getMapData("qna.getqna",params);
+			mav.addObject("data",data);
+			
+			mav.setViewName("partiNotice/qnaUpdate");
 		}else {
 			mav.setViewName("redirect:qna");
 		}
