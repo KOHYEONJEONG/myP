@@ -923,9 +923,9 @@
 		               }
 		            });
 			    	iwContent += "</div>";
-			    	iwContent += "<div class=\"shareBox\">";
+			    	/* iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-			    	iwContent += "</div>";
+			    	iwContent += "</div>"; */
 			    	iwContent += "<div class=\"compareBox\">";
 			    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
 			    	iwContent += "</div>";
@@ -1016,9 +1016,9 @@
 		               }
 		         });
 		    	iwContent += "</div>";
-		    	iwContent += "<div class=\"shareBox\">";
+		    	/* iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-		    	iwContent += "</div>";
+		    	iwContent += "</div>"; */
 		    	iwContent += "<div class=\"compareBox\">";
 		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
 		    	iwContent += "</div>";
@@ -1108,9 +1108,9 @@
 		               }
 		         });
 		    	iwContent += "</div>";
-		    	iwContent += "<div class=\"shareBox\">";
+		    	/* iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-		    	iwContent += "</div>";
+		    	iwContent += "</div>"; */
 		    	iwContent += "<div class=\"compareBox\">";
 		    	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
 		    	iwContent += "</div>";
@@ -1836,9 +1836,9 @@ function cultureList(list){
 	               }
 	            });
 		    	iwContent += "</div>";
-		    	iwContent += "<div class=\"shareBox\">";
+		    	/* iwContent += "<div class=\"shareBox\">";
 		    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-		    	iwContent += "</div>";
+		    	iwContent += "</div>"; */
 		    	iwContent += "<div class=\"compareBox\">";
 		    	iwContent += "<button class=\"compareBoxBtn\"onclick=\"getShortDistance('"+positions[i].title+"',"+positions[i].locx+","+positions[i].locy+")\">최단거리비교</button>";
 		    	iwContent += "</div>";
@@ -1988,7 +1988,7 @@ function getShortDistance(nm,locx,locy,carnum) { //클릭한거에 넣어줌
 			     iwContent += "</div>";
 			     iwContent += "<div class=\"shareBox\">";
 			     iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-			     iwContent += "</div>";
+			     iwContent += "</div>"; 
 			     iwContent += "<div class=\"compareBox\">";
 			     iwContent += "<button class=\"compareBoxBtn\" onclick=\"carDetail("+positions[i].car_num+")\">상세보기</button>"; // 객체라서 positions[i]로 바로 못보냄!
 			     iwContent += "</div>"
@@ -2111,9 +2111,9 @@ function gasStationList(list){
 			               }
 			         });
 			    	iwContent += "</div>";
-			    	iwContent += "<div class=\"shareBox\">";
+			    	/* iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-			    	iwContent += "</div>";
+			    	iwContent += "</div>"; */
 			    	iwContent += "<div class=\"compareBox\">";
 			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.GAS_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
@@ -2241,9 +2241,9 @@ function cinemaList(list){
 		               }
 		            });
 			    	iwContent += "</div>";
-			    	iwContent += "<div class=\"shareBox\">";
+			    	/* iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-			    	iwContent += "</div>";
+			    	iwContent += "</div>"; */
 			    	iwContent += "<div class=\"compareBox\">";
 			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.ENT_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
@@ -2368,9 +2368,9 @@ function restaurantList(list){
 			               }
 			         });
 			    	iwContent += "</div>";
-			    	iwContent += "<div class=\"shareBox\">";
+			    	/* iwContent += "<div class=\"shareBox\">";
 			    	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-			    	iwContent += "</div>";
+			    	iwContent += "</div>"; */
 			    	iwContent += "<div class=\"compareBox\">";
 			    	iwContent += "<button class=\"compareBoxBtn\" onclick=\"getShortDistance('"+data.ENT_NM+"',"+p[1]+","+p[0]+")\">최단거리비교</button>";
 			    	iwContent += "</div>";
