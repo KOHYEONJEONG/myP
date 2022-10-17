@@ -37,6 +37,7 @@ $(document).ready(function() {
 	console.log($("#cateNo").val());
 	
 	//카테고리 번호가 1이면 주차장 리스트 가져오고 2로 바뀌면 맛집 리스트를 가져옴
+	//검색창 내용
 	$("#cateNo").on("change", function() {
 		$("#page").val("1");
 		$("#searchGbn").val("0");
@@ -47,29 +48,106 @@ $(document).ready(function() {
 		switch($(this).val()) {
 			case "1" :
 				reloadList1(); //주차장
+				var html ="";
+				html +="<option value=\"0\">전체</option>";
+				html +="<option value=\"1\">주차장명</option>";
+				html +="<option value=\"2\">주차장유형</option>";
+				html +="<option value=\"3\">주소</option>";
+				$("#searchGbn").html(html);
 				break;
 			case "2" :
 				reloadList2(); //맛집
+				var html ="";
+				html +="<option value=\"0\">전체</option>";
+				html +="<option value=\"1\">음식점명</option>";
+				html +="<option value=\"2\">주소</option>";
+				$("#searchGbn").html(html);
 				break;
 			case "3" :
 				reloadList3(); //문화생활(영화관)
+				var html ="";
+				html +="<option value=\"0\">전체</option>";
+				html +="<option value=\"1\">사업장명</option>";
+				html +="<option value=\"2\">주소</option>";
+				$("#searchGbn").html(html);
 				break;
 			case "4" :
 				reloadList4(); //주유소
+				var html ="";
+				html +="<option value=\"0\">전체</option>";
+				html +="<option value=\"1\">주유소명</option>";
+				html +="<option value=\"2\">주소</option>";
+				$("#searchGbn").html(html);
 				break;
 		}
 	});
 	
-	//검색 버튼
+	//검색 버튼 카테고리마다 검색창 다시 그려줌
 	$("#search_btn").on("click", function() {
 		$("#page").val("1");
 		
 		$("#oldGbn").val($("#searchGbn").val());
 		$("#oldTxt").val($("#searchTxt").val());
 		
-		reloadList1();
+		
+		switch($("#cateNo").val())  {
+		case "1" : 
+			reloadList1(); //주차장
+			break;
+		case "2" :
+			reloadList2(); //맛집
+			break;
+		case "3" :
+			reloadList3(); //문화생활(영화관)
+			break;
+		case "4" :
+			reloadList4(); //주유소
+			break;
+		}
 	});
 	
+	
+	
+	
+	//디테일로 이동
+	$("tbody").on("click", "tr", function() {
+		
+		if($("#cateNo").val() == 1) {
+			$("#no").val($(this).attr("no"));
+			
+			$("#searchGbn").val($("#oldGbn").val());
+			$("#searchTxt").val($("#oldTxt").val());
+			
+			$("#dataForm").attr("action", "parkinfodetail");
+			
+			$("#dataForm").submit();
+		}
+		
+	});
+	
+	//카테고리 번호에 맞춰서 리스트 가져온다
+	$(".page_nation").on("click", "a", function() {
+		$("#page").val($(this).attr("page")); 
+	
+		$("#searchGbn").val($("#oldGbn").val());
+		$("#searchTxt").val($("#oldTxt").val());
+		
+		switch($("#cateNo").val())  {
+		case "1" : 
+			reloadList1(); //주차장
+			break;
+		case "2" :
+			reloadList2(); //맛집
+			break;
+		case "3" :
+			reloadList3(); //문화생활(영화관)
+			break;
+		case "4" :
+			reloadList4(); //주유소
+			break;
+		}
+	});
+});
 	//주차장관련 ajax
 	function reloadList1() {
 		var params = $("#dataForm").serialize();
@@ -88,6 +166,7 @@ $(document).ready(function() {
 			}
 		});
 	}
+
 	//맛집관련 ajax
 	function reloadList2() {
 		var params = $("#dataForm").serialize();
@@ -142,7 +221,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+
 	function drawListcar(list1) {
 		var html = "";
 		var flag = true;
@@ -164,10 +243,10 @@ $(document).ready(function() {
 	    
 		for(var data of list1) {
 			html += "<tr no=\""+data.CAR_PARK_MAG_NUM+"\">"; //주차장관리번호
-		    html += "<th>"+data.CAR_PARK_MAG_NUM+"</th>"; 
-		    html += "<th>"+data.CAR_PARK_NM+"</th>"; //주차장명
-		    html += "<th>"+data.CAR_PARK_TP_NM+"</th>"; //주차장유형(노상/노외)
-		    html += "<th>"+data.ADDRESS+"</th>"; //주소
+		    html += "<td>"+data.CAR_PARK_MAG_NUM+"</td>"; 
+		    html += "<td>"+data.CAR_PARK_NM+"</td>"; //주차장명
+		    html += "<td>"+data.CAR_PARK_TP_NM+"</td>"; //주차장유형(노상/노외)
+		    html += "<td>"+data.ADDRESS+"</td>"; //주소
 		    html += "</tr>";
 		    
 		}
@@ -175,7 +254,7 @@ $(document).ready(function() {
 		
 		
 	}
-	
+
 	function drawListfood(list2) {
 		var html = "";
 		var flag = true;
@@ -183,7 +262,7 @@ $(document).ready(function() {
 		if(flag){
 			html += "<tr>"+ +"<\>";
 			html += "<th>"+"맛집관리번호"+"</th>";
-		    html += "<th>"+"사업장명"+"</th>";
+		    html += "<th>"+"음식점명"+"</th>";
 		    html += "<th>"+"전화번호"+"</th>";
 		    html += "<th>"+"도로명 주소"+"</th>";
 			html += "</tr>";
@@ -193,16 +272,16 @@ $(document).ready(function() {
 		}
 		
 		html = "";
-	  
+  
+    
+	for(var data of list2) {
+		html += "<tr no=\""+data.RESTAURANT_NO+"\">"; //맛집관리번호
+	    html += "<td>"+data.RESTAURANT_NO+"</td>";
+	    html += "<td>"+data.ENT_NM+"</td>"; //사업장명
+	    html += "<td>"+data.PHONE+"</td>"; //전화번호
+	    html += "<td>"+data.ROAD_NM_ADDRESS+"</td>"; //도로명 주소
+	    html += "</tr>";
 	    
-		for(var data of list2) {
-			html += "<tr no=\""+data.RESTAURANT_NO+"\">"; //맛집관리번호
-		    html += "<th>"+data.RESTAURANT_NO+"</th>";
-		    html += "<th>"+data.ENT_NM+"</th>"; //사업장명
-		    html += "<th>"+data.PHONE+"</th>"; //전화번호
-		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>"; //도로명 주소
-		    html += "</tr>";
-		    
 		}
 		$("tbody").html(html);
 	}
@@ -223,22 +302,22 @@ $(document).ready(function() {
 			flag = false;
 			$("thead").html(html);
 		}
-	
+
 		html = "";
-		
-		for(var data of list3) {
-			html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">"; //영화관관리번호
-		    html += "<th>"+data.CINEMA_MAG_NUM+"</th>";
-		    html += "<th>"+data.ENT_NM+"</th>"; //사업장명
-		    html += "<th>"+data.PHONE+"</th>"; //전화번호
-		    html += "<th>"+data.ROAD_NM+"</th>"; //도로명 주소
-		    html += "</tr>";
-		    
-		}
-		$("tbody").html(html);
-	}
 	
-function drawListgas(list4) {
+	for(var data of list3) {
+		html += "<tr no=\""+data.CINEMA_MAG_NUM+"\">"; //영화관관리번호
+	    html += "<td>"+data.CINEMA_MAG_NUM+"</td>";
+	    html += "<td>"+data.ENT_NM+"</td>"; //사업장명
+	    html += "<td>"+data.PHONE+"</td>"; //전화번호
+	    html += "<td>"+data.ROAD_NM+"</td>"; //도로명 주소
+	    html += "</tr>";
+	    
+	}
+	$("tbody").html(html);
+}
+
+	function drawListgas(list4) {
 		var html = "";
 		var flag = true;
 		
@@ -255,91 +334,55 @@ function drawListgas(list4) {
 			$("thead").html(html);
 		}
 		html = "";
-		
+	
+    
+	for(var data of list4) {
+		html += "<tr no=\""+data.GAS_STATION_NUM+"\">"; //주유소관리번호
+	    html += "<td>"+data.GAS_STATION_NUM+"</td>";
+	    html += "<td>"+data.GAS_NM+"</td>"; //주유소명
+	    html += "<td>"+data.PHONE+"</td>"; //전화번호
+	    html += "<td>"+data.ROAD_NM_ADDRESS+"</td>"; //도로명주소
+	    html += "</tr>";
 	    
-		for(var data of list4) {
-			html += "<tr no=\""+data.GAS_STATION_NUM+"\">"; //주유소관리번호
-		    html += "<th>"+data.GAS_STATION_NUM+"</th>";
-		    html += "<th>"+data.GAS_NM+"</th>"; //주유소명
-		    html += "<th>"+data.PHONE+"</th>"; //전화번호
-		    html += "<th>"+data.ROAD_NM_ADDRESS+"</th>"; //도로명주소
-		    html += "</tr>";
-		    
 		}
 		$("tbody").html(html);
 	}
 
 
-	
-function drawPaging(pd) {
-	var html = "";
-	
-	html +=
-	html += "<a class=\"parrow pprev\" page=\"1\"></a>";
-	// 이전
-	if($("#page").val() == "1"){
-		html += "<a class=\"arrow prev\" page=\"1\"></a>";
-	} else{
-		// 문자열을 숫자로 바꾸기위해 *1
-		html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
-	}
-	
-	for(var i = pd.startP; i <= pd.endP; i++){
-		if($("#page").val() * 1 == i){ // 현재 페이지
-			html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
-		} else { // 다른 페이지
-			html += "<a page=\"" + i + "\">" + i + "</a>";
+
+	function drawPaging(pd) {
+		var html = "";
+		
+		html +=
+		html += "<a class=\"parrow pprev\" page=\"1\"></a>";
+		// 이전
+		if($("#page").val() == "1"){
+			html += "<a class=\"arrow prev\" page=\"1\"></a>";
+		} else{
+			// 문자열을 숫자로 바꾸기위해 *1
+			html += "<a class=\"arrow prev\" page=\"" + ($("#page").val() *1 - 1) + "\"></a>";
 		}
 		
-	}
-	
-	if($("#page").val() *1 == pd.maxp){ //endp로하면 5번째 페이징에서 끝으로 넘어가버림.
-		html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
-	} else {
-		html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
-	}
-	
-	html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
-	
-	$(".page_nation").html(html);
-                                                                     
-}
-	
-	//디테일로 이동
-	$("tbody").on("click", "tr", function() {
-		$("#no").val($(this).attr("no"));
-		
-		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchTxt").val($("#oldTxt").val());
-		
-		$("#dataForm").attr("action", "parkinfodetail");
-		
-		$("#dataForm").submit();
-	});
-	
-	//카테고리 번호에 맞춰서 리스트 가져온다
-	$(".page_nation").on("click", "a", function() {
-		$("#page").val($(this).attr("page")); 
-	
-		$("#searchGbn").val($("#oldGbn").val());
-		$("#searchTxt").val($("#oldTxt").val());
-		
-		switch($("#cateNo").val())  {
-		case "1" : 
-			reloadList1(); //주차장
-			break;
-		case "2" :
-			reloadList2(); //맛집
-			break;
-		case "3" :
-			reloadList3(); //문화생활(영화관)
-			break;
-		case "4" :
-			reloadList4(); //주유소
-			break;
+		for(var i = pd.startP; i <= pd.endP; i++){
+			if($("#page").val() * 1 == i){ // 현재 페이지
+				html += "<a class=\"active\" page=\"" + i + "\">" + i + "</a>";
+			} else { // 다른 페이지
+				html += "<a page=\"" + i + "\">" + i + "</a>";
+			}
+			
 		}
-	});
-});
+		
+		if($("#page").val() *1 == pd.maxP){ // 현재페이지가 마지막 페이지라면
+			html += "<a class=\"arrow next\" page=\"" +pd.maxP+ "\"></a>";
+		} else {
+			html += "<a class=\"arrow next\" page=\"" + ($("#page").val() *1 + 1) + "\"></a>";
+		}
+		
+		html += "<a class=\"arrow nnext\" page=\"" +pd.maxP+ "\"></a>";
+		
+		$(".page_nation").html(html);
+	                                                                   
+	}
 </script>
 </head>
 <body>
@@ -353,7 +396,7 @@ function drawPaging(pd) {
 				<c:param name="link" value="dataManagement"></c:param>
 			</c:import>          
         <div class="right_area">     
-            <div class="table_wrap">
+           <div class="table_wrap">
               <div class="search_box1">
                 <select class="cate" id="cateNo">
                   <option value="1">주차장</option>
@@ -370,9 +413,9 @@ function drawPaging(pd) {
                 <div class="select">
                     <select name="searchGbn" id="searchGbn">
                       <option value="0">전체</option>
-                      <option value="1">주차장명</option>
-                      <option value="2">주차장유형</option>
-                      <option value="3">주소</option>
+					  <option value="1">주차장명</option>
+					  <option value="2">주차장유형</option>
+					  <option value="3">주소</option>
                   </select>
                  <!--조건선택-->
                 </div>
@@ -402,14 +445,13 @@ function drawPaging(pd) {
               </table>
               
                 <!--페이징-->
-                <div class="page_wrap">
-                   <div class="page_nation"></div>
-                </div>
-                
-            </div>
-          </div>
+        <div class="page_wrap">
+          <div class="page_nation"></div>
         </div>
-      </main>
+      </div>
+    </div>
+  </div>
+</main>
 <c:import url="/footer"></c:import>
 </body>
 </html>

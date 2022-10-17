@@ -222,9 +222,7 @@ function action(flag) {
 	
 	<main>
 		<div class="main_wrap">
-			<div class="side_bar">
-				<c:import url="/mypagesidebar"></c:import> 
-			</div>
+				<c:import url="/mypageSidebar"></c:import> 
 
 			<div class="right_area">
 				<div class="rigth_contents">

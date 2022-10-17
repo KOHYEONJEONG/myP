@@ -5,110 +5,110 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyP</title>
-    <link rel="stylesheet" href="resources/css/main.css">
-    <link rel="stylesheet" href="resources/css/font.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
-    <script src="resources/jquery/jquery-1.12.4.js"></script>
-    <script src="resources/js/main.js"></script>
-    <script type="text/javascript" src="resources/script/common/popup.js"></script>
-    <script type="text/javascript" src="resources/script/ckeditor/ckeditor.js"></script>  
-    <style type="text/css">
-    .rigth_contents{
-width: 900px;
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%,-50%);
-}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyP</title>
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/font.css">
+<link rel="stylesheet" type="text/css" href="resources/css/common/popup.css" />
+<script src="resources/jquery/jquery-1.12.4.js"></script>
+<script src="resources/js/main.js"></script>
+<script type="text/javascript" src="resources/script/common/popup.js"></script>
+<script type="text/javascript" src="resources/script/ckeditor/ckeditor.js"></script>  
+<style type="text/css">
+	.rigth_contents{
+		width: 900px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+	}
 
-table {
-width: 900px;
-box-sizing: border-box;
-border: 1px #a39485 solid;
-font-size: 14px;
-box-shadow: 0 2px 5px rgba(0,0,0,.25);
-border-collapse: collapse;
-border-radius: 5px;
-overflow: hidden;
+	table {
+		width: 800px;
+		box-sizing: border-box;
+		border: 1px #a39485 solid;
+		font-size: 14px;
+		box-shadow: 0 2px 5px rgba(0,0,0,.25);
+		border-collapse: collapse;
+		border-radius: 5px;
+		overflow: hidden;
 
-}
+	}
 
-th {
-text-align: center;
-}
+	th {
+		text-align: center;
+	}
 
-thead {
-font-weight: bold;
-color: #000;
-background: #eeeeee;
-border-bottom: 1px solid rgba(0,0,0,.1);
-}
+	thead {
+		font-weight: bold;
+		color: #000;
+		background: #eeeeee;
+		border-bottom: 1px solid rgba(0,0,0,.1);
+	}
 
-td, th {
-padding: 15px 5px;
-vertical-align: middle; 
-}
+	td, th {
+		padding: 15px 5px;
+		vertical-align: middle; 
+	}
 
-td {
-border-right: 1px solid rgba(0,0,0,.1);
-border-bottom: 1px solid rgba(0,0,0,.1);
-background: #fff;
-text-align: center;
-}
+	td {
+		border-right: 1px solid rgba(0,0,0,.1);
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		background: #fff;
+		text-align: center;
+	}
 
-tr td:nth-child(odd){
-background-color:#eeeeee; 
-font-weight: bold;
-}
+	tr td:nth-child(odd){
+		background-color:#eeeeee; 
+		font-weight: bold;
+	}
 
-td.money > div{
-display: flex;
-justify-content: space-between;
-padding: 0 50px;
-box-sizing: border-box;
-}
-.btn_wrap1{
- display: flex;
- justify-content: flex-end;
- margin-bottom:10px;
-}
+	td.money > div{
+		display: flex;
+		justify-content: space-between;
+		padding: 0 50px;
+		box-sizing: border-box;
+	}
+	.btn_wrap1{
+		 display: flex;
+		 justify-content: flex-end;
+		 margin-bottom:10px;
+	}
 
-.btn {
- width: 70px;
- height: 35px;
- font-size: 14px;
- color: #fff;
- cursor: pointer;
- box-sizing: border-box;
- line-height: 35px;
- text-align: center;
-}
+	.btn {
+		 width: 70px;
+		 height: 35px;
+		 font-size: 14px;
+		 color: #fff;
+		 cursor: pointer;
+		 box-sizing: border-box;
+		 line-height: 35px;
+		 text-align: center;
+	}
 
-.update {
- margin: 0px 8px 0px 0px;
- background: #FD9A29;
- border: solid 1px #FD9A29;
- margin-left:5px;
-}
+	.update {
+		 margin: 0px 8px 0px 0px;
+		 background: #595959;
+		 border: solid 1px #595959;
+		 margin-left:5px;
+	}
 
-.delete {
-  background: #00af80;
-  border: solid 1px #00af80;
-}
+	.delete {
+		 background: #00af80;
+		 border: solid 1px #00af80;
+	}
 
-.num{
-	width:30px;
-	height:20px;
-	border: solid 1px #eeeeee;
-}
-.time {
-	width:110px;
-	border: solid 1px #eeeeee;
-}
+	.num{
+		 width:30px;
+		 height:20px;
+		 border: solid 1px #eeeeee;
+	}
+	.time {
+		width:110px;
+		border: solid 1px #eeeeee;
+	}
 .box{
 	height:20px;
 	border: solid 1px #eeeeee;
@@ -227,6 +227,7 @@ box-sizing: border-box;
 	</script>
 </head>
 <body>
+<c:import url="/header1"></c:import>
     	<form action="parkinfodetail" id="backForm" method="post">
       <main>
     <input type="hidden" name="no" value="${data.CAR_PARK_MAG_NUM}">
@@ -319,7 +320,7 @@ box-sizing: border-box;
                 </tbody>
                 </table>
 					<div class="btn_wrap">
-                        <input type="button" value="취소" class="btn list1" id="cancelBtn">
+                        <input type="button" value="취소" class="btn update" id="cancelBtn">
                         <input type="button" value="수정" class="btn regi" id="updateBtn">
                     </div>
                 </div>

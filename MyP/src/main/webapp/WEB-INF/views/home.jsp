@@ -457,21 +457,17 @@
 	
  } 
  
- function reportList(reportlist){
+ function reportList(reportlist){//신고 사유 DB
 	 
-	 console.log(reportlist);
-	 var html= ""
-		 
-		 html += "<div class=\"note\">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>    ";
-         html += "<div class=\"choice_label\"> <사유선택> </div>                            ";
-         for(var data of reportlist){                                                            
-         html += "<div>                                                                ";
-         html += "    <input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>  ";                        
-         html += "    <label style=\"font-size:12px;\">"+data.CATE_NM +"</label>                       ";
-         html += "</div>                                                                                  ";
-        
+	 var html= "";
+	 html += "<div class=\"note\">※여러사유에 해당하는 경우 대표적인 사유 1개만 골라주세요.</div>";
+     for(var data of reportlist){                                                            
+	     html += "<div>";
+	     html += "<input type=\"radio\" name=\"selete\" value=\""+data.CATE_NUM +"\" checked>";                        
+	     html += "<label style=\"font-size:12px;\">"+data.CATE_NM +"</label>";
+	     html += "</div>";
 	 }
-         $('#warning_popup .popup_content').html(html);  
+    $('#warning_popup .popup_content').html(html);  
  }
  
  

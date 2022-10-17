@@ -20,14 +20,15 @@
 
 	</select>
 	
+	<!-- 요금계산 버튼 - 금액표 팝업 -->
 	<select id="getFeelist" resultType="hashmap" parameterType="hashmap">
 		SELECT  CAR_PARK_NM,CASE PAYORFREE_DIV WHEN '1' THEN '유료'  ELSE '무료' END AS PAYORFREE_DIV ,
 		        CASE SATURDAY_PAYORFREE_DIV WHEN 1 THEN '유료'  ELSE '무료' END AS SATURDAY_PAYORFREE_DIV,
 		        CASE HOLIDAY_PAYORFREE_DIV WHEN 1 THEN '유료' ELSE '무료' END AS HOLIDAY_PAYORFREE_DIV,
 		        FULLTIME_MONTHLY,
-		        TIME_RATE, FEE_RATE, ADD_FEE, ADD_TIME_RATE
+		        TIME_RATE, FEE_RATE, ADD_FEE, ADD_TIME_RATE,NVL(PHONE, '-') AS PHONE
 		FROM CAR_PARK
-		WHERE CAR_PARK_MAG_NUM = #{car_num}
+		WHERE CAR_PARK_MAG_NUM = #{fee_car_num}
 	</select>
 	
 	
@@ -44,13 +45,13 @@
 	</select>
 	
 	<select id="GasStationList" resultType="hashmap" parameterType="hashmap">
-		SELECT GAS_STATION_NUM, GAS_NM, PARCEL_NUM, PHONE FROM GAS_STATION
+		SELECT GAS_STATION_NUM, GAS_NM, PARCEL_NUM, PHONE, LOCX, LOCY FROM GAS_STATION
 		WHERE PARCEL_NUM LIKE '%' || #{sido1} || '%' 
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%' 
 	</select>
 	
 	<select id="RestaurantList" resultType="hashmap" parameterType="hashmap">
-		SELECT RESTAURANT_NO, ENT_NM, PARCEL_NUM, PHONE FROM RESTAURANT
+		SELECT RESTAURANT_NO, ENT_NM, PARCEL_NUM, LOCX, LOCY, PHONE FROM RESTAURANT
 		WHERE PARCEL_NUM LIKE '%' || #{sido1} || '%'
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
 	</select>
@@ -78,13 +79,31 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	</select>
 	
 	<select id="CinemaList" resultType="hashmap" parameterType="hashmap">
-	    SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, PHONE FROM(
-		SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, NVL(PHONE, ' ') AS PHONE, 
+	    SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, LOCX, LOCY, PHONE FROM(
+		SELECT CINEMA_MAG_NUM, ENT_NM, PARCEL_NUM, LOCX, LOCY, NVL(PHONE, ' ') AS PHONE, 
         ROW_NUMBER() OVER (PARTITION BY PARCEL_NUM ORDER BY CINEMA_MAG_NUM DESC) AS RANK 
         FROM CINEMA) WHERE RANK = '1' AND PARCEL_NUM LIKE '%' || #{sido1} || '%'
     	AND PARCEL_NUM LIKE'%'|| #{gugun1} || '%'
 	</select>
 	
+	<select id="getShortDistance" resultType="hashmap" parameterType="hashmap">
+		<!-- 현재 위치에서 목적지 일직선 = 최단거리 (직각 삼각형 : a^2 + b^2 = c^2, 위도, 경도는 직각을 이루고 있어서.)
+			1KM = 1000M
+			SQRT() : 루트
+			POWER() : 제곱함수
+			ABS() : 절대값 -->
+		SELECT METER, CAR_PARK_NM, LOCX, LOCY,TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,FEE_RATE,PAYORFREE_DIV,CAR_PARK_MAG_NUM
+		FROM (SELECT CASE 
+                WHEN ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)>1000 THEN ROUND(ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)/1000,1) || 'KM'
+                ELSE  ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320) || 'M'
+                END AS METER ,CAR_PARK_NM, LOCX, LOCY,WEEKDAY_START_TIME, WEEKDAY_END_TIME ,FEE_RATE,CAR_PARK_MAG_NUM,
+                CASE PAYORFREE_DIV WHEN '1' THEN '유료'
+	        	ELSE '무료'
+	        	END AS PAYORFREE_DIV,
+               RANK() OVER(ORDER BY SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) ASC)AS RNK
+        FROM CAR_PARK) C
+		WHERE C.RNK BETWEEN 1 AND 5
+	</select>
 	
 	<select id="ReviewwList" resultType="hashmap" parameterType="hashmap">
 	
@@ -113,7 +132,7 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	</choose>
 	</select>
 	
-	<insert id="insert" parameterType="hashmap">
+	<insert id="insertReport" parameterType="hashmap">
 		INSERT INTO REPORT(REPORT_NUM,MEM_NUM,CATE_NUM,REVIEW_NUM)
 		VALUES(REP_SEQ.NEXTVAL,#{memno},#{selete},#{send})
 	</insert>

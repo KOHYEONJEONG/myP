@@ -477,7 +477,7 @@ main {
 }
 .left_section .result_area {
   width: 100%;
-  height: calc(100% - 190px);
+height: calc(100% - 190px);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -522,7 +522,7 @@ main {
   cursor: pointer;
   overflow: hidden;
 }
-.left_section .result_area3 .standard {
+/* .left_section .result_area3 .standard {
   text-align: center;
   font-size: 16px;
   padding: 20px 0px 5px 0px;
@@ -536,7 +536,7 @@ main {
   border-bottom: 1px solid #000;
   padding-right: 20px;
   font-size: 14px;
-}
+} */
 .left_section .result_area3 .box {
   width: 90%;
   height: 100px;
@@ -775,6 +775,7 @@ main {
 .left_section .accident_wrap {
   height: 100%;
   overflow: hidden;
+  background: #77c1d49c;
 }
 .left_section .accident_wrap .box {
   height: 150px;

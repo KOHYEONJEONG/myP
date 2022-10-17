@@ -241,14 +241,28 @@ $(document).ready(function() {
 <c:import url="/header"></c:import>
   <main class="main1">
     <div class="left_area">
-      <div class="icon_bar">
-        <div class="icons first"></div>
-        <div class="icons second"></div>
-        <div class="icons third"></div>
-        <div class="icons fourth"></div>
-        <div class="icons fifth"></div>
-        <div class="icons sixth"></div>
-        <div class="icons end"></div>
+       <div class="icon_bar">
+        <div class="icons on">
+          <div class="first"></div>
+        </div>
+        <div class="icons">
+          <div class="second"></div>
+        </div>
+        <div class="icons">
+          <div class="third"></div>
+        </div>
+        <div class="icons">
+          <div class="fourth"></div>
+        </div>
+        <div class="icons">
+          <div class="fifth"></div>
+        </div>
+        <div class="icons">
+          <div class="sixth"></div>
+        </div>
+        <div class="icons">
+          <div class="end on"></div>
+        </div>
       </div>
       <form action="#" id="actionForm" method="post"> 
       <div class="left_section">

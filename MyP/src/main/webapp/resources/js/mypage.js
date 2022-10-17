@@ -117,9 +117,9 @@ function img(data){
 	var html = "";
 	
 	if(img != null && !img.length == 0){
-		html += "<img class=\"memImg\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
+		html += "<img class=\"memImg img\" rel=\"group1\" src=\"resources/upload/"+img+"\" data-link=\"resources/upload/"+img+"\"/>";
 	}else{
-		html += "<img src=\"resources/icons/person3.png\" alt=\"이미지\">";
+		html += "<img class=\"img\" src=\"resources/icons/person3.png\" alt=\"이미지\">";
 	}
 	
 	$(".my_pic #imgRelod").html(html);

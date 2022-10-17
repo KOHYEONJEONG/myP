@@ -31,7 +31,8 @@ td, th {
 	display: flex;
 }
 
-img {
+
+.img, #imgRelod img {
 	/*이미지 크기와 margin*/
 	margin-top: 15px;
 	width: 80px;
@@ -295,3 +296,4 @@ ol,ul,li{list-style: none;}
 	  .submenu1:hover{
 	  	font-weight: bold;
 	  }
+	  
