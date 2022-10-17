@@ -19,7 +19,6 @@ $(document).ready(function() {
 		
 		//console.log($(".contents:nth-last-child(4)"));//왜 안될까???
 		if($(this).attr("back")=='-2'){//처음으로
-			console.log("처음으로");
 			$(".contents").html('');
 			$("#oldAcon").val('');
 			$('#top_num').val('');
@@ -160,12 +159,11 @@ function formatAMPM(){//am 2 : 00
 	<input type="hidden" id="top_num" name="top_num"/>
 </form>
 
-<div class="chatbot_wrap">
-  <img src="${pageContext.request.contextPath}/resources/icons/chatrobot.svg" alt="" class="chatrobot">
-  <div class="chatbot">
-    <div class="header">나만의 P 가이드</div>
-	    <div class="contents">
-		</div>
+<div class="guide_wrap">
+	<img src="${pageContext.request.contextPath}/resources/icons/chatrobot.svg" alt="" class="guideButton">
+	<div class="guide">
+		<div class="header" style="font-size: 14px;">나만의 P 가이드</div>
+		<div class="contents"></div>
 	</div>
 </div>
 </body>

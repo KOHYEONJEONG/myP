@@ -1872,13 +1872,13 @@ footer li {
   color: #ee8003;
 }
 
-.chatbot_wrap {
+.guide_wrap {
   position: fixed;
   bottom: 30px;
   left: 50px;
   z-index: 101;
 }
-.chatbot_wrap .chatrobot {
+.guide_wrap .guideButton {
   width: 50px;
   height: 50px;
   position: fixed;
@@ -1887,7 +1887,7 @@ footer li {
   z-index: 10;
   cursor: pointer;
 }
-.chatbot_wrap .chatbot {
+.guide_wrap .guide {
   width: 360px;
   height: 500px;
   position: fixed;
@@ -1900,29 +1900,29 @@ footer li {
   visibility: hidden;
   opacity: 0;
 }
-.chatbot_wrap .chatbot.on {
+.guide_wrap .guide.on {
   visibility: visible;
   opacity: 1;
 }
-.chatbot_wrap .chatbot .header {
+.guide_wrap .guide .header {
   height: 50px;
   background: #505669;
   line-height: 50px;
   color: #fff;
   text-align: center;
 }
-.chatbot_wrap .chatbot .contents {
+.guide_wrap .guide .contents {
   padding: 0 30px;
   height: 450px;
   overflow-y: auto;
   box-sizing: border-box;
   background: #fff;
 }
-.chatbot_wrap .response {
+.guide_wrap .response {
   padding-top: 30px;
   display: flex;
 }
-.chatbot_wrap .icons {
+.guide_wrap .icons {
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -1931,7 +1931,7 @@ footer li {
   box-sizing: border-box;
   line-height: 50px;
 }
-.chatbot_wrap .img {
+.guide_wrap .img {
   background: url(../icons/person3.png) no-repeat;
   background-size: 90%;
   background-position: 50%;
@@ -1939,11 +1939,11 @@ footer li {
   width: 40px;
   height: 40px;
 }
-.chatbot_wrap .text_wrap {
+.guide_wrap .text_wrap {
   width: 320px;
   margin-left: 10px;
 }
-.chatbot_wrap .text {
+.guide_wrap .text {
   width: 100%;
   font-size: 14px;
   background: #fdf8f8;
@@ -1953,11 +1953,11 @@ footer li {
   box-sizing: border-box;
   line-height: 1.3;
 }
-.chatbot_wrap .response .b {
+.guide_wrap .response .b {
   height: 80px;
   margin-top: 10px;
 }
-.chatbot_wrap .b input {
+.guide_wrap .b input {
   float: left;
   width: 50%;
   height: 34px;
@@ -1965,22 +1965,22 @@ footer li {
   border: solid 1px #fbeaea;
   cursor: pointer;
 }
-.chatbot_wrap .b input:nth-child(even) {
+.guide_wrap .b input:nth-child(even) {
   border-left: 0px;
 }
-.chatbot_wrap .bold {
+.guide_wrap .bold {
   font-weight: bold;
   color: #588ccc;
 }
-.chatbot_wrap .time {
+.guide_wrap .time {
   font-size: 12px;
 }
-.chatbot_wrap .answer {
+.guide_wrap .answer {
   display: flex;
   flex-direction: row-reverse;
   margin-top: 30px;
 }
-.chatbot_wrap .answer .img {
+.guide_wrap .answer .img {
   background: url(../img/dog.jpg) no-repeat;
   background-size: 100%;
   background-position: 50%;
@@ -1989,21 +1989,21 @@ footer li {
   height: 40px;
   border-radius: 50%;
 }
-.chatbot_wrap .answer .text_wrap {
+.guide_wrap .answer .text_wrap {
   width: 117.5px;
   margin-right: 10px;
 }
-.chatbot_wrap .answer .b {
+.guide_wrap .answer .b {
   width: 100%;
   height: 50px;
 }
-.chatbot_wrap .answer .b input {
+.guide_wrap .answer .b input {
   width: 100%;
 }
-.chatbot_wrap .answer .time {
+.guide_wrap .answer .time {
   text-align: right;
 }
-.chatbot_wrap .footer {
+.guide_wrap .footer {
   height: 60px;
   text-align: center;
   box-sizing: border-box;
@@ -2018,7 +2018,7 @@ footer li {
    font-size: 15px;
    color: green;
 }
-.chatbot_wrap .footer input {
+.guide_wrap .footer input {
   width: 120px;
   height: 40px;
   background: #fff;
