@@ -815,9 +815,9 @@
            }
         });
     	iwContent += "</div>";
-    	iwContent += "<div class=\"shareBox\">";
+    	/* iwContent += "<div class=\"shareBox\">";
     	iwContent += "<img src=\"resources/icons/share.png\" id=\"shareBtn\" class=\"shareBtn\">";
-    	iwContent += "</div>";
+    	iwContent += "</div>"; */
     	iwContent += "<div class=\"compareBox\">";
     	iwContent += "<button class=\"compareBoxBtn\">최단거리비교</button>";
     	iwContent += "</div>";
@@ -1886,7 +1886,7 @@ function getShortDistance(nm,locx,locy,carnum) { //클릭한거에 넣어줌
 				html += "<input type=\"hidden\" name=\"car_num\" id=\"car_num\" value=\""+data.CAR_PARK_MAG_NUM+"\">";
 				html += "<div class=\"box_inner_i\">";
 				html += "<div class=\"bookmark_i\"></div>";
-				html += "<div class=\"share_i\"></div>";
+				/* html += "<div class=\"share_i\"></div>"; */
 				html += "</div>";
 				html += "</div>";
 			}
@@ -2683,7 +2683,7 @@ function cultureBookmarkReloadList() {
 	         html +="</div>";
 	         html +="<div class=\"box_inner_i\">";
 	         html +="<div class=\"bookmark_i\"></div>";
-	         html +="<div class=\"share_i\"></div>";
+	         /* html +="<div class=\"share_i\"></div>"; */
 	         html +="</div>";
 	         html +="</div>";
 		}
