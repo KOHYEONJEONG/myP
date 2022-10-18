@@ -1564,7 +1564,7 @@ function mapReload(){
  
   function carDetail(car_num){
 	 	//잘 넘어오면 금액표 팝업을 보여주자.
-	 	$("#car_num").val(car_num);
+	 	$("#fee_car_num").val(car_num);
 		var html = "";
 	 	
 	 	var params = $("#carDetailForm").serialize();
@@ -1600,12 +1600,12 @@ function mapReload(){
 		      
 		        html += "<tr>";
 		      	html += "<th>기본 주차 시간</th>";
-		      	html += "<td>"+res.data.TIME_RATE+"</td>";
+		      	html += "<td>"+res.data.TIME_RATE+"시간</td>";
 		        html += "</tr>";
 		      
 		        html += "<tr>";
 		      	html += "<th>기본 요금</th>";
-		      	html += "<td>"+res.data.FEE_RATE+"</td>";
+		      	html += "<td>"+res.data.FEE_RATE+"원</td>";
 		        html += "</tr>";
 		        
 		      
@@ -2833,7 +2833,7 @@ function cultureBookmarkReloadList() {
 </form>
 <form action="#" id="carDetailForm" method="post">
 	<!-- 상세보기 페이지로 이동하려고 -->
-	<input type="hidden" id="car_num" name="car_num">
+	<input type="hidden" id="fee_car_num" name="fee_car_num">
 </form>
 <form action="#" id="goForm" method="post">
 	<!-- 요금계산 - 금액표 팝업 -->
