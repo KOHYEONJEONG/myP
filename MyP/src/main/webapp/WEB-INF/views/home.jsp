@@ -80,7 +80,6 @@
 }
 
 .left_section .result_area2 .box .bookmark_i {
-  background: url(resources/icons/bookmark.png) no-repeat;
   background-size: 60%;
   background-position: 50%;
   width: 30px;
@@ -94,7 +93,14 @@
   width: 30px;
   height: 30px;
 }
-
+.left_section .result_area2 .box .bookmarki {
+width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 8px;
+    position: absolute;
+    transform: translateY(-50%);
+}
 .movies{
 	filter: invert(1);
 }
@@ -535,6 +541,7 @@
 
 		});
 
+		
 		// 지도 인포윈도우에서 즐겨찾기 아이콘 클릭시, 즐겨찾기 폴더에 삽입, 삭제
 		$("body").on("click", ".bookmarkBox", function() {
 			// 로그인 안된상태,
@@ -557,65 +564,41 @@
 				$("#sendCinemaNum").val($("#cinemaNum1").val());
 				$("#sendParkingNum").val($(".bg #carparknum").val());
 			
+
 				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
+					bookmarkAction("insert",cateNm,"star1");
+			
+				} else {		
+					bookmarkAction("delete",cateNm,"bookmark");
 					
-				 	var params = $("#bookmarkForm").serialize();
-					$.ajax({
-						url : "bookmarkAction/insert" + cateNm,
-						type : "POST",
-						dataType: "json",
-						data: params,
-						success : function(res) { 
-							switch(res.msg){
-							case "success" : 
-								// 북마크 리스트 로드
-								cultureBookmarkReloadList();
-								cinemaBookmarkReloadList();
-								gasstationBookmarkReloadList();
-								restaurantBookmarkReloadList();
-								parkingBookmarkReloadList();
-								// 별이미지 변경하기, 북마크 된 상태 이미지로
-								$("#bookmarkBtn").attr("src", "resources/icons/star1.png")
-								break;
-							case "fail" :							
-								break;
-							case "error" :							
-								break;
-							}
-						},
-						error : function(request, status, error) { 
-							console.log(request.responseText); 
-						}
-					}) 
-				} else {				
-					var params = $("#bookmarkForm").serialize();
-					$.ajax({
-						url : "bookmarkAction/delete" + cateNm,
-						type : "POST",
-						dataType : "json",
-						data: params,
-						success : function(res) { 
-							switch(res.msg){
-							case "success" : 
-								// 별이미지 변경하기, 북마크 안 된 상태 이미지로
-								$("#bookmarkBtn").attr("src", "resources/icons/bookmark.png")
-								// 북마크 리스트 로드
-								cultureBookmarkReloadList();
-								cinemaBookmarkReloadList();
-								gasstationBookmarkReloadList();
-								restaurantBookmarkReloadList();
-								parkingBookmarkReloadList();
-								break;
-							case "fail" :
-								break;
-							case "error" :								
-								break;
-							}
-						},
-						error : function(request, status, error) { 
-							console.log(request.responseText); 
-						}
-					}) 	
+				}	
+			}
+		});
+		
+		$("body").on("click", ".bookmark_i", function() {
+			// 로그인 안된상태,
+			if($("#mem_num").val() == ""){ // 헤더에서 세션정보 가지고 있음
+				makePopup({
+			         title : "알림",
+			         contents : "즐겨찾기 메뉴는 로그인 후 이용 가능합니다.",
+			         buttons : [{
+			            name : "확인",
+			         }]
+				});
+			} else { // 로그인 상태
+				
+				// 로그인 되면은 세션 회원정보를 넣어줌
+				var cateNm = $(this).attr("cateNm");
+				$("#sendMemNum").val($("#mem_num").val());
+				$("#sendParkingNum").val($(this).attr("no"));
+			
+
+				if($(this).children("img").attr("src") == "resources/icons/bookmark.png" ){
+					bookmarkAction("insert",cateNm,"star1");
+			
+				} else {		
+					bookmarkAction("delete",cateNm,"bookmark");
+					
 				}	
 			}
 		});
@@ -1555,17 +1538,22 @@ function mapReload(){
   function searchList(list){ //사이드 쪽에 주차장 리스트
 		 var html = "";
 		 html += "<div class=\"result_box\">검색결과:" +list.length+ "건</div>";
-		 for(var data of list){		
+		 for(var data of list){
 			 html += "<div class=\"box\">";
 	         html += "<div class=\"close_i\"></div>";
 	         html += "<div class=\"parking_name\">" + data.CAR_PARK_NM + "</div>";
 	         html += "<div class=\"parking_info\">";
 	         html += "<span class=\"time\">" + data.STARTTIME + " "+"~"+" " + data.ENDTIME + "</span>";
-	         html += "<span class=\"pay\">유료</span>";
-	         html += "<span class=\"detail\">상세보기</span>";  // 추가됨
+	         html += "<span class=\"pay\">" + data.PAYORFREE_DIV +"</span>";
 	         html += "</div>";
 	         html += "<div class=\"box_inner_i\">";
-	         html += "<div class=\"bookmark_i\"></div>";
+	         html += "<div class=\"bookmark_i\" cateNm=\"parking\" no=\"" +data.CAR_PARK_MAG_NUM +"\">";
+               if(data.BOOKMARK == 1){
+            	   html += "<img src=\"resources/icons/star1.png\" id=\"\" class=\"bookmarki\">";
+               } else {
+            	   html += "<img src=\"resources/icons/bookmark.png\" id=\"\" class=\"bookmarki\">";
+               }
+		     html += "</div>";
 	         html += "<a id=\"kakaotalk-sharing-btn\" href=\"javascript:shareMessage(" + data.CAR_PARK_MAG_NUM + ")\" class=\"share_i\">";
 	         html += "<img src=\"resources/icons/share.png\" alt=\"카카오톡 공유 보내기 버튼\" /></a>";
 	         html += "</div>";
@@ -1978,6 +1966,7 @@ function getShortDistance(nm,locx,locy,carnum) { //클릭한거에 넣어줌
 			    });
 			    markers.push(marker);
 				    
+	
 			    var iwContent = "<div class=\"bg\"><div class=\"title\">" + positions[i].title +"</div>";
 			     iwContent +="<span class=\"time\">"+positions[i].starttime+"~"+positions[i].endtime+"</span>";
 			     iwContent += "<div class=\"address\">₩"+positions[i].fee_rate + "</div>";
@@ -2793,6 +2782,38 @@ function cultureBookmarkReloadList() {
 	     ],  */
 	   });
 	 }
+	 
+	 function bookmarkAction(gbn,cateNm,imgNm) {
+			var params = $("#bookmarkForm").serialize();
+			$.ajax({
+				url : "bookmarkAction/"+gbn + cateNm,
+				type : "POST",
+				dataType: "json",
+				data: params,
+				success : function(res) { 
+					switch(res.msg){
+					case "success" : 
+						// 북마크 리스트 로드
+						cultureBookmarkReloadList();
+						cinemaBookmarkReloadList();
+						gasstationBookmarkReloadList();
+						restaurantBookmarkReloadList();
+						parkingBookmarkReloadList();
+						mapReload();
+						// 별이미지 변경하기, 북마크 된 상태 이미지로
+						$("#bookmarkBtn").attr("src", "resources/icons/"+imgNm+".png")
+						break;
+					case "fail" :							
+						break;
+					case "error" :							
+						break;
+					}
+				},
+				error : function(request, status, error) { 
+					console.log(request.responseText); 
+				}
+			}) 
+	}
 			 
 </script>
 </head>
@@ -2803,7 +2824,7 @@ function cultureBookmarkReloadList() {
 	<input type="hidden" id="sendCinemaNum" name="cinemaNum"  /> 		 <!-- 영화관번호 -->
 	<input type="hidden" id="sendCultureNum" name="cultureNum"  />       <!-- 문화생화번호 -->
 	<input type="hidden" id="sendParkingNum" name="parkingNum"  />       <!-- 주차장번호 -->
-	<input type="hidden" id="sendMemNum" name="memNum" />                <!-- 회원번호 -->
+	<input type="hidden" id="sendMemNum" name="memNum"/>                <!-- 회원번호 -->
 </form>
 <form action="#" id="disForm" method="post">
 	<input type="hidden" id="locx" name="locx" />
@@ -2878,6 +2899,7 @@ function cultureBookmarkReloadList() {
         <div class="search_warp on">
           <div class="search_box">
            <form action="#" id="actionForm" method="post">
+           	<input type="hidden" name="sMemNo" value="${sMemNo}" />
             <div class="box_top">
               <select name="sido1" id="sido1"></select>
               <select name="gugun1" id="gugun1"></select>

@@ -3,21 +3,29 @@
 <mapper namespace="home">
 	<select id="List" resultType="hashmap" parameterType="hashmap">
 	<!-- 주말이면 주말 운영 시간을 띄워줘야 할듯!!! -->
-	SELECT TO_CHAR(A.WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(A.WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME, A.CAR_PARK_MAG_NUM, A.CAR_PARK_NM,  
+	 SELECT TO_CHAR(A.WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(A.WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME, A.CAR_PARK_MAG_NUM, A.CAR_PARK_NM,  
 	        CASE A.PAYORFREE_DIV WHEN '1' THEN '유료'
 	        ELSE '무료'
 	        END AS PAYORFREE_DIV,
 	        A.LOCX, A.LOCY, NVL(B.REVIEW_NUM,0)AS REVIEW, A.FEE_RATE, A.ADD_FEE, A.ADD_TIME_RATE,A.TIME_RATE, NVL(B.AVG_R,0)AS AVG, NVL(B.CNT,0)AS CNT,
-	        DECODE(TIME_RATE,0,0,ROUND(FEE_RATE/(TIME_RATE/5),1)) AS RE_FEE_RATE, DECODE(ADD_TIME_RATE,0,0,ROUND(ADD_FEE/(ADD_TIME_RATE/5),1))AS RE_ADD_FEE
+	        DECODE(TIME_RATE,0,0,ROUND(FEE_RATE/(TIME_RATE/5),1)) AS RE_FEE_RATE, DECODE(ADD_TIME_RATE,0,0,ROUND(ADD_FEE/(ADD_TIME_RATE/5),1))AS RE_ADD_FEE, DECODE(CPB.REG_DT, NULL, 0, 1) AS BOOKMARK
 	FROM CAR_PARK A LEFT OUTER JOIN (SELECT R.CAR_PARK_MAG_NUM, REVIEW_NUM, ROUND(SUM(CCTV_STAR_SCORE + ENV_STAR_SCORE + FEE_STAR_SCORE + DIS_STAR_SCORE)/4) AS AVG_R , NVL(C.CNT,0) AS CNT
-	                                FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
+	                                 FROM REVIEW R LEFT OUTER JOIN (SELECT CAR_PARK_MAG_NUM, COUNT (*) AS CNT
 	                                                                FROM REVIEW
 	                                                                GROUP BY CAR_PARK_MAG_NUM)C
-	                                                           ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
-	GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)B
-								ON A.CAR_PARK_MAG_NUM = B.CAR_PARK_MAG_NUM
-    WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || #{search_txt} || '%'
-
+	                                                            ON R.CAR_PARK_MAG_NUM = C.CAR_PARK_MAG_NUM
+                                     GROUP BY R.CAR_PARK_MAG_NUM ,R.REVIEW_NUM, CNT)B
+                                 ON A.CAR_PARK_MAG_NUM = B.CAR_PARK_MAG_NUM
+                    LEFT OUTER JOIN CAR_PARK_BOOKMARK CPB
+                                 ON A.CAR_PARK_MAG_NUM = CPB.CAR_PARK_MAG_NUM
+                                 <if test="sMemNo != null and sMemNo != ''">
+										AND CPB.MEM_NUM = #{sMemNo}
+								 </if> 
+								 <if test="sMemNo == null or sMemNo == ''">
+										AND CPB.MEM_NUM = ''
+										
+								</if>
+    	WHERE ADDRESS LIKE #{sido1} || ' ' || #{gugun1} || '%' AND CAR_PARK_NM LIKE '%' || '' || '%'
 	</select>
 	
 	<!-- 요금계산 버튼 - 금액표 팝업 -->
