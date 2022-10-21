@@ -2249,7 +2249,7 @@ function cultureBookmarkReloadList() {
  	}
 		
  
-function goDetail(car_num){
+/*function goDetail(car_num){
  	//잘 넘어오면 금액표 팝업을 보여주자.
  	$("#car_num").val(car_num);
 	var html = "";
@@ -2317,7 +2317,7 @@ function goDetail(car_num){
 	
 	
 }
- 
+ */
 function feeCom(car_num,starttime,endtime,payorfree_div, fee_rate, add_time_rate, time_rate, add_fee, re_fee_rate, re_add_fee, title) {//요금비교하려고 배열에 담았다.
  	//1583756 '00:00' '00:00' '유료' '150' '5' '5' '150' '150' '150' '민속의집 공영주차장(구)'
  	var cnt = 0;

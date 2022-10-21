@@ -1200,6 +1200,7 @@ width: 18px;
 		         html +="<span class=\"time\">"+data.starttime+"~"+data.endtime+"</span>";
 		         html +="<span style=\"color:red;\">₩"+data.re_fee_rate*time+"</span>";
 		         html +="<br/><span class=\"pay\">"+data.payorfree_div+"</span> ";
+		         console.log("번호 => "+data.car_num);
 		         html +="<span class=\"detail\" onclick=\"goDetail("+data.car_num+")\">금액표</span>";
 		         html +="</div>";
 		         html +="<div class=\"box_inner_i\">";
@@ -2628,9 +2629,8 @@ function cultureBookmarkReloadList() {
   
   function goDetail(car_num){
 	 	//잘 넘어오면 금액표 팝업을 보여주자.
-	 	$("#fee_car_num").val(car_num);
+	 	$("#goForm #fee_car_num").val(car_num);
 	 	var html = "";
-		
 	 	var params = $("#goForm").serialize();
 		$.ajax({
 			url : "parkFeeDetail", //경로
