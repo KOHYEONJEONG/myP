@@ -20,7 +20,7 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="resources/js/weather.js"></script><!--추가-->
-  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=e41934107d35da0fcd73a47e8bc1ca9e&libraries=services"></script>
+  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=6ad78b8933a9dfb1794f35cd6c1ec7aa&libraries=services"></script>
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script src="resources/js/main.js"></script>
   <script src="resources/js/header.js"></script>
@@ -1676,8 +1676,8 @@ function mapReload(){
 		    	iwContent += "<div>"
 		    	iwContent += "<sapn class=\"address\">"+ positions[i].starttime + " "+"~"+" " + positions[i].endtime + "</sapn>";
 		    	iwContent += "<span class=\"pay\">"+positions[i].payorfree_div+"</span>";
-		    	iwContent += "<span class=\"detail\"  onclick=\"goDetail("+positions[i].carparknum+")\">상세보기</span>";
-		    	iwContent += "</div>";
+/* 		    	iwContent += "<span class=\"detail\"  onclick=\"goDetail("+positions[i].carparknum+")\">상세보기</span>";
+ */		    	iwContent += "</div>";
 		    	iwContent += "<div class=\"buttonBox\">";
 		    	iwContent += "<div class=\"bookmarkBox\" cateNm=\"parking\">";
 		    	$(".parking_bookmark_wrap .result_area").each(function() {
