@@ -42,6 +42,8 @@ var rotate = 0;
 						<img id="myArrow" src="resources/icons/wing1.png">
 					</div>
 					<ul class="menu2">
+						<!-- header.js에서 이벤트 처리, id는 같지 않기 위해서 2를 붙였다. -->
+						<li id="myPage2" class="submenu1">메인화면</li>
 						<li id="infoupdate2" class="submenu1">기본정보 수정하기</li>
 						<li id="pwupdate2" class="submenu1">비밀번호 수정하기</li>
 						<li id="parkreview2" class="submenu1">주차장 리뷰</li>

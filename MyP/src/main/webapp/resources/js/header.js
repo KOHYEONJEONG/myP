@@ -41,6 +41,11 @@ $(document).ready(function () {
 	$("#myPage").on("click", function () {
 		location.href = "myPage";
 	});
+	
+	$("#myPage2").on("click", function () {
+		location.href = "myPage";
+	});
+		
 		
 	//관리자 페이지
 	$("#managerPage").click(function(){
@@ -124,6 +129,10 @@ $(document).ready(function () {
 		location.href = "mypageReviewBoard";
 	})
 	$("#infoupdate").click(function() {
+		location.href = "memInfoUpdate";
+	})
+	
+	$("#infoupdate2").click(function() { //개인정보수정
 		location.href = "memInfoUpdate";
 	})
 	

@@ -121,14 +121,15 @@
 
 .autority_popup .popup_right .autoritySelectBox option {
   padding: 3px 0;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .autority_popup .empower_btn{
     width: 70px;
     height: 35px;
-    border: 1px solid #FD9A29;
+    border: 1px solid #b15d3a;
     background: #FD9A29;
+    border-radius: 2px;
     color: #fff;
     text-align: center;
     box-sizing: border-box;
