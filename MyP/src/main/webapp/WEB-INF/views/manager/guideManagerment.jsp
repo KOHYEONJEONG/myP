@@ -186,14 +186,17 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#jstree').jstree({ 'core' : {  
-			"animation" : 0,
-			"check_callback" : true
+	$('#jstree')
+		.jstree({ 
+			'core' : {  
+				"animation" : 0,
+				"check_callback" : true
 		},
 		"types" : {
 			"#" : {
 				"max_children" : 1,
 				"max_depth" : 4,
+				'force_text' : true,
 				"valid_children" : ["root"]
 			},
 			"root" : {
@@ -208,9 +211,7 @@ $(document).ready(function() {
 				"valid_children" : []
 			}
 		},
-		"plugins" : [
-			"search"
-		]
+		"plugins" : [ "dnd", "search" ]
 	}).on('select_node.jstree', function (e, data) { 
 		var i, j, r = [];
 		
@@ -264,13 +265,46 @@ $(document).ready(function() {
 	  $('#jstree').jstree("deselect_all");
   })
   
+  $('#jstree').bind("move_node.jstree", function(e, d) { //드래그 앤 드롭 (이동 시)
+  	  // d-> node에 대한 정보인데 여기서 데이터를 뽑아다 쓰면 될 것
+	  // old로 되어있는 정보들이다.
+	  // 이동하기 전의 정보를 보여준다. parent, positon 등
+	   // console.log(e); //event
+	    console.log(d); //node
+	    
+	    console.log(d.node.original.id); //현재 번호
+	    console.log("현재 부모 : "+d.parent);//현재 부모(#은 맨위 상위)
+	    console.log("과거 부모 : "+d.old_parent); //원래 부모 위치
+	    //console.log(d.position); //바뀐 위치(0부터)
+	    
+	  //형재자매+나까지 인덱스! (반환 : 배열)
+	    var currentChildren = $("#jstree").jstree().get_node(d.parent).children;
+    	$("#guide_num").val(d.node.original.id);//현재 노드 번호
+ 	    
+ 	    if(d.parent != d.old_parent){//부모를 바꾼다는 뜻
+ 	    	
+ 	    	$("#old_top_num").val(d.old_parent);//과거 부모
+ 	    	$("#top_num").val(d.parent); //현재 부모
+
+ 	    	var oldChildren = $("#jstree").jstree().get_node(d.old_parent).children;
+	 	    $("#old_siblings").val(oldChildren); //과거 형제
+ 	    }
+ 	    
+	    $("#siblings").val(currentChildren);//현재 형제
+	    
+	    action("menuMove");//메뉴 순서 수정
+	    
+	    //$("#" + data.node.id).index()
+	});
+  
 });
- 
+
 var msg ={
 	"menuInsert" : "메뉴 등록",
 	"conUpdate" : "내용 수정",
 	"menuUpdate" : "메뉴 수정",
-	"menuDelete" : "삭제"
+	"menuDelete" : "삭제",
+	"menuMove" : "순서이동"
 }
   
 function action(flag){
@@ -283,21 +317,29 @@ function action(flag){
 	        dataType : "json", 
 	        data : params, 
 	        success : function(res) { 
+	        	console.log("msg : "+res.msg);
+	       	   	console.log("행동 : "+flag);
 	       	 switch(res.msg){
-	       	 
-	       	   //guide_num
 	            case "success":
 	            	switch (flag) {
-	            	case "menuInsert":
-	            		reloadeGuideList();
-	            		break;
-					case "menuDelete":
-						reloadeGuideList();
-					break;
+		            	case "menuInsert"://메뉴등록
+		            		makeAlert("알림", msg[flag] + " 성공!");
+		            		reloadeGuideList();
+	            			break;
+						case "menuDelete"://메뉴삭제
+							makeAlert("알림", msg[flag] + " 성공!");
+							reloadeGuideList();
+							break;
+						case "conUpdate": //내용수정
+							makeAlert("알림", msg[flag] + " 성공!");
+							reloadeGuideList(); //원래 없었는데 추가 했음... 문제가 생길까?
+							break;
+						case "menuMove": //순서이동
+							makeAlert("알림", msg[flag] + " 성공!");
+							reloadeGuideList();
+							break;
 					}
-	            	
 	            break;
-	            
 	            case "fail":
 	                makeAlert("알림", msg[flag] + "에 실패하였습니다.");
 	               break;
@@ -440,6 +482,11 @@ function reloadSelect() {
 		<input type="hidden" id="con" name="con"/>
 		<input type="hidden" id="menu" name="menu"/>
 		<input type="hidden" id="top_num" name="top_num"/>
+		
+		<input type="hidden" id="old_top_num" name="old_top_num" value=""/><!-- 전 부모(부모를 바꿀수도 있으니까) -->
+		<input type="hidden" id="old_siblings" name="old_siblings"/><!-- 전 형제들(부모를 바꿀수도 있으니까) -->
+		
+		<input type="hidden" id="siblings" name="siblings"/>
 		<input type="hidden" id="sno" name="sno" value="${sMemNo}"/> <!-- 답변내용 책임자 -->
 	</form>
 	

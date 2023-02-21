@@ -26,7 +26,13 @@
 		FROM AUTORITY
 	</select>
 	
-	<!-- 가이드 관리 페이지 List -->
+	<!--
+	[계층형 쿼리로 조회]
+		SELECT * FROM GUIDE
+     	WHERE DEL = 1
+    	START WITH STEP = 1
+     	CONNECT BY PRIOR guide_num = top_chatbot_num;
+	 -->
 	<select id="manGuideList" resultType="hashmap">
 	SELECT G.GUIDE_NUM, G.ANSWER_CON , G.TOP_CHATBOT_NUM, G.MENU, NVL(A.CNT,0) AS CNT
 	FROM GUIDE G LEFT OUTER JOIN(SELECT TOP_CHATBOT_NUM, COUNT(TOP_CHATBOT_NUM) AS CNT  
@@ -35,6 +41,7 @@
 	                             GROUP BY TOP_CHATBOT_NUM)A <!-- (*ㄴ)가공한 테이블 : cnt만 가져오기 위해서 -->
 	                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM 
 	WHERE DEL = 1
+	order by G.pos
 	</select>
 	
 	<select id="getGuide" resultType="hashmap" parameterType="hashmap">
@@ -73,6 +80,23 @@
 		UPDATE GUIDE
 		SET DEL = 0
 		WHERE GUIDE_NUM = #{guide_num}
+	</update>
+	
+	<update id="updateMenuPosition" parameterType="hashmap">
+		<choose>
+			<when test="old_top_num != null and old_top_num != ''">
+				UPDATE GUIDE
+				SET POS = #{pos},
+					TOP_CHATBOT_NUM = #{top_num}
+				WHERE GUIDE_NUM = #{siblings_num}
+			</when>
+			
+			<otherwise>
+				UPDATE GUIDE
+				SET POS = #{pos} 
+				WHERE GUIDE_NUM = #{siblings_num}
+			</otherwise>
+		</choose>
 	</update>
 	
 </mapper>

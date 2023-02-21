@@ -19,6 +19,9 @@ $(document).ready(function() {
 		}
 	});
 	$("#loginBtn").on("click",function(){
+		
+		frm_check();
+		
 		if($.trim($("#id").val())==""){
 			makeAlert("알림" , "아이디를 입력하세요.", function(){
 				$("#id").focus();

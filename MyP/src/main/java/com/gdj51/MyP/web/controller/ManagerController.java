@@ -1,5 +1,7 @@
 package com.gdj51.MyP.web.controller;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -426,6 +428,39 @@ public class ManagerController {
 				break;
 			case "menuDelete"://삭제
 				cnt = dao.delete("manager.deleteMenu", params);
+				break;
+			case "menuMove": //순서이동
+				//siblings=5,6,7,112
+				String[] si = params.get("siblings").split(",");//현재 형제들
+				String[] oldSi = params.get("old_siblings").split(",");//과거 형제들
+				
+				if(!params.get("top_num").equals(params.get("old_top_num"))){//과거부모가 있다면(부모 자체를 바뀐다면)
+					
+					for(int i=0; i<si.length; i++) {
+						params.put("pos", String.valueOf(i));
+						params.put("siblings_num", si[i]);
+						cnt = dao.update("manager.updateMenuPosition", params);
+					}
+					
+					//과거 형제들 pos도 다시 변경해야되서.
+					for(int i=0; i<oldSi.length; i++){
+						if(params.get("guide_num").equals(oldSi[i])) {
+							continue;
+						}
+						params.put("top_num", params.get("old_top_num"));
+						params.put("pos", String.valueOf(i));
+						params.put("siblings_num", oldSi[i]);
+						cnt = dao.update("manager.updateMenuPosition", params);
+					}
+					
+				}else {
+					for(int i=0; i<si.length; i++){
+						params.put("pos", String.valueOf(i));
+						params.put("siblings_num", si[i]);
+						cnt = dao.update("manager.updateMenuPosition", params);
+					}
+				}
+				
 				break;
 			}
 
