@@ -20,7 +20,7 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="resources/js/weather.js"></script><!--추가-->
-  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=6ad78b8933a9dfb1794f35cd6c1ec7aa&libraries=services"></script>
+  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=def91330dcbe67c2eabc4a89b959006a&libraries=services"></script>  <!-- 카카오맵 -->
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script src="resources/js/main.js"></script>
   <script src="resources/js/header.js"></script>

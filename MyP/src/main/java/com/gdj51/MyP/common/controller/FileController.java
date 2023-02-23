@@ -47,8 +47,10 @@ public class FileController {
 
 		if (!folder.exists()) { // 폴더 존재여부
 			folder.mkdir(); // 폴더 생성
+			System.out.println("폴더 생성 완료");
 		}
 
+		System.out.println("폴더 이미 있음");
 		List<String> fileNames = new ArrayList<String>();
 		try {
 			@SuppressWarnings("rawtypes")

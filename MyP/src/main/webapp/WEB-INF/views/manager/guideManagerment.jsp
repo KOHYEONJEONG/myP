@@ -212,11 +212,18 @@ $(document).ready(function() {
 			}
 		},
 		"plugins" : [ "dnd", "search" ]
-	}).on('select_node.jstree', function (e, data) { 
+	}).on('select_node.jstree', function (e, data) { //event, data 
 		var i, j, r = [];
 		
+		//var id = data.instance.get_node(data.selected).id;        //id 가져오기
+		//var type = data.instance.get_node(data.selected).type;    //type 가져오기
+		//var path = data.instance.get_node(data.selected).path;    //paht 가져오기
+		//var a = data.instance.get_node(data.selected).data.a;    //data 에서 a 가져오기
+		
 		for(i = 0, j = data.selected.length; i < j; i++) {
-			console.log(data.instance.get_node(data.selected[i]));
+			
+			
+			//console.log(data.instance.get_node(data.selected[i]));
 			$("#guide_num").val(data.instance.get_node(data.selected[i]).id);//선택한 guide_num
 				
 			if($("#guide_num").val() != null || $("#guide_num").val() != "undefined"){
@@ -225,252 +232,257 @@ $(document).ready(function() {
 		}
 	});
 	
-  //ajax
-  reloadeGuideList();
+	  //ajax
+	  reloadeGuideList();
+	  
+	  var to = false;
+	  $('#plugins4_q').keyup(function () { //jstree 플러그 검색
+	    if(to) { clearTimeout(to); }
+	    to = setTimeout(function () {
+	      var v = $('#plugins4_q').val();
+	      $('#jstree').jstree(true).search(v);
+	    }, 250);
+	  });
+	  
+	
+	  $("#update_btn").on("click", function() {//내용수정
+		  
+			//con <들을 웹문자로 변환
+		    $("#conText").val($("#conText").val().replace(/</gi, "&lt;"));
+		  
+	  		//con dml <들을 웹문자로 변환
+		    $("#conText").val($("#conText").val().replace(/>/gi, "&gt;"));
+		  	
+		  	$("#con").val($("#conText").val());
+		  	
+			action("conUpdate");
+	  });
   
-  var to = false;
-  $('#plugins4_q').keyup(function () { //jstree 플러그 검색
-    if(to) { clearTimeout(to); }
-    to = setTimeout(function () {
-      var v = $('#plugins4_q').val();
-      $('#jstree').jstree(true).search(v);
-    }, 250);
-  });
+	  $("#btn_create").on("click", function() {//메뉴추가
+		  node_create();
+		});  
+	  
+	  $("#btn_rename").on("click", function() {//메뉴수정
+		  node_rename();
+		});
+	  
+	  $("#btn_delete").on("click", function() {//메뉴삭제
+		  node_delete();
+		});  
+	  
+	  $('#btn_unCheck').on("click", function() {//체크해제
+		  $('#jstree').jstree("deselect_all");
+	  })
   
-
-  $("#update_btn").on("click", function() {//내용수정
-	//con <들을 웹문자로 변환
-    $("#conText").val($("#conText").val().replace(/</gi, "&lt;"));
-  	//con dml <들을 웹문자로 변환
-    $("#conText").val($("#conText").val().replace(/>/gi, "&gt;"));
-  	
-  	$("#con").val($("#conText").val());
-  	
-	action("conUpdate");
-  });
-  
-  $("#btn_create").on("click", function() {//메뉴추가
-	  node_create();
-	});  
-  
-  $("#btn_rename").on("click", function() {//메뉴수정
-	  node_rename();
+	  $('#jstree').bind("move_node.jstree", function(e, d) { //드래그 앤 드롭 (이동 시)
+	  	  // d-> node에 대한 정보인데 여기서 데이터를 뽑아다 쓰면 될 것
+		  // old로 되어있는 정보들이다.
+		  // 이동하기 전의 정보를 보여준다. parent, positon 등
+		   // console.log(e); //event
+		    console.log(d); //node
+		    
+		    console.log(d.node.original.id); //현재 번호
+		    console.log("현재 부모 : "+d.parent);//현재 부모(#은 맨위 상위)
+		    console.log("과거 부모 : "+d.old_parent); //원래 부모 위치
+		    //console.log(d.position); //바뀐 위치(0부터)
+		    
+		  //형재자매+나까지 인덱스! (반환 : 배열)
+		    var currentChildren = $("#jstree").jstree().get_node(d.parent).children;
+	    	$("#guide_num").val(d.node.original.id);//현재 노드 번호
+	 	    
+	 	    if(d.parent != d.old_parent){//부모를 바꾼다는 뜻
+	 	    	
+	 	    	$("#old_top_num").val(d.old_parent);//과거 부모
+	 	    	$("#top_num").val(d.parent); //현재 부모
+	
+	 	    	var oldChildren = $("#jstree").jstree().get_node(d.old_parent).children;
+		 	    $("#old_siblings").val(oldChildren); //과거 형제
+	 	    }
+	 	    
+		    $("#siblings").val(currentChildren);//현재 형제
+		    
+		    action("menuMove");//메뉴 순서 수정
+		    
+		    //$("#" + data.node.id).index()
+		});
+	  
 	});
-  
-  $("#btn_delete").on("click", function() {//메뉴삭제
-	  node_delete();
-	});  
-  
-  $('#btn_unCheck').on("click", function() {//체크해제
-	  $('#jstree').jstree("deselect_all");
-  })
-  
-  $('#jstree').bind("move_node.jstree", function(e, d) { //드래그 앤 드롭 (이동 시)
-  	  // d-> node에 대한 정보인데 여기서 데이터를 뽑아다 쓰면 될 것
-	  // old로 되어있는 정보들이다.
-	  // 이동하기 전의 정보를 보여준다. parent, positon 등
-	   // console.log(e); //event
-	    console.log(d); //node
-	    
-	    console.log(d.node.original.id); //현재 번호
-	    console.log("현재 부모 : "+d.parent);//현재 부모(#은 맨위 상위)
-	    console.log("과거 부모 : "+d.old_parent); //원래 부모 위치
-	    //console.log(d.position); //바뀐 위치(0부터)
-	    
-	  //형재자매+나까지 인덱스! (반환 : 배열)
-	    var currentChildren = $("#jstree").jstree().get_node(d.parent).children;
-    	$("#guide_num").val(d.node.original.id);//현재 노드 번호
- 	    
- 	    if(d.parent != d.old_parent){//부모를 바꾼다는 뜻
- 	    	
- 	    	$("#old_top_num").val(d.old_parent);//과거 부모
- 	    	$("#top_num").val(d.parent); //현재 부모
 
- 	    	var oldChildren = $("#jstree").jstree().get_node(d.old_parent).children;
-	 	    $("#old_siblings").val(oldChildren); //과거 형제
- 	    }
- 	    
-	    $("#siblings").val(currentChildren);//현재 형제
-	    
-	    action("menuMove");//메뉴 순서 수정
-	    
-	    //$("#" + data.node.id).index()
-	});
-  
-});
-
-var msg ={
-	"menuInsert" : "메뉴 등록",
-	"conUpdate" : "내용 수정",
-	"menuUpdate" : "메뉴 수정",
-	"menuDelete" : "삭제",
-	"menuMove" : "순서이동"
-}
-  
-function action(flag){
-  	var params = $("#managerGuideForm").serialize();
-  	console.log(params);
-  	
-  	   $.ajax({
-	  		url : "managerGuideAction/"+flag,
-	  		type : "POST",
-	        dataType : "json", 
-	        data : params, 
-	        success : function(res) { 
-	        	console.log("msg : "+res.msg);
-	       	   	console.log("행동 : "+flag);
-	       	 switch(res.msg){
-	            case "success":
-	            	switch (flag) {
-		            	case "menuInsert"://메뉴등록
-		            		makeAlert("알림", msg[flag] + " 성공!");
-		            		reloadeGuideList();
-	            			break;
-						case "menuDelete"://메뉴삭제
-							makeAlert("알림", msg[flag] + " 성공!");
-							reloadeGuideList();
-							break;
-						case "conUpdate": //내용수정
-							makeAlert("알림", msg[flag] + " 성공!");
-							reloadeGuideList(); //원래 없었는데 추가 했음... 문제가 생길까?
-							break;
-						case "menuMove": //순서이동
-							makeAlert("알림", msg[flag] + " 성공!");
-							reloadeGuideList();
-							break;
+	var msg ={
+		"menuInsert" : "메뉴 등록",
+		"conUpdate" : "내용 수정",
+		"menuUpdate" : "메뉴 수정",
+		"menuDelete" : "삭제",
+		"menuMove" : "순서이동"
+	}
+	  
+	function action(flag){
+	  	var params = $("#managerGuideForm").serialize();
+	  	console.log(params);
+	  	
+	  	   $.ajax({
+		  		url : "managerGuideAction/"+flag,
+		  		type : "POST",
+		        dataType : "json", 
+		        data : params, 
+		        success : function(res) { 
+		        	console.log("msg : "+res.msg);
+		       	   	console.log("행동 : "+flag);
+		       	 switch(res.msg){
+		            case "success":
+		            	switch (flag) {
+			            	case "menuInsert"://메뉴등록
+			            		makeAlert("알림", msg[flag] + " 성공!");
+			            		reloadeGuideList();
+		            			break;
+							case "menuDelete"://메뉴삭제
+								makeAlert("알림", msg[flag] + " 성공!");
+								reloadeGuideList();
+								break;
+							case "conUpdate": //내용수정
+								makeAlert("알림", msg[flag] + " 성공!");
+								reloadeGuideList(); //원래 없었는데 추가 했음... 문제가 생길까?
+								break;
+							case "menuMove": //순서이동
+								makeAlert("알림", msg[flag] + " 성공!");
+								reloadeGuideList();
+								break;
+						}
+		            break;
+		            case "fail":
+		                makeAlert("알림", msg[flag] + "에 실패하였습니다.");
+		               break;
+		            case "error":
+		                makeAlert("알림", msg[flag] +" 중 문제가 발생하였습니다.");
+		            break;
+		         }
+		      },
+		      error : function(request, status, error) {
+		         console.log(request); 
+		      }
+		}); //action(flag) function End
+	  }
+	function reloadeGuideList() {
+		var params = $("#managerGuideForm").serialize();
+		$.ajax({
+			url : "managerGuideAjax",
+			type : "POST", 
+			dataType: "json", 
+			data: params, 
+			success : function(res) {
+				//jsTree Api 가져와서 사용 : 무조건 jsTree 사이트 참고하고 참고해야해!!!(기본 충실)
+				var data = new Array();//array를 사용하여 list를 담아주기!~
+				for(var item of res.list) {
+					var tcn = "#";//jsTree 사이트에서 맨처음 부모에는 #을 넣어줬기에 똑같이 해줬음
+					if(typeof(item.TOP_CHATBOT_NUM) != "undefined") {
+						tcn = item.TOP_CHATBOT_NUM;
 					}
-	            break;
-	            case "fail":
-	                makeAlert("알림", msg[flag] + "에 실패하였습니다.");
-	               break;
-	            case "error":
-	                makeAlert("알림", msg[flag] +" 중 문제가 발생하였습니다.");
-	            break;
-	         }
-	      },
-	      error : function(request, status, error) {
-	         console.log(request); 
-	      }
-	}); //action(flag) function End
-  }
-function reloadeGuideList() {
-	var params = $("#managerGuideForm").serialize();
-	$.ajax({
-		url : "managerGuideAjax",
-		type : "POST", 
-		dataType: "json", 
-		data: params, 
-		success : function(res) {
-			//jsTree Api 가져와서 사용 : 무조건 jsTree 사이트 참고하고 참고해야해!!!(기본 충실)
-			var data = new Array();//array를 사용하여 list를 담아주기!~
-			for(var item of res.list) {
-				var tcn = "#";//jsTree 사이트에서 맨처음 부모에는 #을 넣어줬기에 똑같이 해줬음
-				if(typeof(item.TOP_CHATBOT_NUM) != "undefined") {
-					tcn = item.TOP_CHATBOT_NUM;
+					
+					//list에 데이터 넣기
+					data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU, cnt:item.CNT, type:"default"});// 현재 no, 상위 no, 명칭 , 개수
 				}
 				
-				//list에 데이터 넣기
-				data.push({id:item.GUIDE_NUM, parent:tcn, text:item.MENU, cnt:item.CNT, type:"default"});// 현재 no, 상위 no, 명칭 , 개수
+				//삭제와 생성할때 오류가 엄청났다... 행결방안 이렇다.
+				//reloade할때만다 chaged.jstree를 주었는데 이걸 지우고 -> documnet.ready안에 넣어주기로 했다.
+				//==> (왜? 삭제하거나, 새로 생성할때 자꾸 감지를 하여 on~~jstree 오류가 계속 생성됐다. 계속 클릭하고 있는곳을 감지했기때문이다.)
+				//그래서 따로 data를 만든 다음에 아래 두줄처럼 데이터를 별도로 준후 새로고침함수 주기.(만들어놓고 refresh()주기.)
+				$('#jstree').jstree(true).settings.core.data = data;
+				console.log($('#jstree').jstree(true).settings.core.data);
+				$('#jstree').jstree(true).refresh();//새로고침
+				
+			},
+			error : function(request, status, error) { 
+				console.log(request.responseText); 
 			}
-			
-			//삭제와 생성할때 오류가 엄청났다... 행결방안 이렇다.
-			//reloade할때만다 chaged.jstree를 주었는데 이걸 지우고 -> documnet.ready안에 넣어주기로 했다.
-			//==> (왜? 삭제하거나, 새로 생성할때 자꾸 감지를 하여 on~~jstree 오류가 계속 생성됐다. 계속 클릭하고 있는곳을 감지했기때문이다.)
-			//그래서 따로 data를 만든 다음에 아래 두줄처럼 데이터를 별도로 준후 새로고침함수 주기.(만들어놓고 refresh()주기.)
-			$('#jstree').jstree(true).settings.core.data = data;
-			$('#jstree').jstree(true).refresh();//새로고침
-			
-		},
-		error : function(request, status, error) { 
-			console.log(request.responseText); 
+		}); //Ajax End
+	} 	  
+	  
+	function node_create() { //제일 오래 걸렸음... 리로드를 해줘야한다.
+		
+		//$('#jstree').jstree(true) : 기존 instance 가져오기(새로 생성 안함.) 
+		var ref = $('#jstree').jstree(true), sel = ref.get_selected();
+		
+		var tno = "";//밑에 sel값을 바꿔주니까 id값을 담아주려고 만들었다.
+	
+		//console.log(" v sel => "+sel);//선택한 id
+		
+		/* if(!sel.length) { return false; } <-- 맨 바깥 폴더를 만들기 위해서는 주석 처리해야한다.*/
+		
+		tno = sel;//id
+		
+		if(sel == "undefined" || sel == null || sel == ""){// 맨 바깥 폴더는 부모ID가 없겠지?? 그렇기에 #을 넣어줌,(tno는 디비에 null넣으면 오류나서 ''이렇게 처리해줬음.)
+			sel = '#';
+			tno = '';
 		}
-	}); //Ajax End
-} 	  
-  
-function node_create() { //제일 오래 걸렸음... 리로드를 해줘야한다.
-	
-	var ref = $('#jstree').jstree(true), sel = ref.get_selected();
-	var tno = "";//밑에 sel값을 바꿔주니까 id값을 담아주려고 만들었다.
-
-	//console.log(" v sel => "+sel);//선택한 id
-	
-	/* if(!sel.length) { return false; } <-- 맨 바깥 폴더를 만들기 위해서는 주석 처리해야한다.*/
-	
-	tno = sel;//id
-	
-	if(sel == "undefined" || sel == null || sel == ""){// 맨 바깥 폴더는 부모ID가 없겠지?? 그렇기에 #을 넣어줌,(tno는 디비에 null넣으면 오류나서 ''이렇게 처리해줬음.)
-		sel = '#';
-		tno = '';
-	}
-	
-	sel = ref.create_node(sel, {"type":"default"}); //true, false 반환
-	
-	if(sel) {
-		ref.edit(sel, null, function(node) {//엔터누르면 바로 실행되게(callback 함수 사용해야 함.)
-			$("#top_num").val(tno);
+		
+		sel = ref.create_node(sel, {"type":"default"}); //true, false 반환
+		
+		if(sel) {
+			ref.edit(sel, null, function(node) {//엔터누르면 바로 실행되게(callback 함수 사용해야 함.)
+				$("#top_num").val(tno);
+				$("#menu").val(node.text);
+				action("menuInsert"); 
+			});
+		}
+		
+	};
+	function node_rename() {
+		var ref = $("#jstree").jstree(true);
+		var sel = ref.get_selected();
+		
+		if(!sel.length) { return false; }
+		
+		sel = sel[0];
+		
+		//(*)callBack 함수 사용해야함 : 엔터를 누르면 바로 작동되게. 그렇기에 사용해야 했음.(이걸 안쓰면 엔터를 두번 눌러야함.(기본으로 설정된 엔터와, 디비에 넣기위한 엔터.. 그래서 한번만으로 모두 가능하게 하려고))
+		//그전에 jsTree 사이트와, 해외 구글링해서 callBack 사용법 찾아봤음.
+		ref.edit(sel, null, function(node) {
+			//console.log(node.text);
 			$("#menu").val(node.text);
-			action("menuInsert"); 
+			action("menuUpdate"); 
 		});
-	}
+		
+	};
 	
-};
-function node_rename() {
-	var ref = $("#jstree").jstree(true);
-	var sel = ref.get_selected();
-	
-	if(!sel.length) { return false; }
-	
-	sel = sel[0];
-	
-	//(*)callBack 함수 사용해야함 : 엔터를 누르면 바로 작동되게. 그렇기에 사용해야 했음.(이걸 안쓰면 엔터를 두번 눌러야함.(기본으로 설정된 엔터와, 디비에 넣기위한 엔터.. 그래서 한번만으로 모두 가능하게 하려고))
-	//그전에 jsTree 사이트와, 해외 구글링해서 callBack 사용법 찾아봤음.
-	ref.edit(sel, null, function(node) {
-		//console.log(node.text);
-		$("#menu").val(node.text);
-		action("menuUpdate"); 
-	});
-	
-};
-
-function node_delete() {
-	var ref = $("#jstree").jstree(true);
-	var sel = ref.get_selected();
-	
-	//console.log(ref.get_node(sel).original.parent);
-	
-	if(!sel.length) { return false; } //선택한 값이 없으면 삭제 안됨.
-	
-	if(ref.get_node(sel).original.cnt > 0){
-		makeAlert("알림", "하위 메뉴가"+ref.get_node(sel).original.cnt+ "개 있어 삭제 못함.");
-	}else{
-		ref.delete_node(sel);//위치 중요
-		action("menuDelete");//삭제(리로드 필요없음) 
-	}
-	
-};
-function reloadSelect() {
-	var params = $("#managerGuideForm").serialize();
-	$.ajax({
-		url : "managerSelectAjax",
-		type : "POST", 
-		dataType: "json", 
-		data: params, 
-		success : function(res) { //res.data.ANSWER_CON : 답변내용
-			if(res.data.ANSWER_CON != "undefined" && res.data.ANSWER_CON != null ){ //undefined가 아니면 null도 아니여야한다.(&& <-- 중요, ||로 하면 안됨.)
-				$("#conText").val(res.data.ANSWER_CON);
-			}else{
-				$("#conText").val('');
-				//아래 주석은 그냥 보고 지나가면 됌.
-				//만약 textarea태그에 기능을 넣어주려면
-				//html()을 사용하면 안되고, val()를 사용하자.(근데 안쓸거임)
-				//jquery가 알아서 엔티티를 교체해준다.(근데 안쓸거임)
-			}
-			
-		},error : function(request, status, error) { 
-			console.log(request.responseText); 
+	function node_delete() {
+		var ref = $("#jstree").jstree(true);
+		var sel = ref.get_selected();
+		
+		//console.log(ref.get_node(sel).original.parent);
+		
+		if(!sel.length) { return false; } //선택한 값이 없으면 삭제 안됨.
+		
+		if(ref.get_node(sel).original.cnt > 0){
+			makeAlert("알림", "하위 메뉴가"+ref.get_node(sel).original.cnt+ "개 있어 삭제 못함.");
+		}else{
+			ref.delete_node(sel);//위치 중요
+			action("menuDelete");//삭제(리로드 필요없음) 
 		}
-	}); //Ajax End
-}
+		
+	};
+	function reloadSelect() {
+		var params = $("#managerGuideForm").serialize();
+		$.ajax({
+			url : "managerSelectAjax",
+			type : "POST", 
+			dataType: "json", 
+			data: params, 
+			success : function(res) { //res.data.ANSWER_CON : 답변내용
+				if(res.data.ANSWER_CON != "undefined" && res.data.ANSWER_CON != null ){ //undefined가 아니면 null도 아니여야한다.(&& <-- 중요, ||로 하면 안됨.)
+					$("#conText").val(res.data.ANSWER_CON);
+				}else{
+					$("#conText").val('');
+					//아래 주석은 그냥 보고 지나가면 됌.
+					//만약 textarea태그에 기능을 넣어주려면
+					//html()을 사용하면 안되고, val()를 사용하자.(근데 안쓸거임)
+					//jquery가 알아서 엔티티를 교체해준다.(근데 안쓸거임)
+				}
+				
+			},error : function(request, status, error) { 
+				console.log(request.responseText); 
+			}
+		}); //Ajax End
+	}
 </script>
 </head>
 <body>
