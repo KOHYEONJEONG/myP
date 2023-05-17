@@ -97,7 +97,7 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 	<select id="getShortDistance" resultType="hashmap" parameterType="hashmap">
 		<!-- 현재 위치에서 목적지 일직선 = 최단거리 (직각 삼각형 : a^2 + b^2 = c^2, 위도, 경도는 직각을 이루고 있어서.)
 			1KM = 1000M
-			SQRT() : 루트
+			SQRT() : 루트 ( 제곱근을 사용하여 거리를 계산하는 이유는 직선 거리를 표현 )
 			POWER() : 제곱함수
 			ABS() : 절대값
 
@@ -107,8 +107,9 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 			-->
 		SELECT METER, CAR_PARK_NM, LOCX, LOCY,TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,FEE_RATE,PAYORFREE_DIV,CAR_PARK_MAG_NUM
 		FROM (SELECT CASE 
-                WHEN ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)>1000 THEN ROUND(ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)/1000,1) || 'KM'
-                ELSE  ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320) || 'M'
+                WHEN ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)>1000
+                    THEN ROUND(ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)/1000,1) || 'KM'
+                	ELSE  ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320) || 'M'
                 END AS METER ,CAR_PARK_NM, LOCX, LOCY,WEEKDAY_START_TIME, WEEKDAY_END_TIME ,FEE_RATE,CAR_PARK_MAG_NUM,
                 CASE PAYORFREE_DIV WHEN '1' THEN '유료'
 	        	ELSE '무료'
