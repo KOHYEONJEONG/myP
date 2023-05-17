@@ -99,7 +99,12 @@ ON A.CAR_PARK_MAG_NUM = N.CAR_PARK_MAG_NUM -->
 			1KM = 1000M
 			SQRT() : 루트
 			POWER() : 제곱함수
-			ABS() : 절대값 -->
+			ABS() : 절대값
+
+			WGS84 좌표계에서는 다음과 같은 변환 상수를 사용하여 위도와 경도를 미터로 변환할 수 있습니다:
+				위도 1도당 약 111,319.9 미터
+				경도 1도당 약 111,319.9 * cos(위도) 미터
+			-->
 		SELECT METER, CAR_PARK_NM, LOCX, LOCY,TO_CHAR(WEEKDAY_START_TIME, 'HH24:MI')AS STARTTIME, TO_CHAR(WEEKDAY_END_TIME, 'HH24:MI')AS ENDTIME,FEE_RATE,PAYORFREE_DIV,CAR_PARK_MAG_NUM
 		FROM (SELECT CASE 
                 WHEN ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)>1000 THEN ROUND(ROUND(SQRT(POWER(ABS(LOCX - #{locx}),2) + POWER(ABS(LOCY - #{locy}),2)) * 111320)/1000,1) || 'KM'
