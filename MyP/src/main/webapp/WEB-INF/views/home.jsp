@@ -20,15 +20,16 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><!--추가-->
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!--추가-->
   <script src="resources/js/weather.js"></script><!--추가-->
-  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=6ad78b8933a9dfb1794f35cd6c1ec7aa&libraries=services"></script>
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script src="resources/js/main.js"></script>
   <script src="resources/js/header.js"></script>
   <script type="text/javascript" src="resources/rety/jquery.raty.js"></script>
   <link rel="stylesheet" href="resources/rety/jquery.raty.css">
-  <script type="text/javascript" 
+  <script type="text/javascript"
 		src="resources/script/common/popup.js"></script>
   <script type="text/javascript" src="resources/js/proj4.js"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=95ec7953e2336bd41b49b8d1f28bfca8"></script>
+<%--  <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=95ec7953e2336bd41b49b8d1f28bfca8&libraries=services"></script>--%>
 <style>
   .result_area2 {
   width: 100%;
@@ -274,7 +275,7 @@ width: 18px;
   
   $(document).ready(function() {
 	   
-	  mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	  mapContainer = document.getElementById('map');// 지도를 표시할 div
 	  mapOption = { 
 	   center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 지도의 중심좌표, 서울로맞춰놓음
 	      level: 3 // 지도의 확대 레벨
@@ -3068,7 +3069,7 @@ function cultureBookmarkReloadList() {
       </div>
     </div>
     <div class="right_area1">
-      <div id="map"></div>
+      <div id="map"></div> <!--지도-->
       <ul id="category">
         <li id="restaurant"> 
         	<img alt="" width="20" height="20" src="https://map.pstatic.net/res/category/image/00023-00032.png">

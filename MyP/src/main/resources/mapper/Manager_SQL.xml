@@ -41,7 +41,7 @@
 	                             GROUP BY TOP_CHATBOT_NUM)A <!-- (*ㄴ)가공한 테이블 : cnt만 가져오기 위해서 -->
 	                          ON A.TOP_CHATBOT_NUM = G.GUIDE_NUM 
 	WHERE DEL = 1
-	order by G.pos
+		order by G.guide_num
 	</select>
 	
 	<select id="getGuide" resultType="hashmap" parameterType="hashmap">
